@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    The MIT License (MIT)
+
+    Copyright (c) 2017 Rebase.it ReBot <just@rebase.it>
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of
+    this software and associated documentation files (the "Software"), to deal in
+    the Software without restriction, including without limitation the rights to
+    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+    the Software, and to permit persons to whom the Software is furnished to do so,
+    subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+    FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+    COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+    IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <name>ReBot - Telegram API Bot Parent</name>
+    <url>https://github.com/rebase-it/rebot</url>
+
+    <description>
+        ReBot parent pom
+    </description>
+
+    <parent>
+        <groupId>it.rebase</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>0.1</version>
+    </parent>
+
+    <groupId>it.rebase</groupId>
+    <artifactId>rebot-parent</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/rebase-it/rebot/tree/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>rebaseit</id>
+            <name>Rebase.it</name>
+            <email>just@rebase.it</email>
+            <url>https://rebase.it</url>
+            <organizationUrl>https://github.com/rebase-it</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
+        <url>https://github.com/rebase-it/rebot</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <version.it.rebase.rebot.plugins>0.1-SNAPSHOT</version.it.rebase.rebot.plugins>
+        <version.it.rebase.rebot.services>0.1-SNAPSHOT</version.it.rebase.rebot.services>
+        <version.it.rebase.rebot.api>0.1-SNAPSHOT</version.it.rebase.rebot.api>
+        <version.wildfly.swarm>2017.12.1</version.wildfly.swarm>
+        <version.infinispan>9.1.1.Final</version.infinispan>
+        <version.javax.javaee.api>7.0</version.javax.javaee.api>
+        <version.com.h2database>1.4.196</version.com.h2database>
+        <version.httpclient>4.5.3</version.httpclient>
+        <version.org.json>20171018</version.org.json>
+        <version.org.jboss.resteasy>3.1.4.Final</version.org.jboss.resteasy>
+        <version.com.fasterxml.jackson.core>2.9.2</version.com.fasterxml.jackson.core>
+        <version.junit>4.12</version.junit>
+        <version.org.mockito>2.12.0</version.org.mockito>
+        <version.org.jboss.arquillian>1.1.15.Final</version.org.jboss.arquillian>
+        <version.surefire.plugin>2.20.1</version.surefire.plugin>
+        <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>rebot-services</module>
+        <module>rebot-plugins</module>
+        <module>rebot-telegram</module>
+        <module>rebot-telegram-api</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>bom</artifactId>
+                <version>${version.wildfly.swarm}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-bom</artifactId>
+                <version>${version.infinispan}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${version.org.jboss.arquillian}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${version.javax.javaee.api}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${version.org.json}</version>
+            </dependency>
+
+            <!-- resteasy -->
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-servlet-initializer</artifactId>
+                <version>${version.org.jboss.resteasy}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss.resteasy</groupId>
+                        <artifactId>resteasy-jaxrs</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-client</artifactId>
+                <version>${version.org.jboss.resteasy}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss.resteasy</groupId>
+                        <artifactId>resteasy-jaxrs</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jackson-provider</artifactId>
+                <version>${version.org.jboss.resteasy}</version>
+            </dependency>
+
+            <!-- jackson fasterxml -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${version.com.fasterxml.jackson.core}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${version.com.fasterxml.jackson.core}</version>
+            </dependency>
+
+            <!-- H2 -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${version.com.h2database}</version>
+            </dependency>
+
+            <!-- http client -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${version.httpclient}</version>
+            </dependency>
+
+            <!-- rebot dependencies -->
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-faq-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-jboss-books-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-ping-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-uptime-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-packt-free-learning-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-cache-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-persistence-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-urban-dictionary-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-weather-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-currency-service</artifactId>
+                <version>${version.it.rebase.rebot.services}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-welcome-message-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-karma-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-sed-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-telegram-api</artifactId>
+                <version>${version.it.rebase.rebot.api}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-telegram-api-objects</artifactId>
+                <version>${version.it.rebase.rebot.api}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-telegram-api-emojis</artifactId>
+                <version>${version.it.rebase.rebot.api}</version>
+            </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-telegram-api-spi</artifactId>
+                <version>${version.it.rebase.rebot.api}</version>
+            </dependency>
+
+            <!-- tests -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${version.org.mockito}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

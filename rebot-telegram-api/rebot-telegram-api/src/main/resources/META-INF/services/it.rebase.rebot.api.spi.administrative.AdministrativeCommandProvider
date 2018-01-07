@@ -1,0 +1,4 @@
+it.rebase.rebot.telegram.api.internal.Commands.DisableCommand
+it.rebase.rebot.telegram.api.internal.Commands.EnableCommand
+it.rebase.rebot.telegram.api.internal.Commands.DumpMenuCommand
+it.rebase.rebot.telegram.api.internal.Commands.IdCommand

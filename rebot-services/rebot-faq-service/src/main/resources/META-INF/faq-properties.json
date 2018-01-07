@@ -1,0 +1,367 @@
+[
+  {
+    "id": "wildfly",
+    "link": "http://wildfly.org",
+    "description": "The worldâs fastest Java EE 7 application server with kickass management!"
+  },
+  {
+    "id": "undertow",
+    "link": "http://undertow.io/documentation.html",
+    "description": "The worldâs fastest Java EE 7 application server with kickass management!"
+  },
+  {
+    "id": "byteman",
+    "link": "https://jboss.org/byteman/documentation",
+    "description": "Byteman is a tool which simplifies tracing and testing of Java programs."
+  },
+  {
+    "id": "jBPM",
+    "link": "http://www.jbpm.org/learn/documentation.html",
+    "description": "jBPM is a flexible Business Process Management (BPM), Suite."
+  },
+  {
+    "id": "drools",
+    "link": "https://jboss.org/drools/documentation",
+    "description": "A business logic integration platform which provides a unified and integrated platform for rules, workflow and event processing"
+  },
+  {
+    "id": "wildfly-swarm",
+    "link": "http://wildfly-swarm.io/",
+    "description": "Swarm offers an innovative approach to packaging and running JavaEE applications by packaging them with just enough of the server runtime to java -jar your application. However, it's all much, much cooler than that"
+  },
+  {
+    "id": "forge",
+    "link": "http://docs.jboss.org/author/display/FORGE",
+    "description": "A core framework and next-generation shell for tooling and automation at a command line level; with APIs for integration in IDEs, exending built in functionality with plugins, and scripting for automating repeditive tasks, Forge is a tool every open-source developer should be looking at."
+  },
+  {
+    "id": "hawkular",
+    "link": "http://www.hawkular.org/docs/user/quick-start.html",
+    "description": "Systems Management and Monitoring Platform"
+  },
+  {
+    "id": "rhq",
+    "link": "https://docs.jboss.org/author/display/RHQ/User+Documentation",
+    "description": "An enterprise management solution for JBoss middleware projects, Tomcat, apache Web Server, and numerous other server-side applications."
+  },
+  {
+    "id": "apache camel",
+    "link": "http://camel.apache.org/documentation.html",
+    "description": "apache Camel is a versatile open-source integration framework based on known Enterprise Integration Patterns."
+  },
+  {
+    "id": "atomic developer bundle",
+    "link": "https://github.com/projectatomic/adb-atomic-developer-bundle",
+    "description": "he Atomic Developer Bundle (ADB), is a prepackaged development environment filled with production-grade, pre-configured tools, that makes container developers' lives easier."
+  },
+  {
+    "id": "openshift origin",
+    "link": "https://www.openshift.org/",
+    "description": "Origin is the upstream community project that powers OpenShift. Built around a core of Docker container packaging and Kubernetes container cluster management, Origin is also augmented by application lifecycle management functionality and DevOps tooling. Origin provides a complete open source container application platform."
+  },
+  {
+    "id": "teiid",
+    "link": "https://jboss.org/teiid/docs",
+    "description": "Teiid is a data virtualization system that allows applications to use data from multiple, heterogenous data stores."
+  },
+  {
+    "id": "infinispan",
+    "link": "http://infinispan.org/documentation/",
+    "description": "Transactional in-memory key/value NoSQL datastore & Data Grid"
+  },
+  {
+    "id": "hibernate ogm",
+    "link": "http://hibernate.org/ogm/documentation/",
+    "description": "Domain model persistence for NoSQL datastores"
+  },
+  {
+    "id": "hibernate orm",
+    "link": "http://hibernate.org/orm/documentation/",
+    "description": "Domain model persistence for relational databases"
+  },
+  {
+    "id": "hibernate search",
+    "link": "http://hibernate.org/search/documentation/",
+    "description": "Full-text search for your domain model"
+  },
+  {
+    "id": "hibernate shards",
+    "link": "http://docs.jboss.org/hibernate/stable/shards/reference/en/html/",
+    "description": "Horizontal sharding for your relational database"
+  },
+  {
+    "id": "hibernate tools",
+    "link": "http://www.jboss.org/tools/docs/",
+    "description": "Command line tools and IDE plugins for your Hibernate usages"
+  },
+  {
+    "id": "hibernate validator",
+    "link": "http://hibernate.org/validator/documentation/",
+    "description": "Annotation based constraints for your domain model"
+  },
+  {
+    "id": "cape dwarf",
+    "link": "http://capedwarf.org/documentation/",
+    "description": "JBoss CapeDwarf is an implementation of the Google App Engine API, which allows applications to be deployed on JBoss Application Servers without modification."
+  },
+  {
+    "id": "richfaces",
+    "link": "https://jboss.org/richfaces/docs",
+    "description": "An advanced UI component framework for easily integrating Ajax capabilities into business applications using JSF."
+  },
+  {
+    "id": "switchyard",
+    "link": "https://docs.jboss.org/author/display/SWITCHYARDDOC/Home",
+    "description": "SwitchYard is a lightweight service delivery framework providing full lifecycle support for developing, deploying, and managing service-oriented applications."
+  },
+  {
+    "id": "weld",
+    "link": "http://weld.cdi-spec.org/documentation/",
+    "description": "The reference implementation of CDI: Contexts and Dependency Injection for the Java EE Platform"
+  },
+  {
+    "id": "seam",
+    "link": "http://www.seamframework.org/Seam2/Documentation.html",
+    "description": "A platform for building rich Internet applications in Java. Seam integrates technologies such as Asynchronous JavaScript and XML (AJAX), JavaServer Faces (JSF), Java Persistence (JPA), Enterprise Java Beans (EJB 3.0) and Business Process Management (BPM), into a unified full-stack solution, complete with sophisticated tooling."
+  },
+  {
+    "id": "resteasy",
+    "link": "https://jboss.org/resteasy/docs",
+    "description": "Various frameworks to help you build RESTful Web Services and RESTful Java applications."
+  },
+  {
+    "id": "errai",
+    "link": "http://docs.jboss.org/errai/",
+    "description": "Errai is a GWT-based framework for building rich web applications using next-generation web technologies."
+  },
+  {
+    "id": "hornetq",
+    "link": "https://jboss.org/hornetq/docs",
+    "description": "HornetQ is an open source project to build a multi-protocol, embeddable, very high performance, clustered, asynchronous messaging system."
+  },
+  {
+    "id": "jgroups",
+    "link": "http://www.jgroups.org/manual/html/index.html",
+    "description": "Java library for reliable group communication"
+  },
+  {
+    "id": "picketbox",
+    "link": "http://community.jboss.org/docs/DOC-14744",
+    "description": "A Java Security Framework that provides Java developers an authentication, authorization, audit and security mapping support."
+  },
+  {
+    "id": "picketink",
+    "link": "https://jboss.org/picketlink/docs",
+    "description": "An umbrella project that aims to address different Identity Management needs"
+  },
+  {
+    "id": "ironJacamar",
+    "link": "https://jboss.org/ironjacamar/docs",
+    "description": "IronJacamar implements the Java Connector Architecture"
+  },
+  {
+    "id": "guvnor",
+    "link": "http://community.jboss.org/wiki/Guvnor",
+    "description": "The Overlord project for Governance requires a repository for governing and managing artifacts, such as rule and process definitions, service descriptions, databases schemas, etc. This is Guvnor!"
+  },
+  {
+    "id": "arquillian",
+    "link": "http://arquillian.org/guides",
+    "description": "An innovative testing platform for the Java Virtual Machine (JVM). Open source. Highly extensible."
+  },
+  {
+    "id": "shrinkwrap",
+    "link": "http://docs.jboss.org/shrinkwrap",
+    "description": "Painless Packaging for Java. Shrinkwrap provides a simple mechanism to assemble archives like JARs, WARs, and EARs with a friendly, fluent API."
+  },
+  {
+    "id": "tattletale",
+    "link": "https://jboss.org/tattletale/docs",
+    "description": "Tattletale is a tool that can help you get an overview of the project you are working on or a product that you depend on."
+  },
+  {
+    "id": "mod_cluster",
+    "link": "https://jboss.org/docs",
+    "description": "An httpd-based load balancer"
+  },
+  {
+    "id": "xnio",
+    "link": "https://jboss.org/xnio/docs",
+    "description": "XNIO is a simplified low-level I/O layer which can be used anywhere you are using NIO today."
+  },
+  {
+    "id": "wise",
+    "link": "https://jboss.org/wise/documentation",
+    "description": "A base for zero-code webservice invocation application."
+  },
+  {
+    "id": "apiman",
+    "link": "http://www.apiman.io/latest/tutorials.html",
+    "description": "The apiman project brings an open source development methodology to API Management, coupling a rich API design & configuration layer with a blazingly fast runtime."
+  },
+  {
+    "id": "apache activemq",
+    "link": "http://activemq.apache.org/using-activemq-5.html",
+    "description": "Apache ActiveMQ â¢ is the most popular and powerful open source messaging and Integration Patterns server."
+  },
+  {
+    "id": "apache karaf",
+    "link": "http://karaf.apache.org/index/documentation.html",
+    "description": "Apache Karaf is a small OSGi based runtime which provides a lightweight container onto which various components and applications can be deployed."
+  },
+  {
+    "id": "apache tomcat",
+    "link": "http://tomcat.apache.org/",
+    "description": "Apache Tomcat"
+  },
+  {
+    "id": "jboss ejb3",
+    "link": "https://jboss.org/ejb3/docs",
+    "description": "An implementation of EJB 3 specification for JBossAS"
+  },
+  {
+    "id": "fabric8",
+    "link": "http://fabric8.io/docs/",
+    "description": "Open Source Libraries for Mobile Connectivity"
+  },
+  {
+    "id": "hawtio",
+    "link": "http://hawt.io/docs/",
+    "description": "Open Source Libraries for Mobile Connectivity"
+  },
+  {
+    "id": "jberet",
+    "link": "http://docs.jboss.org/jberet/",
+    "description": "A standard-based, lightweight and scalable Java batch framework"
+  },
+  {
+    "id": "jboss application server 7",
+    "link": "https://jboss.org/jbossas/docs",
+    "description": "An open source Java application server"
+  },
+  {
+    "id": "jboss remoting",
+    "link": "https://jboss.org/jbossremoting/documentation",
+    "description": "A general purpose framework for symmetric and asymmetric communication over a network"
+  },
+  {
+    "id": "jboss clustering",
+    "link": "http://docs.jboss.org/jbossclustering/",
+    "description": "Scalability and High Availability for the JBoss Application Server"
+  },
+  {
+    "id": "jboss esb",
+    "link": "https://jboss.org/jbossesb/docs",
+    "description": "Next generation of EAI"
+  },
+  {
+    "id": "jboss tools",
+    "link": "http://tools.jboss.org/documentation/",
+    "description": "Eclipse Plugins for JBoss Technology"
+  },
+  {
+    "id": "maven jboss deploy plugin",
+    "link": "http://www.jboss.org/files/maven-jboss-deploy-plugin/apidocs/index.html",
+    "description": "This plugin allows maven based projects to deploy project artifacts (jars, etc) to the legacy ant/buildmagic based repository."
+  },
+  {
+    "id": "microcontainer",
+    "link": "https://jboss.org/jbossmc/documentation",
+    "description": "JBoss Microcontainer is a refactoring of JBoss's JMX Microkernel to support direct POJO deployment and standalone use outside the JBoss application server."
+  },
+  {
+    "id": "narayana",
+    "link": "http://narayana.io/documentation/",
+    "description": "The premier open source transaction manager"
+  },
+  {
+    "id": "optaplanner",
+    "link": "http://www.optaplanner.org/learn/documentation.html",
+    "description": "OptaPlanner optimizes business resource usage. It is a lightweight, embeddable, open source planning engine, written in 100% Java."
+  },
+  {
+    "id": "netty",
+    "link": "http://netty.io/wiki/index.html",
+    "description": "Asynchronous event-driven network application framework"
+  },
+  {
+    "id": "jboss osgi",
+    "link": "http://docs.jboss.org/osgi",
+    "description": "The JBoss OSGi project provides the OSGi functionality in the JBoss"
+  },
+  {
+    "id": "nodyn",
+    "link": "https://github.com/nodyn/nodyn/blob/master/README.md",
+    "description": "A Node.js runtime built on Vert.x and DynJS"
+  },
+  {
+    "id": "torque box",
+    "link": "http://torquebox.org/documentation/",
+    "description": "An application server for Ruby, built on JBoss AS"
+  },
+  {
+    "id": "vertx",
+    "link": "http://vertx.io/docs",
+    "description": "Vert.x is a lightweight, high performance application platform for the JVM that's designed for modern mobile, web, and enterprise applications."
+  },
+  {
+    "id": "windup",
+    "link": "http://windup.jboss.org/",
+    "description": "Windup is a tool to simplify Java application migrations. The tool analyzes application artifacts (such as Java code, JSPs and XML) and produces an HTML report highlighting areas that require changes."
+  },
+  {
+    "id": "snowdrop",
+    "link": "https://jboss.org/snowdrop/documentation",
+    "description": "An utility package that contains JBoss-specific extensions to the Spring Framework."
+  },
+  {
+    "id": "keycloak",
+    "link": "https://jboss.org/keycloak/docs",
+    "description": "Integrated SSO for browser apps and RESTful web services. Built on top of the OAuth 2.0 and JSON Web Token (JWT) specifications."
+  },
+  {
+    "id": "liveoak",
+    "link": "http://liveoak.io/docs/",
+    "description": "backend-as-a-service stack for simplifying mobile and web client development."
+  },
+  {
+    "id": "uberfire",
+    "link": "http://uberfireframework.org/",
+    "description": "UberFire provides declarative APIs for building workbench-style apps, a rich virtual file system with a jgit backend, full-text search, a role-based declarative security framework, and more."
+  },
+  {
+    "id": "hrstatus",
+    "link": "http://www.hrstatus.com.br/hrstatus/home.html",
+    "description": "É um software desenvolvido em java para auxiliar as viradas do horário de verão."
+  },
+  {
+    "id": "fzf",
+    "link": "https://github.com/junegunn/fzf",
+    "description": "fzf is a general-purpose command-line fuzzy finder."
+  },
+  {
+    "id": "trugger",
+    "link": "https://github.com/devnull-tools/trugger",
+    "description": "Trugger is a framework that helps you write code that anyone can read. The idea is to provide a set of fluent interfaces to deal with operations related to reflection."
+  },
+  {
+    "id": "kodo",
+    "link": "https://github.com/devnull-tools/kodo",
+    "description": "Kodo is a test framework that helps you defining specifications with the help of a fluent interface. The idea behind is to put some functional interfaces present in Java 8 together to provide a beautiful way to define specifications in pure Java code. Its main use if for testing but you can use for any purposes that requires the writing of a specification."
+  },
+  {
+    "id": "boteco",
+    "link": "https://github.com/devnull-tools/boteco",
+    "description": "Boteco is a framework that allows you to write a bot that has the same behaviour across different platforms."
+  },
+  {
+    "id": "sherlog-holmes",
+    "link": "https://github.com/devnull-tools/sherlog-holmes",
+    "description": "A Ruby command line tool that reduces log files based on given queries"
+  },
+  {
+    "id": "cafeina",
+    "link": "https://github.com/devnull-tools/cafeina",
+    "description": "Projeto destinado a mapear as diversas situações que nós, mantenedores de código, temos que enfrentar em nossos árduos e sombrios dias (e noites, e madrugadas, e mais outros dias) de trabalho como papel higiênico de TI com folha dupla."
+  }
+]
