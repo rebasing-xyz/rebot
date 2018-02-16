@@ -18,11 +18,11 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.2" level="project" />
-    <orderEntry type="module" module-name="rebot-telegram-api-spi" />
-    <orderEntry type="module" module-name="rebot-telegram-api-objects" />
-    <orderEntry type="module" module-name="rebot-cache-service" />
-    <orderEntry type="module" module-name="rebot-telegram-api-emojis" />
-    <orderEntry type="module" module-name="rebot-persistence-service" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-telegram-api-spi:0.1" level="project" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-telegram-api-objects:0.1" level="project" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-cache-service:0.1" level="project" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-telegram-api-emojis:0.1" level="project" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-persistence-service:0.1" level="project" />
     <orderEntry type="library" name="Maven: org.wildfly.swarm:jpa:2017.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.wildfly.swarm:container:2017.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.wildfly.swarm:spi:2017.12.1" level="project" />

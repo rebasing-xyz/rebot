@@ -70,6 +70,7 @@ public class Startup {
             log.info(userId + " successfully started.");
         } catch (final Exception e) {
             log.severe("Failed to start the " + userId + ": " + e.getMessage());
+            System.exit(1);
         }
     }
 

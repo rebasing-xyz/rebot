@@ -35,13 +35,13 @@
     <parent>
         <groupId>it.rebase</groupId>
         <artifactId>rebot-services-parent</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
     <artifactId>rebot-packt-free-learning-service</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <licenses>

@@ -12,16 +12,16 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.infinispan:infinispan-embedded:9.1.1.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.1_spec:1.0.1.Final" level="project" />
-    <orderEntry type="module" module-name="rebot-telegram-api-spi" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-telegram-api-spi:0.1" level="project" />
     <orderEntry type="library" name="Maven: javax:javaee-api:7.0" level="project" />
     <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.5.0" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
-    <orderEntry type="module" module-name="rebot-telegram-api-objects" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-telegram-api-objects:0.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.2" level="project" />
-    <orderEntry type="module" module-name="rebot-cache-service" />
-    <orderEntry type="module" module-name="rebot-persistence-service" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-cache-service:0.1" level="project" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-persistence-service:0.1" level="project" />
     <orderEntry type="library" name="Maven: org.wildfly.swarm:jpa:2017.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.wildfly.swarm:container:2017.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.wildfly.swarm:spi:2017.12.1" level="project" />
@@ -85,6 +85,6 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-compress:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.4.196" level="project" />
-    <orderEntry type="module" module-name="rebot-telegram-api-emojis" />
+    <orderEntry type="library" name="Maven: it.rebase:rebot-telegram-api-emojis:0.1" level="project" />
   </component>
 </module>
