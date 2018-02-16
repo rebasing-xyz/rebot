@@ -35,13 +35,13 @@
     <parent>
         <groupId>it.rebase</groupId>
         <artifactId>rebot-services-parent</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
     <artifactId>rebot-urban-dictionary-service</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
     <licenses>
@@ -64,7 +64,7 @@
     <scm>
         <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
         <url>https://github.com/rebase-it/rebot</url>
-        <tag>HEAD</tag>
+        <tag>rebot-parent-0.1</tag>
     </scm>
 
     <dependencies>

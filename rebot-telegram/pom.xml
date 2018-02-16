@@ -36,13 +36,13 @@
     <parent>
         <groupId>it.rebase</groupId>
         <artifactId>rebot-parent</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
     <artifactId>rebot-telegram-bot</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>war</packaging>
 
     <properties>
