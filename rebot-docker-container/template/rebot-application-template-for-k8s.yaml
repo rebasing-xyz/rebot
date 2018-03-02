@@ -1,0 +1,172 @@
+kind: Template
+apiVersion: v1
+metadata:
+  annotations:
+    description: Application template for ReBot Telegram chat.
+    tags: rebot
+    openshift.io/display-name: ReBot, a Java EE bot for Telegram base on ReBot API.
+  name: rebot
+labels:
+  template: rebot-aaplication-template-for-k8s
+message:  |-
+           The following service have been created in your project: ReBot, a Java EE bot for Telegram base on ReBot API.
+
+                   Telegram Token ID: ${REBOT_TELEGRAM_TOKEN_ID}
+              ReBot Telegram User ID: ${REBOT_TELEGRAM_USER_ID}
+              ReBot Telegram Chat ID: ${REBOT_TELEGRAM_CHAT_ID}
+                     ReBot Log Level: ${REBOT_TELEGRAM_LOG_LEVEL}
+                 ReBot GitBook Token: ${REBOT_TELEGRAM_GITBOOK_ID}
+
+           For more information about using this template, see https://github.com/rebase-it/rebot/rebot-docker-container.
+parameters:
+- displayName: Application Name
+  description: "The name for the application."
+  name: APPLICATION_NAME
+  value: rebot
+  required: true
+- displayName: Log Level
+  description: "WildFly Swarm logging lovel for it.rebase package"
+  name: REBOT_TELEGRAM_LOG_LEVEL
+  value: TRACE
+  required: false
+- displayName: ReBot Telegram Token ID
+  description: "The bot token ID, it can be retrieved through BotFather on Telegram."
+  name: REBOT_TELEGRAM_TOKEN_ID
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  required: true
+- displayName: ReBot Telegram User ID
+  description: "Property to define the bot user id."
+  name: REBOT_TELEGRAM_USER_ID
+  value: rebaseit_bot
+  required: true
+- displayName: ReBot Telegram Chat ID
+  description: "The Chat ID where the ReBot is running, this setting allows the bot to send notifications to the given chat."
+  name: REBOT_TELEGRAM_CHAT_ID
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  required: true
+- displayName: Gitbook Token
+  description: "Token to interact with the JBoss Books on Gitbook. Note: This property will be removed in the next release."
+  name: REBOT_TELEGRAM_GITBOOK_ID
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  required: true
+- displayName: ReBot Custom http Route Hostname
+  description: 'Custom hostname for https service route.  Leave blank for default
+    hostname, e.g.: <application-name>-<project>.<default-domain-suffix>'
+  name: REBOT_HOSTNAME_HTTP
+  value: ''
+  required: false
+- displayName: ImageStream Namespace
+  description: "Namespace in which the ImageStreams for ReBot images are
+    installed. These ImageStreams are normally installed in the rebaseit namespace.
+    You should only need to modify this if you've installed the ImageStreams in a
+    different namespace/project."
+  name: IMAGE_STREAM_NAMESPACE
+  value: rebaseit
+  required: true
+objects:
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - port: 8080
+      targetPort: 8080
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}"
+  metadata:
+    name: "${APPLICATION_NAME}"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: The rebot http port for rest endpoint.
+- kind: Route
+  apiVersion: v1
+  id: "${APPLICATION_NAME}-http"
+  metadata:
+    name: "${APPLICATION_NAME}"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: Route for rebot's rest service.
+  spec:
+    host: "${REBOT_HOSTNAME_HTTP}"
+    to:
+      name: "${APPLICATION_NAME}"
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${APPLICATION_NAME}-claim"
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 256Mi
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    annotations:
+       template.alpha.openshift.io/wait-for-ready: "true"
+    name: "${APPLICATION_NAME}"
+    labels:
+      application: "${APPLICATION_NAME}"
+  spec:
+    strategy:
+      type: Recreate
+    triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - "${APPLICATION_NAME}"
+        from:
+          kind: ImageStreamTag
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: rebot-telegram-bot:1.0
+    - type: ConfigChange
+    replicas: 1
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}"
+    template:
+      metadata:
+        name: "${APPLICATION_NAME}"
+        labels:
+          deploymentConfig: "${APPLICATION_NAME}"
+          application: "${APPLICATION_NAME}"
+      spec:
+        terminationGracePeriodSeconds: 60
+        containers:
+        - name: "${APPLICATION_NAME}"
+          image: rebot-telegram-bot
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: "${APPLICATION_NAME}-volume"
+            mountPath: /opt/h2
+          livenessProbe:
+            initialDelaySeconds: 30
+            tcpSocket:
+              port: 8080
+            timeoutSeconds: 1
+          readinessProbe:
+            initialDelaySeconds: 5
+            tcpSocket:
+              port: 8080
+            timeoutSeconds: 1
+          ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          env:
+          - name: REBOT_TELEGRAM_LOG_LEVEL
+            value: "${REBOT_TELEGRAM_LOG_LEVEL}"
+          - name: REBOT_TELEGRAM_TOKEN_ID
+            value: "${REBOT_TELEGRAM_TOKEN_ID}"
+          - name: REBOT_TELEGRAM_USER_ID
+            value: "${REBOT_TELEGRAM_USER_ID}"
+          - name: REBOT_TELEGRAM_CHAT_ID
+            value: "${REBOT_TELEGRAM_CHAT_ID}"
+          - name: REBOT_TELEGRAM_GITBOOK_ID
+            value: "${REBOT_TELEGRAM_GITBOOK_ID}"
+        volumes:
+        - name: "${APPLICATION_NAME}-volume"
+          persistentVolumeClaim:
+            claimName: "${APPLICATION_NAME}-claim"

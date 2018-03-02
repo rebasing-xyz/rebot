@@ -54,5 +54,5 @@ Where:
 - **numberOfResults** in it absence the default value is 1, you can add more results to your search by setting this parameter.
 - **showExample** by default it is false, if you set it the result will bring a exemple about the term usage.
 
-### Did you find a but or do you have a suggestion?
+### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it

@@ -12,5 +12,5 @@ Conditions for Uberlandia, MG, BR at 01:00 AM BRST:
 https://weather.yahoo.com/country/state/city-455917/
 ```
 
-### Did you find a but or do you have a suggestion?
+### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it

@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+
+groupadd -r rebot -g 185 && useradd -u 185 -r -g rebot -m -d /home/rebot -s /sbin/nologin -c "ReBot user" rebot
+
+SCRIPT_DIR=$(dirname $0)
+ADDED_DIR=${SCRIPT_DIR}/added
+cp $ADDED_DIR/rebot-launch.sh $REBOT_HOME
+
+mkdir /opt/h2
+
+chown -R rebot:root $REBOT_HOME
+chown -R rebot:root /opt/h2
+chmod 0755 $REBOT_HOME
+chmod 0755 /opt/h2
+chmod -R g+rwX $REBOT_HOME
+chmod -R g+rwX /opt/h2
+chmod +x $REBOT_HOME/rebot-launch.sh

@@ -109,10 +109,6 @@
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-jboss-books-service</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
             <artifactId>rebot-packt-free-learning-service</artifactId>
         </dependency>
         <dependency>

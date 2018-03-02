@@ -40,5 +40,5 @@ The bot is up and running, feel free to add it in a group or to test it on a pri
 The bot username is: **@rebaseit_bot**
 
 
-### Did you find a but or do you have a suggestion?
+### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it

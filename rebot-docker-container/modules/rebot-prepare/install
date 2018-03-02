@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+SOURCES_DIR=/tmp/artifacts
+
+mkdir -p $REBOT_HOME
+cp $SOURCES_DIR/rebot-telegram-bot-0.1-swarm.jar $REBOT_HOME

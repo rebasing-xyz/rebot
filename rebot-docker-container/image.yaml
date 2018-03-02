@@ -1,0 +1,50 @@
+schema_version: 1
+
+name: "rebaseit/rebot-telegram-bot"
+description: "ReBot Telegram Bot container image"
+version: "1.0"
+from: "docker.io/openjdk:latest"
+labels:
+    - name: "io.k8s.description"
+      value: "A JavaEE Telegram bot"
+    - name: "io.k8s.display-name"
+      value: "ReBot Telegram Bot container image"
+    - name: "io.openshift.expose-services"
+      value: "8080:http"
+    - name: "io.openshift.tags"
+      value: "javaee,wildfly-swarm,rebot"
+envs:
+    - name: "REBOT_TELEGRAM_BOT_VERSION"
+      value: "1.0"
+    - name: "REBOT_HOME"
+      value: "/opt/rebot"
+    - name: "REBOT_SWARM_BINARY"
+      value: "rebot-telegram-bot-0.1-swarm.jar"
+    - name: "REBOT_TELEGRAM_LOG_LEVEL"
+      example: "TRACE"
+      description: "The log level, default is INFO"
+    - name: "REBOT_TELEGRAM_TOKEN_ID"
+      example: "546584922:AHuNRhsueotkDiSC8nQWiJr7BrQxK3pF0JmBk"
+      description: "The bot token ID, it can be retrieved through BotFather on Telegram."
+    - name: "REBOT_TELEGRAM_USER_ID"
+      example: "rebaseit_bot"
+      description: "Property to define the bot user id."
+    - name: "REBOT_TELEGRAM_CHAT_ID"
+      example: "-928394712"
+      description: "The Chat ID where the ReBot is running, this setting allows the bot to send notifications to the given chat."
+ports:
+    - value: 8080
+modules:
+      repositories:
+          - path: modules
+      install:
+          - name: rebot-prepare
+          - name: configure-and-launch
+artifacts:
+    - name: rebot-telegram-bot-0.1-swarm.jar
+      url: https://repo.maven.apache.org/maven2/it/rebase/rebot-telegram-bot/0.1/rebot-telegram-bot-0.1-swarm.jar
+      md5: 0a607ae97d74b57cd05bbbab0ce277b8
+run:
+      user: 185
+      cmd:
+          - "/opt/rebot/rebot-launch.sh"

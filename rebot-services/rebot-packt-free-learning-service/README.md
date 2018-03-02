@@ -10,5 +10,5 @@ With this service you can enable/disable notifications for a private chat or gor
 /packt off - Disable the notifications.
 ```
 
-### Did you find a but or do you have a suggestion?
+### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it

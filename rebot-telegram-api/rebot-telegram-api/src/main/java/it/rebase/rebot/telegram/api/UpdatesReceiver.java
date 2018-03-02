@@ -182,7 +182,7 @@ public class UpdatesReceiver implements Runnable {
 
                     updates.getResult().removeIf(n -> n.getUpdateId() < lastUpdateId);
                     lastUpdateId = updates.getResult().parallelStream().map(MessageUpdate::getUpdateId).max(Long::compareTo).orElse(0L);
-                    updates.getResult().stream().forEach(u -> {
+                    updates.getResult().stream().filter(message -> null != message.getMessage().getText()).forEach(u -> {
                         // make sure that even edited messages will be intercepted by the rebot.
                         if (null != u.getEditedMessage()) {
                             log.finest("is updated message? " + true);
@@ -198,7 +198,6 @@ public class UpdatesReceiver implements Runnable {
                         // notify the implementations of ReBotLongPoolingBot about the received messages.
                         log.finest("Message is [ " + u.toString() + "]");
                         callback.onUpdateReceived(u);
-
                     });
                     // wait 600ms before check for updates
                     this.wait(600);
@@ -210,5 +209,4 @@ public class UpdatesReceiver implements Runnable {
             }
         }
     }
-
 }

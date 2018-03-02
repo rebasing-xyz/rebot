@@ -62,8 +62,11 @@ public class Helper {
                 i += 1;
                 try {
                     numberOfResults = Integer.parseInt(parameters[i]);
+                    if (numberOfResults < 0) {
+                        return "Only positive values are valid: " + numberOfResults;
+                    }
                 } catch (NumberFormatException e) {
-                    return "Parameter " + parameters[i] + " not valid.";
+                    return "Parameter " + parameters[i] + " is not valid.";
                 }
 
             } else if (parameters[i].equals("-e")) {

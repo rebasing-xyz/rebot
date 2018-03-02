@@ -23,9 +23,7 @@
 
 package it.rebase.rebot.telegram.api.message.endpoint;
 
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.object.Chat;
-import it.rebase.rebot.api.object.From;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.telegram.api.message.sender.MessageSender;
 
@@ -36,7 +34,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.lang.invoke.MethodHandles;
-import java.math.BigInteger;
 import java.util.logging.Logger;
 
 @Path("/message")
@@ -46,25 +43,19 @@ public class RestMessageSender {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
-    @BotProperty(name = "br.com.jbugbrasil.bot.telegram.token", required = false)
-    String botTokenId;
-
-    @Inject
     private MessageSender sender;
 
     @GET
     @Path("send/{chatId}/{message}")
     public void send(@PathParam("chatId") Long chatId, @PathParam("message") String message) {
-        log.info("AUAHEUAHEUAHEWE chamado a porra do endpoint");
+        log.fine("Rest Endpoint called, trying to send the message: [" + message + "] to  chat id [" + chatId + "]");
         try {
             sender.processOutgoingMessage(buildMessage(chatId, message));
             Response.ok().build();
         } catch (final Exception e) {
             Response.serverError().entity(e.getMessage()).build();
         }
-
     }
-
 
     private Message buildMessage(Long target, String txt) {
         Chat chat = new Chat();
@@ -74,5 +65,4 @@ public class RestMessageSender {
         message.setText(txt);
         return message;
     }
-
 }
