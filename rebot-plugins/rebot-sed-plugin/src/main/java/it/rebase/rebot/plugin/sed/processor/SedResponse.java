@@ -74,7 +74,7 @@ public class SedResponse {
 
     @Override
     public String toString() {
-        return "Sed plugin - SedResponse {" +
+        return "SedResponse {" +
                 "FULL_MSG_PATTERN=" + FULL_MSG_PATTERN +
                 ", processable=" + processable +
                 ", fullReplace=" + fullReplace +
