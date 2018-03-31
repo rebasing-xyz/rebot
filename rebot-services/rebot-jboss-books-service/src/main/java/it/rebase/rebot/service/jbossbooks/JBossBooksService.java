@@ -123,9 +123,8 @@ public class JBossBooksService {
      * Returns the list of books
      *
      * @return {@link JSONResponse}
-     * @throws IOException
      */
-    public List<Books> getBooks() throws IOException {
+    public List<Books> getBooks() {
         initialize();
         JSONResponse jsonResponse = cache.get("jsonResponse");
         return jsonResponse.getList();

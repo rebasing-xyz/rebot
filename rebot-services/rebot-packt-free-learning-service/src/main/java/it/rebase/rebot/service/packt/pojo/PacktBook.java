@@ -33,14 +33,15 @@ public class PacktBook {
 
     public String getBookName() {
         String[] bookName = this.bookName.replace("-", " ").split(" ");
-        String tempBookName= "";
-        for (String name : bookName){
-           if (!name.equals(bookName[bookName.length-1])) {
-               tempBookName += name.replace(name.substring(0,1), name.substring(0,1).toUpperCase()) + " ";
-           } else {
-               tempBookName += name.replace(name.substring(0,1), name.substring(0,1).toUpperCase());
-           }
+        String tempBookName = "";
+        for (String name : bookName) {
+            if (!name.equals(bookName[bookName.length - 1])) {
+                tempBookName += name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase() + " ";
+            } else {
+                tempBookName += name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            }
         }
+        System.out.println(tempBookName);
         return tempBookName;
     }
 

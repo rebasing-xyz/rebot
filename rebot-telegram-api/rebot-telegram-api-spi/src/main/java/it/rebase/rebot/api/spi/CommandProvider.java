@@ -24,6 +24,7 @@
 package it.rebase.rebot.api.spi;
 
 import it.rebase.rebot.api.object.MessageUpdate;
+
 import java.util.Optional;
 
 public interface CommandProvider {
@@ -35,7 +36,9 @@ public interface CommandProvider {
 
     /**
      * Executes the command and returns its result
-     * @param key to be searched
+     *
+     * @param key           command parameters
+     * @param messageUpdate message update
      * @return the query result based on the key
      */
     Object execute(Optional<String> key, MessageUpdate messageUpdate);
@@ -52,6 +55,7 @@ public interface CommandProvider {
 
     /**
      * method to be used with the dump command.
+     *
      * @return a brief description about the command
      */
     String description();
@@ -59,16 +63,25 @@ public interface CommandProvider {
     /**
      * Acceptable commands are, i.e: /ping or /ping@botUserId
      * If the botuserId is incorrect, the command will not be recognized.
-     * @param fullCommand
-     * @param botUserId
+     *
+     * @param fullCommand full command in the format: /command@botID uptime
+     * @param botUserId   botid to be extracted from command
      * @return the command to be executed.
-     *  Replacing by the command + botUserId we can assure that only commands redirected to this bot will be processed
      */
-    default String extractCommand(String fullCommand, String botUserId)  {
+    default String extractCommand(String fullCommand, String botUserId) {
         // command may have parameters.
         return fullCommand.split(" ")[0].replace("@" + botUserId, "");
     }
 
+    /**
+     * only commands redirected to this bot will be processed
+     *
+     * @param messageUpdate message containing the command
+     * @param botUserId     bot id, this will be used to make sure that this bot can process the given command
+     * @return true - processable command
+     * or
+     * false - non processable command
+     */
     default boolean canProcessCommand(MessageUpdate messageUpdate, String botUserId) {
         return true ? messageUpdate.getMessage().getText().startsWith("/") &&
                 (messageUpdate.getMessage().getText().contains("@" + botUserId) || !messageUpdate.getMessage().getText().contains("@")) &&

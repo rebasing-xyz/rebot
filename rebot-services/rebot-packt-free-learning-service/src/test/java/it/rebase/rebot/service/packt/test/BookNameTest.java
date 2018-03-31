@@ -34,7 +34,7 @@ public class BookNameTest {
         PacktBook packtBook = new PacktBook();
         packtBook.setBookName("responsive-web-design-html5-and-css3-second-edition");
         Assert.assertEquals(packtBook.getBookName(), "Responsive Web Design Html5 And Css3 Second Edition");
-
+        packtBook.setBookName("java-deep-learning-essentials");
+        Assert.assertEquals(packtBook.getBookName(), "Java Deep Learning Essentials");
     }
-
 }

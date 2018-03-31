@@ -44,7 +44,8 @@ public class Packt implements CommandProvider {
     @Override
     public void load() {
         log.fine("Loading command " + this.name());
-        packtNotifier.populate(true);
+//        packtNotifier.populate(true);
+        packtNotifier.scheduler();
     }
 
     @Override

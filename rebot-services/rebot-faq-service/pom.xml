@@ -74,11 +74,6 @@
             <artifactId>javaee-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-embedded</artifactId>
-        </dependency>
-
         <!-- jackson fasterxml -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -100,8 +95,13 @@
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
+            <artifactId>rebot-telegram-api-objects</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
             <artifactId>rebot-persistence-service</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

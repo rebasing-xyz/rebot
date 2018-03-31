@@ -58,6 +58,8 @@ public class BotStatus {
         this.timestamp = Instant.now().toString();
     }
 
+    public BotStatus(){}
+
     public Long getId() {
         return id;
     }

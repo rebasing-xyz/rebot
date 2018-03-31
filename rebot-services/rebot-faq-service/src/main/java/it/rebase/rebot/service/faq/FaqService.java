@@ -33,6 +33,8 @@ import org.infinispan.Cache;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
@@ -42,6 +44,7 @@ import java.util.stream.Collectors;
 
 @Stateless
 @LocalBean
+@Dependent
 public class FaqService {
 
     public static final String JSON_SOURCE_LOCATION = "https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-services/rebot-faq-service/src/main/resources/META-INF/faq-properties.json";
