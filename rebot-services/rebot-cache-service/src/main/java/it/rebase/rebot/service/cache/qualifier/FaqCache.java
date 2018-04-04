@@ -40,6 +40,7 @@ public @interface FaqCache {
     /**
      * Qualifier to allow pass a Class as parameter to be indexed on the cache
      * Default value is it.rebase.rebot.service.faq.pojo.Project
+     * @return {@link org.infinispan.configuration.cache.ConfigurationBuilder}
      */
     @Nonbinding String classToIndex() default "it.rebase.rebot.service.faq.pojo.Project";
 }

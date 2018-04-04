@@ -1,5 +1,7 @@
 ### ReBot - A Java API for Telegram
 
+[![Build Status](https://travis-ci.org/rebase-it/rebot.svg?branch=master)](https://travis-ci.org/rebase-it/rebot)
+
 This API is composed by 3 Key Sub Projects, which are:
 
  - [ReBot API](rebot-telegram-api/README.md)

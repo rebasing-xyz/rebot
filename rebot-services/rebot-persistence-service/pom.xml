@@ -75,7 +75,6 @@
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>hibernate-search</artifactId>
-
         </dependency>
 
         <dependency>
@@ -98,5 +97,4 @@
         </dependency>
 
     </dependencies>
-
 </project>

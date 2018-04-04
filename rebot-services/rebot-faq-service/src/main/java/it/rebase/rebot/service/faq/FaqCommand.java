@@ -56,7 +56,7 @@ public class FaqCommand implements CommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        return key.get().length() > 0 ? service.query(key.get()) : "Paramenter required, " + this.name() + " help.";
+        return key.get().length() > 0 ? service.query(key.get()) : "Parameter required, " + this.name() + " help.";
     }
 
     @Override

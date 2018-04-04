@@ -70,17 +70,18 @@
         <version.it.rebase.rebot.plugins>0.2-SNAPSHOT</version.it.rebase.rebot.plugins>
         <version.it.rebase.rebot.services>0.2-SNAPSHOT</version.it.rebase.rebot.services>
         <version.it.rebase.rebot.api>0.2-SNAPSHOT</version.it.rebase.rebot.api>
-        <version.wildfly.swarm>2017.12.1</version.wildfly.swarm>
+        <version.wildfly.swarm>2018.3.3</version.wildfly.swarm>
         <version.infinispan>9.1.1.Final</version.infinispan>
         <version.javax.javaee.api>7.0</version.javax.javaee.api>
         <version.com.h2database>1.4.196</version.com.h2database>
         <version.httpclient>4.5.3</version.httpclient>
         <version.org.json>20171018</version.org.json>
         <version.org.jboss.resteasy>3.1.4.Final</version.org.jboss.resteasy>
+        <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
         <version.com.fasterxml.jackson.core>2.9.2</version.com.fasterxml.jackson.core>
         <version.junit>4.12</version.junit>
         <version.org.mockito>2.12.0</version.org.mockito>
-        <version.org.jboss.arquillian>1.1.15.Final</version.org.jboss.arquillian>
+        <version.org.jboss.arquillian>1.4.0.Final</version.org.jboss.arquillian>
         <version.surefire.plugin>2.20.1</version.surefire.plugin>
         <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -286,6 +287,13 @@
                 <version>${version.org.mockito}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>java-hamcrest</artifactId>
+                <version>${version.org.hamcrest.java.hamcrest}</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

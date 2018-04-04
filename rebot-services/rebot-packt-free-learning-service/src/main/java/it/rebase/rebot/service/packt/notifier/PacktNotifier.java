@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.service.packt.notifier;
 
+import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -31,15 +32,19 @@ import it.rebase.rebot.service.packt.pojo.PacktBook;
 import it.rebase.rebot.service.persistence.pojo.PacktNotification;
 import it.rebase.rebot.service.persistence.repository.PacktRepository;
 import it.rebase.rebot.telegram.api.message.sender.MessageSender;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.infinispan.Cache;
 
+import javax.annotation.Resource;
 import javax.ejb.LocalBean;
-import javax.ejb.Schedule;
+import javax.ejb.ScheduleExpression;
 import javax.ejb.Stateless;
+import javax.ejb.Timeout;
+import javax.ejb.TimerService;
 import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -69,6 +74,13 @@ public class PacktNotifier {
     @Inject
     PacktBook packtBook;
 
+    @Resource
+    TimerService timerService;
+
+    @Inject
+    @BotProperty(name = "it.rebase.rebot.packt.scheduler.timezone")
+    String timezone;
+
     public String get() {
         StringBuilder builder = new StringBuilder("<i> Packt Free Learning - daily book</i>\n");
         builder.append("<b>Book name:</b> <code>" + packtBook.getBookName() + "</code>\n");
@@ -77,21 +89,33 @@ public class PacktNotifier {
         return builder.toString();
     }
 
-    @Schedule(hour = "23", minute = "00")
-    private void scheduler() {
-        populate(false);
+    @Timeout
+    public void scheduler() {
+        ScheduleExpression schedule = new ScheduleExpression();
+        if (null == timezone) {
+            log.warning("Timezone not set, using default: America/Sao_Paulo");
+            schedule.timezone("America/Sao_Paulo");
+        } else {
+            schedule.timezone(timezone);
+        }
+        schedule.hour("23");
+        schedule.minute("00");
+        timerService.createCalendarTimer(schedule);
+        populate(true);
     }
 
-    public void populate(boolean startup) {
+    synchronized public void populate(boolean notify) {
         log.fine("Retrieving information about the daily free ebook.");
         try {
-            HttpResponse response = client().execute(new HttpGet(FREE_LEARNING_URL));
+            HttpGet request = new HttpGet(FREE_LEARNING_URL);
+            request.setHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0 Firefox/26.0");
+            HttpResponse response = client().execute(request);
             BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
             String inputLine, previousLine = "";
-            StringBuffer responseBuffer = new StringBuffer();
-
+            int lines = 0;
             while ((inputLine = reader.readLine()) != null) {
+                lines += 1;
                 // get the book name
                 if (previousLine.contains("dotd-main-book-image")) {
                     inputLine = reader.readLine();
@@ -104,6 +128,11 @@ public class PacktNotifier {
                 }
                 previousLine = inputLine;
             }
+
+            if (null == packtBook.getClaimUrl()) {
+                packtBook.setClaimUrl(FREE_LEARNING_URL);
+            }
+
             log.fine(packtBook.toString());
             if (cache.containsKey("book")) {
                 cache.replace("book", packtBook);
@@ -111,9 +140,7 @@ public class PacktNotifier {
                 cache.put("book", packtBook);
             }
 
-            if (startup) {
-                return;
-            } else {
+            if (notify) {
                 repository.get().stream().forEach(chatId -> this.notify(chatId));
             }
         } catch (final Exception e) {

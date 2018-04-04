@@ -36,6 +36,7 @@ public class TermDefinition implements Serializable {
     private String permalink;
     private String definition;
     private String example;
+    private String written_on;
     @JsonProperty("thumbs_up")
     @com.fasterxml.jackson.annotation.JsonProperty("thumbs_up")
     private int thumbsUp;
@@ -116,6 +117,14 @@ public class TermDefinition implements Serializable {
 
     public void setCurrentVote(String currentVote) {
         this.currentVote = currentVote;
+    }
+
+    public String getWritten_on() {
+        return written_on;
+    }
+
+    public void setWritten_on(String written_on) {
+        this.written_on = written_on;
     }
 
     @Override

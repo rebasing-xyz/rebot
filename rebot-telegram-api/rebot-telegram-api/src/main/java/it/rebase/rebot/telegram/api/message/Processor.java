@@ -31,20 +31,20 @@ public interface Processor {
      * Filter all the updates and process it.
      * If any plugin or service can process the update, it will be processed and a reply will be sent by the
      * plugin or service that processed the update.
-     * @param messageUpdate
+     * @param messageUpdate Message to be processed
      */
     void process(MessageUpdate messageUpdate);
 
     /**
      * Process the commands, anything started with / will be considered a command
-     * @param messageUpdate
+     * @param messageUpdate Message to be processed
      */
     void commandProcessor(MessageUpdate messageUpdate);
 
     /**
      * Process everything, usually it is filtered by the plugins, i.e karma plugin.
      * If the message processed matches a plugin condition, it will be processed.
-     * @param messageUpdate
+     * @param messageUpdate Message to be processed
      */
     void nonCommandProcessor(MessageUpdate messageUpdate);
 

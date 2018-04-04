@@ -29,7 +29,6 @@ import it.rebase.rebot.service.currency.provider.fixer.io.AvailableCurrencies;
 import it.rebase.rebot.service.currency.provider.fixer.io.FixerIO;
 import it.rebase.rebot.service.currency.provider.fixer.io.pojo.Rates;
 import it.rebase.rebot.service.currency.provider.fixer.io.pojo.ResponseBase;
-import org.apache.commons.logging.impl.AvalonLogger;
 import org.apache.http.client.utils.URIBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -38,7 +37,6 @@ import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -66,11 +64,10 @@ public class CurrencyCommand implements CommandProvider {
         String query = key.get().toUpperCase();
         try {
             URIBuilder builder = new URIBuilder(FixerIO.FIXER_IO_BASE_URL).setPath(FixerIO.LATEST);
-            String firstParameter =query.split(" ")[0].trim();
-
+            String firstParameter = query.split(" ")[0].trim();
             switch (firstParameter) {
 
-                case "base":
+                case "BASE":
                     String base = query.split(" ")[1];
                     // try to get Symbols
                     String basesymbols = "";
@@ -91,7 +88,7 @@ public class CurrencyCommand implements CommandProvider {
 
                     break;
 
-                case "exrate":
+                case "EXRATE":
                     Pattern EXRATE_PATTERN = Pattern.compile("(^\\d+)\\w{3}-\\w{3}$");
                     //exrate 1 0 0 U S D - G B P
                     String value = "";
@@ -102,9 +99,9 @@ public class CurrencyCommand implements CommandProvider {
                     }
 
                     if (EXRATE_PATTERN.matcher(value).find()) {
-                        int amount = Integer.parseInt(value.substring(0, value.length() - 7 ));
-                        String fromCurrency = value.substring( value.length() - 7, value.length() - 4);
-                        String toCurrency = value.substring( value.length() - 3, value.length());
+                        int amount = Integer.parseInt(value.substring(0, value.length() - 7));
+                        String fromCurrency = value.substring(value.length() - 7, value.length() - 4);
+                        String toCurrency = value.substring(value.length() - 3, value.length());
                         builder.setParameter(FixerIO.BASE, fromCurrency).setParameter(FixerIO.SYMBOLS, toCurrency);
                         ResponseBase exrateResponseBase = (ResponseBase) new FixerIO().execute(builder.build().toString());
                         response.append(amount + " " + fromCurrency);
@@ -117,11 +114,11 @@ public class CurrencyCommand implements CommandProvider {
                     }
                     break;
 
-                case "get":
+                case "GET":
                     response.append(Arrays.asList(AvailableCurrencies.class.getEnumConstants()));
                     break;
 
-                case "name":
+                case "NAME":
                     String currency = query.split(" ")[1];
                     try {
                         response.append(AvailableCurrencies.valueOf(currency).fullName());
@@ -143,7 +140,6 @@ public class CurrencyCommand implements CommandProvider {
                         }
                     }
                     break;
-
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
