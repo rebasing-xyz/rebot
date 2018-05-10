@@ -37,6 +37,8 @@ import org.apache.http.util.EntityUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -49,6 +51,7 @@ public class MessageSender implements Sender {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private final String TELEGRAM_API_SENDER_ENDPOINT = "https://api.telegram.org/bot%s/sendMessage";
+    private final int TELEGRAM_MESSAGE_CHARACTERS_LIMIT = 4000;
 
     @Inject
     @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
@@ -59,10 +62,31 @@ public class MessageSender implements Sender {
 
     @Override
     public void processOutgoingMessage(Message message) {
+        BufferedReader reader = new BufferedReader(new StringReader(message.getText()));
+        StringBuilder temporaryMessage = new StringBuilder();
         try {
             if (message.getText().length() > 1 && !message.getText().equals(null)) {
-                log.fine("Sending message: [" + message.getText() + "]");
-                send(message);
+                if (message.getText().length() > TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
+                    reader.lines().forEach(line -> {
+                        if (temporaryMessage.toString().length() <  TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
+                            temporaryMessage.append(line + "\n");
+                        } else {
+                            temporaryMessage.append(line + "\n");
+                            log.fine("Message exceeded " + TELEGRAM_MESSAGE_CHARACTERS_LIMIT + " ending partial message.");
+                            message.setText(temporaryMessage.toString());
+                            send(message);
+                            temporaryMessage.setLength(0);
+                        }
+                    });
+
+                    log.fine("Sending next part of message.");
+                    message.setText(temporaryMessage.toString());
+                    send(message);
+                    temporaryMessage.setLength(0);
+                } else {
+                    log.fine("Sending message: [" + message.getText() + "]");
+                    send(message);
+                }
             }
         } catch (final Exception e) {
             log.finest("Failed to send message: " + e.getMessage());
@@ -70,12 +94,13 @@ public class MessageSender implements Sender {
     }
 
     /**
-     * Prepare the request that sends a message to the Telegra API
+     * Prepare the request that sends a message to the Telegram API
      * Parameters
-     *  - chat_id = chat or group
-     *  - parse_mode = default HTML
-     *  - reply_to_message_id = Id of a sent message, if present the message will be sent to its original sender
-     *  - disable_web_page_preview = disables the link preview
+     * - chat_id = chat or group
+     * - parse_mode = default HTML
+     * - reply_to_message_id = Id of a sent message, if present the message will be sent to its original sender
+     * - disable_web_page_preview = disables the link preview
+     *
      * @param message Message to be sent
      */
     private void send(Message message) {

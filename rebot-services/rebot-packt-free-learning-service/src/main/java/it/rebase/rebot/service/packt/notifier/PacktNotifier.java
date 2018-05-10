@@ -40,10 +40,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.infinispan.Cache;
 
 import javax.annotation.Resource;
-import javax.ejb.LocalBean;
 import javax.ejb.ScheduleExpression;
-import javax.ejb.Stateless;
 import javax.ejb.Timeout;
+import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.inject.Inject;
 import java.io.BufferedReader;
@@ -52,8 +51,7 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigInteger;
 import java.util.logging.Logger;
 
-@Stateless
-@LocalBean
+@javax.ejb.Singleton
 public class PacktNotifier {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -78,7 +76,7 @@ public class PacktNotifier {
     TimerService timerService;
 
     @Inject
-    @BotProperty(name = "it.rebase.rebot.packt.scheduler.timezone")
+    @BotProperty(name = "it.rebase.rebot.scheduler.timezone")
     String timezone;
 
     public String get() {
@@ -89,8 +87,7 @@ public class PacktNotifier {
         return builder.toString();
     }
 
-    @Timeout
-    public void scheduler() {
+    synchronized public void startTimer() {
         ScheduleExpression schedule = new ScheduleExpression();
         if (null == timezone) {
             log.warning("Timezone not set, using default: America/Sao_Paulo");
@@ -101,7 +98,12 @@ public class PacktNotifier {
         schedule.hour("23");
         schedule.minute("00");
         timerService.createCalendarTimer(schedule);
+    }
+
+    @Timeout
+    public void scheduler(Timer timer) {
         populate(true);
+        log.fine("Timer executed, next timeout [" + timer.getNextTimeout() + "]");
     }
 
     synchronized public void populate(boolean notify) {

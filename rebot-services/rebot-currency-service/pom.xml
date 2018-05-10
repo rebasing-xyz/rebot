@@ -56,6 +56,14 @@
 
         <dependency>
             <groupId>it.rebase</groupId>
+            <artifactId>rebot-cache-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-persistence-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
             <artifactId>rebot-telegram-api-spi</artifactId>
         </dependency>
         <dependency>
@@ -67,9 +75,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>java-hamcrest</artifactId>
-        </dependency>
+
+
     </dependencies>
 </project>

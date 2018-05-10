@@ -1,4 +1,4 @@
-package it.rebase.rebot.service.currency.provider.fixer.io;
+package it.rebase.rebot.service.currency.provider.ecb;
 
 public enum AvailableCurrencies {
     AUD("Australian dollar"),
@@ -8,7 +8,6 @@ public enum AvailableCurrencies {
     CHF("Swiss franc"),
     CNY("Renminbi"),
     CZK("Czech Koruna"),
-   // EEK("Estonian kroon"),
     DKK("Danish krone"),
     EUR("Euro"),
     GBP("Pound"),
@@ -20,8 +19,6 @@ public enum AvailableCurrencies {
     INR("Indian rupee"),
     JPY("Yen"),
     KRW("South Korean won"),
-//    LTL("Lithuanian litas"),
-//    LVL(""),
     MXN("Mexican Peso"),
     MYR("Malaysian ringgit"),
     NOK("Krona Norwegia"),
@@ -35,7 +32,8 @@ public enum AvailableCurrencies {
     THB("Thai baht"),
     TRY("Turkish Lira"),
     USD("Dolar"),
-    ZAR("Rand");
+    ZAR("Rand"),
+    ISK("Icelandic Krona");
 
     private final String fullName;
 

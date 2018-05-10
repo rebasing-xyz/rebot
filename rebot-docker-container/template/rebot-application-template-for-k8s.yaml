@@ -44,11 +44,6 @@ parameters:
   name: REBOT_TELEGRAM_CHAT_ID
   from: "[a-zA-Z]{6}[0-9]{1}!"
   required: true
-- displayName: Gitbook Token
-  description: "Token to interact with the JBoss Books on Gitbook. Note: This property will be removed in the next release."
-  name: REBOT_TELEGRAM_GITBOOK_ID
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  required: true
 - displayName: ReBot Custom http Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: <application-name>-<project>.<default-domain-suffix>'
