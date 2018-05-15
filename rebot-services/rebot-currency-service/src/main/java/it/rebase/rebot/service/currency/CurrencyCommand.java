@@ -25,30 +25,41 @@ package it.rebase.rebot.service.currency;
 
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
-import it.rebase.rebot.service.currency.provider.fixer.io.AvailableCurrencies;
-import it.rebase.rebot.service.currency.provider.fixer.io.FixerIO;
-import it.rebase.rebot.service.currency.provider.fixer.io.pojo.Rates;
-import it.rebase.rebot.service.currency.provider.fixer.io.pojo.ResponseBase;
-import org.apache.http.client.utils.URIBuilder;
+import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
+import it.rebase.rebot.service.currency.provider.ecb.AvailableCurrencies;
+import it.rebase.rebot.service.currency.provider.ecb.Currency;
+import it.rebase.rebot.service.currency.provider.ecb.ECBClient;
+import it.rebase.rebot.service.currency.provider.ecb.ECBHelper;
+import it.rebase.rebot.service.persistence.pojo.Cube;
+import org.infinispan.Cache;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
-import java.net.URISyntaxException;
-import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 @ApplicationScoped
 public class CurrencyCommand implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
+    @Inject
+    private ECBClient ecbClient;
+
+    @Inject
+    @CurrencyCache
+    private Cache<String, Cube> cache;
+
+    private List<Cube> cubes;
+
     @Override
     public void load() {
         log.fine("Loading command " + this.name());
+        ecbClient.startTimer();
+        ecbClient.getAndPersistDailyCurrencies();
     }
 
     @Override
@@ -61,88 +72,49 @@ public class CurrencyCommand implements CommandProvider {
         if (key.get().length() < 1) return "Parameter is required.";
 
         StringBuilder response = new StringBuilder();
-        String query = key.get().toUpperCase();
-        try {
-            URIBuilder builder = new URIBuilder(FixerIO.FIXER_IO_BASE_URL).setPath(FixerIO.LATEST);
-            String firstParameter = query.split(" ")[0].trim();
-            switch (firstParameter) {
+        Currency currency = new Currency(key.get().toUpperCase());
 
-                case "BASE":
-                    String base = query.split(" ")[1];
-                    // try to get Symbols
-                    String basesymbols = "";
-                    try {
-                        basesymbols = query.split(" ")[2];
-                    } catch (IndexOutOfBoundsException e) {
-                        basesymbols = FixerIO.DEFAULT_SYMBOLS;
-                    }
-                    builder.setParameter(FixerIO.BASE, base).setParameter(FixerIO.SYMBOLS, basesymbols);
-                    ResponseBase responseBase = (ResponseBase) new FixerIO().execute(builder.build().toString());
-                    response.append("Base: <b>" + base + "</b>\n");
-                    for (String symbol : basesymbols.split(",")) {
-                        if (!base.equals(symbol)) {
-                            response.append("   - 1 <b>" + base + "</b> = <code>" + getFieldValue(responseBase.getRates(), symbol) + "</code> ");
-                            response.append("<b>" + symbol + "</b>\n");
-                        }
-                    }
+        switch (currency.firstParameter()) {
 
-                    break;
-
-                case "EXRATE":
-                    Pattern EXRATE_PATTERN = Pattern.compile("(^\\d+)\\w{3}-\\w{3}$");
-                    //exrate 1 0 0 U S D - G B P
-                    String value = "";
-                    try {
-                        value = query.split(" ")[1];
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        response.append("Parameter for exrate nor found.");
-                    }
-
-                    if (EXRATE_PATTERN.matcher(value).find()) {
-                        int amount = Integer.parseInt(value.substring(0, value.length() - 7));
-                        String fromCurrency = value.substring(value.length() - 7, value.length() - 4);
-                        String toCurrency = value.substring(value.length() - 3, value.length());
-                        builder.setParameter(FixerIO.BASE, fromCurrency).setParameter(FixerIO.SYMBOLS, toCurrency);
-                        ResponseBase exrateResponseBase = (ResponseBase) new FixerIO().execute(builder.build().toString());
-                        response.append(amount + " " + fromCurrency);
-                        response.append(" = <b>");
-                        response.append(new DecimalFormat("#.##").
-                                format(amount * Double.parseDouble(getFieldValue(exrateResponseBase.getRates(), toCurrency))));
-                        response.append(toCurrency + "</b>");
-                    } else {
-                        response.append("Parameter " + value + " is not valid.");
-                    }
-                    break;
-
-                case "GET":
-                    response.append(Arrays.asList(AvailableCurrencies.class.getEnumConstants()));
-                    break;
-
-                case "NAME":
-                    String currency = query.split(" ")[1];
-                    try {
-                        response.append(AvailableCurrencies.valueOf(currency).fullName());
-                    } catch (final Exception e) {
-                        response.append("Currency not found: " + currency);
-                    }
-                    break;
-
-                default:
-                    String[] sym = firstParameter.split(",");
-                    builder.setParameter(FixerIO.BASE, FixerIO.DEFAULT_BASE_CURRENCY);
-                    builder.setParameter(FixerIO.SYMBOLS, firstParameter);
-                    ResponseBase defaultResponseBase = (ResponseBase) new FixerIO().execute(builder.build().toString());
-                    response.append("Base: <b>" + FixerIO.DEFAULT_BASE_CURRENCY + "</b>\n");
-                    for (String symbol : sym) {
-                        if (!FixerIO.DEFAULT_BASE_CURRENCY.equals(symbol)) {
-                            response.append("   - 1 <b>" + FixerIO.DEFAULT_BASE_CURRENCY + "</b> = <code>" + getFieldValue(defaultResponseBase.getRates(), symbol) + "</code> ");
+            case "BASE": // não ok
+                try {
+                    response.append("Base: <b>" + currency.baseCurrency() + "</b>\n");
+                    for (String symbol : currency.symbols()) {
+                        if (!currency.baseCurrency().equals(symbol)) {
+                            response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + currency.baseCurrency() + "</b> = ");
+                            response.append("<code>" + getCurrencyValue(currency.baseCurrency(), symbol, currency.exchangeValue()) + "</code> ");
                             response.append("<b>" + symbol.toUpperCase() + "</b>\n");
                         }
                     }
-                    break;
-            }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+                } catch (final Exception e) {
+                    response.append("Symbol <b> " + currency.baseCurrency() + " not supported");
+                }
+                break;
+
+            case "GET":
+                response.append(Arrays.asList(AvailableCurrencies.class.getEnumConstants()));
+                break;
+
+            case "NAME":
+                try {
+                    response.append(AvailableCurrencies.valueOf(currency.symbol()).fullName());
+                } catch (final Exception e) {
+                    response.append("Currency not found: " + currency.symbol());
+                }
+                break;
+
+            default:
+                for (String symb : currency.symbols()) {
+                    if (ECBHelper.DEFAULT_BASE_CURRENCY.equals(symb)) {
+                        response.append("The default base currency is " + ECBHelper.DEFAULT_BASE_CURRENCY + ", to use a different base currency use /currency base &#60;desired_currency&#62;\n");
+                    } else {
+                        response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + ECBHelper.DEFAULT_BASE_CURRENCY + "</b> = ");
+                        response.append("<code>" + getCurrencyValue(ECBHelper.DEFAULT_BASE_CURRENCY, symb, currency.exchangeValue()) + "</code> ");
+                        response.append("<b>" + symb.toUpperCase() + "</b>\n");
+                    }
+                }
+                response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
+                break;
         }
         return response.toString();
 
@@ -153,8 +125,8 @@ public class CurrencyCommand implements CommandProvider {
         StringBuilder response = new StringBuilder(this.name() + " - " + this.description() + ", base currency is USD.\n ");
         response.append("Ex: " + this.name() + " BRL - returns the BRL value based on USD, Also accepts more than one like BRL, EUR, GBP\n");
         response.append("Ex: " + this.name() + " base BRL USD,GBP,AUD - returns the values of USD, GBP and AUD based on BRL\n");
-        response.append("Ex: " + this.name() + " exrate 100USD-GBP - calculate the exchange rate of 100 USD to GPB\n");
-        response.append("Ex: " + this.name() + " get - returns all supported currencies");
+        response.append("Ex: " + this.name() + " For exchange rate use /currency or /currency base BASE_CURRENCY BRL 10\n");
+        response.append("Ex: " + this.name() + " get - returns all supported currencies\n");
         response.append("Ex: " + this.name() + " name EUR - returns the EUR currency name");
         return response.toString();
     }
@@ -164,16 +136,18 @@ public class CurrencyCommand implements CommandProvider {
         return "currency rates + exchange rate";
     }
 
-    private String getFieldValue(Rates rates, String fieldName) {
-        try {
-            Field field = rates.getClass().getDeclaredField(fieldName.toUpperCase());
-            field.setAccessible(true);
-            return field.get(rates).toString();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
 
+    private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate) {
+        try {
+            if (currencyID.equalsIgnoreCase("EUR")) {
+                return ECBHelper.calculateRateConversion(cache.get(baseCurrencyId), Optional.empty(), targetExrate);
+            }
+
+            Cube cube = cache.get(String.valueOf(AvailableCurrencies.valueOf(currencyID)));
+
+            return ECBHelper.calculateRateConversion(cache.get(baseCurrencyId), Optional.of(cube), targetExrate);
+        } catch (final Exception e) {
+            e.printStackTrace();
         }
         return "Currency not supported";
     }

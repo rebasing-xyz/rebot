@@ -21,33 +21,17 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.cache.producer;
+package it.rebase.rebot.service.cache.qualifier;
 
-import it.rebase.rebot.service.cache.qualifier.DefaultCache;
-import org.infinispan.cdi.embedded.ConfigureCache;
-import org.infinispan.configuration.cache.Configuration;
-import org.infinispan.configuration.cache.ConfigurationBuilder;
+import javax.inject.Qualifier;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
-
-@ApplicationScoped
-public class DefaultCacheProducer {
-
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
-    @Produces
-    @ConfigureCache("default-cache")
-    @DefaultCache
-    public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
-        log.info("Configuring default-cache...");
-        return new ConfigurationBuilder()
-                .indexing()
-                .autoConfig(true)
-                .addProperty("default.directory_provider", "ram")
-                .build();
-    }
-}
+@Qualifier
+@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface CurrencyCache {}

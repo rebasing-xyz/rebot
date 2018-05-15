@@ -23,7 +23,8 @@
 
 package it.rebase.rebot.service.cache.producer;
 
-import it.rebase.rebot.service.cache.qualifier.DefaultCache;
+import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
+import it.rebase.rebot.service.cache.qualifier.UrbanDictionaryCache;
 import org.infinispan.cdi.embedded.ConfigureCache;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
@@ -35,15 +36,15 @@ import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class DefaultCacheProducer {
+public class CurrencyCacheProducer {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Produces
-    @ConfigureCache("default-cache")
-    @DefaultCache
+    @ConfigureCache("currency-cache")
+    @CurrencyCache
     public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
-        log.info("Configuring default-cache...");
+        log.info("Configuring currency-cache...");
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)

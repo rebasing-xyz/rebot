@@ -23,15 +23,22 @@
 
 package it.rebase.rebot.service.packt;
 
+import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.service.packt.notifier.PacktNotifier;
 
+import javax.annotation.Resource;
+import javax.ejb.ScheduleExpression;
+import javax.ejb.TimerConfig;
+import javax.ejb.TimerService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
 import java.util.logging.Logger;
+
 
 @ApplicationScoped
 public class Packt implements CommandProvider {
@@ -41,11 +48,15 @@ public class Packt implements CommandProvider {
     @Inject
     PacktNotifier packtNotifier;
 
+    @Inject
+    @BotProperty(name = "it.rebase.rebot.packt.scheduler.timezone")
+    String timezone;
+
     @Override
     public void load() {
         log.fine("Loading command " + this.name());
-//        packtNotifier.populate(true);
-        packtNotifier.scheduler();
+        packtNotifier.populate(false);
+        packtNotifier.startTimer();
     }
 
     @Override

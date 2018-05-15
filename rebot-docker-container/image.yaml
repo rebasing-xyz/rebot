@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rebaseit/rebot-telegram-bot"
 description: "ReBot Telegram Bot container image"
-version: "1.0"
+version: "0.2-SNAPSHOT"
 from: "docker.io/openjdk:latest"
 labels:
     - name: "io.k8s.description"
@@ -15,11 +15,11 @@ labels:
       value: "javaee,wildfly-swarm,rebot"
 envs:
     - name: "REBOT_TELEGRAM_BOT_VERSION"
-      value: "1.0"
+      value: "0.2-SNAPSHOT"
     - name: "REBOT_HOME"
       value: "/opt/rebot"
     - name: "REBOT_SWARM_BINARY"
-      value: "rebot-telegram-bot-0.1-swarm.jar"
+      value: "rebot-telegram-bot-0.2-SNAPSHOT-swarm.jar"
     - name: "REBOT_TELEGRAM_LOG_LEVEL"
       example: "TRACE"
       description: "The log level, default is INFO"
@@ -41,9 +41,9 @@ modules:
           - name: rebot-prepare
           - name: configure-and-launch
 artifacts:
-    - name: rebot-telegram-bot-0.1-swarm.jar
-      url: https://repo.maven.apache.org/maven2/it/rebase/rebot-telegram-bot/0.1/rebot-telegram-bot-0.1-swarm.jar
-      md5: 0a607ae97d74b57cd05bbbab0ce277b8
+    - name: rebot-telegram-bot-0.2-SNAPSHOT-swarm.jar
+      url: http://nexus.severinocloud.com/nexus/content/groups/public/it/rebase/rebot-telegram-bot/0.2-SNAPSHOT/rebot-telegram-bot-0.2-20180507.131133-1-swarm.jar
+      md5: 7f6a6c78af2b3c9812d45c27e6509eb8
 run:
       user: 185
       cmd:
