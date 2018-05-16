@@ -1,4 +1,4 @@
-# ReBot Ping Service
+# ReBot Ping Plugin
 
 
 Usage:
