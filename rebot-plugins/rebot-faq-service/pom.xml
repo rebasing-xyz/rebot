@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>ReBot - Faq Service Provider</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-services/rebot-faq-service</url>
+    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-faq-plugin</url>
 
     <description>
        /faq command implementation.
@@ -34,13 +34,13 @@
 
     <parent>
         <groupId>it.rebase</groupId>
-        <artifactId>rebot-services-parent</artifactId>
+        <artifactId>rebot-plugins-parent</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-faq-service</artifactId>
+    <artifactId>rebot-faq-plugin</artifactId>
     <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 

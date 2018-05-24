@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.faq.pojo;
+package it.rebase.rebot.plugin.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.search.annotations.Analyze;

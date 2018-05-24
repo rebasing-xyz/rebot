@@ -37,7 +37,7 @@ public class Ping implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command  " + this.name());
+        log.fine("Loading command " + this.name());
     }
 
     @Override

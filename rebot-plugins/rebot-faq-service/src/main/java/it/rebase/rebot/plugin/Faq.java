@@ -21,12 +21,12 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.faq;
+package it.rebase.rebot.plugin;
 
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
+import it.rebase.rebot.plugin.pojo.Project;
 import it.rebase.rebot.service.cache.qualifier.FaqCache;
-import it.rebase.rebot.service.faq.pojo.Project;
 import org.infinispan.Cache;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -37,13 +37,13 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class FaqCommand implements CommandProvider {
+public class Faq implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     @Any
-    FaqService service;
+    FaqHelper service;
 
     @Inject
     @FaqCache()

@@ -189,8 +189,8 @@
             <!-- rebot dependencies -->
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-faq-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-faq-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
@@ -199,8 +199,8 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-ping-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-ping-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>

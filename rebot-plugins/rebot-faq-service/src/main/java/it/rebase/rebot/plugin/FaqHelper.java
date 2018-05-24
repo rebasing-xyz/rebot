@@ -21,11 +21,11 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.faq;
+package it.rebase.rebot.plugin;
 
 import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.plugin.pojo.Project;
 import it.rebase.rebot.service.cache.qualifier.FaqCache;
-import it.rebase.rebot.service.faq.pojo.Project;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.infinispan.Cache;
@@ -33,7 +33,6 @@ import org.infinispan.Cache;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
@@ -45,7 +44,7 @@ import java.util.stream.Collectors;
 @Stateless
 @LocalBean
 @Dependent
-public class FaqService {
+public class FaqHelper {
 
     public static final String JSON_SOURCE_LOCATION = "https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-services/rebot-faq-service/src/main/resources/META-INF/faq-properties.json";
 
@@ -54,7 +53,7 @@ public class FaqService {
     private final String PROJECT_NOT_FOUND_MESSAGE = "Ooops, I didn't find any project with the name <b>%s</b>. " + Emoji.DISAPPOINTED_FACE;
 
     @Inject
-    @FaqCache(classToIndex = "it.rebase.rebot.service.faq.pojo.Project")
+    @FaqCache(classToIndex = "Project")
     private Cache<String, Project> cache;
 
 

@@ -93,7 +93,7 @@
         <!-- plugins e serviços -->
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-ping-service</artifactId>
+            <artifactId>rebot-ping-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
@@ -105,7 +105,7 @@
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-faq-service</artifactId>
+            <artifactId>rebot-faq-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
