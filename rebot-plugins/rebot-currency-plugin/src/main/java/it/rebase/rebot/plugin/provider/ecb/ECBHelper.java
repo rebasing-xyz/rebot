@@ -1,4 +1,4 @@
-package it.rebase.rebot.service.currency.provider.ecb;
+package it.rebase.rebot.plugin.provider.ecb;
 
 import it.rebase.rebot.service.persistence.pojo.Cube;
 

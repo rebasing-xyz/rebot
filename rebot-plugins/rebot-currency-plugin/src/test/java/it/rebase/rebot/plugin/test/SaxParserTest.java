@@ -21,10 +21,10 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.currency.test;
+package it.rebase.rebot.plugin.test;
 
-import it.rebase.rebot.service.currency.provider.ecb.AvailableCurrencies;
-import it.rebase.rebot.service.currency.provider.ecb.EcbSaxHandler;
+import it.rebase.rebot.plugin.provider.ecb.AvailableCurrencies;
+import it.rebase.rebot.plugin.provider.ecb.EcbSaxHandler;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;

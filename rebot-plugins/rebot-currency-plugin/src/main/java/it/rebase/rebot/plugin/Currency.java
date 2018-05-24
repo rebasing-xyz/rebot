@@ -21,15 +21,15 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.currency;
+package it.rebase.rebot.plugin;
 
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
-import it.rebase.rebot.service.currency.provider.ecb.AvailableCurrencies;
-import it.rebase.rebot.service.currency.provider.ecb.Currency;
-import it.rebase.rebot.service.currency.provider.ecb.ECBClient;
-import it.rebase.rebot.service.currency.provider.ecb.ECBHelper;
+import it.rebase.rebot.plugin.provider.ecb.AvailableCurrencies;
+import it.rebase.rebot.plugin.provider.ecb.CurrencyObject;
+import it.rebase.rebot.plugin.provider.ecb.ECBClient;
+import it.rebase.rebot.plugin.provider.ecb.ECBHelper;
 import it.rebase.rebot.service.persistence.pojo.Cube;
 import org.infinispan.Cache;
 
@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class CurrencyCommand implements CommandProvider {
+public class Currency implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
@@ -72,7 +72,7 @@ public class CurrencyCommand implements CommandProvider {
         if (key.get().length() < 1) return "Parameter is required.";
 
         StringBuilder response = new StringBuilder();
-        Currency currency = new Currency(key.get().toUpperCase());
+        CurrencyObject currency = new CurrencyObject(key.get().toUpperCase());
 
         switch (currency.firstParameter()) {
 

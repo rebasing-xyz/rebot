@@ -21,7 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.currency.provider.ecb;
+package it.rebase.rebot.plugin.provider.ecb;
 
 import it.rebase.rebot.service.persistence.pojo.Cube;
 import it.rebase.rebot.service.persistence.pojo.Cubes;

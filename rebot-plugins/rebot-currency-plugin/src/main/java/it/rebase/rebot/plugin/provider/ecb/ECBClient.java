@@ -1,8 +1,7 @@
-package it.rebase.rebot.service.currency.provider.ecb;
+package it.rebase.rebot.plugin.provider.ecb;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
-import it.rebase.rebot.service.persistence.pojo.Cube;
 import it.rebase.rebot.service.persistence.repository.EcbRepository;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.CookieSpecs;

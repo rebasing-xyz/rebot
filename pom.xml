@@ -234,7 +234,7 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-currency-service</artifactId>
+                <artifactId>rebot-currency-plugin</artifactId>
                 <version>${version.it.rebase.rebot.services}</version>
             </dependency>
 

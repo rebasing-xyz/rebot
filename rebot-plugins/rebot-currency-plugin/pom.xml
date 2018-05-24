@@ -2,7 +2,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>ReBot - Currency Service Provider</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-services/rebot-currency-service</url>
+    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-currency-plugin</url>
 
     <description>
         /currency command implementation.
@@ -10,13 +10,13 @@
 
     <parent>
         <groupId>it.rebase</groupId>
-        <artifactId>rebot-services-parent</artifactId>
+        <artifactId>rebot-plugins-parent</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-currency-service</artifactId>
+    <artifactId>rebot-currency-plugin</artifactId>
     <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 

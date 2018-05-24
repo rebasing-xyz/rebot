@@ -68,7 +68,6 @@
 
     <!-- Services -->
     <modules>
-        <module>rebot-faq-service</module>
         <module>rebot-cache-service</module>
         <module>rebot-uptime-service</module>
         <module>rebot-urban-dictionary-service</module>
@@ -76,7 +75,6 @@
         <module>rebot-jboss-books-service</module>
         <module>rebot-weather-service</module>
         <module>rebot-packt-free-learning-service</module>
-        <module>rebot-currency-service</module>
     </modules>
 
 </project>

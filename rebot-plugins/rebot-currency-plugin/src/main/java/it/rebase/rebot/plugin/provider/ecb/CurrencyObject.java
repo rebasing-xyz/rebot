@@ -21,15 +21,15 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.currency.provider.ecb;
+package it.rebase.rebot.plugin.provider.ecb;
 
-public class Currency {
+public class CurrencyObject {
 
     private String query;
     private String firstParameter;
     private int exchangeValue;
 
-    public Currency(String query) {
+    public CurrencyObject(String query) {
         this.firstParameter = query.split(" ")[0].trim();
         this.exchangeValue = 1;
         this.query = query;

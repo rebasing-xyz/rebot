@@ -1,4 +1,4 @@
-package it.rebase.rebot.service.currency.provider.ecb;
+package it.rebase.rebot.plugin.provider.ecb;
 
 public enum AvailableCurrencies {
     AUD("Australian dollar"),

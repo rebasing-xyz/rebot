@@ -22,10 +22,10 @@
  */
 
 
-package it.rebase.rebot.service.currency.test;
+package it.rebase.rebot.plugin.test;
 
-import it.rebase.rebot.service.currency.provider.ecb.Currency;
-import it.rebase.rebot.service.currency.provider.ecb.ECBHelper;
+import it.rebase.rebot.plugin.provider.ecb.CurrencyObject;
+import it.rebase.rebot.plugin.provider.ecb.ECBHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class CurrencyObjectTest {
     @Test
     public void testCurrencyDefault() {
         // this will simulate a full command coming from a chat without command prefix
-        Currency currency = new Currency("brl,gbp,usd");
+        CurrencyObject currency = new CurrencyObject("brl,gbp,usd");
         String[] expected = {"brl", "gbp", "usd"};
         Assert.assertArrayEquals(expected, currency.symbols());
     }
@@ -45,7 +45,7 @@ public class CurrencyObjectTest {
     @Test
     public void testCurrencyObjectFirstParameter() {
         // this will simulate a full command coming from a chat without command prefix
-        Currency currency = new Currency("base eur brl,gbp,usd");
+        CurrencyObject currency = new CurrencyObject("base eur brl,gbp,usd");
         String[] expected = {"brl", "gbp", "usd"};
         Assert.assertEquals("base", currency.firstParameter());
         Assert.assertEquals("eur", currency.baseCurrency());
@@ -54,14 +54,14 @@ public class CurrencyObjectTest {
 
     @Test
     public void testCurrencyNameParameter() {
-        Currency currency = new Currency("name gbp");
+        CurrencyObject currency = new CurrencyObject("name gbp");
         Assert.assertEquals("name", currency.firstParameter());
         Assert.assertEquals("gbp", currency.symbol());
     }
 
     @Test
     public void testCurrencyWithAmount() {
-        Currency currency = new Currency("brl,gbp,usd 25");
+        CurrencyObject currency = new CurrencyObject("brl,gbp,usd 25");
         String[] expected = {"brl", "gbp", "usd"};
         Assert.assertArrayEquals(expected, currency.symbols());
         Assert.assertEquals(25, currency.exchangeValue());
@@ -69,7 +69,7 @@ public class CurrencyObjectTest {
 
     @Test
     public void testCurrencyWithDefaultAmount() {
-        Currency currency = new Currency("brl,gbp,usd");
+        CurrencyObject currency = new CurrencyObject("brl,gbp,usd");
         String[] expected = {"brl", "gbp", "usd"};
         Assert.assertArrayEquals(expected, currency.symbols());
         Assert.assertEquals(1, currency.exchangeValue());
@@ -77,7 +77,7 @@ public class CurrencyObjectTest {
 
     @Test
     public void testCurrencyAmount() {
-        Currency currency = new Currency("brl, gbp 5");
+        CurrencyObject currency = new CurrencyObject("brl, gbp 5");
         String[] expected = {"brl", "gbp"};
         Assert.assertArrayEquals(expected, currency.symbols());
         Assert.assertEquals(5, currency.exchangeValue());
@@ -85,7 +85,7 @@ public class CurrencyObjectTest {
 
     @Test
     public void testCurrencyAmountMultipleSpacesOnCurrencies() {
-        Currency currency = new Currency("brl, gbp , zar 5");
+        CurrencyObject currency = new CurrencyObject("brl, gbp , zar 5");
         String[] expected = {"brl", "gbp", "zar"};
         Assert.assertArrayEquals(expected, currency.symbols());
         Assert.assertEquals(5, currency.exchangeValue());
@@ -94,7 +94,7 @@ public class CurrencyObjectTest {
     @Test
     public void testCurrencyBaseWithAmount() {
         // this will simulate a full command coming from a chat without command prefix
-        Currency currency = new Currency("base eur brl,gbp,usd 48");
+        CurrencyObject currency = new CurrencyObject("base eur brl,gbp,usd 48");
         String[] expected = {"brl", "gbp", "usd"};
         Assert.assertEquals("base", currency.firstParameter());
         Assert.assertEquals("eur", currency.baseCurrency());
@@ -105,7 +105,7 @@ public class CurrencyObjectTest {
     @Test
     public void testCurrencyBaseDefaultSymbols() {
         // this will simulate a full command coming from a chat without command prefix
-        Currency currency = new Currency("base eur");
+        CurrencyObject currency = new CurrencyObject("base eur");
         Assert.assertEquals("base", currency.firstParameter());
         Assert.assertEquals("eur", currency.baseCurrency());
         Assert.assertArrayEquals(ECBHelper.DEFAULT_SYMBOLS.split(","), currency.symbols());
@@ -114,7 +114,7 @@ public class CurrencyObjectTest {
     @Test
     public void testCurrencyBaseDefaultSymbolswithAmount() {
         // this will simulate a full command coming from a chat without command prefix
-        Currency currency = new Currency("base brl 45");
+        CurrencyObject currency = new CurrencyObject("base brl 45");
         Assert.assertEquals("base", currency.firstParameter());
         Assert.assertEquals("brl", currency.baseCurrency());
         System.out.println("LOL " + Arrays.asList(currency.symbols()));

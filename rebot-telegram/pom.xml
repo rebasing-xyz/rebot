@@ -129,7 +129,7 @@
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-currency-service</artifactId>
+            <artifactId>rebot-currency-plugin</artifactId>
         </dependency>
 
     </dependencies>
