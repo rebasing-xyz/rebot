@@ -204,8 +204,8 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-uptime-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-uptime-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>

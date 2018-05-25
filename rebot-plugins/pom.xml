@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>ReBot - Telegram Bot Plugins Parent</name>
+    <name>ReBot - Plugins Parent</name>
     <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins</url>
 
     <description>
@@ -75,6 +75,7 @@
         <module>rebot-packt-free-learning-plugin</module>
         <module>rebot-ping-plugin</module>
         <module>rebot-sed-plugin</module>
+        <module>rebot-uptime-plugin</module>
         <module>rebot-welcome-message-plugin</module>
     </modules>
 

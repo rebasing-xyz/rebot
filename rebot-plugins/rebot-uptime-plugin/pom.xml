@@ -25,8 +25,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Uptime Service Provider</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-services/rebot-uptime-service</url>
+    <name>ReBot - Uptime Plugin</name>
+    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-uptime-plugin</url>
 
     <description>
         Implementation of /uptime command
@@ -34,13 +34,13 @@
 
     <parent>
         <groupId>it.rebase</groupId>
-        <artifactId>rebot-services-parent</artifactId>
+        <artifactId>rebot-plugins-parent</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-uptime-service</artifactId>
+    <artifactId>rebot-uptime-plugin</artifactId>
     <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 

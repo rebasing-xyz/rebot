@@ -69,7 +69,6 @@
     <!-- Services -->
     <modules>
         <module>rebot-cache-service</module>
-        <module>rebot-uptime-service</module>
         <module>rebot-urban-dictionary-service</module>
         <module>rebot-persistence-service</module>
         <module>rebot-jboss-books-service</module>

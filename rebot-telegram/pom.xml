@@ -97,7 +97,7 @@
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-uptime-service</artifactId>
+            <artifactId>rebot-uptime-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
