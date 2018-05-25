@@ -25,23 +25,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Telegram Bot Services Parent</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-services</url>
+    <name>ReBot - Urban Dictionary Plugin</name>
+    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-urban-dictionary-plugin</url>
 
     <description>
-        Services Parent pom
+        Implementation of /urban command
     </description>
 
     <parent>
         <groupId>it.rebase</groupId>
-        <artifactId>rebot-parent</artifactId>
+        <artifactId>rebot-plugins-parent</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
 
+    <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-services-parent</artifactId>
+    <artifactId>rebot-urban-dictionary-plugin</artifactId>
     <version>0.2-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <licenses>
         <license>
@@ -66,12 +67,29 @@
         <tag>rebot-parent-0.1</tag>
     </scm>
 
-    <!-- Services -->
-    <modules>
-        <module>rebot-cache-service</module>
-        <module>rebot-persistence-service</module>
-        <module>rebot-jboss-books-service</module>
-        <module>rebot-weather-service</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+        </dependency>
 
+        <!-- rebot dependencies -->
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-telegram-api-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-cache-service</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 </project>

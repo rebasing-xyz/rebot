@@ -101,7 +101,7 @@
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-urban-dictionary-service</artifactId>
+            <artifactId>rebot-urban-dictionary-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>

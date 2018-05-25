@@ -224,8 +224,8 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-urban-dictionary-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-urban-dictionary-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
