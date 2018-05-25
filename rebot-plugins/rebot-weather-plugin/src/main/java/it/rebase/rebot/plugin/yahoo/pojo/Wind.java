@@ -21,7 +21,8 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
+
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -33,23 +34,49 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "query"
+        "chill",
+        "direction",
+        "speed"
 })
-public class YahooQueryResponse {
+public class Wind {
 
-    @JsonProperty("query")
-    private Query query;
+    @JsonProperty("chill")
+    private String chill;
+    @JsonProperty("direction")
+    private String direction;
+    @JsonProperty("speed")
+    private String speed;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("query")
-    public Query getQuery() {
-        return query;
+    @JsonProperty("chill")
+    public String getChill() {
+        return chill;
     }
 
-    @JsonProperty("query")
-    public void setQuery(Query query) {
-        this.query = query;
+    @JsonProperty("chill")
+    public void setChill(String chill) {
+        this.chill = chill;
+    }
+
+    @JsonProperty("direction")
+    public String getDirection() {
+        return direction;
+    }
+
+    @JsonProperty("direction")
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    @JsonProperty("speed")
+    public String getSpeed() {
+        return speed;
+    }
+
+    @JsonProperty("speed")
+    public void setSpeed(String speed) {
+        this.speed = speed;
     }
 
     @JsonAnyGetter

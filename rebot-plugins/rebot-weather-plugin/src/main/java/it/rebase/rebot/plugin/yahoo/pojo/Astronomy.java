@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,49 +34,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "city",
-        "country",
-        "region"
+        "sunrise",
+        "sunset"
 })
-public class Location {
+public class Astronomy {
 
-    @JsonProperty("city")
-    private String city;
-    @JsonProperty("country")
-    private String country;
-    @JsonProperty("region")
-    private String region;
+    @JsonProperty("sunrise")
+    private String sunrise;
+    @JsonProperty("sunset")
+    private String sunset;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("city")
-    public String getCity() {
-        return city;
+    @JsonProperty("sunrise")
+    public String getSunrise() {
+        return sunrise;
     }
 
-    @JsonProperty("city")
-    public void setCity(String city) {
-        this.city = city;
+    @JsonProperty("sunrise")
+    public void setSunrise(String sunrise) {
+        this.sunrise = sunrise;
     }
 
-    @JsonProperty("country")
-    public String getCountry() {
-        return country;
+    @JsonProperty("sunset")
+    public String getSunset() {
+        return sunset;
     }
 
-    @JsonProperty("country")
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    @JsonProperty("region")
-    public String getRegion() {
-        return region;
-    }
-
-    @JsonProperty("region")
-    public void setRegion(String region) {
-        this.region = region;
+    @JsonProperty("sunset")
+    public void setSunset(String sunset) {
+        this.sunset = sunset;
     }
 
     @JsonAnyGetter

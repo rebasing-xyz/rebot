@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;

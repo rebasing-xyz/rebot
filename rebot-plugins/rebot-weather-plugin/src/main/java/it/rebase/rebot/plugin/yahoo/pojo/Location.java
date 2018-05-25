@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,62 +34,49 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "code",
-        "date",
-        "temp",
-        "text"
+        "city",
+        "country",
+        "region"
 })
-public class Condition {
+public class Location {
 
-    @JsonProperty("code")
-    private String code;
-    @JsonProperty("date")
-    private String date;
-    @JsonProperty("temp")
-    private int temp;
-    @JsonProperty("text")
-    private String text;
+    @JsonProperty("city")
+    private String city;
+    @JsonProperty("country")
+    private String country;
+    @JsonProperty("region")
+    private String region;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("code")
-    public String getCode() {
-        return code;
+    @JsonProperty("city")
+    public String getCity() {
+        return city;
     }
 
-    @JsonProperty("code")
-    public void setCode(String code) {
-        this.code = code;
+    @JsonProperty("city")
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    @JsonProperty("date")
-    public String getDate() {
-        return date;
+    @JsonProperty("country")
+    public String getCountry() {
+        return country;
     }
 
-    @JsonProperty("date")
-    public void setDate(String date) {
-        this.date = date;
+    @JsonProperty("country")
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    @JsonProperty("temp")
-    public int getTemp() {
-        return temp;
+    @JsonProperty("region")
+    public String getRegion() {
+        return region;
     }
 
-    @JsonProperty("temp")
-    public void setTemp(int temp) {
-        this.temp = temp;
-    }
-
-    @JsonProperty("text")
-    public String getText() {
-        return text;
-    }
-
-    @JsonProperty("text")
-    public void setText(String text) {
-        this.text = text;
+    @JsonProperty("region")
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     @JsonAnyGetter

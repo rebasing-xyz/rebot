@@ -21,11 +21,11 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo;
+package it.rebase.rebot.plugin.yahoo;
 
-import it.rebase.rebot.service.weather.yahoo.pojo.Item;
-import it.rebase.rebot.service.weather.yahoo.pojo.Query;
-import it.rebase.rebot.service.weather.yahoo.pojo.YahooQueryResponse;
+import it.rebase.rebot.plugin.yahoo.pojo.Item;
+import it.rebase.rebot.plugin.yahoo.pojo.Query;
+import it.rebase.rebot.plugin.yahoo.pojo.YahooQueryResponse;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

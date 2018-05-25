@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,36 +34,62 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "sunrise",
-        "sunset"
+        "humidity",
+        "pressure",
+        "rising",
+        "visibility"
 })
-public class Astronomy {
+public class Atmosphere {
 
-    @JsonProperty("sunrise")
-    private String sunrise;
-    @JsonProperty("sunset")
-    private String sunset;
+    @JsonProperty("humidity")
+    private String humidity;
+    @JsonProperty("pressure")
+    private String pressure;
+    @JsonProperty("rising")
+    private String rising;
+    @JsonProperty("visibility")
+    private String visibility;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("sunrise")
-    public String getSunrise() {
-        return sunrise;
+    @JsonProperty("humidity")
+    public String getHumidity() {
+        return humidity;
     }
 
-    @JsonProperty("sunrise")
-    public void setSunrise(String sunrise) {
-        this.sunrise = sunrise;
+    @JsonProperty("humidity")
+    public void setHumidity(String humidity) {
+        this.humidity = humidity;
     }
 
-    @JsonProperty("sunset")
-    public String getSunset() {
-        return sunset;
+    @JsonProperty("pressure")
+    public String getPressure() {
+        return pressure;
     }
 
-    @JsonProperty("sunset")
-    public void setSunset(String sunset) {
-        this.sunset = sunset;
+    @JsonProperty("pressure")
+    public void setPressure(String pressure) {
+        this.pressure = pressure;
+    }
+
+    @JsonProperty("rising")
+    public String getRising() {
+        return rising;
+    }
+
+    @JsonProperty("rising")
+    public void setRising(String rising) {
+        this.rising = rising;
+    }
+
+    @JsonProperty("visibility")
+    public String getVisibility() {
+        return visibility;
+    }
+
+    @JsonProperty("visibility")
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 
     @JsonAnyGetter

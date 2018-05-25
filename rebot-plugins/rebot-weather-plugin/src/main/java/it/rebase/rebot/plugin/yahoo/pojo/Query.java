@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,75 +34,62 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "title",
-        "width",
-        "height",
-        "link",
-        "url"
+        "count",
+        "created",
+        "lang",
+        "results"
 })
-public class Image {
+public class Query {
 
-    @JsonProperty("title")
-    private String title;
-    @JsonProperty("width")
-    private String width;
-    @JsonProperty("height")
-    private String height;
-    @JsonProperty("link")
-    private String link;
-    @JsonProperty("url")
-    private String url;
+    @JsonProperty("count")
+    private Integer count;
+    @JsonProperty("created")
+    private String created;
+    @JsonProperty("lang")
+    private String lang;
+    @JsonProperty("results")
+    private Results results;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("title")
-    public String getTitle() {
-        return title;
+    @JsonProperty("count")
+    public Integer getCount() {
+        return count;
     }
 
-    @JsonProperty("title")
-    public void setTitle(String title) {
-        this.title = title;
+    @JsonProperty("count")
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
-    @JsonProperty("width")
-    public String getWidth() {
-        return width;
+    @JsonProperty("created")
+    public String getCreated() {
+        return created;
     }
 
-    @JsonProperty("width")
-    public void setWidth(String width) {
-        this.width = width;
+    @JsonProperty("created")
+    public void setCreated(String created) {
+        this.created = created;
     }
 
-    @JsonProperty("height")
-    public String getHeight() {
-        return height;
+    @JsonProperty("lang")
+    public String getLang() {
+        return lang;
     }
 
-    @JsonProperty("height")
-    public void setHeight(String height) {
-        this.height = height;
+    @JsonProperty("lang")
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
-    @JsonProperty("link")
-    public String getLink() {
-        return link;
+    @JsonProperty("results")
+    public Results getResults() {
+        return results;
     }
 
-    @JsonProperty("link")
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    @JsonProperty("url")
-    public String getUrl() {
-        return url;
-    }
-
-    @JsonProperty("url")
-    public void setUrl(String url) {
-        this.url = url;
+    @JsonProperty("results")
+    public void setResults(Results results) {
+        this.results = results;
     }
 
     @JsonAnyGetter

@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,62 +34,62 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "count",
-        "created",
-        "lang",
-        "results"
+        "code",
+        "date",
+        "temp",
+        "text"
 })
-public class Query {
+public class Condition {
 
-    @JsonProperty("count")
-    private Integer count;
-    @JsonProperty("created")
-    private String created;
-    @JsonProperty("lang")
-    private String lang;
-    @JsonProperty("results")
-    private Results results;
+    @JsonProperty("code")
+    private String code;
+    @JsonProperty("date")
+    private String date;
+    @JsonProperty("temp")
+    private int temp;
+    @JsonProperty("text")
+    private String text;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("count")
-    public Integer getCount() {
-        return count;
+    @JsonProperty("code")
+    public String getCode() {
+        return code;
     }
 
-    @JsonProperty("count")
-    public void setCount(Integer count) {
-        this.count = count;
+    @JsonProperty("code")
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    @JsonProperty("created")
-    public String getCreated() {
-        return created;
+    @JsonProperty("date")
+    public String getDate() {
+        return date;
     }
 
-    @JsonProperty("created")
-    public void setCreated(String created) {
-        this.created = created;
+    @JsonProperty("date")
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    @JsonProperty("lang")
-    public String getLang() {
-        return lang;
+    @JsonProperty("temp")
+    public int getTemp() {
+        return temp;
     }
 
-    @JsonProperty("lang")
-    public void setLang(String lang) {
-        this.lang = lang;
+    @JsonProperty("temp")
+    public void setTemp(int temp) {
+        this.temp = temp;
     }
 
-    @JsonProperty("results")
-    public Results getResults() {
-        return results;
+    @JsonProperty("text")
+    public String getText() {
+        return text;
     }
 
-    @JsonProperty("results")
-    public void setResults(Results results) {
-        this.results = results;
+    @JsonProperty("text")
+    public void setText(String text) {
+        this.text = text;
     }
 
     @JsonAnyGetter

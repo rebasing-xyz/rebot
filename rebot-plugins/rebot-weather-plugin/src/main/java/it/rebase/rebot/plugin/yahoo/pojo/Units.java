@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,39 +34,42 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "chill",
-        "direction",
-        "speed"
+        "distance",
+        "pressure",
+        "speed",
+        "temperature"
 })
-public class Wind {
+public class Units {
 
-    @JsonProperty("chill")
-    private String chill;
-    @JsonProperty("direction")
-    private String direction;
+    @JsonProperty("distance")
+    private String distance;
+    @JsonProperty("pressure")
+    private String pressure;
     @JsonProperty("speed")
     private String speed;
+    @JsonProperty("temperature")
+    private String temperature;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("chill")
-    public String getChill() {
-        return chill;
+    @JsonProperty("distance")
+    public String getDistance() {
+        return distance;
     }
 
-    @JsonProperty("chill")
-    public void setChill(String chill) {
-        this.chill = chill;
+    @JsonProperty("distance")
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
-    @JsonProperty("direction")
-    public String getDirection() {
-        return direction;
+    @JsonProperty("pressure")
+    public String getPressure() {
+        return pressure;
     }
 
-    @JsonProperty("direction")
-    public void setDirection(String direction) {
-        this.direction = direction;
+    @JsonProperty("pressure")
+    public void setPressure(String pressure) {
+        this.pressure = pressure;
     }
 
     @JsonProperty("speed")
@@ -77,6 +80,16 @@ public class Wind {
     @JsonProperty("speed")
     public void setSpeed(String speed) {
         this.speed = speed;
+    }
+
+    @JsonProperty("temperature")
+    public String getTemperature() {
+        return temperature;
+    }
+
+    @JsonProperty("temperature")
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
     }
 
     @JsonAnyGetter

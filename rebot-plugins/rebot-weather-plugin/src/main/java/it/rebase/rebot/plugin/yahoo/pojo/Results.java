@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,88 +34,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "code",
-        "date",
-        "day",
-        "high",
-        "low",
-        "text"
+        "channel"
 })
-public class Forecast {
+public class Results {
 
-    @JsonProperty("code")
-    private String code;
-    @JsonProperty("date")
-    private String date;
-    @JsonProperty("day")
-    private String day;
-    @JsonProperty("high")
-    private String high;
-    @JsonProperty("low")
-    private String low;
-    @JsonProperty("text")
-    private String text;
+    @JsonProperty("channel")
+    private Channel channel;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("code")
-    public String getCode() {
-        return code;
+    @JsonProperty("channel")
+    public Channel getChannel() {
+        return channel;
     }
 
-    @JsonProperty("code")
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    @JsonProperty("date")
-    public String getDate() {
-        return date;
-    }
-
-    @JsonProperty("date")
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    @JsonProperty("day")
-    public String getDay() {
-        return day;
-    }
-
-    @JsonProperty("day")
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    @JsonProperty("high")
-    public String getHigh() {
-        return high;
-    }
-
-    @JsonProperty("high")
-    public void setHigh(String high) {
-        this.high = high;
-    }
-
-    @JsonProperty("low")
-    public String getLow() {
-        return low;
-    }
-
-    @JsonProperty("low")
-    public void setLow(String low) {
-        this.low = low;
-    }
-
-    @JsonProperty("text")
-    public String getText() {
-        return text;
-    }
-
-    @JsonProperty("text")
-    public void setText(String text) {
-        this.text = text;
+    @JsonProperty("channel")
+    public void setChannel(Channel channel) {
+        this.channel = channel;
     }
 
     @JsonAnyGetter

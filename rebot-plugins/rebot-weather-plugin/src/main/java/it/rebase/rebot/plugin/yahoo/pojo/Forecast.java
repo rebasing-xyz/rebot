@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,62 +34,88 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "distance",
-        "pressure",
-        "speed",
-        "temperature"
+        "code",
+        "date",
+        "day",
+        "high",
+        "low",
+        "text"
 })
-public class Units {
+public class Forecast {
 
-    @JsonProperty("distance")
-    private String distance;
-    @JsonProperty("pressure")
-    private String pressure;
-    @JsonProperty("speed")
-    private String speed;
-    @JsonProperty("temperature")
-    private String temperature;
+    @JsonProperty("code")
+    private String code;
+    @JsonProperty("date")
+    private String date;
+    @JsonProperty("day")
+    private String day;
+    @JsonProperty("high")
+    private String high;
+    @JsonProperty("low")
+    private String low;
+    @JsonProperty("text")
+    private String text;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("distance")
-    public String getDistance() {
-        return distance;
+    @JsonProperty("code")
+    public String getCode() {
+        return code;
     }
 
-    @JsonProperty("distance")
-    public void setDistance(String distance) {
-        this.distance = distance;
+    @JsonProperty("code")
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    @JsonProperty("pressure")
-    public String getPressure() {
-        return pressure;
+    @JsonProperty("date")
+    public String getDate() {
+        return date;
     }
 
-    @JsonProperty("pressure")
-    public void setPressure(String pressure) {
-        this.pressure = pressure;
+    @JsonProperty("date")
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    @JsonProperty("speed")
-    public String getSpeed() {
-        return speed;
+    @JsonProperty("day")
+    public String getDay() {
+        return day;
     }
 
-    @JsonProperty("speed")
-    public void setSpeed(String speed) {
-        this.speed = speed;
+    @JsonProperty("day")
+    public void setDay(String day) {
+        this.day = day;
     }
 
-    @JsonProperty("temperature")
-    public String getTemperature() {
-        return temperature;
+    @JsonProperty("high")
+    public String getHigh() {
+        return high;
     }
 
-    @JsonProperty("temperature")
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
+    @JsonProperty("high")
+    public void setHigh(String high) {
+        this.high = high;
+    }
+
+    @JsonProperty("low")
+    public String getLow() {
+        return low;
+    }
+
+    @JsonProperty("low")
+    public void setLow(String low) {
+        this.low = low;
+    }
+
+    @JsonProperty("text")
+    public String getText() {
+        return text;
+    }
+
+    @JsonProperty("text")
+    public void setText(String text) {
+        this.text = text;
     }
 
     @JsonAnyGetter

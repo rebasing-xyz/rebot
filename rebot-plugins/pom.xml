@@ -77,6 +77,7 @@
         <module>rebot-sed-plugin</module>
         <module>rebot-urban-dictionary-plugin</module>
         <module>rebot-uptime-plugin</module>
+        <module>rebot-weather-plugin</module>
         <module>rebot-welcome-message-plugin</module>
     </modules>
 

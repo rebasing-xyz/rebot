@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
+package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,62 +34,75 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "humidity",
-        "pressure",
-        "rising",
-        "visibility"
+        "title",
+        "width",
+        "height",
+        "link",
+        "url"
 })
-public class Atmosphere {
+public class Image {
 
-    @JsonProperty("humidity")
-    private String humidity;
-    @JsonProperty("pressure")
-    private String pressure;
-    @JsonProperty("rising")
-    private String rising;
-    @JsonProperty("visibility")
-    private String visibility;
+    @JsonProperty("title")
+    private String title;
+    @JsonProperty("width")
+    private String width;
+    @JsonProperty("height")
+    private String height;
+    @JsonProperty("link")
+    private String link;
+    @JsonProperty("url")
+    private String url;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("humidity")
-    public String getHumidity() {
-        return humidity;
+    @JsonProperty("title")
+    public String getTitle() {
+        return title;
     }
 
-    @JsonProperty("humidity")
-    public void setHumidity(String humidity) {
-        this.humidity = humidity;
+    @JsonProperty("title")
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @JsonProperty("pressure")
-    public String getPressure() {
-        return pressure;
+    @JsonProperty("width")
+    public String getWidth() {
+        return width;
     }
 
-    @JsonProperty("pressure")
-    public void setPressure(String pressure) {
-        this.pressure = pressure;
+    @JsonProperty("width")
+    public void setWidth(String width) {
+        this.width = width;
     }
 
-    @JsonProperty("rising")
-    public String getRising() {
-        return rising;
+    @JsonProperty("height")
+    public String getHeight() {
+        return height;
     }
 
-    @JsonProperty("rising")
-    public void setRising(String rising) {
-        this.rising = rising;
+    @JsonProperty("height")
+    public void setHeight(String height) {
+        this.height = height;
     }
 
-    @JsonProperty("visibility")
-    public String getVisibility() {
-        return visibility;
+    @JsonProperty("link")
+    public String getLink() {
+        return link;
     }
 
-    @JsonProperty("visibility")
-    public void setVisibility(String visibility) {
-        this.visibility = visibility;
+    @JsonProperty("link")
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    @JsonProperty("url")
+    public String getUrl() {
+        return url;
+    }
+
+    @JsonProperty("url")
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @JsonAnyGetter

@@ -21,8 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.weather.yahoo.pojo;
-
+package it.rebase.rebot.plugin.yahoo.pojo;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -34,23 +33,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "channel"
+        "query"
 })
-public class Results {
+public class YahooQueryResponse {
 
-    @JsonProperty("channel")
-    private Channel channel;
+    @JsonProperty("query")
+    private Query query;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("channel")
-    public Channel getChannel() {
-        return channel;
+    @JsonProperty("query")
+    public Query getQuery() {
+        return query;
     }
 
-    @JsonProperty("channel")
-    public void setChannel(Channel channel) {
-        this.channel = channel;
+    @JsonProperty("query")
+    public void setQuery(Query query) {
+        this.query = query;
     }
 
     @JsonAnyGetter
