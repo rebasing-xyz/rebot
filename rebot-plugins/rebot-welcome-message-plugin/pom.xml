@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>ReBot - Telegram Bot Welcome Plugin</name>
+    <name>ReBot - Welcome Message Plugin</name>
     <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-welcome-message</url>
 
     <description>

@@ -21,9 +21,9 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.packt.test;
+package it.rebase.rebot.plugin.test;
 
-import it.rebase.rebot.service.packt.pojo.PacktBook;
+import it.rebase.rebot.plugin.pojo.PacktBook;
 import org.junit.Assert;
 import org.junit.Test;
 

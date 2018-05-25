@@ -74,7 +74,6 @@
         <module>rebot-persistence-service</module>
         <module>rebot-jboss-books-service</module>
         <module>rebot-weather-service</module>
-        <module>rebot-packt-free-learning-service</module>
     </modules>
 
 </project>

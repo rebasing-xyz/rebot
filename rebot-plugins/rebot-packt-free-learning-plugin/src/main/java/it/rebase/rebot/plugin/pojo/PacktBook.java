@@ -21,7 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.packt.pojo;
+package it.rebase.rebot.plugin.pojo;
 
 import javax.enterprise.context.ApplicationScoped;
 

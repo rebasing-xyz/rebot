@@ -21,17 +21,13 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.packt;
+package it.rebase.rebot.plugin;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
-import it.rebase.rebot.service.packt.notifier.PacktNotifier;
+import it.rebase.rebot.plugin.notifier.PacktNotifier;
 
-import javax.annotation.Resource;
-import javax.ejb.ScheduleExpression;
-import javax.ejb.TimerConfig;
-import javax.ejb.TimerService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 

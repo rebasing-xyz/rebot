@@ -209,8 +209,8 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-packt-free-learning-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-packt-free-learning-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
@@ -235,7 +235,7 @@
             <dependency>
                 <groupId>it.rebase</groupId>
                 <artifactId>rebot-currency-plugin</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
 
             <dependency>

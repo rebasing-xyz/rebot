@@ -25,8 +25,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Packtpub Free Learning Service</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-services/rebot-packt-free-learning</url>
+    <name>ReBot - Packtpub Free Learning Plugin</name>
+    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-packt-free-learning-plugin</url>
 
     <description>
         Implementation of /packt command
@@ -34,13 +34,13 @@
 
     <parent>
         <groupId>it.rebase</groupId>
-        <artifactId>rebot-services-parent</artifactId>
+        <artifactId>rebot-plugins-parent</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-packt-free-learning-service</artifactId>
+    <artifactId>rebot-packt-free-learning-plugin</artifactId>
     <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 

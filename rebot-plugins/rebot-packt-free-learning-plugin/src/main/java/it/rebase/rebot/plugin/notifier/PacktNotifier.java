@@ -21,14 +21,14 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.packt.notifier;
+package it.rebase.rebot.plugin.notifier;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.service.cache.qualifier.DefaultCache;
-import it.rebase.rebot.service.packt.pojo.PacktBook;
+import it.rebase.rebot.plugin.pojo.PacktBook;
 import it.rebase.rebot.service.persistence.pojo.PacktNotification;
 import it.rebase.rebot.service.persistence.repository.PacktRepository;
 import it.rebase.rebot.telegram.api.message.sender.MessageSender;
