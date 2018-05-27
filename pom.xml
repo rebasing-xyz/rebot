@@ -194,11 +194,6 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-jboss-books-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
                 <artifactId>rebot-ping-plugin</artifactId>
                 <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
