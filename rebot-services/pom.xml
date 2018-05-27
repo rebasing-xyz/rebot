@@ -70,7 +70,6 @@
     <modules>
         <module>rebot-cache-service</module>
         <module>rebot-persistence-service</module>
-        <module>rebot-jboss-books-service</module>
     </modules>
 
 </project>
