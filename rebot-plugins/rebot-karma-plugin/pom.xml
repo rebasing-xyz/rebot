@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>ReBot - Telegram Bot Karma Plugin</name>
+    <name>ReBot - Karma Plugin</name>
     <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-karma-plugin</url>
 
     <description>

@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>ReBot - Telegram Bot Plugins Parent</name>
+    <name>ReBot - Plugins Parent</name>
     <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins</url>
 
     <description>
@@ -69,9 +69,16 @@
 
     <!-- Plugins -->
     <modules>
-        <module>rebot-welcome-message-plugin</module>
+        <module>rebot-currency-plugin</module>
+        <module>rebot-faq-plugin</module>
         <module>rebot-karma-plugin</module>
+        <module>rebot-packt-free-learning-plugin</module>
+        <module>rebot-ping-plugin</module>
         <module>rebot-sed-plugin</module>
+        <module>rebot-urban-dictionary-plugin</module>
+        <module>rebot-uptime-plugin</module>
+        <module>rebot-weather-plugin</module>
+        <module>rebot-welcome-message-plugin</module>
     </modules>
 
 </project>

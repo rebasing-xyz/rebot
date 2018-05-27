@@ -93,23 +93,23 @@
         <!-- plugins e serviços -->
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-ping-service</artifactId>
+            <artifactId>rebot-ping-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-uptime-service</artifactId>
+            <artifactId>rebot-uptime-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-urban-dictionary-service</artifactId>
+            <artifactId>rebot-urban-dictionary-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-faq-service</artifactId>
+            <artifactId>rebot-faq-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-packt-free-learning-service</artifactId>
+            <artifactId>rebot-packt-free-learning-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
@@ -125,11 +125,11 @@
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-weather-service</artifactId>
+            <artifactId>rebot-weather-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-currency-service</artifactId>
+            <artifactId>rebot-currency-plugin</artifactId>
         </dependency>
 
     </dependencies>

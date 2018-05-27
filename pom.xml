@@ -189,8 +189,8 @@
             <!-- rebot dependencies -->
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-faq-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-faq-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
@@ -199,18 +199,18 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-ping-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-ping-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-uptime-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-uptime-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-packt-free-learning-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-packt-free-learning-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
@@ -224,18 +224,18 @@
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-urban-dictionary-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-urban-dictionary-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-weather-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-weather-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
             <dependency>
                 <groupId>it.rebase</groupId>
-                <artifactId>rebot-currency-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
+                <artifactId>rebot-currency-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
 
             <dependency>
