@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @Dependent
 public class FaqHelper {
 
-    public static final String JSON_SOURCE_LOCATION = "https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-services/rebot-faq-service/src/main/resources/META-INF/faq-properties.json";
+    public static final String JSON_SOURCE_LOCATION = "https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-plugins/rebot-faq-plugin/src/main/resources/META-INF/faq-properties.json";
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
@@ -90,7 +90,7 @@ public class FaqHelper {
                 .filter(item -> item instanceof Project)
                 .collect(Collectors.toList());
 
-        for (Project project : cacheEntries.stream().filter(item -> item.getId().contains(key)).collect(Collectors.toList())) {
+        for (Project project : cacheEntries.stream().filter(item -> item.getId().toUpperCase().contains(key.toUpperCase())).collect(Collectors.toList())) {
             stbuilder.append(project.toString());
             stbuilder.append(" - ");
             stbuilder.append(project.getDescription() + "\n");
