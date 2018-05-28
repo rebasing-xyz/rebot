@@ -15,7 +15,7 @@ public class ECBHelper {
     public static double calculateRateConversion(Cube baseCurrency, Optional<Cube> targetCurrency, double targetExrate) {
         double baseRate = 0;
         if (null == baseCurrency) {
-            return formatNumber(targetCurrency.get().getRate());
+            return formatNumber(targetCurrency.get().getRate() * targetExrate);
         } else {
             baseRate = (1 * targetExrate) / baseCurrency.getRate();
         }
