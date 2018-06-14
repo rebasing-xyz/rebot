@@ -89,6 +89,7 @@ public class Currency implements CommandProvider {
                 } catch (final Exception e) {
                     response.append("Symbol <b> " + currency.baseCurrency() + " not supported");
                 }
+                response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
                 break;
 
             case "GET":
@@ -144,7 +145,6 @@ public class Currency implements CommandProvider {
             }
 
             Cube cube = cache.get(String.valueOf(AvailableCurrencies.valueOf(currencyID)));
-
             return ECBHelper.calculateRateConversion(cache.get(baseCurrencyId), Optional.of(cube), targetExrate);
         } catch (final Exception e) {
             e.printStackTrace();

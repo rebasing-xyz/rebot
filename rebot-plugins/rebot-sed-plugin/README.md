@@ -1,4 +1,4 @@
-# ReBot Sed plugin
+# ReBot Sed Plugin
 
 This plugin is not useful in fact when using Telegram, because Telegram allows you to edit your sent message.
 

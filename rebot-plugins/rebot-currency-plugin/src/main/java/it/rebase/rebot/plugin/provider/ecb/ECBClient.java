@@ -71,8 +71,8 @@ public class ECBClient {
             repository.persist(handler.cubes());
             cache.clear();
             handler.cubes().getCubes().forEach(cube -> {
-                cache.put(cube.getCurrency(), cube, 24, TimeUnit.HOURS);
-                cache.put("time", handler.cubes().getTime(), 24, TimeUnit.HOURS);
+                cache.put(cube.getCurrency(), cube);
+                cache.put("time", handler.cubes().getTime());
             });
         } catch (final Exception e) {
             log.severe("Error to retrieve currency rates from " + ECB_XML_ADDRESS + " - message: " + e.getMessage());
