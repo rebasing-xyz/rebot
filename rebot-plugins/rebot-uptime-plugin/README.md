@@ -1,4 +1,4 @@
-# ReBot Uptime Service
+# ReBot Uptime Plugin
 
 Returns the time that the bor is running.
 

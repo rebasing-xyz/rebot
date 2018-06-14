@@ -30,6 +30,7 @@ public class CurrencyObject {
     private int exchangeValue;
 
     public CurrencyObject(String query) {
+        query = query.trim().replaceAll("\\s{2,}", " ");
         this.firstParameter = query.split(" ")[0].trim();
         this.exchangeValue = 1;
         this.query = query;

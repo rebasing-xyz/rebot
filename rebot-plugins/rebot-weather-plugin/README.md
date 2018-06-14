@@ -1,4 +1,4 @@
-# ReBot Weather Service
+# ReBot Weather Plugin
 
 Retrieve the weather condition, in °C and °F, based on the Yahoo weather API.
 

@@ -1,4 +1,4 @@
-# ReBot Welcome Message plugin
+# ReBot Welcome Message Plugin
 
 This plugin isn't useful for who is already in a Telegram group chat.
 

@@ -1,4 +1,4 @@
-# ReBot Karma plugin
+# ReBot Karma Plugin
 
 The Karma plugin is a very funny way to like or dislike an action or sentence done/sent by an user in a Telegram Group.
 

@@ -1,4 +1,4 @@
-# ReBot Urban Dictionary Service/Client
+# ReBot Urban Dictionary Plugin/Client
 
 Command that searches in the [Urban Dictionary](https://www.urbandictionary.com/) a english slang, for example
 

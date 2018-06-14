@@ -1,8 +1,8 @@
-# ReBot Currency Service
+# ReBot Currency Plugin
 
 This service can be used to get current rate of a specific currency, exchange rate, currency name, etc.
 
-This service is based in the [fixer.io](https://api.fixer.io/) API.
+This plugin is based on the ECB rates: http://www.ecb.europa.eu/stats/eurofxref/
 
 This service's available commands are:
  

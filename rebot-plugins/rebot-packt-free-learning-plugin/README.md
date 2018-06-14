@@ -1,4 +1,4 @@
-# ReBot Free Learning Packt Publishing Service
+# ReBot Free Learning Packt Publishing Plugin
 
 Every day the Pack Publishing offer a free ebook, you can check it in this [link](https://www.packtpub.com/packt/offers/free-learning).
 
