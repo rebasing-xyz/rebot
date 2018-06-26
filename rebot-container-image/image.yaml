@@ -42,7 +42,7 @@ modules:
           - name: configure-and-launch
 artifacts:
     - name: rebot-telegram-bot-0.2-SNAPSHOT-swarm.jar
-      url: http://nexus.severinocloud.com/nexus/content/groups/public/it/rebase/rebot-telegram-bot/0.2-SNAPSHOT/rebot-telegram-bot-0.2-20180507.131133-1-swarm.jar
+      url: rebot-telegram-bot-0.2-20180507.131133-1-swarm.jar
       md5: 7f6a6c78af2b3c9812d45c27e6509eb8
 run:
       user: 185
