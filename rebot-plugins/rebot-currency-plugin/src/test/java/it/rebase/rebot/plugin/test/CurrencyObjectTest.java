@@ -21,7 +21,6 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 package it.rebase.rebot.plugin.test;
 
 import it.rebase.rebot.plugin.provider.ecb.CurrencyObject;
@@ -32,7 +31,6 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class CurrencyObjectTest {
-
 
     @Test
     public void testCurrencyDefault() {
@@ -117,7 +115,6 @@ public class CurrencyObjectTest {
         CurrencyObject currency = new CurrencyObject("base brl 45");
         Assert.assertEquals("base", currency.firstParameter());
         Assert.assertEquals("brl", currency.baseCurrency());
-        System.out.println("LOL " + Arrays.asList(currency.symbols()));
         Assert.assertArrayEquals(ECBHelper.DEFAULT_SYMBOLS.split(","), currency.symbols());
         Assert.assertEquals(45, currency.exchangeValue());
     }
