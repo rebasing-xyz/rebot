@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   annotations:
     description: Application template for ReBot Telegram chat.
-    tags: rebot
+    tags: rebot,javaee,telegram
     openshift.io/display-name: ReBot, a Java EE bot for Telegram base on ReBot API.
   name: rebot
 labels:
