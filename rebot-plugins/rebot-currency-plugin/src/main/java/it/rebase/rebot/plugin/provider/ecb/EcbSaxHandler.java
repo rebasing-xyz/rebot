@@ -37,7 +37,7 @@ public class EcbSaxHandler extends DefaultHandler {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    Cubes cubes = new Cubes();
+    private Cubes cubes = new Cubes();
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
@@ -58,5 +58,7 @@ public class EcbSaxHandler extends DefaultHandler {
     public Cubes cubes() {
         return this.cubes;
     }
+
+    public void clean() {this.cubes = new Cubes();}
 
 }
