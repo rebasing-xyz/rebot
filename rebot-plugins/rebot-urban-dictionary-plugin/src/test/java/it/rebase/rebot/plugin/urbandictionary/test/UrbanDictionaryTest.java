@@ -84,6 +84,7 @@ public class UrbanDictionaryTest {
     public void testTermWithSpecialCharacters () throws UnsupportedEncodingException {
         UrbanDictionaryClient client = new UrbanDictionaryClientBuilder().term("¯\\_(ツ)_/¯").build();
         List<CustomTermResponse> response =  client.execute();
-        Assert.assertEquals("y u mad", response.get(0).getDefinition());
+        System.out.println(response.get(0).getDefinition());
+        Assert.assertTrue(response.get(0).getDefinition().contains("This is a symbol that essentially means \"I dunno/ [Oh well]\""));
     }
 }
