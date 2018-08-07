@@ -79,8 +79,8 @@ public class ECBClient {
         } else {
             schedule.timezone(timezone);
         }
-        schedule.hour("15");
-        schedule.minute("00");
+        schedule.hour("14,15");
+        schedule.minute("30");
         timerService.createCalendarTimer(schedule);
     }
 
