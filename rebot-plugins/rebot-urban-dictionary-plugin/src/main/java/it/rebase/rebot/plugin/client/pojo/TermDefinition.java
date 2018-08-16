@@ -25,6 +25,7 @@ package it.rebase.rebot.plugin.client.pojo;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import java.io.Serializable;
+import java.util.List;
 
 public class TermDefinition implements Serializable {
 
@@ -46,6 +47,7 @@ public class TermDefinition implements Serializable {
     @JsonProperty("current_vote")
     @com.fasterxml.jackson.annotation.JsonProperty("current_vote")
     private String currentVote;
+    private List<String> sound_urls;
 
     public long getId() {
         return defid;
@@ -125,6 +127,14 @@ public class TermDefinition implements Serializable {
 
     public void setWritten_on(String written_on) {
         this.written_on = written_on;
+    }
+
+    public List<String> getSound_urls() {
+        return sound_urls;
+    }
+
+    public void setSound_urls(List<String> sound_urls) {
+        this.sound_urls = sound_urls;
     }
 
     @Override

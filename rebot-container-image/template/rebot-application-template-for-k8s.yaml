@@ -15,7 +15,6 @@ message:  |-
               ReBot Telegram User ID: ${REBOT_TELEGRAM_USER_ID}
               ReBot Telegram Chat ID: ${REBOT_TELEGRAM_CHAT_ID}
                      ReBot Log Level: ${REBOT_TELEGRAM_LOG_LEVEL}
-                 ReBot GitBook Token: ${REBOT_TELEGRAM_GITBOOK_ID}
 
            For more information about using this template, see https://github.com/rebase-it/rebot/rebot-docker-container.
 parameters:
@@ -116,7 +115,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: rebot-telegram-bot:1.0
+          name: rebot-telegram-bot:0.2
     - type: ConfigChange
     replicas: 1
     selector:
@@ -159,8 +158,6 @@ objects:
             value: "${REBOT_TELEGRAM_USER_ID}"
           - name: REBOT_TELEGRAM_CHAT_ID
             value: "${REBOT_TELEGRAM_CHAT_ID}"
-          - name: REBOT_TELEGRAM_GITBOOK_ID
-            value: "${REBOT_TELEGRAM_GITBOOK_ID}"
         volumes:
         - name: "${APPLICATION_NAME}-volume"
           persistentVolumeClaim:
