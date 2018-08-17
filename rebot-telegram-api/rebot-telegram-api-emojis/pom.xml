@@ -36,12 +36,12 @@
     <parent>
         <groupId>it.rebase</groupId>
         <artifactId>rebot-telegram-api-parent</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.2</version>
     </parent>
 
     <groupId>it.rebase</groupId>
     <artifactId>rebot-telegram-api-emojis</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
 
     <licenses>
@@ -64,6 +64,7 @@
     <scm>
         <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
         <url>https://github.com/rebase-it/rebot</url>
-    </scm>
+      <tag>0.2</tag>
+  </scm>
 
 </project>
