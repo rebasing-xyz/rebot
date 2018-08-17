@@ -39,9 +39,9 @@ $ cekit build -v
 2018-06-26 11:29:03,270 cekit        INFO     Rendering Dockerfile...
 2018-06-26 11:29:03,311 cekit        DEBUG    Dockerfile rendered
 2018-06-26 11:29:03,312 cekit        INFO     Using Docker builder to build the image.
-2018-06-26 11:29:03,393 cekit        DEBUG    Building image with tags: 'rebaseit/rebot-telegram-bot:0.2-SNAPSHOT', 'rebaseit/rebot-telegram-bot:latest'
+2018-06-26 11:29:03,393 cekit        DEBUG    Building image with tags: 'rebaseit/rebot-telegram-bot:0.2', 'rebaseit/rebot-telegram-bot:latest'
 2018-06-26 11:29:03,393 cekit        INFO     Building container image...
-2018-06-26 11:29:03,393 cekit        DEBUG    Running Docker build: 'docker build -t rebaseit/rebot-telegram-bot:0.2-SNAPSHOT -t rebaseit/rebot-telegram-bot:latest target/image'
+2018-06-26 11:29:03,393 cekit        DEBUG    Running Docker build: 'docker build -t rebaseit/rebot-telegram-bot:0.2 -t rebaseit/rebot-telegram-bot:latest target/image'
 Sending build context to Docker daemon 188.3 MB
 Step 1/17 : FROM docker.io/openjdk:latest
 Trying to pull repository docker.io/library/openjdk ... 
@@ -50,13 +50,13 @@ sha256:8e2c6b93e023efaaab8569cbbfcc3d212fe626ea2b5f28de0bd98ce939c68254: Pulling
 ...
 
 Successfully built 54e35bc565d3
-2018-06-26 11:32:06,615 cekit        INFO     Image built and available under following tags: rebaseit/rebot-telegram-bot:0.2-SNAPSHOT, rebaseit/rebot-telegram-bot:latest
+2018-06-26 11:32:06,615 cekit        INFO     Image built and available under following tags: rebaseit/rebot-telegram-bot:0.2, rebaseit/rebot-telegram-bot:latest
 2018-06-26 11:32:06,616 cekit        INFO     Finished!
 
 ```
 
 
-As result, we have a new image *rebaseit/rebot-telegram-bot rebaseit/rebot-telegram-bot* under the tags **0.2-SNAPSHOT** and **latest**
+As result, we have a new image *rebaseit/rebot-telegram-bot rebaseit/rebot-telegram-bot* under the tags **0.2** and **latest**
 
 
 You can check it by running the following command:
@@ -64,7 +64,7 @@ You can check it by running the following command:
 ```bash
 $ docker images
 REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
-rebaseit/rebot-telegram-bot      0.2-SNAPSHOT        54e35bc565d3        2 minutes ago       1.19 GB
+rebaseit/rebot-telegram-bot      0.2                 54e35bc565d3        2 minutes ago       1.19 GB
 rebaseit/rebot-telegram-bot      latest              54e35bc565d3        2 minutes ago       1.19 GB
 
 ```
@@ -102,7 +102,7 @@ Get the image id
 ```bash
 $ docker images
 REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
-rebaseit/rebot-telegram-bot      0.2-SNAPSHOT        54e35bc565d3        2 minutes ago       1.19 GB
+rebaseit/rebot-telegram-bot      0.2                 54e35bc565d3        2 minutes ago       1.19 GB
 rebaseit/rebot-telegram-bot      latest              54e35bc565d3        2 minutes ago       1.19 GB
 ```
 
@@ -137,7 +137,7 @@ Note that a new image was generated and its size decreased from **1152.12 MB** t
 
 ```bash
 docker tag f3018f69c64a rebaseit/rebot-telegram-bot:latest
-docker tag f3018f69c64a rebaseit/rebot-telegram-bot:0.2-SNAPSHOT
+docker tag f3018f69c64a rebaseit/rebot-telegram-bot:0.2
 ```
 
 Now verify the new images:
@@ -145,7 +145,7 @@ Now verify the new images:
 ```bash
 $ docker images
 REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE
-rebaseit/rebot-telegram-bot         0.2-SNAPSHOT        f3018f69c64a        6 minutes ago       804 MB
+rebaseit/rebot-telegram-bot         0.2                 f3018f69c64a        6 minutes ago       804 MB
 rebaseit/rebot-telegram-bot         latest              f3018f69c64a        6 minutes ago       804 MB
 ```
 
