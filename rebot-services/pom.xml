@@ -63,7 +63,6 @@
     <scm>
         <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
         <url>https://github.com/rebase-it/rebot</url>
-        <tag>rebot-parent-0.1</tag>
     </scm>
 
     <!-- Services -->
