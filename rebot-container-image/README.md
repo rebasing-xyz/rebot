@@ -39,9 +39,9 @@ $ cekit build -v
 2018-06-26 11:29:03,270 cekit        INFO     Rendering Dockerfile...
 2018-06-26 11:29:03,311 cekit        DEBUG    Dockerfile rendered
 2018-06-26 11:29:03,312 cekit        INFO     Using Docker builder to build the image.
-2018-06-26 11:29:03,393 cekit        DEBUG    Building image with tags: 'rebaseit/rebot-telegram-bot:0.2-SNAPSHOT', 'rebaseit/rebot-telegram-bot:latest'
+2018-06-26 11:29:03,393 cekit        DEBUG    Building image with tags: 'rebaseit/rebot-telegram-bot:0.2', 'rebaseit/rebot-telegram-bot:latest'
 2018-06-26 11:29:03,393 cekit        INFO     Building container image...
-2018-06-26 11:29:03,393 cekit        DEBUG    Running Docker build: 'docker build -t rebaseit/rebot-telegram-bot:0.2-SNAPSHOT -t rebaseit/rebot-telegram-bot:latest target/image'
+2018-06-26 11:29:03,393 cekit        DEBUG    Running Docker build: 'docker build -t rebaseit/rebot-telegram-bot:0.2 -t rebaseit/rebot-telegram-bot:latest target/image'
 Sending build context to Docker daemon 188.3 MB
 Step 1/17 : FROM docker.io/openjdk:latest
 Trying to pull repository docker.io/library/openjdk ... 
@@ -50,13 +50,13 @@ sha256:8e2c6b93e023efaaab8569cbbfcc3d212fe626ea2b5f28de0bd98ce939c68254: Pulling
 ...
 
 Successfully built 54e35bc565d3
-2018-06-26 11:32:06,615 cekit        INFO     Image built and available under following tags: rebaseit/rebot-telegram-bot:0.2-SNAPSHOT, rebaseit/rebot-telegram-bot:latest
+2018-06-26 11:32:06,615 cekit        INFO     Image built and available under following tags: rebaseit/rebot-telegram-bot:0.2, rebaseit/rebot-telegram-bot:latest
 2018-06-26 11:32:06,616 cekit        INFO     Finished!
 
 ```
 
 
-As result, we have a new image *rebaseit/rebot-telegram-bot rebaseit/rebot-telegram-bot* under the tags **0.2-SNAPSHOT** and **latest**
+As result, we have a new image *rebaseit/rebot-telegram-bot rebaseit/rebot-telegram-bot* under the tags **0.2** and **latest**
 
 
 You can check it by running the following command:
@@ -64,7 +64,7 @@ You can check it by running the following command:
 ```bash
 $ docker images
 REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
-rebaseit/rebot-telegram-bot      0.2-SNAPSHOT        54e35bc565d3        2 minutes ago       1.19 GB
+rebaseit/rebot-telegram-bot      0.2                 54e35bc565d3        2 minutes ago       1.19 GB
 rebaseit/rebot-telegram-bot      latest              54e35bc565d3        2 minutes ago       1.19 GB
 
 ```
@@ -73,7 +73,7 @@ You can now run the image:
 
 ```bash
 $ docker run -it --env REBOT_TELEGRAM_TOKEN_ID=YOUR_TOKEN_ID --env REBOT_TELEGRAM_USER_ID=YOUR_BOT_USER_ID \ 
---env REBOT_TELEGRAM_CHAT_ID=YOUR_CHAT_ID --env REBOT_TELEGRAM_LOG_LEVEL=trace rebaseit/rebot-telegram-bot:latest
+--env REBOT_TELEGRAM_CHAT_ID=YOUR_CHAT_ID --env REBOT_TELEGRAM_LOG_LEVEL=trace rebaseit/rebot:latest
 
 Bot correctly configured.
 Running ReBot image with the following configurations:
@@ -85,7 +85,6 @@ REBOT_TELEGRAM_LOG_LEVEL: trace
 ...
 
 INFO  [it.rebase.rebot.Startup] (ServerService Thread Pool -- 11) YOUR_BOT_USER_ID successfully started.
-
 ```
 
 
@@ -102,7 +101,7 @@ Get the image id
 ```bash
 $ docker images
 REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
-rebaseit/rebot-telegram-bot      0.2-SNAPSHOT        54e35bc565d3        2 minutes ago       1.19 GB
+rebaseit/rebot-telegram-bot      0.2                 54e35bc565d3        2 minutes ago       1.19 GB
 rebaseit/rebot-telegram-bot      latest              54e35bc565d3        2 minutes ago       1.19 GB
 ```
 
@@ -137,7 +136,7 @@ Note that a new image was generated and its size decreased from **1152.12 MB** t
 
 ```bash
 docker tag f3018f69c64a rebaseit/rebot-telegram-bot:latest
-docker tag f3018f69c64a rebaseit/rebot-telegram-bot:0.2-SNAPSHOT
+docker tag f3018f69c64a rebaseit/rebot-telegram-bot:0.2
 ```
 
 Now verify the new images:
@@ -145,9 +144,59 @@ Now verify the new images:
 ```bash
 $ docker images
 REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE
-rebaseit/rebot-telegram-bot         0.2-SNAPSHOT        f3018f69c64a        6 minutes ago       804 MB
+rebaseit/rebot-telegram-bot         0.2                 f3018f69c64a        6 minutes ago       804 MB
 rebaseit/rebot-telegram-bot         latest              f3018f69c64a        6 minutes ago       804 MB
 ```
+
+### Running ReBot image on OpenShift
+
+As first step, import the image:
+
+```bash
+$ oc import-image rebot-telegram-bot:0.2 --from=docker.io/rebaseit/rebot --confirm
+The import completed successfully.
+                                                                                  
+Name:               rebot-telegram-bot
+Namespace:          rebot
+Created:            Less than a second ago
+Labels:             <none>
+Annotations:        openshift.io/image.dockerRepositoryCheck=2018-08-18T02:19:19Z
+Docker Pull Spec:   docker-registry.default.svc:5000/rebot/rebot-telegram-bot
+Image Lookup:       local=false
+Unique Images:      1
+Tags:		    1
+...
+
+Docker Labels:	description=ReBot Telegram Bot container image
+...
+Environment:	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+
+After that, a new ImageStream will be available:
+
+```bash
+$ oc get is
+NAME                 DOCKER REPO                                                 TAGS      UPDATED
+rebot-telegram-bot   docker-registry.default.svc:5000/rebot/rebot-telegram-bot   0.2       5 minutes ago
+```
+
+And, the last step is instantiate a new app using the image imported above:
+
+```bash
+oc new-app -f https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-container-image/template/rebot-application-template-for-k8s.yaml  \ 
+-p REBOT_TELEGRAM_TOKEN_ID=<TELEGRAM_TOKEN_ID> \
+-p REBOT_TELEGRAM_USER_ID=<TELEGRAM_USER_ID> \
+-p REBOT_TELEGRAM_CHAT_ID=<TELEGRAM_CHAT_ID> \ 
+-p REBOT_TELEGRAM_LOG_LEVEL=TRACE \
+-p IMAGE_STREAM_NAMESPACE=<NAMESPACE_WHERE_BOT_WILL_BE_INSTALLED>
+
+--> Deploying template "rebot/rebot" for "https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-container-image/template/rebot-application-template-for-k8s.yaml" to project rebot
+...
+--> Success
+    Access your application via route 'rebot-rebot.severinocloud.com' 
+    Run 'oc status' to view your app.
+```
+
 
 At this moment the images are ready to use, enjoy :)
 

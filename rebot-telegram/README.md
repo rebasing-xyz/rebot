@@ -15,7 +15,7 @@ The ReBot Bot implementation.
     - /packt - returns the daily free ebook, and, also can notify a user or a group every day with the free ebook
     - /enable - enable the bot
     - /disable - disable the bot
-    - /dump - dupm the available commands in the Telegram commands pattern
+    - /dump - dump the available commands in the Telegram commands pattern
     - <command> help: returns the command's help.
     
 ### Starting the Bot

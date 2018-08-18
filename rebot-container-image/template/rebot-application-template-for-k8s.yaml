@@ -16,7 +16,7 @@ message:  |-
               ReBot Telegram Chat ID: ${REBOT_TELEGRAM_CHAT_ID}
                      ReBot Log Level: ${REBOT_TELEGRAM_LOG_LEVEL}
 
-           For more information about using this template, see https://github.com/rebase-it/rebot/rebot-docker-container.
+           For more information about using this template, see https://github.com/rebase-it/rebot/tree/v0.2/rebot-container-image.
 parameters:
 - displayName: Application Name
   description: "The name for the application."
@@ -55,7 +55,7 @@ parameters:
     You should only need to modify this if you've installed the ImageStreams in a
     different namespace/project."
   name: IMAGE_STREAM_NAMESPACE
-  value: rebaseit
+  value: rebot
   required: true
 objects:
 - kind: Service
@@ -85,16 +85,6 @@ objects:
     host: "${REBOT_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}"
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: "${APPLICATION_NAME}-claim"
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 256Mi
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -162,3 +152,13 @@ objects:
         - name: "${APPLICATION_NAME}-volume"
           persistentVolumeClaim:
             claimName: "${APPLICATION_NAME}-claim"
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${APPLICATION_NAME}-claim"
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 256Mi
