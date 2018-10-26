@@ -71,7 +71,7 @@ public class KarmaPlugin implements PluginProvider {
     public String process(MessageUpdate update) {
         StringBuilder response = new StringBuilder();
         try {
-            if (canProcess(update.getMessage().getText())) {
+            if (canProcess(update.getMessage().getText()) && !update.isEdited()) {
                 List<String> itens = Arrays.asList(update.getMessage().getText().replaceAll("\\r|\\n", " ").split(" "));
                 HashMap<String, String> finalTargets = new HashMap<>();
                 String username = update.getMessage().getFrom().getUsername() != null ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName().toLowerCase();
@@ -83,6 +83,8 @@ public class KarmaPlugin implements PluginProvider {
                 for (Map.Entry<String, String> entry : finalTargets.entrySet()) {
                     response.append(processKarma(entry.getValue(), entry.getKey(), username));
                 }
+            } else {
+                log.fine("Message " + update.getMessage().getText() + " is a updated message, ignoring...");
             }
         } catch (final Exception e) {
             e.printStackTrace();
