@@ -363,5 +363,10 @@
     "id": "cafeina",
     "link": "https://github.com/devnull-tools/cafeina",
     "description": "Projeto destinado a mapear as diversas situações que nós, mantenedores de código, temos que enfrentar em nossos árduos e sombrios dias (e noites, e madrugadas, e mais outros dias) de trabalho como papel higiênico de TI com folha dupla."
+  },
+  {
+    "id": "rebot",
+    "link": "https://github.com/rebase-it/rebot",
+    "description": "Uma API Java EE de Bot para o Telegram."
   }
 ]
