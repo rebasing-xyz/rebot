@@ -5,7 +5,7 @@ The ReBot Bot implementation.
 ### Bot Functions:
 
     - karma - Karma operations username++|--
-    - /karma - Get the karma points for the given key, example: /getkarma rebot
+    - /karma - Get the karma points for the given key, example: /karma rebot
     - /ping - pong
     - /help - Help menu
     - /faq - List the information about the given project, example /faq wildfly
