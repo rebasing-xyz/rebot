@@ -126,7 +126,7 @@ public class KarmaPlugin implements PluginProvider {
     }
 
     /**
-     * Verifies if the recevied text can be processed by this plugin
+     * Verifies if the received text can be processed by this plugin
      *
      * @param messageContent
      * @return true if the message matches the karma pattern, otherwise returns false
