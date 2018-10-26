@@ -49,7 +49,7 @@ public class SedPlugin implements PluginProvider {
     @Override
     public String process(MessageUpdate update) {
 
-        if (update.getMessage().getText().startsWith("/")) {
+        if (null != update.getMessage().getText() && update.getMessage().getText().startsWith("/")) {
             log.fine("Sed plugin - Ignoring command [" + update.getMessage().getText() + "]");
             return null;
         }
