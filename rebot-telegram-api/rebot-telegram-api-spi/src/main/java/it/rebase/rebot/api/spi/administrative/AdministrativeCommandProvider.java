@@ -88,8 +88,12 @@ public interface AdministrativeCommandProvider {
      * false - non processable command
      */
     default boolean canProcessCommand(MessageUpdate messageUpdate, String botUserId) {
-        return true ? messageUpdate.getMessage().getText().startsWith("/") &&
-                (messageUpdate.getMessage().getText().contains("@" + botUserId) || !messageUpdate.getMessage().getText().contains("@")) &&
-                extractCommand(messageUpdate.getMessage().getText(), botUserId).equals(name()) : false;
+        if (null == messageUpdate.getMessage().getText()) {
+            return false;
+        } else {
+            return true ? messageUpdate.getMessage().getText().startsWith("/") &&
+                    (messageUpdate.getMessage().getText().contains("@" + botUserId) || !messageUpdate.getMessage().getText().contains("@")) &&
+                    extractCommand(messageUpdate.getMessage().getText(), botUserId).equals(name()) : false;
+        }
     }
 }

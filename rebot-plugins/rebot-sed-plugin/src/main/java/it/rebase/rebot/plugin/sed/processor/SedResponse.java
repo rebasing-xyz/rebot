@@ -87,6 +87,7 @@ public class SedResponse {
     }
 
     public SedResponse process(MessageUpdate update) {
+        if (null != update.getMessage().getText())
         msg = update.getMessage().getText();
         user_id = update.getMessage().getFrom().getId();
         int count = 0;

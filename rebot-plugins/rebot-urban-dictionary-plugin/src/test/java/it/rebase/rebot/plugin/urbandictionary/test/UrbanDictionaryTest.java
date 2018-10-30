@@ -79,12 +79,4 @@ public class UrbanDictionaryTest {
             Assert.assertTrue(e.getExample() != null);
         });
     }
-
-    @Test
-    public void testTermWithSpecialCharacters () throws UnsupportedEncodingException {
-        UrbanDictionaryClient client = new UrbanDictionaryClientBuilder().term("¯\\_(ツ)_/¯").build();
-        List<CustomTermResponse> response =  client.execute();
-        System.out.println(response.get(0).getDefinition());
-        Assert.assertTrue(response.get(0).getDefinition().contains("This is a symbol that essentially means \"I dunno/ [Oh well]\""));
-    }
 }

@@ -51,6 +51,8 @@ public class MessageUpdate implements Serializable {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 4244707578754086680L;
+    @JsonIgnore
+    public boolean isEdited;
 
     @JsonProperty("update_id")
     public long getUpdateId() {
@@ -90,6 +92,14 @@ public class MessageUpdate implements Serializable {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public boolean isEdited() {
+        return isEdited;
+    }
+
+    public void setEdited(boolean edited) {
+        isEdited = edited;
     }
 
     @Override

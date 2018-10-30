@@ -195,7 +195,10 @@ public class UpdatesReceiver implements Runnable {
                                     msg.setFrom(u.getEditedMessage().getFrom());
                                     msg.setMessageId(u.getEditedMessage().getMessageId());
                                     msg.setText(u.getEditedMessage().getText());
+                                    u.setEdited(true);
                                     u.setMessage(msg);
+                                } else {
+                                    u.setEdited(false);
                                 }
                                 // notify the implementations of ReBotLongPoolingBot about the received messages.
                                 log.finest("Message is [ " + u.toString() + "]");

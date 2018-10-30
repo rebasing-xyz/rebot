@@ -25,11 +25,11 @@ package it.rebase.rebot.plugin;
 
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
-import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
 import it.rebase.rebot.plugin.provider.ecb.AvailableCurrencies;
 import it.rebase.rebot.plugin.provider.ecb.CurrencyObject;
 import it.rebase.rebot.plugin.provider.ecb.ECBClient;
 import it.rebase.rebot.plugin.provider.ecb.ECBHelper;
+import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
 import it.rebase.rebot.service.persistence.pojo.Cube;
 import org.infinispan.Cache;
 
@@ -74,50 +74,56 @@ public class Currency implements CommandProvider {
         StringBuilder response = new StringBuilder();
         CurrencyObject currency = new CurrencyObject(key.get().toUpperCase());
 
-        switch (currency.firstParameter()) {
+        if (canProcess()) {
 
-            case "BASE": // não ok
-                try {
-                    response.append("Base: <b>" + currency.baseCurrency() + "</b>\n");
-                    for (String symbol : currency.symbols()) {
-                        if (!currency.baseCurrency().equals(symbol)) {
-                            response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + currency.baseCurrency() + "</b> = ");
-                            response.append("<code>" + getCurrencyValue(currency.baseCurrency(), symbol, currency.exchangeValue()) + "</code> ");
-                            response.append("<b>" + symbol.toUpperCase() + "</b>\n");
+            switch (currency.firstParameter()) {
+
+                case "BASE": // não ok
+                    try {
+                        response.append("Base: <b>" + currency.baseCurrency() + "</b>\n");
+                        for (String symbol : currency.symbols()) {
+                            if (!currency.baseCurrency().equals(symbol)) {
+                                response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + currency.baseCurrency() + "</b> = ");
+                                response.append("<code>" + getCurrencyValue(currency.baseCurrency(), symbol, currency.exchangeValue()) + "</code> ");
+                                response.append("<b>" + symbol.toUpperCase() + "</b>\n");
+                            }
+                        }
+                    } catch (final Exception e) {
+                        response.append("Symbol <b> " + currency.baseCurrency() + " not supported");
+                    }
+                    response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
+                    break;
+
+                case "GET":
+                    response.append(Arrays.asList(AvailableCurrencies.class.getEnumConstants()));
+                    break;
+
+                case "NAME":
+                    try {
+                        response.append(AvailableCurrencies.valueOf(currency.symbol()).fullName());
+                    } catch (final Exception e) {
+                        response.append("Currency not found: " + currency.symbol());
+                    }
+                    break;
+
+                default:
+                    for (String symb : currency.symbols()) {
+                        if (ECBHelper.DEFAULT_BASE_CURRENCY.equals(symb)) {
+                            response.append("The default base currency is " + ECBHelper.DEFAULT_BASE_CURRENCY + ", to use a different base currency use /currency base &#60;desired_currency&#62;\n");
+                        } else {
+                            response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + ECBHelper.DEFAULT_BASE_CURRENCY + "</b> = ");
+                            response.append("<code>" + getCurrencyValue(ECBHelper.DEFAULT_BASE_CURRENCY, symb, currency.exchangeValue()) + "</code> ");
+                            response.append("<b>" + symb.toUpperCase() + "</b>\n");
                         }
                     }
-                } catch (final Exception e) {
-                    response.append("Symbol <b> " + currency.baseCurrency() + " not supported");
-                }
-                response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
-                break;
+                    response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
+                    break;
+            }
+            return response.toString();
 
-            case "GET":
-                response.append(Arrays.asList(AvailableCurrencies.class.getEnumConstants()));
-                break;
-
-            case "NAME":
-                try {
-                    response.append(AvailableCurrencies.valueOf(currency.symbol()).fullName());
-                } catch (final Exception e) {
-                    response.append("Currency not found: " + currency.symbol());
-                }
-                break;
-
-            default:
-                for (String symb : currency.symbols()) {
-                    if (ECBHelper.DEFAULT_BASE_CURRENCY.equals(symb)) {
-                        response.append("The default base currency is " + ECBHelper.DEFAULT_BASE_CURRENCY + ", to use a different base currency use /currency base &#60;desired_currency&#62;\n");
-                    } else {
-                        response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + ECBHelper.DEFAULT_BASE_CURRENCY + "</b> = ");
-                        response.append("<code>" + getCurrencyValue(ECBHelper.DEFAULT_BASE_CURRENCY, symb, currency.exchangeValue()) + "</code> ");
-                        response.append("<b>" + symb.toUpperCase() + "</b>\n");
-                    }
-                }
-                response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
-                break;
+        } else {
+            return "Currency plugin is not functional, contact the administrator";
         }
-        return response.toString();
 
     }
 
@@ -137,7 +143,6 @@ public class Currency implements CommandProvider {
         return "currency rates + exchange rate";
     }
 
-
     private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate) {
         try {
             if (currencyID.equalsIgnoreCase("EUR")) {
@@ -150,6 +155,23 @@ public class Currency implements CommandProvider {
             e.printStackTrace();
         }
         return "Currency not supported";
+    }
+
+    /**
+     * Before process the command, verifies if the cache is working
+     *
+     * @return true if the cache is functional
+     */
+    private boolean canProcess() {
+        try {
+            log.fine("Verifying if the cache is functional");
+            Cube cube = cache.get("USD");
+            if (null != cube.getCurrency()) return true;
+            else return false;
+        } catch (final Exception e) {
+            log.fine("Currency Plugin is not functional at this moment [" + e.getMessage() + "]");
+            return false;
+        }
     }
 
 }
