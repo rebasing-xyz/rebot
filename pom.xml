@@ -70,7 +70,7 @@
         <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
         <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
         <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
-        <version.wildfly.swarm>2018.3.3</version.wildfly.swarm>
+        <version.wildfly.swarm>2018.5.0</version.wildfly.swarm>
         <version.infinispan>9.1.1.Final</version.infinispan>
         <version.javax.javaee.api>7.0</version.javax.javaee.api>
         <version.com.h2database>1.4.196</version.com.h2database>
