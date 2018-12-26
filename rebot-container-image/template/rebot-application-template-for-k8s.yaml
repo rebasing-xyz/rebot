@@ -16,7 +16,7 @@ message:  |-
               ReBot Telegram Chat ID: ${REBOT_TELEGRAM_CHAT_ID}
                      ReBot Log Level: ${REBOT_TELEGRAM_LOG_LEVEL}
 
-           For more information about using this template, see https://github.com/rebase-it/rebot/tree/v0.2/rebot-container-image.
+           For more information about using this template, see https://github.com/rebase-it/rebot/tree/v0.3/rebot-container-image.
 parameters:
 - displayName: Application Name
   description: "The name for the application."
@@ -105,7 +105,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: rebot-telegram-bot:0.2
+          name: rebot-telegram-bot:0.3
     - type: ConfigChange
     replicas: 1
     selector:
