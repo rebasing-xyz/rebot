@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     The MIT License (MIT)
 
@@ -21,8 +21,8 @@
     IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <name>ReBot - Telegram API Bot Parent</name>
@@ -63,14 +63,14 @@
     <scm>
         <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
         <url>https://github.com/rebase-it/rebot</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
         <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
         <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
-        <version.wildfly.swarm>2018.5.0</version.wildfly.swarm>
+        <version.io.thorntail>2.2.1.Final</version.io.thorntail>
         <version.infinispan>9.1.1.Final</version.infinispan>
         <version.javax.javaee.api>7.0</version.javax.javaee.api>
         <version.com.h2database>1.4.196</version.com.h2database>
@@ -99,9 +99,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.wildfly.swarm</groupId>
+                <groupId>io.thorntail</groupId>
                 <artifactId>bom</artifactId>
-                <version>${version.wildfly.swarm}</version>
+                <version>${version.io.thorntail}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
