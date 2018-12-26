@@ -35,12 +35,12 @@
     <parent>
         <groupId>it.rebase</groupId>
         <artifactId>rebot-telegram-api-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.3</version>
     </parent>
 
     <groupId>it.rebase</groupId>
     <artifactId>rebot-telegram-api-objects</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.3</version>
     <packaging>jar</packaging>
 
     <licenses>
@@ -63,7 +63,7 @@
     <scm>
         <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
         <url>https://github.com/rebase-it/rebot</url>
-      <tag>HEAD</tag>
+      <tag>0.3</tag>
   </scm>
 
     <dependencies>
