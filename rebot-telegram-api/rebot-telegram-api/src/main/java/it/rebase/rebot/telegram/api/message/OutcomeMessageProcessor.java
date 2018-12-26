@@ -80,12 +80,10 @@ public class OutcomeMessageProcessor implements Processor {
             if (isCommand(messageUpdate.getMessage().getText())) {
                 commandProcessor(messageUpdate);
             }
-        } else {
-            // some plugins does not need message to be triggered, just add a message here to avoid NPEs
-            messageUpdate.getMessage().setText("dummy message");
-            nonCommandProcessor(messageUpdate);
+            else {
+                nonCommandProcessor(messageUpdate);
+            }
         }
-
     }
 
     @Override

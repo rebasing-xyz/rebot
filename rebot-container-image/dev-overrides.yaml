@@ -1,0 +1,14 @@
+schema_version: 1
+
+version: "1.0-SNAPSHOT"
+
+envs:
+- name: "REBOT_TELEGRAM_BOT_VERSION"
+  value: "1.0-SNAPSHOT"
+- name: "REBOT_SWARM_BINARY"
+  value: "rebot-telegram-bot-1.0-SNAPSHOT-thorntail.jar"
+
+artifacts:
+- name: rebot-telegram-bot-1.0-SNAPSHOT-thorntail.jar
+  path: /data/dev/sources/rebase-it/rebot/rebot-telegram/target/rebot-telegram-bot-1.0-SNAPSHOT-thorntail.jar
+  md5: f42966d04e524392a6813241081cfd0e
