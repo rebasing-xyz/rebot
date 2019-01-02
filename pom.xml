@@ -232,6 +232,12 @@
                 <artifactId>rebot-currency-plugin</artifactId>
                 <version>${version.it.rebase.rebot.plugins}</version>
             </dependency>
+            <dependency>
+                <groupId>it.rebase</groupId>
+                <artifactId>rebot-chuck-norris-plugin</artifactId>
+                <version>${version.it.rebase.rebot.plugins}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>it.rebase</groupId>

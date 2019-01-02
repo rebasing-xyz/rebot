@@ -21,52 +21,33 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.persistence.pojo;
+package it.rebase.rebot.service.persistence.repository;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import it.rebase.rebot.service.persistence.pojo.Fact;
+import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
 
-@Entity
-@Table(name = "BOOKUPDATES")
-public class BookUpdates {
+@Transactional
+@ApplicationScoped
+public class ChuckRepository {
 
-    @Id
-    @Column(name = "BOOKNAME", nullable = false, length = 50)
-    private String bookName;
+    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    @Column(name = "UPDATES" , nullable = false, length = 10)
-    private int updates;
+    @PersistenceContext(unitName = "rebotPU")
+    private EntityManager em;
 
-    public BookUpdates(String bookName, int updates) {
-        this.bookName = bookName;
-        this.updates = updates;
+    public void persisteChuckFact(Fact fact) {
+        log.fine("Persisting chuck object [" + fact.toString() + "]");
+        try {
+            em.merge(fact);
+            em.flush();
+        } catch (final Exception e) {
+            log.warning("Failed to persist object [" + fact.toString() + "]: " + e.getMessage());
+        }
     }
 
-    public BookUpdates(){}
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public int getUpdates() {
-        return updates;
-    }
-
-    public void setUpdates(int updates) {
-        this.updates = updates;
-    }
-
-    @Override
-    public String toString() {
-        return "BookUpdates{" +
-                "bookName='" + bookName + '\'' +
-                ", updates=" + updates +
-                '}';
-    }
 }

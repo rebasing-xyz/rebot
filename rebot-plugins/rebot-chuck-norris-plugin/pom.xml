@@ -25,24 +25,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
-    <name>ReBot - Plugins Parent</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins</url>
+    <name>ReBot - Ping Plugin</name>
+    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-ping-plugin</url>
 
     <description>
-        Plugins Parent pom.
+        Implementation of Chuck Norris plugin
     </description>
 
     <parent>
         <groupId>it.rebase</groupId>
-        <artifactId>rebot-parent</artifactId>
+        <artifactId>rebot-plugins-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-plugins-parent</artifactId>
+    <artifactId>rebot-chuck-norris-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <licenses>
         <license>
@@ -67,19 +67,27 @@
       <tag>HEAD</tag>
   </scm>
 
-    <!-- Plugins -->
-    <modules>
-        <module>rebot-chuck-norris-plugin</module>
-        <module>rebot-currency-plugin</module>
-        <module>rebot-faq-plugin</module>
-        <module>rebot-karma-plugin</module>
-        <module>rebot-packt-free-learning-plugin</module>
-        <module>rebot-ping-plugin</module>
-        <module>rebot-sed-plugin</module>
-        <module>rebot-urban-dictionary-plugin</module>
-        <module>rebot-uptime-plugin</module>
-        <module>rebot-weather-plugin</module>
-        <module>rebot-welcome-message-plugin</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+
+        <!-- rebot dependencies -->
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-persistence-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-telegram-api-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-telegram-api-emojis</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
