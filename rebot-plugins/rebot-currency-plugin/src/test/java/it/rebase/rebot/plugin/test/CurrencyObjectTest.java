@@ -23,12 +23,10 @@
 
 package it.rebase.rebot.plugin.test;
 
-import it.rebase.rebot.plugin.provider.ecb.CurrencyObject;
-import it.rebase.rebot.plugin.provider.ecb.ECBHelper;
+import it.rebase.rebot.plugin.currency.ecb.CurrencyObject;
+import it.rebase.rebot.plugin.currency.ecb.ECBHelper;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class CurrencyObjectTest {
 

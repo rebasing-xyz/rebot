@@ -21,33 +21,39 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.service.cache.producer;
+package it.rebase.rebot.plugin.currency.ecb;
 
-import it.rebase.rebot.service.cache.qualifier.JBossBooksCache;
-import org.infinispan.cdi.embedded.ConfigureCache;
-import org.infinispan.configuration.cache.Configuration;
-import org.infinispan.configuration.cache.ConfigurationBuilder;
+import it.rebase.rebot.service.persistence.pojo.Cube;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
+import java.text.DecimalFormat;
+import java.util.Optional;
 
-@ApplicationScoped
-public class JBossBooksProducer {
+public class ECBHelper {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    public static final String DEFAULT_BASE_CURRENCY = "USD";
+    public static final String DEFAULT_SYMBOLS = "BRL,USD,GBP,EUR";
 
-    @Produces
-    @ConfigureCache("jboss-books-cache")
-    @JBossBooksCache
-    public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
-        log.info("Configuring jboss-books-cache...");
-        return new ConfigurationBuilder()
-                .indexing()
-                .autoConfig(true)
-                .addProperty("default.directory_provider", "ram")
-                .build();
+    public static double calculateRateConversion(Cube baseCurrency, Optional<Cube> targetCurrency, double targetExrate) {
+        double baseRate = 0;
+        if (null == baseCurrency) {
+            return formatNumber(targetCurrency.get().getRate() * targetExrate);
+        } else {
+            baseRate = (1 * targetExrate) / baseCurrency.getRate();
+        }
+
+        if (!targetCurrency.isPresent()) {
+            return formatNumber(baseRate);
+        } else {
+            Double base = formatNumber(baseRate);
+            Double finalConversion = formatNumber(targetCurrency.get().getRate() * base);
+            return finalConversion;
+        }
+
     }
+
+    private static double formatNumber(Double number) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        return Double.parseDouble(decimalFormat.format(number));
+    }
+
 }

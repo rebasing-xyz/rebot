@@ -21,19 +21,17 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.plugin;
+package it.rebase.rebot.plugin.chuck;
 
 import it.rebase.rebot.api.object.MessageUpdate;
-import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.PluginProvider;
-import it.rebase.rebot.plugin.utils.Utils;
+import it.rebase.rebot.plugin.chuck.utils.Utils;
 import it.rebase.rebot.service.persistence.pojo.Fact;
 import it.rebase.rebot.service.persistence.repository.ChuckRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
-import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 

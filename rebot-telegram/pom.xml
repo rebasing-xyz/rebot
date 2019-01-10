@@ -132,6 +132,10 @@
             <groupId>it.rebase</groupId>
             <artifactId>rebot-chuck-norris-plugin</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-brazil-postalcode-plugin</artifactId>
+        </dependency>
 
     </dependencies>
 

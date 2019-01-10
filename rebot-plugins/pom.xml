@@ -73,6 +73,7 @@
         <module>rebot-currency-plugin</module>
         <module>rebot-faq-plugin</module>
         <module>rebot-karma-plugin</module>
+        <module>rebot-brazil-postalcode-plugin</module>
         <module>rebot-packt-free-learning-plugin</module>
         <module>rebot-ping-plugin</module>
         <module>rebot-sed-plugin</module>

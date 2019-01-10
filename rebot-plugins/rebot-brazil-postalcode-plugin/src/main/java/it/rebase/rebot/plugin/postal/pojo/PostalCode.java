@@ -21,41 +21,60 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.plugin.provider.ecb;
+package it.rebase.rebot.plugin.postal.pojo;
 
-import it.rebase.rebot.service.persistence.pojo.Cube;
+public class PostalCode {
 
-import javax.inject.Inject;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Optional;
+    private String CodIBGE;
+    private String UF;
+    private String county;
+    private String nationalCode;
 
-public class ECBHelper {
-
-    public static final String DEFAULT_BASE_CURRENCY = "USD";
-    public static final String DEFAULT_SYMBOLS = "BRL,USD,GBP,EUR";
-
-    public static double calculateRateConversion(Cube baseCurrency, Optional<Cube> targetCurrency, double targetExrate) {
-        double baseRate = 0;
-        if (null == baseCurrency) {
-            return formatNumber(targetCurrency.get().getRate() * targetExrate);
-        } else {
-            baseRate = (1 * targetExrate) / baseCurrency.getRate();
-        }
-
-        if (!targetCurrency.isPresent()) {
-            return formatNumber(baseRate);
-        } else {
-            Double base = formatNumber(baseRate);
-            Double finalConversion = formatNumber(targetCurrency.get().getRate() * base);
-            return finalConversion;
-        }
-
+    public PostalCode(String codIBGE, String UF, String county, String nationalCode) {
+        CodIBGE = codIBGE;
+        this.UF = UF;
+        this.county = county;
+        this.nationalCode = nationalCode;
     }
 
-    private static double formatNumber(Double number) {
-        DecimalFormat decimalFormat = new DecimalFormat("#.00");
-        return Double.parseDouble(decimalFormat.format(number));
+    public String getCodIBGE() {
+        return CodIBGE;
     }
 
+    public void setCodIBGE(String codIBGE) {
+        CodIBGE = codIBGE;
+    }
+
+    public String getUF() {
+        return UF;
+    }
+
+    public void setUF(String UF) {
+        this.UF = UF;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getNationalCode() {
+        return nationalCode;
+    }
+
+    public void setNationalCode(String nationalCode) {
+        this.nationalCode = nationalCode;
+    }
+
+    @Override
+    public String toString() {
+        return "PostalCode found: {" +
+                "UF='" + UF + '\'' +
+                ", county='" + county + '\'' +
+                ", nationalCode='" + nationalCode + '\'' +
+                '}';
+    }
 }

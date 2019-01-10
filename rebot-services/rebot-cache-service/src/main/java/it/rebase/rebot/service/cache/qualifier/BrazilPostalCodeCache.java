@@ -34,4 +34,4 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JBossBooksCache {}
+public @interface BrazilPostalCodeCache {}
