@@ -21,51 +21,32 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.plugin.provider.ecb;
+package it.rebase.rebot.plugin.chuck.utils;
 
-public enum AvailableCurrencies {
-    AUD("Australian dollar"),
-    BGN("Bulgarian lev"),
-    BRL("Brazilian real"),
-    CAD("Canadian dollar"),
-    CHF("Swiss franc"),
-    CNY("Renminbi"),
-    CZK("Czech Koruna"),
-    DKK("Danish krone"),
-    EUR("Euro"),
-    GBP("Pound"),
-    HKD("Hong Kong Dollar"),
-    HRK("Croatian kuna"),
-    HUF("Hungarian forint"),
-    IDR("Indonesian rupiah"),
-    ILS("Israeli new shekel"),
-    INR("Indian rupee"),
-    JPY("Yen"),
-    KRW("South Korean won"),
-    MXN("Mexican Peso"),
-    MYR("Malaysian ringgit"),
-    NOK("Krona Norwegia"),
-    NZD("New Zealand dollar"),
-    PHP("Philippine peso"),
-    PLN("Zloty"),
-    RON("Romanian leu"),
-    RUB("Ruble"),
-    SEK("Swedish krona"),
-    SGD("Singapore dollar"),
-    THB("Thai baht"),
-    TRY("Turkish Lira"),
-    USD("Dolar"),
-    ZAR("Rand"),
-    ISK("Icelandic Krona");
+import it.rebase.rebot.service.persistence.pojo.Fact;
 
-    private final String fullName;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
 
-    AvailableCurrencies(String fullName){
-        this.fullName = fullName;
-    }
+public class Utils {
 
-    public String fullName() {
-        return fullName;
+    private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private static final String CHUCK_NORRIS_FACTS_ENDPOINT = "https://api.chucknorris.io/jokes/random";
+
+    public static Fact getFact() {
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(CHUCK_NORRIS_FACTS_ENDPOINT);
+        Response response = target.request().get();
+
+        if (response.getStatus() != 200) {
+            log.warning("Failed to connect in the endpoint " + CHUCK_NORRIS_FACTS_ENDPOINT + ", status code is: " + response.getStatus());
+        }
+
+        return response.readEntity(Fact.class);
     }
 
 }

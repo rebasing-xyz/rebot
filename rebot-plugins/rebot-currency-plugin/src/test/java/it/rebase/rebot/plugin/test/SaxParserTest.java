@@ -23,8 +23,8 @@
 
 package it.rebase.rebot.plugin.test;
 
-import it.rebase.rebot.plugin.provider.ecb.AvailableCurrencies;
-import it.rebase.rebot.plugin.provider.ecb.EcbSaxHandler;
+import it.rebase.rebot.plugin.currency.ecb.AvailableCurrencies;
+import it.rebase.rebot.plugin.currency.ecb.EcbSaxHandler;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;

@@ -21,7 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.plugin.provider.ecb;
+package it.rebase.rebot.plugin.currency.ecb;
 
 public class CurrencyObject {
 

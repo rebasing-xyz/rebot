@@ -21,7 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.plugin.provider.ecb;
+package it.rebase.rebot.plugin.currency.ecb;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
@@ -44,7 +44,6 @@ import javax.inject.Inject;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.lang.invoke.MethodHandles;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 @Singleton

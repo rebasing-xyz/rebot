@@ -21,14 +21,14 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.plugin;
+package it.rebase.rebot.plugin.currency;
 
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
-import it.rebase.rebot.plugin.provider.ecb.AvailableCurrencies;
-import it.rebase.rebot.plugin.provider.ecb.CurrencyObject;
-import it.rebase.rebot.plugin.provider.ecb.ECBClient;
-import it.rebase.rebot.plugin.provider.ecb.ECBHelper;
+import it.rebase.rebot.plugin.currency.ecb.AvailableCurrencies;
+import it.rebase.rebot.plugin.currency.ecb.CurrencyObject;
+import it.rebase.rebot.plugin.currency.ecb.ECBClient;
+import it.rebase.rebot.plugin.currency.ecb.ECBHelper;
 import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
 import it.rebase.rebot.service.persistence.pojo.Cube;
 import org.infinispan.Cache;

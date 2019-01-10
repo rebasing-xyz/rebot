@@ -21,32 +21,35 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.plugin.utils;
+package it.rebase.rebot.service.cache.producer;
 
-import it.rebase.rebot.service.persistence.pojo.Fact;
+import it.rebase.rebot.service.cache.qualifier.BrazilPostalCodeCache;
+import org.infinispan.cdi.embedded.ConfigureCache;
+import org.infinispan.configuration.cache.Configuration;
+import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.configuration.cache.Index;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
-public class Utils {
+@ApplicationScoped
+public class BrazilPostalCodeProducer {
 
-    private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    private static final String CHUCK_NORRIS_FACTS_ENDPOINT = "https://api.chucknorris.io/jokes/random";
+    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    public static Fact getFact() {
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(CHUCK_NORRIS_FACTS_ENDPOINT);
-        Response response = target.request().get();
-
-        if (response.getStatus() != 200) {
-            log.warning("Failed to connect in the endpoint " + CHUCK_NORRIS_FACTS_ENDPOINT + ", status code is: " + response.getStatus());
-        }
-
-        return response.readEntity(Fact.class);
+    @Produces
+    @ConfigureCache("ddd-cache")
+    @BrazilPostalCodeCache()
+    public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
+        log.info("Configuring ddd-cache...");
+        return new ConfigurationBuilder()
+                .indexing()
+                .autoConfig(true)
+                .index(Index.ALL)
+                .addProperty("default.directory_provider", "ram")
+                .build();
     }
-
 }
