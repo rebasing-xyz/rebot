@@ -76,4 +76,11 @@ public class Astronomy {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "Astronomy{" +
+                "sunrise='" + sunrise + '\'' +
+                ", sunset='" + sunset + '\'' +
+                '}';
+    }
 }

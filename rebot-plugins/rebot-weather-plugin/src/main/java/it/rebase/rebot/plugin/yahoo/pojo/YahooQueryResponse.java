@@ -21,9 +21,9 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 package it.rebase.rebot.plugin.yahoo.pojo;
-import java.util.HashMap;
-import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,25 +31,55 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "query"
+        "location",
+        "current_observation",
+        "forecasts"
 })
 public class YahooQueryResponse {
 
-    @JsonProperty("query")
-    private Query query;
+    @JsonProperty("location")
+    private Location location;
+    @JsonProperty("current_observation")
+    private CurrentObservation current_observation;
+    @JsonProperty("forecasts")
+    private List<Forecast> forecasts = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("query")
-    public Query getQuery() {
-        return query;
+    @JsonProperty("location")
+    public Location getLocation() {
+        return location;
     }
 
-    @JsonProperty("query")
-    public void setQuery(Query query) {
-        this.query = query;
+    @JsonProperty("location")
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    @JsonProperty("current_observation")
+    public CurrentObservation getCurrentObservation() {
+        return current_observation;
+    }
+
+    @JsonProperty("current_observation")
+    public void setCurrentObservation(CurrentObservation current_observation) {
+        this.current_observation = current_observation;
+    }
+
+    @JsonProperty("forecasts")
+    public List<Forecast> getForecasts() {
+        return forecasts;
+    }
+
+    @JsonProperty("forecasts")
+    public void setForecasts(List<Forecast> forecasts) {
+        this.forecasts = forecasts;
     }
 
     @JsonAnyGetter
@@ -62,4 +92,12 @@ public class YahooQueryResponse {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "YahooQueryResponse{" +
+                "location=" + location +
+                ", current_observation=" + current_observation +
+                ", forecasts=" + forecasts +
+                '}';
+    }
 }

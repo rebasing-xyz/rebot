@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class BotPropertyProducerBean {
 
-    Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().toString());
+    Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Produces
     @Dependent

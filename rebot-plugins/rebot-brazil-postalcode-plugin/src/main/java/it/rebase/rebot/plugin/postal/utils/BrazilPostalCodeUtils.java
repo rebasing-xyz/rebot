@@ -57,7 +57,7 @@ public class BrazilPostalCodeUtils {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(CSV_FILE))) {
             while ((line = br.readLine()) != null) {
                 String[] linePos = line.split(CSV_SEPARATOR);
-                log.fine("Processing " + linePos[0] + " " + linePos[1] + " " + linePos[2] + " " + linePos[3]);
+                log.finest("Processing " + linePos[0] + " " + linePos[1] + " " + linePos[2] + " " + linePos[3]);
                 // remove accents before put on cache
                 String county = removeAccent(linePos[2]);
                 cache.put(county, new PostalCode(linePos[0], linePos[1], county, linePos[3]));

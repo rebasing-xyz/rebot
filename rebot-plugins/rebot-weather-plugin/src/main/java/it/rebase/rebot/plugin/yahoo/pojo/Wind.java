@@ -21,6 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
@@ -41,41 +42,41 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Wind {
 
     @JsonProperty("chill")
-    private String chill;
+    private Integer chill;
     @JsonProperty("direction")
-    private String direction;
+    private Integer direction;
     @JsonProperty("speed")
-    private String speed;
+    private Double speed;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("chill")
-    public String getChill() {
+    public Integer getChill() {
         return chill;
     }
 
     @JsonProperty("chill")
-    public void setChill(String chill) {
+    public void setChill(Integer chill) {
         this.chill = chill;
     }
 
     @JsonProperty("direction")
-    public String getDirection() {
+    public Integer getDirection() {
         return direction;
     }
 
     @JsonProperty("direction")
-    public void setDirection(String direction) {
+    public void setDirection(Integer direction) {
         this.direction = direction;
     }
 
     @JsonProperty("speed")
-    public String getSpeed() {
+    public Double getSpeed() {
         return speed;
     }
 
     @JsonProperty("speed")
-    public void setSpeed(String speed) {
+    public void setSpeed(Double speed) {
         this.speed = speed;
     }
 
@@ -89,4 +90,12 @@ public class Wind {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "Wind{" +
+                "chill=" + chill +
+                ", direction=" + direction +
+                ", speed=" + speed +
+                '}';
+    }
 }

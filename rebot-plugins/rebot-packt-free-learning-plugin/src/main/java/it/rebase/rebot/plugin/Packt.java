@@ -59,7 +59,11 @@ public class Packt implements CommandProvider {
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
         if (key.isPresent() && key.get().equals("notify")) return packtNotifier.registerNotification(messageUpdate);
         if (key.isPresent() && key.get().equals("off")) return packtNotifier.unregisterNotification(messageUpdate);
-        return packtNotifier.get();
+        try {
+            return packtNotifier.get();
+        } catch (final Exception e) {
+            return String.format("%s is in error state, info: %s", this.name(), e.getMessage());
+        }
     }
 
     @Override

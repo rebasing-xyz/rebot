@@ -35,61 +35,61 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "humidity",
+        "visibility",
         "pressure",
-        "rising",
-        "visibility"
+        "rising"
 })
 public class Atmosphere {
 
     @JsonProperty("humidity")
-    private String humidity;
-    @JsonProperty("pressure")
-    private String pressure;
-    @JsonProperty("rising")
-    private String rising;
+    private Integer humidity;
     @JsonProperty("visibility")
-    private String visibility;
+    private Double visibility;
+    @JsonProperty("pressure")
+    private Double pressure;
+    @JsonProperty("rising")
+    private Integer rising;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("humidity")
-    public String getHumidity() {
+    public Integer getHumidity() {
         return humidity;
     }
 
     @JsonProperty("humidity")
-    public void setHumidity(String humidity) {
+    public void setHumidity(Integer humidity) {
         this.humidity = humidity;
     }
 
-    @JsonProperty("pressure")
-    public String getPressure() {
-        return pressure;
-    }
-
-    @JsonProperty("pressure")
-    public void setPressure(String pressure) {
-        this.pressure = pressure;
-    }
-
-    @JsonProperty("rising")
-    public String getRising() {
-        return rising;
-    }
-
-    @JsonProperty("rising")
-    public void setRising(String rising) {
-        this.rising = rising;
-    }
-
     @JsonProperty("visibility")
-    public String getVisibility() {
+    public Double getVisibility() {
         return visibility;
     }
 
     @JsonProperty("visibility")
-    public void setVisibility(String visibility) {
+    public void setVisibility(Double visibility) {
         this.visibility = visibility;
+    }
+
+    @JsonProperty("pressure")
+    public Double getPressure() {
+        return pressure;
+    }
+
+    @JsonProperty("pressure")
+    public void setPressure(Double pressure) {
+        this.pressure = pressure;
+    }
+
+    @JsonProperty("rising")
+    public Integer getRising() {
+        return rising;
+    }
+
+    @JsonProperty("rising")
+    public void setRising(Integer rising) {
+        this.rising = rising;
     }
 
     @JsonAnyGetter
@@ -102,4 +102,13 @@ public class Atmosphere {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "Atmosphere{" +
+                "humidity=" + humidity +
+                ", visibility=" + visibility +
+                ", pressure=" + pressure +
+                ", rising=" + rising +
+                '}';
+    }
 }
