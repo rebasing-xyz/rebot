@@ -21,6 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 package it.rebase.rebot.plugin.yahoo.pojo;
 
 import java.util.HashMap;
@@ -34,49 +35,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "code",
-        "date",
         "day",
-        "high",
+        "date",
         "low",
-        "text"
+        "high",
+        "text",
+        "code"
 })
 public class Forecast {
 
-    @JsonProperty("code")
-    private String code;
-    @JsonProperty("date")
-    private String date;
     @JsonProperty("day")
     private String day;
-    @JsonProperty("high")
-    private String high;
+    @JsonProperty("date")
+    private Integer date;
     @JsonProperty("low")
-    private String low;
+    private Integer low;
+    @JsonProperty("high")
+    private Integer high;
     @JsonProperty("text")
     private String text;
+    @JsonProperty("code")
+    private Integer code;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("code")
-    public String getCode() {
-        return code;
-    }
-
-    @JsonProperty("code")
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    @JsonProperty("date")
-    public String getDate() {
-        return date;
-    }
-
-    @JsonProperty("date")
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     @JsonProperty("day")
     public String getDay() {
@@ -88,24 +69,34 @@ public class Forecast {
         this.day = day;
     }
 
-    @JsonProperty("high")
-    public String getHigh() {
-        return high;
+    @JsonProperty("date")
+    public Integer getDate() {
+        return date;
     }
 
-    @JsonProperty("high")
-    public void setHigh(String high) {
-        this.high = high;
+    @JsonProperty("date")
+    public void setDate(Integer date) {
+        this.date = date;
     }
 
     @JsonProperty("low")
-    public String getLow() {
+    public Integer getLow() {
         return low;
     }
 
     @JsonProperty("low")
-    public void setLow(String low) {
+    public void setLow(Integer low) {
         this.low = low;
+    }
+
+    @JsonProperty("high")
+    public Integer getHigh() {
+        return high;
+    }
+
+    @JsonProperty("high")
+    public void setHigh(Integer high) {
+        this.high = high;
     }
 
     @JsonProperty("text")
@@ -118,6 +109,16 @@ public class Forecast {
         this.text = text;
     }
 
+    @JsonProperty("code")
+    public Integer getCode() {
+        return code;
+    }
+
+    @JsonProperty("code")
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -128,4 +129,15 @@ public class Forecast {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "Forecast{" +
+                "day='" + day + '\'' +
+                ", date=" + date +
+                ", low=" + low +
+                ", high=" + high +
+                ", text='" + text + '\'' +
+                ", code=" + code +
+                '}';
+    }
 }

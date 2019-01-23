@@ -34,53 +34,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+        "text",
         "code",
-        "date",
-        "temp",
-        "text"
+        "temperature"
 })
 public class Condition {
 
-    @JsonProperty("code")
-    private String code;
-    @JsonProperty("date")
-    private String date;
-    @JsonProperty("temp")
-    private int temp;
     @JsonProperty("text")
     private String text;
+    @JsonProperty("code")
+    private Integer code;
+    @JsonProperty("temperature")
+    private Integer temperature;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("code")
-    public String getCode() {
-        return code;
-    }
-
-    @JsonProperty("code")
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    @JsonProperty("date")
-    public String getDate() {
-        return date;
-    }
-
-    @JsonProperty("date")
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    @JsonProperty("temp")
-    public int getTemp() {
-        return temp;
-    }
-
-    @JsonProperty("temp")
-    public void setTemp(int temp) {
-        this.temp = temp;
-    }
 
     @JsonProperty("text")
     public String getText() {
@@ -90,6 +57,26 @@ public class Condition {
     @JsonProperty("text")
     public void setText(String text) {
         this.text = text;
+    }
+
+    @JsonProperty("code")
+    public Integer getCode() {
+        return code;
+    }
+
+    @JsonProperty("code")
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    @JsonProperty("temperature")
+    public Integer getTemperature() {
+        return temperature;
+    }
+
+    @JsonProperty("temperature")
+    public void setTemperature(Integer temperature) {
+        this.temperature = temperature;
     }
 
     @JsonAnyGetter
@@ -102,4 +89,13 @@ public class Condition {
         this.additionalProperties.put(name, value);
     }
 
+
+    @Override
+    public String toString() {
+        return "Condition{" +
+                "text='" + text + '\'' +
+                ", code=" + code +
+                ", temperature=" + temperature +
+                '}';
+    }
 }

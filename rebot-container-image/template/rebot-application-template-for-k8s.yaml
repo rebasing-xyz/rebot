@@ -24,9 +24,9 @@ parameters:
   value: rebot
   required: true
 - displayName: Log Level
-  description: "WildFly Swarm logging lovel for it.rebase package"
+  description: "WildFly Swarm logging level for it.rebase package"
   name: REBOT_TELEGRAM_LOG_LEVEL
-  value: TRACE
+  value: FINE
   required: false
 - displayName: ReBot Telegram Token ID
   description: "The bot token ID, it can be retrieved through BotFather on Telegram."
@@ -43,6 +43,18 @@ parameters:
   name: REBOT_TELEGRAM_CHAT_ID
   from: "[a-zA-Z]{6}[0-9]{1}!"
   required: true
+- displayName: ReBot Telegram Weather App ID
+  description: "Yahoo APP ID"
+  name: REBOT_TELEGRAM_WEATHER_APP_ID
+  required: false
+- displayName: ReBot Telegram Weather Consumer Key
+  description: "Yahoo App Consumer Key"
+  name: REBOT_TELEGRAM_WEATHER_CONSUMER_KEY
+  required: false
+- displayName: ReBot Telegram Weather Consumer Key
+  description: "Yahoo App Consumer Secret"
+  name: REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET
+  required: false
 - displayName: ReBot Custom http Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: <application-name>-<project>.<default-domain-suffix>'
@@ -148,6 +160,12 @@ objects:
             value: "${REBOT_TELEGRAM_USER_ID}"
           - name: REBOT_TELEGRAM_CHAT_ID
             value: "${REBOT_TELEGRAM_CHAT_ID}"
+          - name: REBOT_TELEGRAM_WEATHER_APP_ID
+            value: "${REBOT_TELEGRAM_WEATHER_APP_ID}"
+          - name: REBOT_TELEGRAM_WEATHER_CONSUMER_KEY
+            value: "${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY}"
+          - name: REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET
+            value: "${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET}"
         volumes:
         - name: "${APPLICATION_NAME}-volume"
           persistentVolumeClaim:

@@ -48,7 +48,14 @@ public class Weather implements CommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        return key.get().length() > 0 ? yahoo.execute(key.get()) : "Parameter is required, " + this.name() + " help.";
+        String response;
+        try {
+            response = yahoo.execute(key.get());
+        } catch (final Exception e) {
+            response = this.name() + " is in error state, info: " + e.getMessage();
+            e.printStackTrace();
+        }
+        return key.get().length() > 0 ? response : "Parameter is required, " + this.name() + " help.";
     }
 
     @Override

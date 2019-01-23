@@ -34,23 +34,75 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "channel"
+        "wind",
+        "atmosphere",
+        "astronomy",
+        "condition",
+        "pubDate"
 })
-public class Results {
+public class CurrentObservation {
 
-    @JsonProperty("channel")
-    private Channel channel;
+    @JsonProperty("wind")
+    private Wind wind;
+    @JsonProperty("atmosphere")
+    private Atmosphere atmosphere;
+    @JsonProperty("astronomy")
+    private Astronomy astronomy;
+    @JsonProperty("condition")
+    private Condition condition;
+    @JsonProperty("pubDate")
+    private Integer pubDate;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("channel")
-    public Channel getChannel() {
-        return channel;
+    @JsonProperty("wind")
+    public Wind getWind() {
+        return wind;
     }
 
-    @JsonProperty("channel")
-    public void setChannel(Channel channel) {
-        this.channel = channel;
+    @JsonProperty("wind")
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
+    @JsonProperty("atmosphere")
+    public Atmosphere getAtmosphere() {
+        return atmosphere;
+    }
+
+    @JsonProperty("atmosphere")
+    public void setAtmosphere(Atmosphere atmosphere) {
+        this.atmosphere = atmosphere;
+    }
+
+    @JsonProperty("astronomy")
+    public Astronomy getAstronomy() {
+        return astronomy;
+    }
+
+    @JsonProperty("astronomy")
+    public void setAstronomy(Astronomy astronomy) {
+        this.astronomy = astronomy;
+    }
+
+    @JsonProperty("condition")
+    public Condition getCondition() {
+        return condition;
+    }
+
+    @JsonProperty("condition")
+    public void setCondition(Condition condition) {
+        this.condition = condition;
+    }
+
+    @JsonProperty("pubDate")
+    public Integer getPubDate() {
+        return pubDate;
+    }
+
+    @JsonProperty("pubDate")
+    public void setPubDate(Integer pubDate) {
+        this.pubDate = pubDate;
     }
 
     @JsonAnyGetter
@@ -63,4 +115,14 @@ public class Results {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "CurrentObservation{" +
+                "wind=" + wind +
+                ", atmosphere=" + atmosphere +
+                ", astronomy=" + astronomy +
+                ", condition=" + condition +
+                ", pubDate=" + pubDate +
+                '}';
+    }
 }

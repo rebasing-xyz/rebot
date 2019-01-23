@@ -32,6 +32,12 @@ envs:
     - name: "REBOT_TELEGRAM_CHAT_ID"
       example: "-928394712"
       description: "The Chat ID where the ReBot is running, this setting allows the bot to send notifications to the given chat."
+    - name: "REBOT_TELEGRAM_WEATHER_APP_ID"
+      description: "Yahoo Weather Application ID"
+    - name: "REBOT_TELEGRAM_WEATHER_CONSUMER_KEY"
+      description: "Yahoo Weather Application Consumer Key"
+    - name: "REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET"
+      description: "Yahoo Weather Application Consumer Secret"
 ports:
     - value: 8080
 modules:
