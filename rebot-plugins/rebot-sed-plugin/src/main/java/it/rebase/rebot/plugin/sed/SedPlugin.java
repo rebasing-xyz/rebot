@@ -49,28 +49,32 @@ public class SedPlugin implements PluginProvider {
     @Override
     public String process(MessageUpdate update) {
 
-        if (null != update.getMessage().getText() && update.getMessage().getText().startsWith("/")) {
-            log.fine("Sed plugin - Ignoring command [" + update.getMessage().getText() + "]");
+        if (null == update.getMessage().getText()) {
             return null;
         }
-        SedResponse sedResponse = new SedResponse().process(update);
-        log.fine("Sed Plugin - " + sedResponse.toString());
-        if (sedResponse.isProcessable() && cache.containsKey(sedResponse.getUser_id())) {
-            if (cache.get(sedResponse.getUser_id()).contains(sedResponse.getOldString())) {
-                String newValue = null;
-                if (sedResponse.isFullReplace()) {
-                    newValue = cache.get(sedResponse.getUser_id()).replace(sedResponse.getOldString(), sedResponse.getNewString());
-                } else {
-                    newValue = cache.get(sedResponse.getUser_id()).replaceFirst(sedResponse.getOldString(), sedResponse.getNewString());
+
+        if (update.getMessage().getText().startsWith("/")) {
+            log.fine("Sed plugin - Ignoring command [" + update.getMessage().getText() + "]");
+        } else {
+            SedResponse sedResponse = new SedResponse().process(update);
+            log.fine("Sed Plugin - " + sedResponse.toString());
+            if (sedResponse.isProcessable() && cache.containsKey(sedResponse.getUser_id())) {
+                if (cache.get(sedResponse.getUser_id()).contains(sedResponse.getOldString())) {
+                    String newValue = null;
+                    if (sedResponse.isFullReplace()) {
+                        newValue = cache.get(sedResponse.getUser_id()).replace(sedResponse.getOldString(), sedResponse.getNewString());
+                    } else {
+                        newValue = cache.get(sedResponse.getUser_id()).replaceFirst(sedResponse.getOldString(), sedResponse.getNewString());
+                    }
+                    cache.replace(sedResponse.getUser_id(), newValue);
+                    return String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);
                 }
-                cache.replace(sedResponse.getUser_id(), newValue);
-                return String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);
-            }
-        } else if (!sedResponse.isProcessable() && !update.getMessage().getText().startsWith("s/")) {
-            if (cache.containsKey(sedResponse.getUser_id())) {
-                cache.replace(sedResponse.getUser_id(), update.getMessage().getText(), 60, TimeUnit.MINUTES);
-            } else {
-                cache.put(sedResponse.getUser_id(), update.getMessage().getText(), 60, TimeUnit.MINUTES);
+            } else if (!sedResponse.isProcessable() && !update.getMessage().getText().startsWith("s/")) {
+                if (cache.containsKey(sedResponse.getUser_id())) {
+                    cache.replace(sedResponse.getUser_id(), update.getMessage().getText(), 60, TimeUnit.MINUTES);
+                } else {
+                    cache.put(sedResponse.getUser_id(), update.getMessage().getText(), 60, TimeUnit.MINUTES);
+                }
             }
         }
         return null;
