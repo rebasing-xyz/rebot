@@ -76,11 +76,10 @@ public class OutcomeMessageProcessor implements Processor {
             }
         });
 
-        if (null != messageUpdate.getMessage().getText() && updatesReceiver.isEnabled()) {
-            if (isCommand(messageUpdate.getMessage().getText())) {
+        if (updatesReceiver.isEnabled()) {
+            if (null !=messageUpdate.getMessage().getText() && isCommand(messageUpdate.getMessage().getText())) {
                 commandProcessor(messageUpdate);
-            }
-            else {
+            } else {
                 nonCommandProcessor(messageUpdate);
             }
         }

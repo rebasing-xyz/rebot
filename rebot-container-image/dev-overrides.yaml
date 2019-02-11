@@ -11,4 +11,4 @@ envs:
 artifacts:
 - name: rebot-telegram-bot-1.0-SNAPSHOT-thorntail.jar
   path: /data/dev/sources/rebase-it/rebot/rebot-telegram/target/rebot-telegram-bot-1.0-SNAPSHOT-thorntail.jar
-  md5: 7a2e6f3c4155f16ab0ed6e6cb64a3da0
+  md5: d7f2a0d3c925e6765499d75f54d21d9f
