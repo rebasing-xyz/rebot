@@ -63,12 +63,12 @@ public class YahooQueryResponse {
     }
 
     @JsonProperty("current_observation")
-    public CurrentObservation getCurrentObservation() {
+    public CurrentObservation getCurrent_observation() {
         return current_observation;
     }
 
     @JsonProperty("current_observation")
-    public void setCurrentObservation(CurrentObservation current_observation) {
+    public void setCurrent_observation(CurrentObservation current_observation) {
         this.current_observation = current_observation;
     }
 

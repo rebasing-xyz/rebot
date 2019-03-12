@@ -38,7 +38,7 @@ Add the following dependency on your pom.xml:
 <dependency>
     <groupId>it.rebase</groupId>
     <artifactId>rebot-urban-dictionary-service</artifactId>
-    <version>0.1.Final</version>
+    <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 

@@ -23,15 +23,18 @@
 
 package it.rebase.rebot.service.cache.producer;
 
+import it.rebase.rebot.service.cache.pojo.faq.Project;
 import it.rebase.rebot.service.cache.qualifier.FaqCache;
-import org.infinispan.cdi.embedded.ConfigureCache;
+import org.infinispan.Cache;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.configuration.cache.Index;
+import org.infinispan.configuration.global.GlobalConfiguration;
+import org.infinispan.configuration.global.GlobalConfigurationBuilder;
+import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.manager.EmbeddedCacheManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
@@ -41,25 +44,29 @@ public class FaqProducer {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Produces
-    @ConfigureCache("faq-cache")
-    @FaqCache()
-    public Configuration specialCacheCfg(InjectionPoint injectionPoint) throws ClassNotFoundException, NoSuchMethodException {
+    @FaqCache
+    public Cache<String, Project> returnCache() {
+        return faqCacheContainer().getCache();
+    }
+
+    @Produces
+    public Configuration faqCacheConfiguration() {
         log.info("Configuring faq-cache...");
-        Class classToIndex = null;
-        String defaultValue = (String) FaqCache.class.getMethod("classToIndex").getDefaultValue();
-        try {
-            classToIndex = Class.forName(injectionPoint.getAnnotated().getAnnotation(FaqCache.class).classToIndex());
-        } catch (final Exception e) {
-            log.warning("Failed to lookup the class: " + classToIndex + " --> " + e.getMessage());
-            log.warning("Configuring classToIndex to [" + defaultValue + "]");
-            classToIndex = Class.forName(defaultValue);
-        }
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)
-                .addIndexedEntity(classToIndex)
-                .index(Index.ALL)
-                .addProperty("default.directory_provider", "ram")
+                .addIndexedEntity(Project.class)
+                .memory()
                 .build();
+    }
+
+    public EmbeddedCacheManager faqCacheContainer() {
+        GlobalConfiguration g = new GlobalConfigurationBuilder()
+                .nonClusteredDefault()
+                .defaultCacheName("faq-cache")
+                .globalJmxStatistics()
+                .allowDuplicateDomains(false)
+                .build();
+        return new DefaultCacheManager(g, faqCacheConfiguration());
     }
 }

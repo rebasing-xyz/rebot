@@ -70,18 +70,12 @@
         <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
         <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
         <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
-        <version.io.thorntail>2.2.1.Final</version.io.thorntail>
-        <version.infinispan>9.1.1.Final</version.infinispan>
-        <version.javax.javaee.api>7.0</version.javax.javaee.api>
-        <version.com.h2database>1.4.196</version.com.h2database>
+        <io.quarkus.version>0.12.0</io.quarkus.version>
+        <version.infinispan>9.4.9.Final</version.infinispan>
         <version.httpclient>4.5.3</version.httpclient>
-        <version.org.json>20171018</version.org.json>
-        <version.org.jboss.resteasy>3.1.4.Final</version.org.jboss.resteasy>
         <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
-        <version.com.fasterxml.jackson.core>2.9.8</version.com.fasterxml.jackson.core>
         <version.junit>4.12</version.junit>
         <version.org.mockito>2.12.0</version.org.mockito>
-        <version.org.jboss.arquillian>1.4.0.Final</version.org.jboss.arquillian>
         <version.surefire.plugin>2.20.1</version.surefire.plugin>
         <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -99,93 +93,19 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom</artifactId>
-                <version>${version.io.thorntail}</version>
-                <scope>import</scope>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${io.quarkus.version}</version>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
+
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-bom</artifactId>
                 <version>${version.infinispan}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>${version.org.jboss.arquillian}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
-                <version>${version.javax.javaee.api}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.json</groupId>
-                <artifactId>json</artifactId>
-                <version>${version.org.json}</version>
-            </dependency>
-
-            <!-- resteasy -->
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-servlet-initializer</artifactId>
-                <version>${version.org.jboss.resteasy}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.jboss.resteasy</groupId>
-                        <artifactId>resteasy-jaxrs</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-client</artifactId>
-                <version>${version.org.jboss.resteasy}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jackson-provider</artifactId>
-                <version>${version.org.jboss.resteasy}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxrs</artifactId>
-                <version>${version.org.jboss.resteasy}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jackson2-provider</artifactId>
-                <version>${version.org.jboss.resteasy}</version>
-            </dependency>
-
-            <!-- jackson fasterxml -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${version.com.fasterxml.jackson.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${version.com.fasterxml.jackson.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${version.com.fasterxml.jackson.core}</version>
-            </dependency>
-
-            <!-- H2 -->
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${version.com.h2database}</version>
             </dependency>
 
             <!-- http client -->

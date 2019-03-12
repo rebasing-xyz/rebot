@@ -25,9 +25,9 @@
     "description": "A business logic integration platform which provides a unified and integrated platform for rules, workflow and event processing"
   },
   {
-    "id": "wildfly-swarm",
-    "link": "http://wildfly-swarm.io/",
-    "description": "Swarm offers an innovative approach to packaging and running JavaEE applications by packaging them with just enough of the server runtime to java -jar your application. However, it's all much, much cooler than that"
+    "id": "thorntail",
+    "link": "http://thorntail.io/",
+    "description": "Thorntail offers an innovative approach to packaging and running JavaEE applications by packaging them with just enough of the server runtime to java -jar your application. However, it's all much, much cooler than that"
   },
   {
     "id": "forge",
@@ -368,5 +368,15 @@
     "id": "rebot",
     "link": "https://github.com/rebase-it/rebot",
     "description": "Uma API Java EE de Bot para o Telegram."
+  },
+  {
+    "id": "quarkus",
+    "link": "https://quarkus.io",
+    "description": "A Kubernetes Native Java stack tailored for GraalVM & OpenJDK HotSpot, crafted from the best of breed Java libraries and standards."
+  },
+  {
+    "id": "fap",
+    "link": "n/a",
+    "description": "Freaking Awesome Project."
   }
 ]

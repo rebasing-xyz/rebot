@@ -24,8 +24,8 @@
 package it.rebase.rebot.plugin.client;
 
 import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
-import it.rebase.rebot.plugin.client.pojo.CustomTermResponse;
-import it.rebase.rebot.plugin.client.pojo.Term;
+import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
+import it.rebase.rebot.service.cache.pojo.urban.Term;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -91,7 +91,7 @@ public class UrbanDictionaryClient implements IUrbanDictionaryClient {
         List<CustomTermResponse> c = new ArrayList<>();
 
         response.readEntity(Term.class)
-                .getTermDefinitions()
+                .getList()
                 .stream().limit(this.numberOfResults)
                 .forEach(entry -> {
                     if (this.showExample) {

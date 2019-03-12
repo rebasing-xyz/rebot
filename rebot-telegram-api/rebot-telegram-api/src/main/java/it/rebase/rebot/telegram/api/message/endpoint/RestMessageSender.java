@@ -21,7 +21,6 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 package it.rebase.rebot.telegram.api.message.endpoint;
 
 import it.rebase.rebot.api.object.Chat;
@@ -52,7 +51,7 @@ public class RestMessageSender {
         log.fine("Rest Endpoint called, trying to send the message: [" + message + "] to  chat id [" + chatId + "]");
         try {
             sender.processOutgoingMessage(buildMessage(chatId, message));
-            Response.ok().build();
+            Response.ok("Message Sent").build();
         } catch (final Exception e) {
             Response.serverError().entity(e.getMessage()).build();
         }

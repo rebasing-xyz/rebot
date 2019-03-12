@@ -24,7 +24,7 @@
 package it.rebase.rebot.plugin.postal.utils;
 
 import it.rebase.rebot.api.emojis.Emoji;
-import it.rebase.rebot.plugin.postal.pojo.PostalCode;
+import it.rebase.rebot.service.cache.pojo.postal.PostalCode;
 import it.rebase.rebot.service.cache.qualifier.BrazilPostalCodeCache;
 import org.infinispan.Cache;
 
@@ -50,7 +50,7 @@ public class BrazilPostalCodeUtils {
 
     @Inject
     @BrazilPostalCodeCache
-    private Cache<String, PostalCode> cache;
+    Cache<String, PostalCode> cache;
 
     public void processCSVFile() {
         String line;

@@ -24,10 +24,11 @@
 package it.rebase.rebot.plugin.helper;
 
 import it.rebase.rebot.plugin.client.UrbanDictionaryClient;
-import it.rebase.rebot.service.cache.qualifier.UrbanDictionaryCache;
 import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
-import it.rebase.rebot.plugin.client.pojo.CustomTermResponse;
+import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
+import it.rebase.rebot.service.cache.qualifier.UrbanDictionaryCache;
 import org.infinispan.Cache;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -106,6 +107,7 @@ public class Helper {
 
     /**
      * Replace the html tags to avoid enconding problems, instead use html tags.
+     *
      * @param message
      * @return Mensage formatada.
      */
@@ -127,7 +129,7 @@ public class Helper {
      * @return {@link List<CustomTermResponse>}
      */
     private List<CustomTermResponse> processRequest(String term, int numberOfResults, boolean showExample) throws UnsupportedEncodingException {
-        UrbanDictionaryClient client;
+
         UrbanDictionaryClientBuilder builder = new UrbanDictionaryClientBuilder();
         if (cache.containsKey(term.trim())) {
             List<CustomTermResponse> cacheItems = cache.get(term.trim());

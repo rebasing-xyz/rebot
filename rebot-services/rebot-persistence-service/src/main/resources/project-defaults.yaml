@@ -1,8 +1,0 @@
-swarm:
-  datasources:
-    data-sources:
-      rebotDS:
-        driver-name: h2
-        connection-url: jdbc:h2:file:/opt/h2/rebot.db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        user-name: rebot
-        password: rebot

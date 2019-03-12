@@ -135,7 +135,7 @@ public class UpdatesReceiver implements Runnable {
      */
     public void enable(From from) {
         if (apiRepository.isEnabled()) return;
-        log.info("Enabling bot, requestesd by " + from.toString());
+        log.info("Enabling bot, requested by " + from.toString());
         apiRepository.persist(new BotStatus(true, from));
     }
 
@@ -177,7 +177,7 @@ public class UpdatesReceiver implements Runnable {
                             new TypeReference<TelegramResponse<ArrayList<MessageUpdate>>>() {
                             });
 
-                    if (updates.getResult().isEmpty()) {
+                    if (null == updates.getResult()) {
                         this.wait(600);
                     }
 

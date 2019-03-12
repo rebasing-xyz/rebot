@@ -36,27 +36,27 @@ import org.infinispan.notifications.cachelistener.event.CacheEntryExpiredEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryModifiedEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryRemovedEvent;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
-@Listener()
-@ApplicationScoped
+@Listener
 public class KarmaEventListener {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
-    private KarmaRepository karma;
+    public KarmaRepository karma;
 
     /**
      * Each new item added in the {@link KarmaCache} will trigger a event that will add/update the karma points for the given key
      * in the persistence layer {@link KarmaRepository}
+     *
      * @param event {@link CacheEntryCreatedEvent}
      */
     @CacheEntryCreated
-    public void entryCreated(CacheEntryCreatedEvent event) {
+    public void entryCreated(@Observes CacheEntryCreatedEvent event) {
         if (event.getValue() != null) {
             try {
                 karma.updateOrCreateKarma(new Karma(event.getKey().toString().split(":")[0], (int) event.getValue()));
@@ -68,10 +68,11 @@ public class KarmaEventListener {
 
     /**
      * Update the karma points of the given key in the database, any event that update values on {@link KarmaCache} will trigger this event
+     *
      * @param event {@link CacheEntryModifiedEvent}
      */
     @CacheEntryModified
-    public void entryModified(CacheEntryModifiedEvent event) {
+    public void entryModified(@Observes CacheEntryModifiedEvent event) {
         try {
             karma.updateOrCreateKarma(new Karma(event.getKey().toString().split(":")[0], (int) event.getValue()));
         } catch (final Exception e) {
@@ -81,21 +82,23 @@ public class KarmaEventListener {
 
     /**
      * For each expired cache entry that had its timeout hit will trigger this event and a message will be printed in the logs.
+     *
      * @param event {@link CacheEntryExpiredEvent}
      */
     @CacheEntryExpired
-    public void cacheEntryExpired(CacheEntryExpiredEvent event) {
+    public void entryExpired(@Observes CacheEntryExpiredEvent event) {
         log.fine("CacheEntryExpired " + event.getKey() + " " + event.getValue().toString());
     }
 
     /**
      * Any removed cache entry will trigger this event, its function is only notify by printing information on the logs about
      * which entry was removed from {@link KarmaCache}
+     *
      * @param event {@link CacheEntryRemovedEvent}
      */
     @CacheEntryRemoved
-    public void entryRemoved(CacheEntryRemovedEvent event) {
-        log.info("entry " + event.getKey() + " removed from the cache");
+    public void entryRemoved(@Observes CacheEntryRemovedEvent event) {
+        log.fine("entry " + event.getKey() + " removed from the cache");
     }
 
 }

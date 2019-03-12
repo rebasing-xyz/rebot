@@ -40,41 +40,37 @@
     <groupId>it.rebase</groupId>
     <artifactId>rebot-telegram-bot</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
     <dependencies>
-
-        <!-- Wildfly Swarm Fractions -->
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>cdi</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>ejb</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>undertow</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-h2</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>logging</artifactId>
-        </dependency>
-
-
-        <!-- infinispam -->
-        <dependency>
-            <groupId>javax.cache</groupId>
-            <artifactId>cache-api</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-scheduler</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-embedded</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- rebot dependencies -->
@@ -86,8 +82,12 @@
             <groupId>it.rebase</groupId>
             <artifactId>rebot-telegram-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-telegram-api-objects</artifactId>
+        </dependency>
 
-        <!-- plugins e serviços -->
+        <!-- plugins and services -->
         <dependency>
             <groupId>it.rebase</groupId>
             <artifactId>rebot-ping-plugin</artifactId>
@@ -136,26 +136,31 @@
             <groupId>it.rebase</groupId>
             <artifactId>rebot-brazil-postalcode-plugin</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
-                <version>${version.io.thorntail}</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.surefire.plugin}</version>
                 <configuration>
-                    <properties>
-                        <swarm.bind.address>127.0.0.1</swarm.bind.address>
-                        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
-                    </properties>
+                    <systemProperties>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                    </systemProperties>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${io.quarkus.version}</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>package</goal>
+                            <goal>build</goal>
                         </goals>
+                        <configuration>
+                           <uberJar>true</uberJar>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

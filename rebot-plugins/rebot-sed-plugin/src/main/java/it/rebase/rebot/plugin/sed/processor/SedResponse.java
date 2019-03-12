@@ -24,10 +24,13 @@ package it.rebase.rebot.plugin.sed.processor;
 
 import it.rebase.rebot.api.object.MessageUpdate;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class SedResponse {
 
+    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private final Pattern FULL_MSG_PATTERN = Pattern.compile("^s/.*[/$|/g]");
 
     private boolean processable;
@@ -90,6 +93,7 @@ public class SedResponse {
         if (null != update.getMessage().getText()) {
             msg = update.getMessage().getText();
             user_id = update.getMessage().getFrom().getId();
+            username = update.getMessage().getFrom().getUsername();
             int count = 0;
             for (int i = 0; i < msg.length(); i++) {
                 if (msg.charAt(i) == '/' && msg.charAt(i - 1) != '\\') {
@@ -100,15 +104,19 @@ public class SedResponse {
             boolean preProcess = (null == msg || count != 3 || msg.equals("s///") || msg.equals("s///g"));
             boolean canProcess = preProcess ? false : FULL_MSG_PATTERN.matcher(msg).find();
             if (canProcess) {
+                log.fine("Sed Plugin - " + this.toString());
                 fullReplace = msg.endsWith("/g") ? true : false;
                 processable = canProcess;
                 username = null != update.getMessage().getFrom().getUsername() ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName();
                 oldString = msg.substring(2, middlePosition).replace("\\", "");
                 newString = msg.substring(middlePosition + 1, fullReplace ? msg.length() - 2 : msg.length() - 1);
+
+            } else {
+                log.fine("Sed Plugin - can process [" + msg + "] - false");
             }
+
             processable = canProcess;
         }
         return this;
     }
-
 }

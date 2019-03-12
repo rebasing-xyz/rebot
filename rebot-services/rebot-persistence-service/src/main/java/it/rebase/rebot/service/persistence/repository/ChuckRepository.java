@@ -24,9 +24,10 @@
 package it.rebase.rebot.service.persistence.repository;
 
 import it.rebase.rebot.service.persistence.pojo.Fact;
+
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
@@ -37,17 +38,17 @@ public class ChuckRepository {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    @PersistenceContext(unitName = "rebotPU")
-    private EntityManager em;
+    @Inject
+    EntityManager entityManager;
 
     public void persisteChuckFact(Fact fact) {
         log.fine("Persisting chuck object [" + fact.toString() + "]");
         try {
-            em.merge(fact);
-            em.flush();
+            entityManager.merge(fact);
+            entityManager.flush();
         } catch (final Exception e) {
+            e.printStackTrace();
             log.warning("Failed to persist object [" + fact.toString() + "]: " + e.getMessage());
         }
     }
-
 }

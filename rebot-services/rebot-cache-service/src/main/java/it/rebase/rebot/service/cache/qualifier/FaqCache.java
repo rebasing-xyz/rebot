@@ -23,7 +23,6 @@
 
 package it.rebase.rebot.service.cache.qualifier;
 
-import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -36,11 +35,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface FaqCache {
-
-    /**
-     * Qualifier to allow pass a Class as parameter to be indexed on the cache
-     * Default value is it.rebase.rebot.plugin.pojo.Project
-     * @return {@link org.infinispan.configuration.cache.ConfigurationBuilder}
-     */
-    @Nonbinding String classToIndex() default "it.rebase.rebot.plugin.pojo.Project";
 }

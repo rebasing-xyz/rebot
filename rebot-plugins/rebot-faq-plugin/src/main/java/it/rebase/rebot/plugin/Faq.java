@@ -25,9 +25,6 @@ package it.rebase.rebot.plugin;
 
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
-import it.rebase.rebot.plugin.pojo.Project;
-import it.rebase.rebot.service.cache.qualifier.FaqCache;
-import org.infinispan.Cache;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
@@ -45,12 +42,8 @@ public class Faq implements CommandProvider {
     @Any
     FaqHelper service;
 
-    @Inject
-    @FaqCache()
-    private Cache<String, Project> cache;
-
     public void load() {
-        log.fine("loading command  " + this.name());
+        log.fine("Loading command  " + this.name());
         service.populateCache();
     }
 

@@ -23,45 +23,45 @@
 
 package it.rebase.rebot.plugin.notifier;
 
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import io.quarkus.scheduler.Scheduled;
 import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
+import it.rebase.rebot.plugin.pojo.DailyOffer;
+import it.rebase.rebot.plugin.pojo.LoadDailyOffer;
 import it.rebase.rebot.service.cache.qualifier.DefaultCache;
-import it.rebase.rebot.plugin.pojo.PacktBook;
 import it.rebase.rebot.service.persistence.pojo.PacktNotification;
 import it.rebase.rebot.service.persistence.repository.PacktRepository;
 import it.rebase.rebot.telegram.api.message.sender.MessageSender;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.infinispan.Cache;
 
-import javax.annotation.Resource;
-import javax.ejb.ScheduleExpression;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerService;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.lang.invoke.MethodHandles;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.logging.Logger;
 
-@javax.ejb.Singleton
+@ApplicationScoped
 public class PacktNotifier {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private static final String FREE_LEARNING_URL = "https://www.packtpub.com/packt/offers/free-learning";
-    private static final String PACKT_HOME_URL = "https://www.packtpub.com%s";
+    private static final String PACKT_LOAD_OFFER_ENDPOINT = "https://services.packtpub.com/free-learning-v1/offers?dateFrom=%sT00:00:00.000Z&dateTo=%sT00:00:00.000Z";
+    private static final String PACKT_DAILY_OFFER_ENDPOINT = "https://static.packt-cdn.com/products/%s/summary";
 
     @Inject
     @DefaultCache
-    Cache<String, PacktBook> cache;
+    Cache<String, Object> cache;
 
     @Inject
     private MessageSender messageSender;
@@ -69,82 +69,56 @@ public class PacktNotifier {
     @Inject
     private PacktRepository repository;
 
-    @Inject
-    PacktBook packtBook;
-
-    @Resource
-    TimerService timerService;
-
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.scheduler.timezone")
-    String timezone;
-
     public String get() {
+        DailyOffer dailyOffer = (DailyOffer) cache.get("book");
         StringBuilder builder = new StringBuilder("<i> Packt Free Learning - daily book</i>\n");
-        builder.append("<b>Book name:</b> <code>" + packtBook.getBookName() + "</code>\n");
+        builder.append("<b>Book name:</b> <code>" + dailyOffer.getTitle() + "</code>\n");
+        builder.append("<b>Book Description :</b> <code>" + dailyOffer.getOneLiner() + "</code>\n");
+        String pages = null != dailyOffer.getPages() ? dailyOffer.getPages().toString() : "N/A";
+        builder.append("<b>Book Pages :</b> <code>" + pages + "</code>\n");
         builder.append("<b>Claim URL:</b> ");
-        builder.append(packtBook.getClaimUrl());
+        builder.append(FREE_LEARNING_URL);
         return builder.toString();
     }
 
-    synchronized public void startTimer() {
-        ScheduleExpression schedule = new ScheduleExpression();
-        if (null == timezone) {
-            log.warning("Timezone not set, using default: America/Sao_Paulo");
-            schedule.timezone("America/Sao_Paulo");
-        } else {
-            schedule.timezone(timezone);
-        }
-        schedule.hour("23");
-        schedule.minute("00");
-        timerService.createCalendarTimer(schedule);
-    }
-
-    @Timeout
-    public void scheduler(Timer timer) {
-        populate(true);
-        log.fine("Timer executed, next timeout [" + timer.getNextTimeout() + "]");
-    }
-
-    synchronized public void populate(boolean notify) {
+    @Scheduled(cron = "0 30 05 * * ?")
+    public void populate() {
         log.fine("Retrieving information about the daily free ebook.");
         try {
-            HttpGet request = new HttpGet(FREE_LEARNING_URL);
-            request.setHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0 Firefox/26.0");
-            HttpResponse response = client().execute(request);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            Date today = new Date();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            String inputLine, previousLine = "";
-            int lines = 0;
-            while ((inputLine = reader.readLine()) != null) {
-                lines += 1;
-                // get the book name
-                if (previousLine.contains("dotd-main-book-image")) {
-                    inputLine = reader.readLine();
-                    packtBook.setBookName(inputLine.split("/")[2].replace("\">", ""));
-                }
+            Client client = ClientBuilder.newClient();
+            WebTarget loadDailyOfferWebTarget = client.target(String.format(PACKT_LOAD_OFFER_ENDPOINT, localDate.format(formatter),
+                    localDate.plus(1, ChronoUnit.DAYS).format(formatter)));
 
-                // get the claim URI
-                if (inputLine.contains("/freelearning-claim/")) {
-                    packtBook.setClaimUrl(String.format(PACKT_HOME_URL, inputLine.trim().replace("\"", "").replace(" id", "").split("=")[1]));
-                }
-                previousLine = inputLine;
+            log.fine("Loading daily pack offer with URI: " + loadDailyOfferWebTarget.getUri());
+
+            Response loadDailyOfferResponse = loadDailyOfferWebTarget.request().get();
+            if (loadDailyOfferResponse.getStatus() != 200) {
+                log.warning("Failed to connect in the endpoint " + loadDailyOfferWebTarget.getUri() + ", status code is: " + loadDailyOfferResponse.getStatus());
             }
 
-            if (null == packtBook.getClaimUrl()) {
-                packtBook.setClaimUrl(FREE_LEARNING_URL);
+            LoadDailyOffer loadDailyOffer = loadDailyOfferResponse.readEntity(LoadDailyOffer.class);
+            log.fine(loadDailyOffer.toString());
+
+            WebTarget getDailyOffer = client.target(String.format(PACKT_DAILY_OFFER_ENDPOINT, loadDailyOffer.getData().get(0).getProductId()));
+            log.finest("Getting daily pack offer with URI: " + getDailyOffer.getUri());
+
+            Response getDailyOfferResponse = getDailyOffer.request().get();
+            if (getDailyOfferResponse.getStatus() != 200) {
+                log.warning("Failed to connect in the endpoint " + getDailyOffer.getUri() + ", status code is: " + getDailyOfferResponse.getStatus());
             }
 
-            log.fine(packtBook.toString());
-            if (cache.containsKey("book")) {
-                cache.replace("book", packtBook);
-            } else {
-                cache.put("book", packtBook);
-            }
+            DailyOffer dailyOffer = getDailyOfferResponse.readEntity(DailyOffer.class);
+            log.fine(dailyOffer.toString());
 
-            if (notify) {
-                repository.get().stream().forEach(chatId -> this.notify(chatId));
-            }
+            cache.clear();
+            cache.put("book", dailyOffer);
+
+            repository.get().stream().forEach(chatId -> this.notify(chatId));
+
         } catch (final Exception e) {
             e.printStackTrace();
             log.warning("Failed to obtain the ebook information: " + e.getMessage());
@@ -152,7 +126,7 @@ public class PacktNotifier {
     }
 
     public String registerNotification(MessageUpdate message) {
-        String channel = null;
+        String channel;
         if (message.getMessage().getChat().getType().equals("group") || message.getMessage().getChat().getType().equals("supergroup")) {
             channel = message.getMessage().getChat().getTitle();
         } else {
@@ -162,7 +136,7 @@ public class PacktNotifier {
     }
 
     public String unregisterNotification(MessageUpdate message) {
-        String channel = null;
+        String channel;
         if (message.getMessage().getChat().getType().equals("group") || message.getMessage().getChat().getType().equals("supergroup")) {
             channel = message.getMessage().getChat().getTitle();
         } else {
@@ -179,9 +153,4 @@ public class PacktNotifier {
         message.setText(this.get());
         messageSender.processOutgoingMessage(message);
     }
-
-    private CloseableHttpClient client() {
-        return HttpClients.createDefault();
-    }
-
 }

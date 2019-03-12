@@ -64,26 +64,22 @@
   </scm>
 
     <dependencies>
-
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jpa</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-validator</artifactId>
+            <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>hibernate-search</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>it.rebase</groupId>

@@ -68,6 +68,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>it.rebase</groupId>
             <artifactId>rebot-cache-service</artifactId>
         </dependency>
@@ -85,5 +91,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
         </dependency>
+
     </dependencies>
 </project>

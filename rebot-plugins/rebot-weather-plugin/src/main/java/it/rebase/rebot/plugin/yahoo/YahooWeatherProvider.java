@@ -98,7 +98,7 @@ public class YahooWeatherProvider {
             return "Forecast for <b>" + location + "</b> not found.";
 
         } else {
-            Condition condition = yahooQueryResponse.getCurrentObservation().getCondition();
+            Condition condition = yahooQueryResponse.getCurrent_observation().getCondition();
             String city = yahooQueryResponse.getLocation().getCity();
             String region = yahooQueryResponse.getLocation().getRegion();
             String country = yahooQueryResponse.getLocation().getCountry();
@@ -125,11 +125,12 @@ public class YahooWeatherProvider {
 
     /**
      * Normalize the parameter and remove accents
+     *
      * @param param
      * @return encoded param
      */
     private String normalize(String param) {
-        String normalized =  Normalizer.normalize(param, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        String normalized = Normalizer.normalize(param, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         normalized = normalized.replace("\"", "").replace(" ", "+");
         try {
             normalized = URLEncoder.encode(normalized, StandardCharsets.UTF_8.displayName());

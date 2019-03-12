@@ -38,6 +38,6 @@ public class ReBotPredicate {
         return m -> (m.getMessage().getText().contains("@" + botUserId) || !m.getMessage().getText().contains("@"));
     }
 
-
+    // TODO create filter to make sure the user can enable/disable the bot
 
 }

@@ -23,7 +23,7 @@
 
 package it.rebase.rebot.plugin.currency.ecb;
 
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import io.quarkus.scheduler.Scheduled;
 import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
 import it.rebase.rebot.service.persistence.repository.EcbRepository;
 import org.apache.http.HttpResponse;
@@ -34,19 +34,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.infinispan.Cache;
 
-import javax.annotation.Resource;
-import javax.ejb.ScheduleExpression;
-import javax.ejb.Singleton;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerService;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
-@Singleton
+@ApplicationScoped
 public class ECBClient {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -54,35 +50,16 @@ public class ECBClient {
     public static final String ECB_XML_ADDRESS = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
 
     @Inject
-    private EcbSaxHandler handler;
+    EcbSaxHandler handler;
 
     @Inject
-    private EcbRepository repository;
-
-    @Resource
-    TimerService timerService;
+    EcbRepository repository;
 
     @Inject
     @CurrencyCache
-    private Cache<String, Object> cache;
+    Cache<String, Object> cache;
 
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.scheduler.timezone")
-    String timezone;
-
-    synchronized public void startTimer() {
-        ScheduleExpression schedule = new ScheduleExpression();
-        if (null == timezone) {
-            log.warning("Timezone not set, using default: CET");
-            schedule.timezone("CET");
-        } else {
-            schedule.timezone(timezone);
-        }
-        schedule.hour("14,15");
-        schedule.minute("30");
-        timerService.createCalendarTimer(schedule);
-    }
-
+    @Scheduled(every = "12h", delay = 60)
     public void getAndPersistDailyCurrencies() {
         try {
             log.fine("Parsing currencies from " + ECB_XML_ADDRESS);
@@ -102,13 +79,6 @@ public class ECBClient {
             handler.clean();
         }
     }
-
-    @Timeout
-    private void scheduler(Timer timer) {
-        getAndPersistDailyCurrencies();
-        log.fine("Timer executed, next timeout [" + timer.getNextTimeout() + "]");
-    }
-
 
     private CloseableHttpClient client() {
         RequestConfig config = RequestConfig.custom()

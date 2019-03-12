@@ -34,33 +34,4 @@ public interface ReBotLongPoolingBot {
      */
     void onUpdateReceived(MessageUpdate update);
 
-    /**
-     * Used to start the bot {@link it.rebase.rebot.telegram.api.UpdatesReceiver}
-     * Should be used on the bot implementation
-     * Example:
-     *      <pre>
-     *      &#064;Inject
-     *      private UpdatesReceiver receiver;
-     *
-     *          public void start() {
-     *              receiver.start();
-     *          }
-     *          </pre>
-     */
-    void start();
-
-    /**
-     * Used to stop bot, it will stop any Thread in execution
-     * Should be used on the bot implementation
-     * Example:
-     *      <pre>
-     *      &#064;Inject
-     *      private UpdatesReceiver receiver;
-     *
-     *          public void stop() {
-     *              receiver.interrupt();
-     *          }
-     *      </pre>
-     */
-    void stop();
 }

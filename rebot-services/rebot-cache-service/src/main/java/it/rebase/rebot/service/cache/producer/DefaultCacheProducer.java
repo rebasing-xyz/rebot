@@ -24,13 +24,17 @@
 package it.rebase.rebot.service.cache.producer;
 
 import it.rebase.rebot.service.cache.qualifier.DefaultCache;
-import org.infinispan.cdi.embedded.ConfigureCache;
+import org.infinispan.Cache;
+import org.infinispan.cdi.embedded.InfinispanExtensionEmbedded;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.configuration.global.GlobalConfiguration;
+import org.infinispan.configuration.global.GlobalConfigurationBuilder;
+import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.manager.EmbeddedCacheManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
@@ -39,15 +43,47 @@ public class DefaultCacheProducer {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
+    private DefaultCacheManager defaultCacheManager;
+
     @Produces
-    @ConfigureCache("default-cache")
     @DefaultCache
-    public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
+    public Cache<String, String> returnDefaultCache() {
+        return defaultCacheContainer().getCache();
+    }
+
+    @Produces
+    @DefaultCache
+    public Cache<String, Object> returnDefaultCacheStringObject() {
+        return defaultCacheContainer().getCache();
+    }
+
+    @Produces
+    public Configuration defaultCacheProducer() {
         log.info("Configuring default-cache...");
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)
-                .addProperty("default.directory_provider", "ram")
+                .memory()
+                .size(1000)
                 .build();
+    }
+
+    @Produces
+    public EmbeddedCacheManager defaultCacheContainer() {
+        if (null == defaultCacheManager) {
+            GlobalConfiguration g = new GlobalConfigurationBuilder()
+                    .nonClusteredDefault()
+                    .defaultCacheName("default-cache")
+                    .globalJmxStatistics()
+                    .allowDuplicateDomains(false)
+                    .build();
+            defaultCacheManager = new DefaultCacheManager(g, defaultCacheProducer());
+        }
+        return defaultCacheManager;
+    }
+
+    @Produces
+    public InfinispanExtensionEmbedded defaultInfinispanExtensionEmbedded() {
+        return new InfinispanExtensionEmbedded();
     }
 }

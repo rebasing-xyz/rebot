@@ -30,6 +30,7 @@ import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
+import it.rebase.rebot.service.persistence.repository.ApiRepository;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
 import it.rebase.rebot.telegram.api.message.sender.MessageSender;
 
@@ -44,6 +45,7 @@ import java.util.logging.Logger;
 public class OutcomeMessageProcessor implements Processor {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private boolean isAdministrativeCommand = false;
 
     @Inject
     @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
@@ -60,7 +62,8 @@ public class OutcomeMessageProcessor implements Processor {
     @Inject
     private MessageSender reply;
     @Inject
-    private UpdatesReceiver updatesReceiver;
+    private ApiRepository apiRepository;
+
 
     @Override
     public void process(MessageUpdate messageUpdate) {
@@ -69,14 +72,16 @@ public class OutcomeMessageProcessor implements Processor {
             if (c.canProcessCommand(messageUpdate, botUserId)) {
                 if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help()));
+                    isAdministrativeCommand = true;
                     return;
                 }
                 reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.execute(null, messageUpdate).toString()));
+                isAdministrativeCommand = true;
                 return;
             }
         });
 
-        if (updatesReceiver.isEnabled()) {
+        if (apiRepository.isEnabled()) {
             if (null !=messageUpdate.getMessage().getText() && isCommand(messageUpdate.getMessage().getText())) {
                 commandProcessor(messageUpdate);
             } else {
@@ -108,7 +113,7 @@ public class OutcomeMessageProcessor implements Processor {
                 }
             }
         });
-        if (response.length() < 1) {
+        if (response.length() < 1 && !isAdministrativeCommand) {
             log.fine("Command [" + messageUpdate.getMessage().getText() + "] will not to be processed by this bot or is not an administrative command.");
         }
         reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), (response.toString())));

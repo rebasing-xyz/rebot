@@ -23,7 +23,7 @@
 
 package it.rebase.rebot.plugin.client;
 
-import it.rebase.rebot.plugin.client.pojo.CustomTermResponse;
+import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
 import java.io.UnsupportedEncodingException;
 
 public interface IUrbanDictionaryClient<T> {

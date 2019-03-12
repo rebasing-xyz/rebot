@@ -24,12 +24,12 @@
 package it.rebase.rebot.service.persistence.repository;
 
 import it.rebase.rebot.service.persistence.pojo.PacktNotification;
+import org.hibernate.exception.ConstraintViolationException;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 import java.lang.invoke.MethodHandles;
 import java.math.BigInteger;
 import java.util.List;
@@ -41,8 +41,8 @@ public class PacktRepository {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    @PersistenceContext(unitName = "rebotPU")
-    private EntityManager em;
+    @Inject
+    EntityManager em;
 
     public String register(PacktNotification packtNotification) {
         try {

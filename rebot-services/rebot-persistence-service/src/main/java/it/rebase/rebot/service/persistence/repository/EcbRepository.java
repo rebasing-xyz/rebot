@@ -3,6 +3,7 @@ package it.rebase.rebot.service.persistence.repository;
 import it.rebase.rebot.service.persistence.pojo.Cubes;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
@@ -20,8 +21,8 @@ public class EcbRepository {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    @PersistenceContext(unitName = "rebotPU")
-    private EntityManager em;
+    @Inject
+    EntityManager em;
 
     public void persist(Cubes cubes) {
         if (!exists(cubes.getClass(), cubes.getTime())) {

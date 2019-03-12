@@ -25,12 +25,10 @@ package it.rebase.rebot.plugin.urbandictionary.test;
 
 import it.rebase.rebot.plugin.client.UrbanDictionaryClient;
 import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
-import it.rebase.rebot.plugin.client.pojo.CustomTermResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 public class UrbanDictionaryTest {
 

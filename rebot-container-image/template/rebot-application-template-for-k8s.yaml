@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   annotations:
     description: Application template for ReBot Telegram chat.
-    tags: rebot,javaee,telegram
+    tags: rebot,quarkus,telegram
     openshift.io/display-name: ReBot, a Java EE bot for Telegram base on ReBot API.
   name: rebot
 labels:
@@ -14,7 +14,6 @@ message:  |-
                    Telegram Token ID: ${REBOT_TELEGRAM_TOKEN_ID}
               ReBot Telegram User ID: ${REBOT_TELEGRAM_USER_ID}
               ReBot Telegram Chat ID: ${REBOT_TELEGRAM_CHAT_ID}
-                     ReBot Log Level: ${REBOT_TELEGRAM_LOG_LEVEL}
 
            For more information about using this template, see https://github.com/rebase-it/rebot/tree/v0.3/rebot-container-image.
 parameters:
@@ -23,11 +22,6 @@ parameters:
   name: APPLICATION_NAME
   value: rebot
   required: true
-- displayName: Log Level
-  description: "WildFly Swarm logging level for it.rebase package"
-  name: REBOT_TELEGRAM_LOG_LEVEL
-  value: FINE
-  required: false
 - displayName: ReBot Telegram Token ID
   description: "The bot token ID, it can be retrieved through BotFather on Telegram."
   name: REBOT_TELEGRAM_TOKEN_ID
