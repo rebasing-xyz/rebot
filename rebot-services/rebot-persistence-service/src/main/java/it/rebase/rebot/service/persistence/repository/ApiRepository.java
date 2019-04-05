@@ -26,6 +26,7 @@ package it.rebase.rebot.service.persistence.repository;
 import it.rebase.rebot.service.persistence.pojo.BotStatus;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -39,8 +40,8 @@ public class ApiRepository {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    @PersistenceContext(unitName = "rebotPU")
-    private EntityManager em;
+    @Inject
+    EntityManager em;
 
     /**
      * Persist the bot state in the database

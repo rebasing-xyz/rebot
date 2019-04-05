@@ -46,8 +46,8 @@ import java.util.Map;
 })
 public class From implements Serializable {
 
-    @JsonProperty("id")
     @Transient
+    @JsonProperty("id")
     private long id;
     @JsonProperty("is_bot")
     private boolean isBot;

@@ -25,6 +25,7 @@ package it.rebase.rebot.service.persistence.repository;
 
 import it.rebase.rebot.service.persistence.pojo.Karma;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -37,8 +38,8 @@ public class KarmaRepository {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    @PersistenceContext(unitName = "rebotPU")
-    private EntityManager em;
+    @Inject
+    EntityManager em;
 
     public int get(String key) {
         try {

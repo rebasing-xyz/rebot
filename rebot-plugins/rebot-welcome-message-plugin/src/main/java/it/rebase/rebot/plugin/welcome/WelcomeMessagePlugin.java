@@ -51,9 +51,8 @@ public class WelcomeMessagePlugin implements PluginProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling plugin welcome-message-plugin.");
+        log.fine("Enabling welcome-message-plugin plugin.");
     }
-
 
     /**
      * When a member join, left or gets excluded from an Telegram group a msg will be sent to the target group.
@@ -66,13 +65,21 @@ public class WelcomeMessagePlugin implements PluginProvider {
         final Message message = new Message();
         for (Map.Entry<String, Object> entry : update.getMessage().getAdditionalProperties().entrySet()) {
             log.fine("Additional Properties: KEY + " + entry.getKey() + " - VALUE " + entry.getValue().toString());
-            if (entry.getKey().equals("new_chat_member") && !update.getMessage().getFrom().isIsBot()) {
+            if (entry.getKey().equals("new_chat_member")) {
                 NewChatMember member = mapper.convertValue(entry.getValue(), NewChatMember.class);
-                message.setText(String.format(WELCOME_MESSAGE, member.getFirst_name(), update.getMessage().getChat().getTitle()));
+                if (!member.isIs_bot()) {
+                    message.setText(String.format(WELCOME_MESSAGE, member.getFirst_name(), update.getMessage().getChat().getTitle()));
+                } else {
+                    log.fine("[" + member.getUsername() + "] is bot, ignoring welcome message;");
+                }
 
-            } else if (entry.getKey().equals("left_chat_participant") && !update.getMessage().getFrom().isIsBot()) {
+            } else if (entry.getKey().equals("left_chat_participant")) {
                 LeftChatMember member = mapper.convertValue(entry.getValue(), LeftChatMember.class);
-                message.setText(String.format(GOODBYE_MESSAGE, member.getFirst_name()));
+                if (!member.isIs_bot()) {
+                    message.setText(String.format(GOODBYE_MESSAGE, member.getFirst_name()));
+                } else {
+                    log.fine("[" + member.getUsername() + "] is bot, ignoring goodbye message;");
+                }
             }
         }
         return message.getText();

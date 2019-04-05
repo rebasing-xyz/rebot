@@ -69,9 +69,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-embedded</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>it.rebase</groupId>
             <artifactId>rebot-telegram-api-spi</artifactId>

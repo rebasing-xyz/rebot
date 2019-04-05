@@ -23,15 +23,18 @@
 
 package it.rebase.rebot.service.cache.producer;
 
+import it.rebase.rebot.service.cache.pojo.postal.PostalCode;
 import it.rebase.rebot.service.cache.qualifier.BrazilPostalCodeCache;
-import org.infinispan.cdi.embedded.ConfigureCache;
+import org.infinispan.Cache;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.configuration.cache.Index;
+import org.infinispan.configuration.global.GlobalConfiguration;
+import org.infinispan.configuration.global.GlobalConfigurationBuilder;
+import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.manager.EmbeddedCacheManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
@@ -40,16 +43,34 @@ public class BrazilPostalCodeProducer {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
+    private DefaultCacheManager defaultCacheManager;
+
     @Produces
-    @ConfigureCache("ddd-cache")
-    @BrazilPostalCodeCache()
-    public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
+    @BrazilPostalCodeCache
+    public Cache<String, PostalCode> returnCache() {
+        return dddCacheContainer().getCache();
+    }
+
+    @Produces
+    public Configuration dddCacheConfiguration() {
         log.info("Configuring ddd-cache...");
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)
-                .index(Index.ALL)
-                .addProperty("default.directory_provider", "ram")
+                .memory()
                 .build();
+    }
+
+    public EmbeddedCacheManager dddCacheContainer() {
+        if (null ==  defaultCacheManager) {
+            GlobalConfiguration g = new GlobalConfigurationBuilder()
+                    .nonClusteredDefault()
+                    .defaultCacheName("ddd-cache")
+                    .globalJmxStatistics()
+                    .allowDuplicateDomains(false)
+                    .build();
+            defaultCacheManager =  new DefaultCacheManager(g, dddCacheConfiguration());
+        }
+        return defaultCacheManager;
     }
 }

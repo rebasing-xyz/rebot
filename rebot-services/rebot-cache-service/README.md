@@ -11,7 +11,7 @@ There is also a generic cache, that can be used like this example:
 ```java
 @Inject
 @KarmaCache
-Cache<String, Integer> cache
+Cache<String, Integer> cache;
 
 public void someMethod() {}
     cache.pubIfAbsent("username", 100);

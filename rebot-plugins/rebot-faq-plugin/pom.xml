@@ -70,24 +70,24 @@
     <dependencies>
 
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
         </dependency>
-
-        <!-- jackson fasterxml -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-scheduler</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- rebot dependencies -->
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-telegram-api-spi</artifactId>
+            <artifactId>rebot-cache-service</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
-            <artifactId>rebot-cache-service</artifactId>
+            <artifactId>rebot-telegram-api-spi</artifactId>
         </dependency>
         <dependency>
             <groupId>it.rebase</groupId>
@@ -96,10 +96,6 @@
         <dependency>
             <groupId>it.rebase</groupId>
             <artifactId>rebot-telegram-api-objects</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-persistence-service</artifactId>
         </dependency>
 
     </dependencies>

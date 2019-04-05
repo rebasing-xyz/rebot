@@ -35,22 +35,11 @@ import javax.inject.Inject;
 public class ReBot implements ReBotLongPoolingBot {
 
     @Inject
-    private UpdatesReceiver receiver;
-
-    @Inject
-    private OutcomeMessageProcessor msg;
+    OutcomeMessageProcessor msg;
 
     @Override
     public void onUpdateReceived(MessageUpdate update) {
         msg.process(update);
-    }
-
-    public void start() {
-        receiver.start();
-    }
-
-    public void stop() {
-        receiver.interrupt();
     }
 
 }

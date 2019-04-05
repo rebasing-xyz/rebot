@@ -23,15 +23,20 @@
 
 package it.rebase.rebot.service.cache.producer;
 
+import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
 import it.rebase.rebot.service.cache.qualifier.UrbanDictionaryCache;
-import org.infinispan.cdi.embedded.ConfigureCache;
+import org.infinispan.Cache;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.configuration.global.GlobalConfiguration;
+import org.infinispan.configuration.global.GlobalConfigurationBuilder;
+import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.manager.EmbeddedCacheManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -39,15 +44,35 @@ public class UrbanDictionaryProducer {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
+    private DefaultCacheManager defaultCacheManager;
+
     @Produces
-    @ConfigureCache("urban-dictionary-cache")
     @UrbanDictionaryCache
-    public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
-        log.info("Configuring urban-dictionary-cache...");
+    public Cache<Object, List<CustomTermResponse>> returnCache() {
+        return urbanCacheContainer().getCache();
+    }
+
+    @Produces
+    public Configuration urbanCacheProducer() {
+        log.info("Configuring urban-cache...");
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)
-                .addProperty("default.directory_provider", "ram")
+                .memory()
+                .size(1000)
                 .build();
+    }
+
+    public EmbeddedCacheManager urbanCacheContainer() {
+        if (null == defaultCacheManager) {
+            GlobalConfiguration g = new GlobalConfigurationBuilder()
+                    .nonClusteredDefault()
+                    .defaultCacheName("urban-cache")
+                    .globalJmxStatistics()
+                    .allowDuplicateDomains(false)
+                    .build();
+            defaultCacheManager = new DefaultCacheManager(g, urbanCacheProducer());
+        }
+        return defaultCacheManager;
     }
 }

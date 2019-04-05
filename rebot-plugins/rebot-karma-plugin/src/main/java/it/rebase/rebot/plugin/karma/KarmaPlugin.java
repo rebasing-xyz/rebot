@@ -52,17 +52,16 @@ public class KarmaPlugin implements PluginProvider {
 
     @Inject
     @KarmaCache
-    private Cache<String, Integer> cache;
+    Cache<String, Integer> cache;
 
     @Inject
-    private KarmaEventListener karmaEventListener;
+    KarmaEventListener karmaEventListener;
 
     @Inject
-    private KarmaRepository karma;
+    KarmaRepository karma;
 
     @Override
     public void load() {
-        cache.start();
         cache.addListener(karmaEventListener);
         log.fine("Plugin karma-plugin enabled.");
     }
@@ -83,8 +82,6 @@ public class KarmaPlugin implements PluginProvider {
                 for (Map.Entry<String, String> entry : finalTargets.entrySet()) {
                     response.append(processKarma(entry.getValue(), entry.getKey(), username));
                 }
-            } else {
-                log.fine("Message " + update.getMessage().getText() + " is a updated message, ignoring...");
             }
         } catch (final Exception e) {
             e.printStackTrace();

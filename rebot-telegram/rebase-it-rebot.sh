@@ -36,17 +36,29 @@
 
 # All the variables will come from the file /opt/bot/rebase-it-rebot.conf
 
-VERSION="0.1-SNAPSHOT"
+VERSION="1.0-SNAPSHOT"
 
 case $1 in
 "start")
   echo "Starting rebot."
-  $JAVA_HOME/bin/java -jar -Xms150m -Xmx300m -XX:MetaspaceSize=100m -Djava.io.tmpdir=/opt/bot/tmp -Dit.rebase.telegram.token=${BOT_TOKEN} -Dit.rebase.telegram.userId=${BOT_USER_ID} -Dit.rebase.telegram.chatId=${BOT_CHAT_ID} -Dit.rebase.gitbook.token=${GITBOOKS_TOKEN} telegram-bot-${VERSION}-swarm.jar &
+  $JAVA_HOME/bin/java -jar \
+    -Dit.rebase.rebot.telegram.token=${REBOT_TELEGRAM_TOKEN_ID} \
+    -Dit.rebase.rebot.telegram.userId=${REBOT_TELEGRAM_USER_ID} \
+    -Dit.rebase.rebot.plugin.yahoo.app.id=${REBOT_TELEGRAM_WEATHER_APP_ID} \
+    -Dit.rebase.rebot.plugin.yahoo.app.consumerKey=${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY} \
+    -Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET} \
+    -Dquarkus.log.category."it.rebase".level==${REBOT_TELEGRAM_LOG_LEVEL} \ rebot-telegram-bot-${VERSION}-runner.jar &
   echo $! > /opt/bot/rebase-it-rebot.pid
   ;;
 "restart")
   echo "Restarting rebot."
-  $JAVA_HOME/bin/java -jar -Xms150m -Xmx300m -XX:MetaspaceSize=100m -Djava.io.tmpdir=/opt/bot/tmp -Dit.rebase.telegram.token=${BOT_TOKEN} -Dit.rebase.telegram.userId=${BOT_USER_ID} -Dit.rebase.telegram.chatId=${BOT_CHAT_ID} -Dit.rebase.gitbook.token=${GITBOOKS_TOKEN} telegram-bot-${VERSION}-swarm.jar &
+  $JAVA_HOME/bin/java -jar \
+    -Dit.rebase.rebot.telegram.token=${REBOT_TELEGRAM_TOKEN_ID} \
+    -Dit.rebase.rebot.telegram.userId=${REBOT_TELEGRAM_USER_ID} \
+    -Dit.rebase.rebot.plugin.yahoo.app.id=${REBOT_TELEGRAM_WEATHER_APP_ID} \
+    -Dit.rebase.rebot.plugin.yahoo.app.consumerKey=${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY} \
+    -Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET} \
+    -Dquarkus.log.category."it.rebase".level==${REBOT_TELEGRAM_LOG_LEVEL} \ rebot-telegram-bot-${VERSION}-runner.jar &
   echo $! >  /opt/bot/rebase-it-rebot.pid
   ;;
 "stop")

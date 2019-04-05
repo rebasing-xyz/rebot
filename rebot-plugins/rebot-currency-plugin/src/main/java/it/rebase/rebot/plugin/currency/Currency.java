@@ -47,18 +47,17 @@ public class Currency implements CommandProvider {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
-    private ECBClient ecbClient;
+    ECBClient ecbClient;
 
     @Inject
     @CurrencyCache
-    private Cache<String, Cube> cache;
+    Cache<String, Object> cache;
 
     private List<Cube> cubes;
 
     @Override
     public void load() {
         log.fine("Loading command " + this.name());
-        ecbClient.startTimer();
         ecbClient.getAndPersistDailyCurrencies();
     }
 
@@ -146,11 +145,11 @@ public class Currency implements CommandProvider {
     private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate) {
         try {
             if (currencyID.equalsIgnoreCase("EUR")) {
-                return ECBHelper.calculateRateConversion(cache.get(baseCurrencyId), Optional.empty(), targetExrate);
+                return ECBHelper.calculateRateConversion((Cube) cache.get(baseCurrencyId), Optional.empty(), targetExrate);
             }
 
-            Cube cube = cache.get(String.valueOf(AvailableCurrencies.valueOf(currencyID)));
-            return ECBHelper.calculateRateConversion(cache.get(baseCurrencyId), Optional.of(cube), targetExrate);
+            Cube cube = (Cube) cache.get(String.valueOf(AvailableCurrencies.valueOf(currencyID)));
+            return ECBHelper.calculateRateConversion((Cube) cache.get(baseCurrencyId), Optional.of(cube), targetExrate);
         } catch (final Exception e) {
             e.printStackTrace();
         }
@@ -165,10 +164,11 @@ public class Currency implements CommandProvider {
     private boolean canProcess() {
         try {
             log.fine("Verifying if the cache is functional");
-            Cube cube = cache.get("USD");
+            Cube cube = (Cube) cache.get("USD");
             if (null != cube.getCurrency()) return true;
             else return false;
         } catch (final Exception e) {
+            e.printStackTrace();
             log.fine("Currency Plugin is not functional at this moment [" + e.getMessage() + "]");
             return false;
         }

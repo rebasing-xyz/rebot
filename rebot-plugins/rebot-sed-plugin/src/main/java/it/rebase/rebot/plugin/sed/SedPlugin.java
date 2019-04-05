@@ -26,7 +26,7 @@ package it.rebase.rebot.plugin.sed;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.plugin.sed.processor.SedResponse;
-import it.rebase.rebot.service.cache.qualifier.DefaultCache;
+import it.rebase.rebot.service.cache.qualifier.SedCache;
 import org.infinispan.Cache;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -35,7 +35,6 @@ import java.lang.invoke.MethodHandles;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-
 @ApplicationScoped
 public class SedPlugin implements PluginProvider {
 
@@ -43,7 +42,7 @@ public class SedPlugin implements PluginProvider {
     private final String MSG_TEMPLATE = "<i>%s</i> meant <b>%s</b>";
 
     @Inject
-    @DefaultCache
+    @SedCache
     Cache<Long, String> cache;
 
     @Override
@@ -57,10 +56,9 @@ public class SedPlugin implements PluginProvider {
             log.fine("Sed plugin - Ignoring command [" + update.getMessage().getText() + "]");
         } else {
             SedResponse sedResponse = new SedResponse().process(update);
-            log.fine("Sed Plugin - " + sedResponse.toString());
             if (sedResponse.isProcessable() && cache.containsKey(sedResponse.getUser_id())) {
                 if (cache.get(sedResponse.getUser_id()).contains(sedResponse.getOldString())) {
-                    String newValue = null;
+                    String newValue;
                     if (sedResponse.isFullReplace()) {
                         newValue = cache.get(sedResponse.getUser_id()).replace(sedResponse.getOldString(), sedResponse.getNewString());
                     } else {

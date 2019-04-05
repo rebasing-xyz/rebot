@@ -50,21 +50,16 @@ public class Fact {
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @JsonProperty("id")
+    private String id;
 
     @Column(name = "CATEGORY", nullable = true)
-    @JsonIgnore
-    @Transient
+    @JsonProperty("category")
     private String category;
 
     @Column(name = "ICONURL", nullable = false)
     @JsonProperty("icon_url")
-    private String iconUrl;
-
-    @Column(name = "JOKE_ID", nullable = false)
-    @JsonProperty("id")
-    private String jokeId;
+    private String icon_url;
 
     @Column(name = "URL", nullable = false)
     @JsonProperty("url")
@@ -78,12 +73,14 @@ public class Fact {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public void setId(int id) {
-        this.id = id;
+    @JsonProperty("id")
+    public String getId() {
+        return id;
     }
 
-    public int getId() {
-        return id;
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
     @JsonProperty("category")
@@ -97,23 +94,13 @@ public class Fact {
     }
 
     @JsonProperty("icon_url")
-    public String getIconUrl() {
-        return iconUrl;
+    public String getIcon_url() {
+        return icon_url;
     }
 
     @JsonProperty("icon_url")
-    public void setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
-    }
-
-    @JsonProperty("id")
-    public String getJokeId() {
-        return jokeId;
-    }
-
-    @JsonProperty("id")
-    public void setJokeId(String jokeId) {
-        this.jokeId = jokeId;
+    public void setIcon_url(String icon_url) {
+        this.icon_url = icon_url;
     }
 
     @JsonProperty("url")
@@ -150,8 +137,8 @@ public class Fact {
     public String toString() {
         return "Fact{" +
                 "id=" + id +
-                ", iconUrl='" + iconUrl + '\'' +
-                ", jokeId='" + jokeId + '\'' +
+                ", iconUrl='" + icon_url + '\'' +
+                ", jokeId='" + id + '\'' +
                 ", url='" + url + '\'' +
                 ", value='" + value + '\'' +
                 ", additionalProperties=" + additionalProperties +

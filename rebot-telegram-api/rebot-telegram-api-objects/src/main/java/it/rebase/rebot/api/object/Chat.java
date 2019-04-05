@@ -40,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "type",
         "all_members_are_administrators"
 })
+//@RegisterForReflection
 public class Chat implements Serializable
 {
 

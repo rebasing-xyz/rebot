@@ -67,8 +67,13 @@
       <tag>HEAD</tag>
   </scm>
 
-
     <dependencies>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- rebot dependencies -->
         <dependency>
             <groupId>it.rebase</groupId>

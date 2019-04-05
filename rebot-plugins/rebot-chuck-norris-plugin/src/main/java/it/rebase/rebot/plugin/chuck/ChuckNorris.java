@@ -48,7 +48,7 @@ public class ChuckNorris implements PluginProvider {
 
     @Override
     public void load() {
-        log.fine("Plugin Chuck Norris enabled.");
+        log.fine("Enabling Chuck Norris plugin.");
     }
 
     @Override

@@ -68,15 +68,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>it.rebase</groupId>
             <artifactId>rebot-telegram-api-objects</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

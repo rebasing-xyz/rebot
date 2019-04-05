@@ -58,7 +58,7 @@ public class Location {
     @JsonProperty("long")
     private Double _long;
     @JsonProperty("timezone_id")
-    private String timezoneId;
+    private String timezone_id;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -123,13 +123,13 @@ public class Location {
     }
 
     @JsonProperty("timezone_id")
-    public String getTimezoneId() {
-        return timezoneId;
+    public String getTimezone_id() {
+        return timezone_id;
     }
 
     @JsonProperty("timezone_id")
-    public void setTimezoneId(String timezoneId) {
-        this.timezoneId = timezoneId;
+    public void setTimezone_id(String timezone_id) {
+        this.timezone_id = timezone_id;
     }
 
     @JsonAnyGetter
@@ -151,7 +151,7 @@ public class Location {
                 ", country='" + country + '\'' +
                 ", lat=" + lat +
                 ", _long=" + _long +
-                ", timezoneId='" + timezoneId + '\'' +
+                ", timezoneId='" + timezone_id + '\'' +
                 '}';
     }
 }

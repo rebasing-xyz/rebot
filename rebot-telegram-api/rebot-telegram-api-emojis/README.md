@@ -8,7 +8,7 @@ To use an emoji in your plugins, just add it in the pom.xml:
 <dependency>
     <groupId>it.rebase</groupId>
     <artifactId>rebot-telegram-api-emojis</artifactId>
-    <version>0.2</version>
+    <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 

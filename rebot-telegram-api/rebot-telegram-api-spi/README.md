@@ -90,9 +90,7 @@ rebot-services/rebot-ping-service/
         │                   └── ping
         │                       └── Ping.java
         └── resources
-            └── META-INF
-                └── services
-                    └── it.rebase.rebot.api.spi.CommandProvider
+            └── beans.xml
 
 11 directories, 5 files
 

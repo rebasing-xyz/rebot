@@ -27,8 +27,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
+import java.util.Properties;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * {@link BotProperty} String producer
@@ -37,16 +41,45 @@ import java.util.logging.Logger;
 public class BotPropertyProducerBean {
 
     Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private String PROPERTIES_FILE = "META-INF/microprofile-config.properties";
+    final Properties prop = new Properties();
 
     @Produces
     @Dependent
     @BotProperty(name = "")
     public String findBotProperty(InjectionPoint injectionPoint) {
         BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
-        String property = System.getProperty(prop.name());
+        String property = readSysProperty(prop.name());
         log.fine("Injecting Property name: [" + prop.name() + "] value: [" + property + "] required [" + prop.required() + "]");
-        if (prop.required() && (null == property) || property=="") {
+        if (prop.required() && (null == property) || property == "") {
             throw new IllegalStateException("The parameter " + prop.name() + " is required!");
+        }
+        return property;
+    }
+
+    /**
+     * Read System Properties from
+     * - system properties from command line
+     * - properties file located on classpath
+     * <p>
+     * Supports environment variable substitution on the properties file.
+     */
+    private String readSysProperty(String propName) {
+        Pattern pattern = Pattern.compile("\\$\\{.*?\\}");
+
+        String property = null;
+        try (final InputStream stream = ClassLoader.getSystemResourceAsStream(PROPERTIES_FILE)) {
+            prop.load(stream);
+            Matcher matcher = pattern.matcher(prop.getProperty(propName));
+            if (matcher.find()) {
+                String envVar = prop.getProperty(propName).substring(matcher.start() + 2, matcher.end() - 1);
+                property = System.getenv(envVar);
+                log.fine("Read environment variable [" + envVar +"] from properties file, new value [" + property + "]" );
+                log.fine("Command line System properties takes precedence.");
+            }
+            property = System.getProperty(propName, prop.getProperty(propName, property));
+        } catch (final Exception e) {
+            log.warning("Loading props file failed: " + e.getMessage());
         }
         return property;
     }

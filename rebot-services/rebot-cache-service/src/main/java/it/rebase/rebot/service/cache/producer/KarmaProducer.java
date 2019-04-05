@@ -24,13 +24,16 @@
 package it.rebase.rebot.service.cache.producer;
 
 import it.rebase.rebot.service.cache.qualifier.KarmaCache;
-import org.infinispan.cdi.embedded.ConfigureCache;
+import org.infinispan.Cache;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.configuration.global.GlobalConfiguration;
+import org.infinispan.configuration.global.GlobalConfigurationBuilder;
+import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.manager.EmbeddedCacheManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
@@ -39,15 +42,33 @@ public class KarmaProducer {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
+    private DefaultCacheManager defaultCacheManager;
+
     @Produces
-    @ConfigureCache("karma-cache")
     @KarmaCache
-    public Configuration specialCacheCfg(InjectionPoint injectionPoint) {
+    public Cache<String, Integer> returnCache() {
+        return karmaCacheContainer().getCache();
+    }
+
+    public Configuration karmaCacheConfiguration() {
         log.info("Configuring karma-cache...");
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)
-                .addProperty("default.directory_provider", "ram")
+                .memory()
                 .build();
+    }
+
+    public EmbeddedCacheManager karmaCacheContainer() {
+        if (null == defaultCacheManager) {
+            GlobalConfiguration g = new GlobalConfigurationBuilder()
+                    .nonClusteredDefault()
+                    .defaultCacheName("karma-cache")
+                    .globalJmxStatistics()
+                    .allowDuplicateDomains(false)
+                    .build();
+            defaultCacheManager = new DefaultCacheManager(g, karmaCacheConfiguration());
+        }
+        return defaultCacheManager;
     }
 }
