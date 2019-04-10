@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rebaseit/rebot"
 description: "ReBot Telegram Bot container image"
-version: "1.0-SNAPSHOT"
+version: "1.0"
 from: "docker.io/adoptopenjdk/openjdk11:slim"
 labels:
     - name: "io.k8s.description"
@@ -19,7 +19,7 @@ envs:
     - name: "REBOT_HOME"
       value: "/opt/rebot"
     - name: "REBOT_QUARKUS_BINARY"
-      value: "rebot-telegram-bot-0.3-swarm.jar"
+      value: "rebot-telegram-bot-1.0-runner.jar"
     - name: "REBOT_TELEGRAM_LOG_LEVEL"
       example: "TRACE"
       description: "The log level, default is TRACE"

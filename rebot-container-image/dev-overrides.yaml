@@ -11,4 +11,4 @@ envs:
 artifacts:
 - name: rebot-telegram-bot-1.0-SNAPSHOT-runner.jar
   path: /data/dev/sources/rebase-it/rebot/rebot-telegram/target/rebot-telegram-bot-1.0-SNAPSHOT-runner.jar
-  md5: 6c1d91f5a2de797be2bda48a630ee3e7
+  md5: 1e672899c6a29e6b6a742e13c227bdf3

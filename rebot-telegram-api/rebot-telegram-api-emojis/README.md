@@ -1,6 +1,6 @@
 # ReBot Emojis
 
-Just provides Emojis to be used but the API and the Bot itself.
+Just provides Emojis to be used by the API, plugins and the Bot itself.
 
 To use an emoji in your plugins, just add it in the pom.xml:
 
