@@ -46,8 +46,8 @@ import java.util.regex.Pattern;
 public class KarmaPlugin implements PluginProvider {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    private final Pattern FULL_MSG_PATTERN = Pattern.compile("(\\w*)(\\+\\+|\\-\\-)(\\s|$)");
-    private final Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-)($)");
+    private final Pattern FULL_MSG_PATTERN = Pattern.compile("(\\w*)(\\+\\+|\\-\\-|\\—|\\–)(\\s|$)");
+    private final Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-|\\—|\\–)($)");
     private final String KARMA_MESSAGE = "<b>%s</b> has <b>%d</b> points of karma.\n";
 
     @Inject
@@ -76,7 +76,16 @@ public class KarmaPlugin implements PluginProvider {
                 String username = update.getMessage().getFrom().getUsername() != null ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName().toLowerCase();
                 itens.stream().distinct().forEach(item -> {
                     if ((KARMA_PATTERN.matcher(item).find())) {
-                        finalTargets.putIfAbsent(item.substring(0, item.length() - 2).toLowerCase(), item.substring(item.length() - 2));
+                        String keyOperator;
+                        String key;
+                        if (item.charAt(item.length() -1 ) == 8212 || item.charAt(item.length() -1 ) == 8211) {
+                            keyOperator = "--";
+                            key = item.substring(0, item.length() - 1).toLowerCase();
+                        } else {
+                            keyOperator = item.substring(item.length() - 2);
+                            key = item.substring(0, item.length() - 2).toLowerCase();
+                        }
+                        finalTargets.putIfAbsent(key, keyOperator);
                     }
                 });
                 for (Map.Entry<String, String> entry : finalTargets.entrySet()) {
@@ -96,7 +105,7 @@ public class KarmaPlugin implements PluginProvider {
      * @param operator ++ or --
      * @param target   key that will have its karma changed
      * @param username user that requested the karma
-     * @return the amount of karma + or - 1, or returns null in case of excessive karma updates
+     * @return the amount of karma + or - 1, or does nothing in case of excessive karma update for the same target
      */
     private String processKarma(String operator, String target, String username) {
 
@@ -133,4 +142,5 @@ public class KarmaPlugin implements PluginProvider {
         log.fine("Karma plugin - can process [" + messageContent + "] - " + canProcess);
         return canProcess;
     }
+
 }

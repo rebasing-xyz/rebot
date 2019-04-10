@@ -8,8 +8,8 @@ This API is composed by 3 Key Sub Projects, which are:
  - [ReBot Services](rebot-services/README.md)
  - [ReBot Plugins](rebot-plugins/README.md)
  
-Also, you can find a [Telegram Bot](rebot-telegram/README.md), ready to use, All you need is provide
-the your Bot Token and Bot Username.
+Also, you can find a [Telegram Bot](rebot-telegram/README.md), ready to use, All you need to do is provide
+your Bot Token and Username.
 
 For more details about each module, please visit its README file.
 

@@ -47,8 +47,8 @@ case $1 in
     -Dit.rebase.rebot.plugin.yahoo.app.id=${REBOT_TELEGRAM_WEATHER_APP_ID} \
     -Dit.rebase.rebot.plugin.yahoo.app.consumerKey=${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY} \
     -Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET} \
-    -Dquarkus.log.category."it.rebase".level==${REBOT_TELEGRAM_LOG_LEVEL} \ rebot-telegram-bot-${VERSION}-runner.jar &
-  echo $! > /opt/bot/rebase-it-rebot.pid
+    -Dquarkus.log.category."it.rebase".level=${REBOT_TELEGRAM_LOG_LEVEL} rebot-telegram-bot-${VERSION}-runner.jar &
+  echo $! > /opt/rebot/rebase-it-rebot.pid
   ;;
 "restart")
   echo "Restarting rebot."
@@ -58,13 +58,13 @@ case $1 in
     -Dit.rebase.rebot.plugin.yahoo.app.id=${REBOT_TELEGRAM_WEATHER_APP_ID} \
     -Dit.rebase.rebot.plugin.yahoo.app.consumerKey=${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY} \
     -Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET} \
-    -Dquarkus.log.category."it.rebase".level==${REBOT_TELEGRAM_LOG_LEVEL} \ rebot-telegram-bot-${VERSION}-runner.jar &
-  echo $! >  /opt/bot/rebase-it-rebot.pid
+    -Dquarkus.log.category."it.rebase".level=${REBOT_TELEGRAM_LOG_LEVEL} rebot-telegram-bot-${VERSION}-runner.jar &
+  echo $! >  /opt/rebot/rebase-it-rebot.pid
   ;;
 "stop")
   echo "Stopping rebot."
-  kill -15 `cat /opt/bot/rebase-it-rebot.pid`
-  rm -rf  /opt/bot/rebase-it-rebot.pid
+  kill -15 `cat /opt/rebot/rebase-it-rebot.pid`
+  rm -rf  /opt/rebot/rebase-it-rebot.pid
   ;;
 *)
   echo "Parameter not valid, use start, restart or stop."
