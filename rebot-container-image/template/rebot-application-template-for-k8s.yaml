@@ -32,10 +32,10 @@ parameters:
   name: REBOT_TELEGRAM_USER_ID
   value: rebaseit_bot
   required: true
-- displayName: ReBot Telegram Chat ID
-  description: "The Chat ID where the ReBot is running, this setting allows the bot to send notifications to the given chat."
-  name: REBOT_TELEGRAM_CHAT_ID
-  from: "[a-zA-Z]{6}[0-9]{1}!"
+- displayName: ReBot Telegram log level
+  description: "Set the rebot log level, default is trace."
+  name: REBOT_TELEGRAM_LOG_LEVEL
+  value: INFO
   required: true
 - displayName: ReBot Telegram Weather App ID
   description: "Yahoo APP ID"
@@ -111,7 +111,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: rebot-telegram-bot:0.3
+          name: rebot:1.0-SNAPSHOT
     - type: ConfigChange
     replicas: 1
     selector:
