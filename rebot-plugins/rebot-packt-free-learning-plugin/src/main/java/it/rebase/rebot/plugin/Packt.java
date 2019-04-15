@@ -43,8 +43,10 @@ public class Packt implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name());
-        packtNotifier.populate();
+        new Thread ( () -> {
+            log.fine("Loading command " + this.name());
+            packtNotifier.populate();
+        }).start();
     }
 
     @Override
