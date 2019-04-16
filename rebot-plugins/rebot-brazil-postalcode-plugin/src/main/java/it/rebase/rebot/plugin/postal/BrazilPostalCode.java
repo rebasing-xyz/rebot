@@ -45,8 +45,10 @@ public class BrazilPostalCode implements CommandProvider {
 
     @Override
     public void load() {
-        service.processCSVFile();
-        log.info("Plugin Brazil Postal Code enabled.");
+        new Thread ( () -> {
+            service.processCSVFile();
+            log.info("Plugin Brazil Postal Code enabled.");
+        }).start();
     }
 
     @Override

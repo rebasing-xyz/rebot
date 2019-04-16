@@ -57,8 +57,10 @@ public class Currency implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name());
-        ecbClient.getAndPersistDailyCurrencies();
+        new Thread ( () -> {
+            log.fine("Loading command " + this.name());
+            ecbClient.getAndPersistDailyCurrencies();
+        }).start();
     }
 
     @Override

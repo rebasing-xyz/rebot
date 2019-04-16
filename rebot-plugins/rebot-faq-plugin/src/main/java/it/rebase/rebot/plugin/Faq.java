@@ -43,8 +43,10 @@ public class Faq implements CommandProvider {
     FaqHelper service;
 
     public void load() {
-        log.fine("Loading command  " + this.name());
-        service.populateCache();
+       new Thread ( () -> {
+            log.fine("Loading command  " + this.name());
+            service.populateCache();
+        }).start();
     }
 
     @Override

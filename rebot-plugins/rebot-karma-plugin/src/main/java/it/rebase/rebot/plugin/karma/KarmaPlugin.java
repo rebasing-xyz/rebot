@@ -62,8 +62,10 @@ public class KarmaPlugin implements PluginProvider {
 
     @Override
     public void load() {
-        cache.addListener(karmaEventListener);
-        log.fine("Plugin karma-plugin enabled.");
+        new Thread ( () -> {
+            cache.addListener(karmaEventListener);
+            log.fine("Plugin karma-plugin enabled.");
+        }).start();
     }
 
     @Override
