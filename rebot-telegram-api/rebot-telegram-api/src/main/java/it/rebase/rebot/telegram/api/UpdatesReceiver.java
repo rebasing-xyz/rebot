@@ -34,6 +34,7 @@ import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.object.TelegramResponse;
 import it.rebase.rebot.service.persistence.pojo.BotStatus;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
+import it.rebase.rebot.telegram.api.chat.administrators.ChatAdministrators;
 import it.rebase.rebot.telegram.api.httpclient.BotCloseableHttpClient;
 import it.rebase.rebot.telegram.api.polling.ReBotLongPoolingBot;
 import org.apache.http.HttpEntity;
@@ -114,29 +115,28 @@ public class UpdatesReceiver implements Runnable {
      * @return the bot status, true for enabled or false for disabled
      * When the bot is starting the receiver it will persist its state to survive restarts.
      */
-    public boolean isEnabled() {
-        return apiRepository.isEnabled();
+    public boolean isEnabled(long chatId) {
+        return apiRepository.isEnabled(chatId);
     }
 
     /**
      * Disables the bot, it does not stop the updatesReceiver thread, because if it is done, then there is no way
      * to re-enable toe bot through telegram chat, it will be persisted in the persistence layer
      *
-     * @param from {@link From}
+     * @param message {@link Message}
      */
-    public void disable(From from) {
-        if (!apiRepository.isEnabled()) return;
-        log.info("Disabling bot, requestesd by " + from.toString());
-        apiRepository.persist(new BotStatus(false, from));
+    public void disable(Message message) {
+        log.info("Disabling bot, requested by " + message.getFrom().toString());
+        apiRepository.persist(new BotStatus(false, message.getFrom(),
+                message.getChat().getId()));
     }
 
     /**
-     * @param from {@link From}
+     * @param message {@link Message}
      */
-    public void enable(From from) {
-        if (apiRepository.isEnabled()) return;
-        log.info("Enabling bot, requested by " + from.toString());
-        apiRepository.persist(new BotStatus(true, from));
+    public void enable(Message message) {
+        log.info("Enabling bot, requested by " + message.getFrom().toString());
+        apiRepository.remove(message.getChat().getId());
     }
 
     /**

@@ -27,6 +27,7 @@ import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
+import it.rebase.rebot.telegram.api.chat.administrators.ChatAdministrators;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -46,6 +47,9 @@ public class EnableCommand implements AdministrativeCommandProvider {
     @Inject
     private UpdatesReceiver updatesReceiver;
 
+    @Inject
+    private ChatAdministrators chatAdministrators;
+
     @Override
     public void load() {
         log.fine("Enabling administrative command " + this.name());
@@ -53,8 +57,10 @@ public class EnableCommand implements AdministrativeCommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        if (updatesReceiver.isEnabled()) return botUserId + " already enabled.";
-        updatesReceiver.enable(messageUpdate.getMessage().getFrom());
+        boolean isAdministrator = chatAdministrators.isAdministrator(messageUpdate);
+        if (isAdministrator && updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) return botUserId + " already enabled.";
+        if (!isAdministrator) return "You may not have permissions to enable this bot";
+        updatesReceiver.enable(messageUpdate.getMessage());
         return botUserId + " enabled.";
     }
 
