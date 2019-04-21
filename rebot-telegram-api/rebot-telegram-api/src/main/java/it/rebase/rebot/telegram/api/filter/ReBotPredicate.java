@@ -23,12 +23,17 @@
 
 package it.rebase.rebot.telegram.api.filter;
 
+import it.rebase.rebot.api.object.ChatAdministrator;
 import it.rebase.rebot.api.object.MessageUpdate;
-import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
+import it.rebase.rebot.service.persistence.repository.ApiRepository;
 
 import java.util.function.Predicate;
 
 public class ReBotPredicate {
+
+    public static Predicate<MessageUpdate> messageIsNotNull() {
+        return m -> null != m.getMessage().getText();
+    }
 
     public static Predicate<MessageUpdate> isCommand() {
         return m -> m.getMessage().getText().startsWith("/");
@@ -38,6 +43,17 @@ public class ReBotPredicate {
         return m -> (m.getMessage().getText().contains("@" + botUserId) || !m.getMessage().getText().contains("@"));
     }
 
-    // TODO create filter to make sure the user can enable/disable the bot
+    public static Predicate<MessageUpdate> isBot() {
+        return m -> m.getMessage().getFrom().isIsBot();
+    }
+
+    public static Predicate<MessageUpdate> isPrivateChat() {
+        return m -> m.getMessage().getChat().getType().equals("private");
+    }
+
+    public static Predicate<ChatAdministrator> isUserAdmin( String user) {
+        return chatAdministrator -> chatAdministrator.getUser().getUsername().equals(user) ||
+                chatAdministrator.getUser().getFirstName().equals(user);
+    }
 
 }

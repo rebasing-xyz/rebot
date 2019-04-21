@@ -54,12 +54,23 @@ public class ApiRepository {
     }
 
     /**
+     * Delete the bot state in the database for the given chatId
+     * @param chatId {@link long}
+     */
+    public void remove(long chatId) {
+        log.fine("Enabling bot for chat  " + chatId);
+        Query q = em.createNativeQuery("DELETE FROM BOT_STATUS where ID="+ chatId+";");
+        q.executeUpdate();
+        em.flush();
+    }
+
+    /**
      * @return if the bot is enabled or not
      * In case there is no state saved return true.
      */
-    public boolean isEnabled() {
+    public boolean isEnabled(long chatId) {
         try {
-            Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where id=LAST_INSERT_ID();");
+            Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where ID="+ chatId+";");
             return (boolean) q.getSingleResult();
         } catch (final Exception e) {
             return true;

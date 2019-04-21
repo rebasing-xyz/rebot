@@ -31,7 +31,6 @@ import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
-import it.rebase.rebot.telegram.api.UpdatesReceiver;
 import it.rebase.rebot.telegram.api.message.sender.MessageSender;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -39,7 +38,11 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
+
+import static it.rebase.rebot.telegram.api.filter.ReBotPredicate.isCommand;
+import static it.rebase.rebot.telegram.api.filter.ReBotPredicate.messageIsNotNull;
 
 @ApplicationScoped
 public class OutcomeMessageProcessor implements Processor {
@@ -81,8 +84,10 @@ public class OutcomeMessageProcessor implements Processor {
             }
         });
 
-        if (apiRepository.isEnabled()) {
-            if (null !=messageUpdate.getMessage().getText() && isCommand(messageUpdate.getMessage().getText())) {
+        if (apiRepository.isEnabled(messageUpdate.getMessage().getChat().getId())) {
+            Predicate predicate = isCommand().and(messageIsNotNull());
+
+            if (predicate.test(messageUpdate)) {
                 commandProcessor(messageUpdate);
             } else {
                 nonCommandProcessor(messageUpdate);
@@ -137,10 +142,6 @@ public class OutcomeMessageProcessor implements Processor {
                 log.fine("NON_COMMAND_PROCESSOR - Message not processed by the available plugins.");
             }
         });
-    }
-
-    private boolean isCommand(String text) {
-        return text.startsWith("/");
     }
 
     /**

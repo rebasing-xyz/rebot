@@ -28,8 +28,6 @@ import it.rebase.rebot.api.object.From;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.Instant;
@@ -39,8 +37,7 @@ import java.time.Instant;
 public class BotStatus {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "ID", updatable = false, nullable = false)
     private Long id;
 
     @Column(name = "isEnabled", nullable = false)
@@ -52,13 +49,15 @@ public class BotStatus {
     @Column(name = "timestamp", nullable = false)
     private String timestamp;
 
-    public BotStatus(boolean isEnabled, From from) {
+    public BotStatus(boolean isEnabled, From from, long chatId) {
+        this.id = chatId;
         this.isEnabled = isEnabled;
         this.from = from;
         this.timestamp = Instant.now().toString();
     }
 
-    public BotStatus(){}
+    public BotStatus() {
+    }
 
     public Long getId() {
         return id;

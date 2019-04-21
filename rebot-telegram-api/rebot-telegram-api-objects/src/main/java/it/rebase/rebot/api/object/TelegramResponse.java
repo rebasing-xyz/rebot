@@ -64,10 +64,6 @@ public class TelegramResponse<T> implements Serializable {
         return this.result;
     }
 
-//    public ResponseParameters getParameters() {
-//        return this.parameters;
-//    }
-
     public String toString() {
         return this.ok.booleanValue() ? "ApiResponse{ok=" + this.ok + ", result=" + this.result + '}' : "ApiResponse{ok=" + this.ok + ", errorCode=" + this.errorCode + ", errorDescription='" + this.errorDescription + '\'' + '}';
     }
