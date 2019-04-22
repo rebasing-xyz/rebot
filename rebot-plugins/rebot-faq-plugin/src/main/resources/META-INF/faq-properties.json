@@ -378,5 +378,45 @@
     "id": "fap",
     "link": "n/a",
     "description": "Freaking Awesome Project."
+  },
+  {
+    "id": "fedora",
+    "link": "https://getfedora.org/",
+    "description": "Less setup, more innovation. Choose a flavor of Fedora streamlined for your needs, and get to work right away."
+  },
+  {
+    "id": "centos",
+    "link": "https://www.centos.org/",
+    "description": "The CentOS Project is a community-driven free software effort focused on delivering a robust open source ecosystem. For users, we offer a consistent manageable platform that suits a wide variety of deployments. For open source communities, we offer a solid, predictable base to build upon, along with extensive resources to build, test, release, and maintain their code."
+  },
+  {
+    "id": "kubernetes",
+    "link": "https://kubernetes.io/",
+    "description": "Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications."
+  },
+  {
+    "id": "buildah",
+    "link": "https://buildah.io/",
+    "description": " a tool that facilitates building OCI container images."
+  },
+  {
+    "id": "podman",
+    "link": "https://podman.io/",
+    "description": "Podman is a daemonless container engine for developing, managing, and running OCI Containers on your Linux System. Containers can either be run as root or in rootless mode. Simply put: `alias docker=podman`."
+  },
+  {
+    "id": "cri-o",
+    "link": "https://cri-o.io/",
+    "description": "LIGHTWEIGHT CONTAINER RUNTIME FOR KUBERNETES."
+  },
+  {
+    "id": "skopeo",
+    "link": "https://github.com/containers/skopeo",
+    "description": "Work with remote images registries - retrieving information, images, signing content."
+  },
+  {
+    "id": "okd",
+    "link": "https://www.okd.io/",
+    "description": "The Origin Community Distribution of Kubernetes that powers Red Hat OpenShift."
   }
 ]
