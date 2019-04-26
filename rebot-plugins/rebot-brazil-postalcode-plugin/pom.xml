@@ -36,13 +36,13 @@
     <parent>
         <groupId>it.rebase</groupId>
         <artifactId>rebot-plugins-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.4-SNAPSHOT</version>
     </parent>
 
     <!-- Artifact Configuration -->
     <groupId>it.rebase</groupId>
     <artifactId>rebot-brazil-postalcode-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <licenses>
