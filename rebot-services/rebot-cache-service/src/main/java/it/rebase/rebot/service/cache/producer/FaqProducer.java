@@ -58,7 +58,6 @@ public class FaqProducer {
                 .indexing()
                 .autoConfig(true)
                 .addIndexedEntity(classToIndex)
-                .index(Index.ALL)
                 .addProperty("default.directory_provider", "ram")
                 .build();
     }

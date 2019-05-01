@@ -48,7 +48,6 @@ public class BrazilPostalCodeProducer {
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)
-                .index(Index.ALL)
                 .addProperty("default.directory_provider", "ram")
                 .build();
     }
