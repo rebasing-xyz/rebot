@@ -85,7 +85,7 @@ public class OutcomeMessageProcessor implements Processor {
         });
 
         if (apiRepository.isEnabled(messageUpdate.getMessage().getChat().getId())) {
-            Predicate predicate = isCommand().and(messageIsNotNull());
+            Predicate predicate = messageIsNotNull().and(isCommand());
 
             if (predicate.test(messageUpdate)) {
                 commandProcessor(messageUpdate);
