@@ -28,7 +28,6 @@ Execute the following command:
 ```sh
 java -Dit.rebase.rebot.telegram.token=<TELEGRAM_TOKEN> 
      -Dit.rebase.rebot.telegram.userId=<BOT_USER_ID> \
-     -Dit.rebase.rebot.telegram.chatId=<CHAT_ID> \
      -Dit.rebase.rebot.plugin.yahoo.app.id=<YAHOO_APP_ID> \
      -Dit.rebase.rebot.plugin.yahoo.app.consumerKey=<YAHOO_APP_CONSUMER_KEY> \
      -Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=<YAHOO_APP_CONSUMER_SECRET> \

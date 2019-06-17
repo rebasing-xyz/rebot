@@ -1,7 +1,8 @@
 sudo: false
 language: java
 jdk:
-  - oraclejdk8
-  - oraclejdk9
+  - openjdk8
+  - openjdk9
   - oraclejdk11
+  - openjdk11
 install: mvn install -Dmaven.javadoc.skip=true -B -V
