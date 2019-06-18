@@ -29,7 +29,6 @@ import org.junit.Test;
 
 public class CommandTest {
 
-
     @Test
     public void testNegativeParameter(){
         Helper helper = new Helper();

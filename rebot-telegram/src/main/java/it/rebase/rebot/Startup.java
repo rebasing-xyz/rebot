@@ -31,11 +31,11 @@ import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
 import org.jboss.logging.Logger;
 
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.lang.invoke.MethodHandles;
 
 @ApplicationScoped
@@ -44,14 +44,11 @@ public class Startup {
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
-    ReBot rebot;
-
-    @Inject
     Instance<CommandProvider> commands;
 
     @Inject
     Instance<AdministrativeCommandProvider> administrativeCommand;
-    //
+
     @Inject
     Instance<PluginProvider> plugins;
 
@@ -59,7 +56,7 @@ public class Startup {
     UpdatesReceiver receiver;
 
     void onStart(@Observes StartupEvent ev) {
-        log.info("The application is starting...");
+        log.info("ReBot is starting...");
         // Loading commands
         commands.forEach(command -> command.load());
         administrativeCommand.forEach(command -> command.load());
@@ -69,7 +66,7 @@ public class Startup {
     }
 
     void onStop(@Observes ShutdownEvent ev) {
-        log.info("The application is stopping...");
+        log.info("ReBot is stopping...");
         receiver.interrupt();
     }
 
