@@ -74,13 +74,17 @@ public class BotPropertyProducerBean {
             if (matcher.find()) {
                 String envVar = prop.getProperty(propName).substring(matcher.start() + 2, matcher.end() - 1);
                 property = System.getenv(envVar);
-                log.fine("Read environment variable [" + envVar +"] from properties file, new value [" + property + "]" );
-                log.fine("Command line System properties takes precedence.");
+                log.finest("Read environment variable [" + envVar +"] from properties file, new value [" + property + "]" );
+                log.finest("Command line System properties takes precedence.");
+                return property;
+            } else {
+                return  System.getProperty(propName, prop.getProperty(propName));
             }
-            property = System.getProperty(propName, prop.getProperty(propName, property));
+
         } catch (final Exception e) {
             log.warning("Loading props file failed: " + e.getMessage());
+            return  System.getProperty(propName, prop.getProperty(propName));
         }
-        return property;
+
     }
 }
