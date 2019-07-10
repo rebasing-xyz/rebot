@@ -28,8 +28,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Transactional
@@ -47,6 +53,24 @@ public class KarmaRepository {
         } catch (final Exception e) {
             log.fine("There is no karma for [" + key + "]");
             return 0;
+        }
+    }
+
+    public List<Karma> list(String key) {
+        try {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Karma> karmaQuery = criteriaBuilder.createQuery(Karma.class);
+            Root<Karma> karma = karmaQuery.from(Karma.class);
+
+            karmaQuery.select(karma)
+                    .where(criteriaBuilder.like(karma.get("username"), key))
+                    .orderBy(criteriaBuilder.asc(karma.get("username")));
+
+            return em.createQuery(karmaQuery).getResultList();
+
+        } catch (final Exception e) {
+            log.fine("There is no karma for [" + key + "]");
+            return Arrays.asList(new Karma(key, 0));
         }
     }
 

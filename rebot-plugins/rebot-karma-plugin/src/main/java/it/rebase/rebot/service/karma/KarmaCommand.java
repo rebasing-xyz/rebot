@@ -26,11 +26,13 @@ package it.rebase.rebot.service.karma;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
+import it.rebase.rebot.service.persistence.pojo.Karma;
 import it.rebase.rebot.service.persistence.repository.KarmaRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -38,7 +40,8 @@ import java.util.logging.Logger;
 public class KarmaCommand implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    private final String RESPONSE = "<b>%s</b> have <b>%s</b> point(s) of karma " + Emoji.THUMBS_UP_SIGN;
+    private final String RESPONSE_FOUND = "<b>%s</b> have <b>%s</b> point(s) of karma " + Emoji.THUMBS_UP_SIGN;
+    private final String RESPONSE_NOT_FOUND = "Key <b>%s</b> didn't return results " + Emoji.DIZZY_FACE;
 
     @Inject
     private KarmaRepository karma;
@@ -53,7 +56,21 @@ public class KarmaCommand implements CommandProvider {
         if (key.get().length() < 1) {
             return "Parameter is required, use " + this.name() + " help for assistance.";
         }
-        return String.format(RESPONSE, key.get(), key.get().length() > 0 ? karma.get(key.get()) : 0);
+
+        StringBuilder response = new StringBuilder();
+        List<Karma> karmas =  karma.list(key.get());
+        if (key.get().contains("%")) {
+            if (karmas.isEmpty()) {
+                response.append(String.format(RESPONSE_NOT_FOUND, key.get()));
+            }
+            karmas.stream().forEach(karma ->
+                    response.append(String.format(RESPONSE_FOUND, karma.getUsername(), karma.getPoints()) + "\n")
+            );
+        } else {
+            response.append(String.format(RESPONSE_FOUND, key.get(), key.get().length() > 0 ? karma.get(key.get()) : 0));
+        }
+
+        return response;
     }
 
     @Override
