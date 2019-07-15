@@ -23,6 +23,13 @@ You can also, query the karma points for a specific user:
 /karma userX
 ```
 
+The plugin also allow you to use **like** expressions, for example:
+
+```
+/karma %user%
+```
+
+Will return all results wich contains the **user** keyword.
 
 
 ### Did you find a bug or do you have a suggestion?
