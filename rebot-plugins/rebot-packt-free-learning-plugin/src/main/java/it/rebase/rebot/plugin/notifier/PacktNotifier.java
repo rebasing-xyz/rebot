@@ -24,6 +24,7 @@
 package it.rebase.rebot.plugin.notifier;
 
 import io.quarkus.scheduler.Scheduled;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -42,7 +43,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.lang.invoke.MethodHandles;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -69,16 +69,15 @@ public class PacktNotifier {
     @Inject
     private PacktRepository repository;
 
-    public String get() {
+    public String get(String locale) {
         DailyOffer dailyOffer = (DailyOffer) cache.get("book");
-        StringBuilder builder = new StringBuilder("<i> Packt Free Learning - daily book</i>\n");
-        builder.append("<b>Book name:</b> <code>" + dailyOffer.getTitle() + "</code>\n");
-        builder.append("<b>Book Description :</b> <code>" + dailyOffer.getOneLiner() + "</code>\n");
         String pages = null != dailyOffer.getPages() ? dailyOffer.getPages().toString() : "N/A";
-        builder.append("<b>Book Pages :</b> <code>" + pages + "</code>\n");
-        builder.append("<b>Claim URL:</b> ");
-        builder.append(FREE_LEARNING_URL);
-        return builder.toString();
+        return String.format(
+                I18nHelper.resource("Packt", locale, "book"),
+                dailyOffer.getTitle(),
+                dailyOffer.getOneLiner(),
+                pages,
+                FREE_LEARNING_URL);
     }
 
     @Scheduled(cron = "0 30 05 * * ?")
@@ -117,7 +116,10 @@ public class PacktNotifier {
             cache.clear();
             cache.put("book", dailyOffer);
 
-            repository.get().stream().forEach(chatId -> this.notify(chatId));
+            repository.get().stream().forEach(packtNotification ->
+                    this.notify(packtNotification.getChatId(),
+                        packtNotification.getLocale())
+            );
 
         } catch (final Exception e) {
             e.printStackTrace();
@@ -132,7 +134,9 @@ public class PacktNotifier {
         } else {
             channel = message.getMessage().getFrom().getFirstName();
         }
-        return repository.register(new PacktNotification(message.getMessage().getChat().getId(), channel));
+        return repository.register(new PacktNotification(message.getMessage().getChat().getId(),
+                channel,
+                message.getMessage().getFrom().getLanguageCode()));
     }
 
     public String unregisterNotification(MessageUpdate message) {
@@ -142,15 +146,17 @@ public class PacktNotifier {
         } else {
             channel = message.getMessage().getFrom().getFirstName();
         }
-        return repository.unregister(new PacktNotification(message.getMessage().getChat().getId(), channel));
+        return repository.unregister(new PacktNotification(message.getMessage().getChat().getId(),
+                channel,
+                message.getMessage().getFrom().getLanguageCode()));
     }
 
-    private void notify(BigInteger chatId) {
+    private void notify(Long chatId, String locale) {
         Chat chat = new Chat();
         chat.setId(chatId.longValue());
         Message message = new Message();
         message.setChat(chat);
-        message.setText(this.get());
+        message.setText(this.get(locale));
         messageSender.processOutgoingMessage(message);
     }
 }

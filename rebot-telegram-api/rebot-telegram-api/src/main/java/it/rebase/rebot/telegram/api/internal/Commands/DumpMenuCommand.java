@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
@@ -46,30 +47,33 @@ public class DumpMenuCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name());
+        log.fine("Enabling administrative command " + this.name("en"));
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         StringBuilder response = new StringBuilder();
-        command.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description() + "\n"));
-        administrativeCommand.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description() + "\n"));
-        response.append("help - shows the bot help");
+        command.forEach(c -> response.append(c.name(locale).replace("/", "") + " - " + c.description(locale) + "\n"));
+        administrativeCommand.forEach(c -> response.append(c.name(locale).replace("/", "") + " - " + c.description(locale) + "\n"));
+        response.append( I18nHelper.resource("Administrative", locale, "dump.command.append.help"));
         return response.toString();
     }
 
     @Override
-    public String name() {
-        return "/dump";
+    public String name(String locale) {
+        return I18nHelper.resource("Administrative", locale, "dump.command.name");
     }
 
     @Override
-    public String help() {
-        return this.name() + " - generate a output with the telegram's pattern to edit the Bot commands. it will return \n COMMAND - DESCRIPTION";
+    public String help(String locale) {
+        return String.format(
+                I18nHelper.resource("Administrative", locale, "dump.command.help"),
+                this.name(locale));
     }
 
     @Override
-    public String description() {
-        return "dump the available commands in the Telegram's commands pattern";
+    public String description(String locale) {
+        return  I18nHelper.resource("Administrative", locale, "dump.command.description");
     }
 }

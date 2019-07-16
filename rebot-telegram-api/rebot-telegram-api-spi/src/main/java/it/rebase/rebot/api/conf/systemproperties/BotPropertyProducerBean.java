@@ -68,23 +68,30 @@ public class BotPropertyProducerBean {
         Pattern pattern = Pattern.compile("\\$\\{.*?\\}");
 
         String property = null;
-        try (final InputStream stream = ClassLoader.getSystemResourceAsStream(PROPERTIES_FILE)) {
-            prop.load(stream);
-            Matcher matcher = pattern.matcher(prop.getProperty(propName));
-            if (matcher.find()) {
-                String envVar = prop.getProperty(propName).substring(matcher.start() + 2, matcher.end() - 1);
-                property = System.getenv(envVar);
-                log.finest("Read environment variable [" + envVar +"] from properties file, new value [" + property + "]" );
-                log.finest("Command line System properties takes precedence.");
-                return property;
-            } else {
-                return  System.getProperty(propName, prop.getProperty(propName));
+
+        String value = System.getProperty(propName);
+        if (null != value) {
+            return value;
+
+        } else {
+
+            try (final InputStream stream = ClassLoader.getSystemResourceAsStream(PROPERTIES_FILE)) {
+                prop.load(stream);
+                Matcher matcher = pattern.matcher(prop.getProperty(propName));
+                if (matcher.find()) {
+                    String envVar = prop.getProperty(propName).substring(matcher.start() + 2, matcher.end() - 1);
+                    property = System.getenv(envVar);
+                    log.finest("Read environment variable [" + envVar + "] from properties file, new value [" + property + "]");
+                    log.finest("Command line System properties takes precedence.");
+                    return property;
+                } else {
+                    return System.getProperty(propName, prop.getProperty(propName));
+                }
+
+            } catch (final Exception e) {
+                log.warning("Loading props file failed: " + e.getMessage());
+                return System.getProperty(propName, prop.getProperty(propName));
             }
-
-        } catch (final Exception e) {
-            log.warning("Loading props file failed: " + e.getMessage());
-            return  System.getProperty(propName, prop.getProperty(propName));
         }
-
     }
 }

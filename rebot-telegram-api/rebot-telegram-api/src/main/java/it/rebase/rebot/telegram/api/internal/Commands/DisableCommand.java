@@ -24,6 +24,7 @@
 package it.rebase.rebot.telegram.api.internal.Commands;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
@@ -52,30 +53,38 @@ public class DisableCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name());
+        log.fine("Enabling administrative command " + this.name("en"));
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         boolean isAdministrator = chatAdministrators.isAdministrator(messageUpdate);
-        if (isAdministrator && !updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) return botUserId + " already disabled.";
-        if (!isAdministrator) return "You may not have permissions to disable this bot";
+        if (isAdministrator && !updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId()))
+            return String.format(
+                    I18nHelper.resource("Administrative", locale, "disable.command.already.disabled"),
+                    botUserId);
+        if (!isAdministrator) return I18nHelper.resource("Administrative", locale, "disable.command.not.allowed");
         updatesReceiver.disable(messageUpdate.getMessage());
-        return botUserId + " disabled.";
+        return String.format(
+                I18nHelper.resource("Administrative", locale, "disable.command.disabled"),
+                botUserId);
     }
 
     @Override
-    public String name() {
-        return "/disable";
+    public String name(String locale) {
+        return I18nHelper.resource("Administrative", locale, "disable.command.name");
     }
 
     @Override
-    public String help() {
-        return this.name() + " - Disable the bot, none message will be processed in this state.";
+    public String help(String locale) {
+        return String.format(
+                I18nHelper.resource("Administrative", locale, "disable.command.help"),
+                this.name(locale));
     }
 
     @Override
-    public String description() {
-        return "disable the bot";
+    public String description(String locale) {
+        return I18nHelper.resource("Administrative", locale, "disable.command.description");
     }
 }

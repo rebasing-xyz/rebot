@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.plugin.helper.Helper;
@@ -45,29 +46,30 @@ public class UrbanDictionary implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name());
+        log.fine("Loading command " + this.name("en"));
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        return key.get().length() > 0 ? helper.query(key.get().toString()) : "Parameter required, " + this.name() + " help.";
+        return key.get().length() > 0 ? helper.query(key.get()) : String.format(
+                I18nHelper.resource("Urban", messageUpdate.getMessage().getFrom().getLanguageCode(), "required.parameter"),
+                this.name(messageUpdate.getMessage().getFrom().getLanguageCode()));
     }
 
     @Override
-    public String name() {
+    public String name(String locale) {
         return "/urban";
     }
 
     @Override
-    public String help() {
-        return this.name() + " - Search for a English term.\n " +
-                "<b>-c N</b> number of results.\n" +
-                "<b>-e</b> Adds an example about the term usage.\n" +
-                "<b>Example:</b> /define -c 2 -e lol";
+    public String help(String locale) {
+        return String.format(
+                I18nHelper.resource("Urban", locale, "urban.help"),
+                this.name(locale));
     }
 
     @Override
-    public String description() {
-        return "search for a English term on urban dictionary";
+    public String description(String locale) {
+        return I18nHelper.resource("Urban", locale, "description");
     }
 }

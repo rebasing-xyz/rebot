@@ -82,5 +82,4 @@
         <module>rebot-weather-plugin</module>
         <module>rebot-welcome-message-plugin</module>
     </modules>
-
 </project>

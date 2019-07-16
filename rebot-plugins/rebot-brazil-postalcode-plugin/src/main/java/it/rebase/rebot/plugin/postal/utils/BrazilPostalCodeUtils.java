@@ -24,6 +24,7 @@
 package it.rebase.rebot.plugin.postal.utils;
 
 import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.service.cache.pojo.postal.PostalCode;
 import it.rebase.rebot.service.cache.qualifier.BrazilPostalCodeCache;
 import org.infinispan.Cache;
@@ -45,7 +46,6 @@ public class BrazilPostalCodeUtils {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private InputStream CSV_FILE = this.getClass().getClassLoader().getResourceAsStream("META-INF/brazil-postal-code-list.csv");
-    private String COUNTY_NOT_FOUND_MESSAGE = "County/Postal Code <b>%s</b> not found! " + Emoji.TRIANGULAR_FLAG_ON_POST;
     private String CSV_SEPARATOR = ";";
 
     @Inject
@@ -67,7 +67,7 @@ public class BrazilPostalCodeUtils {
         }
     }
 
-    public String query(String key, long limitResult, boolean returnUF) {
+    public String query(String key, long limitResult, boolean returnUF, String locale) {
         StringBuilder stbuilder = new StringBuilder();
 
         log.fine(String.format("Search key ---- %s with parameters --limit-result=%d and --uf=%s", removeAccent(key).toUpperCase(), limitResult, returnUF));
@@ -79,14 +79,20 @@ public class BrazilPostalCodeUtils {
                 .collect(Collectors.toList());
 
         if (foundValues.size() <= 0) {
-            stbuilder.append(String.format(COUNTY_NOT_FOUND_MESSAGE, key));
+            stbuilder.append(String.format(I18nHelper.resource("PostalCodeMessages", locale, "county.not.found"),
+                    key,
+                    Emoji.TRIANGULAR_FLAG_ON_POST));
         } else {
-            for (PostalCode postlCode : foundValues) {
+            for (PostalCode postalCode : foundValues) {
                 if (returnUF) {
-                    stbuilder.append(" The <b>UF</b> for <b>" + postlCode.getNationalCode() + "</b> is <b>" + postlCode.getUF() + " </b>");
+                    stbuilder.append(String.format(I18nHelper.resource("PostalCodeMessages", locale, "uf.response"),
+                            postalCode.getNationalCode(),
+                            postalCode.getUF()));
                 } else {
-                    stbuilder.append("<b>" + postlCode.getCounty() + " - " + postlCode.getUF() + " </b>: ");
-                    stbuilder.append("national code <b>" + postlCode.getNationalCode() + "</b>\n");
+                    stbuilder.append(String.format(I18nHelper.resource("PostalCodeMessages", locale, "postal.code.response"),
+                            postalCode.getCounty(),
+                            postalCode.getUF(),
+                            postalCode.getNationalCode()));
                 }
             }
         }

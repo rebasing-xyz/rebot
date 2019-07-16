@@ -23,15 +23,16 @@
 
 package it.rebase.rebot.service.persistence.repository;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.service.persistence.pojo.PacktNotification;
 import org.hibernate.exception.ConstraintViolationException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -48,15 +49,21 @@ public class PacktRepository {
         try {
             em.persist(packtNotification);
             em.flush();
-            return "Notification for <b>" + packtNotification.getChannel() + "</b> created.";
+            return String.format(
+                    I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.created"),
+                    packtNotification.getChannel());
         } catch (final Exception e) {
             Throwable t = e.getCause();
             while ((t != null) && !(t instanceof ConstraintViolationException)) {
                 if (t.getClass().toString().contains("ConstraintViolationException")) {
-                    return "Notification for <b>" + packtNotification.getChannel() + "</b> already exists.";
+                    return String.format(
+                            I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.already.exists"),
+                            packtNotification.getChannel());
                 }
             }
-            return "Failed to create notification: " + e.getCause();
+            return String.format(
+                    I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.fail.to.create"),
+                    e.getCause());
         }
     }
 
@@ -64,16 +71,22 @@ public class PacktRepository {
         try {
             em.remove(em.merge(packtNotification));
             em.flush();
-            return "Notification for <b>" + packtNotification.getChannel() + "</b> removed.";
+            return String.format(
+                    I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.removed"),
+                    packtNotification.getChannel());
         } catch (final Exception e) {
             log.warning("Failed to remove the notification: " + e.getMessage());
-            return "Failed to remove the notification";
+            return String.format(
+                    I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.fail.to.remove"),
+                    e.getCause());
         }
     }
 
-    public List<BigInteger> get() {
+    public List<PacktNotification> get() {
         try {
-            return em.createNativeQuery("SELECT chatId FROM PACKT_NOTIFIER").getResultList();
+            CriteriaQuery<PacktNotification> criteria = em.getCriteriaBuilder().createQuery(PacktNotification.class);
+            criteria.select(criteria.from(PacktNotification.class));
+            return em.createQuery(criteria).getResultList();
         } catch (final Exception e) {
             e.printStackTrace();
             return null;

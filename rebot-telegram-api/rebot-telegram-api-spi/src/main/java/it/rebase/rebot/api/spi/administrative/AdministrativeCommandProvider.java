@@ -49,21 +49,23 @@ public interface AdministrativeCommandProvider {
     Object execute(Optional<String> key, MessageUpdate messageUpdate);
 
     /**
+     * @param locale
      * @return the command name
      */
-    String name();
+    String name(String locale);
 
     /**
+     * @param locale
      * @return the command's help
      */
-    String help();
+    String help(String locale);
 
     /**
      * method to be used with the dump command.
-     *
+     * @param locale
      * @return a brief description about the command
      */
-    String description();
+    String description(String locale);
 
     /**
      * Acceptable commands are, i.e: /ping or /ping@botUserId
@@ -93,7 +95,7 @@ public interface AdministrativeCommandProvider {
         } else {
             return true ? messageUpdate.getMessage().getText().startsWith("/") &&
                     (messageUpdate.getMessage().getText().contains("@" + botUserId) || !messageUpdate.getMessage().getText().contains("@")) &&
-                    extractCommand(messageUpdate.getMessage().getText(), botUserId).equals(name()) : false;
+                    extractCommand(messageUpdate.getMessage().getText(), botUserId).equals(name(messageUpdate.getMessage().getFrom().getLanguageCode())) : false;
         }
     }
 }

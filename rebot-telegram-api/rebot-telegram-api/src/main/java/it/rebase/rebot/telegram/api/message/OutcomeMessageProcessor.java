@@ -25,6 +25,7 @@
 package it.rebase.rebot.telegram.api.message;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
@@ -70,11 +71,12 @@ public class OutcomeMessageProcessor implements Processor {
 
     @Override
     public void process(MessageUpdate messageUpdate) {
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         // before proceed with other commands/plugins execute administrative commands
         administrativeCommand.forEach(c -> {
             if (c.canProcessCommand(messageUpdate, botUserId)) {
                 if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
-                    reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help()));
+                    reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help(locale)));
                     isAdministrativeCommand = true;
                     return;
                 }
@@ -97,21 +99,25 @@ public class OutcomeMessageProcessor implements Processor {
 
     @Override
     public void commandProcessor(MessageUpdate messageUpdate) {
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         final StringBuilder response = new StringBuilder("");
         log.fine("Processing command: " + messageUpdate.getMessage().getText());
 
         String[] args = messageUpdate.getMessage().getText().split(" ");
         String command2process = args[0].replace("@" + botUserId, "");
+        String help = I18nHelper.resource("Administrative", locale, "internal.help.command");
 
-        if (command2process.equals("/help")) {
-            command.forEach(c -> response.append(c.name() + " - " + c.description() + "\n"));
-            administrativeCommand.forEach(ac -> response.append(ac.name() + " - " + ac.description() + "\n"));
-            response.append("\n&#60;command&#62; help: returns the command's help.");
+        if (command2process.equals(help)) {
+            command.forEach(c -> response.append(c.name(locale) + " - " + c.description(locale) + "\n"));
+            administrativeCommand.forEach(ac -> response.append(ac.name(locale) + " - " + ac.description(locale) + "\n"));
+            response.append(I18nHelper.resource("Administrative", locale, "internal.help.response"));
         }
+
+        //help command
         command.forEach(command -> {
             if (command.canProcessCommand(messageUpdate, botUserId)) {
-                if (concat(args).equals("help")) {
-                    response.append(command.help());
+                if (concat(args).equals(help.replace("/",""))) {
+                    response.append(command.help(locale));
                 } else {
                     response.append(command.execute(Optional.of(concat(args)), messageUpdate));
                     log.fine("COMMAND_PROCESSOR - Command processed, result is: " + response);

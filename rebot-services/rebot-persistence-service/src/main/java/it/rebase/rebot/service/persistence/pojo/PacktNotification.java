@@ -39,12 +39,16 @@ public class PacktNotification {
     @Column(name = "channel", nullable = false)
     private String channel;
 
+    @Column(name = "locale", nullable = true)
+    private String locale;
+
     public PacktNotification() {
     }
 
-    public PacktNotification(Long chatId, String channel) {
+    public PacktNotification(Long chatId, String channel, String locale) {
         this.chatId = chatId;
         this.channel = channel;
+        this.locale = locale;
     }
 
     public Long getChatId() {
@@ -63,11 +67,20 @@ public class PacktNotification {
         this.channel = channel;
     }
 
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
     @Override
     public String toString() {
-        return "PacktNotification - {" +
+        return "PacktNotification{" +
                 "chatId=" + chatId +
                 ", channel='" + channel + '\'' +
+                ", locale='" + locale + '\'' +
                 '}';
     }
 }

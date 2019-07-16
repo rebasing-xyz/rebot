@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.plugin.yahoo.YahooWeatherProvider;
@@ -43,33 +44,42 @@ public class Weather implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name());
+        log.fine("Loading command " + this.name("en"));
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         String response;
         try {
-            response = yahoo.execute(key.get());
+            response = yahoo.execute(key.get(), locale);
         } catch (final Exception e) {
-            response = this.name() + " is in error state, info: " + e.getMessage();
+            response = String.format(
+                    I18nHelper.resource("Weather", locale, "error.state"),
+                    this.name(locale),
+                    e.getMessage());
             e.printStackTrace();
         }
-        return key.get().length() > 0 ? response : "Parameter is required, " + this.name() + " help.";
+        return key.get().length() > 0 ? response : String.format(
+                I18nHelper.resource("Weather", locale, "parameter.required"),
+                this.name(locale));
     }
 
     @Override
-    public String name() {
-        return "/weather";
+    public String name(String locale) {
+        return I18nHelper.resource("Weather", locale, "command.name");
     }
 
     @Override
-    public String help() {
-        return this.name() + " - Returns the forecast for the given city, Example: " + this.name() + " Uberlandia, MG";
+    public String help(String locale) {
+        return String.format(
+                I18nHelper.resource("Weather", locale, "weather.help"),
+                this.name(locale),
+                this.name(locale));
     }
 
     @Override
-    public String description() {
-        return "returns the forecast for the given city";
+    public String description(String locale) {
+        return  I18nHelper.resource("Weather", locale, "description");
     }
 }
