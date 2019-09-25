@@ -27,6 +27,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.scheduler.Scheduled;
 import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.service.cache.pojo.faq.Project;
 import it.rebase.rebot.service.cache.qualifier.FaqCache;
 import org.infinispan.Cache;
@@ -46,7 +47,6 @@ public class FaqHelper {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    private final String PROJECT_NOT_FOUND_MESSAGE = "Ooops, I didn't find any project with the name <b>%s</b>. " + Emoji.DISAPPOINTED_FACE;
 
     @Inject
     @FaqCache
@@ -78,7 +78,7 @@ public class FaqHelper {
      * @param key term to be searched
      * @return the result, if the key is not found a msg informing that it was not found is returned
      */
-    public String query(String key) {
+    public String query(String key, String locale) {
         StringBuilder stbuilder = new StringBuilder();
 
         List<Project> cacheEntries = cache.values().stream()
@@ -92,7 +92,10 @@ public class FaqHelper {
         }
 
         if (stbuilder.length() <= 0) {
-            stbuilder.append(String.format(PROJECT_NOT_FOUND_MESSAGE, key));
+            stbuilder.append(String.format(String.format(
+                    I18nHelper.resource("Faq", locale, "project.not.found"),
+                    key,
+                    Emoji.DISAPPOINTED_FACE)));
         }
 
         return stbuilder.toString();

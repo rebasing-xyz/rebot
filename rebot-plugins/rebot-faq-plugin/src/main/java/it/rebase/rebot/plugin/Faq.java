@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 
@@ -43,33 +44,33 @@ public class Faq implements CommandProvider {
     FaqHelper service;
 
     public void load() {
-       new Thread ( () -> {
-            log.fine("Loading command  " + this.name());
+        new Thread(() -> {
+            log.fine("Loading command  " + this.name("en"));
             service.populateCache();
         }).start();
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        return key.get().length() > 0 ? service.query(key.get()) : "Parameter required, " + this.name() + " help.";
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+        return key.get().length() > 0 ? service.query(key.get(), locale) : String.format(
+                I18nHelper.resource("Faq", locale, "parameter.required"),
+                this.name(locale));
     }
 
     @Override
-    public String name() {
-        return "/faq";
+    public String name(String locale) {
+        return I18nHelper.resource("Faq", locale, "command.name");
     }
 
     @Override
-    public String help() {
-        StringBuilder strBuilder = new StringBuilder("/faq - ");
-        strBuilder.append("Search Open Source projects registered on ReBot.\n");
-        strBuilder.append("Example: <a href=\"/faq hibernate\">/faq hibernate</a>.");
-        return strBuilder.toString();
+    public String help(String locale) {
+        return I18nHelper.resource("Faq", locale, "faq.help");
     }
 
     @Override
-    public String description() {
-        return "list the information about the given project";
+    public String description(String locale) {
+        return I18nHelper.resource("Faq", locale, "description");
     }
 
 }

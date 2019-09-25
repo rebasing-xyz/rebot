@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.postal;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.plugin.postal.utils.BrazilPostalCodeUtils;
@@ -45,7 +46,7 @@ public class BrazilPostalCode implements CommandProvider {
 
     @Override
     public void load() {
-        new Thread ( () -> {
+        new Thread(() -> {
             service.processCSVFile();
             log.info("Plugin Brazil Postal Code enabled.");
         }).start();
@@ -53,6 +54,7 @@ public class BrazilPostalCode implements CommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         long limitResult = DEFAULT_RESULT_LIMIT;
         boolean returnOnlyUf = RETURN_ONLY_UF;
         String query = key.get();
@@ -75,28 +77,27 @@ public class BrazilPostalCode implements CommandProvider {
                 query = key.get().replace(str, "");
             }
         }
-        return key.get().length() > 0 ? service.query(query, limitResult, returnOnlyUf) :
-                "Parameter required, " + this.name() + " help.";
+
+        return key.get().length() > 0 ? service.query(query, limitResult, returnOnlyUf, locale) :
+                String.format(I18nHelper.resource("PostalCodeMessages",
+                        messageUpdate.getMessage().getFrom().getLanguageCode(), "usage"), this.name(locale));
+
     }
 
     @Override
-    public String name() {
+    public String name(String locale) {
         return "/ddd";
     }
 
     @Override
-    public String help() {
-        StringBuilder strBuilder = new StringBuilder(this.name() + " - ");
-        strBuilder.append("Search for the national code (ddd) for the given county or the national code.\n");
-        strBuilder.append("Example: <a href=\"/ddd estrela do sul\">/ddd estrela do sul</a>.\n");
-        strBuilder.append("Example: <a href=\"/ddd 34\">/ddd 34</a>.\n");
-        strBuilder.append("Example limiting the result size (Default limit size is 2): <a href=\"/ddd 34 --limit=1\">/ddd 34 --limit=1</a>.\n");
-        strBuilder.append("To get a UF for a given national code: <a href=\"/ddd 34 --uf\">/ddd 34 --uf</a>.\n");
+    public String help(String locale) {
+        StringBuilder strBuilder = new StringBuilder(this.name(locale) + " - ");
+        strBuilder.append(I18nHelper.resource("PostalCodeMessages", locale, "ddd.help"));
         return strBuilder.toString();
     }
 
     @Override
-    public String description() {
-        return "Return the national code (ddd) for the given county";
+    public String description(String locale) {
+        return I18nHelper.resource("PostalCodeMessages", locale, "description");
     }
 }

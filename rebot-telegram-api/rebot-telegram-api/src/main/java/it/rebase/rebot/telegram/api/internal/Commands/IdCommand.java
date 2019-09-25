@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 
@@ -38,7 +39,7 @@ public class IdCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name());
+        log.fine("Enabling administrative command " + this.name("en"));
     }
 
     @Override
@@ -50,17 +51,17 @@ public class IdCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public String name() {
+    public String name(String locale) {
         return "/id";
     }
 
     @Override
-    public String help() {
-        return this.name() + " " + this.description();
+    public String help(String locale) {
+        return this.name(locale) + " " + this.description(locale);
     }
 
     @Override
-    public String description() {
-        return "returns the user and chat ID";
+    public String description(String locale) {
+        return I18nHelper.resource("Administrative", locale, "id.command.description");
     }
 }

@@ -23,7 +23,7 @@
 
 package it.rebase.rebot.service.karma;
 
-import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.service.persistence.pojo.Karma;
@@ -40,51 +40,58 @@ import java.util.logging.Logger;
 public class KarmaCommand implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    private final String RESPONSE_FOUND = "<b>%s</b> have <b>%s</b> point(s) of karma " + Emoji.THUMBS_UP_SIGN;
-    private final String RESPONSE_NOT_FOUND = "Key <b>%s</b> didn't return results " + Emoji.DIZZY_FACE;
 
     @Inject
     private KarmaRepository karma;
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name());
+        // on startup set the locale to en
+        log.fine("Loading command " + this.name("en"));
     }
+
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
         if (key.get().length() < 1) {
-            return "Parameter is required, use " + this.name() + " help for assistance.";
+            return "Parameter is required, use " + this.name(messageUpdate.getMessage().getFrom().getLanguageCode()) + " help for assistance.";
         }
 
         StringBuilder response = new StringBuilder();
-        List<Karma> karmas =  karma.list(key.get());
+
         if (key.get().contains("%")) {
+            List<Karma> karmas = karma.list(key.get());
             if (karmas.isEmpty()) {
-                response.append(String.format(RESPONSE_NOT_FOUND, key.get()));
+                response.append(String.format(I18nHelper.resource("KarmaMessages",
+                        messageUpdate.getMessage().getFrom().getLanguageCode(), "response.not.found"), key.get()));
             }
             karmas.stream().forEach(karma ->
-                    response.append(String.format(RESPONSE_FOUND, karma.getUsername(), karma.getPoints()) + "\n")
-            );
+                    response.append(String.format(String.format(I18nHelper.resource("KarmaMessages",
+                            messageUpdate.getMessage().getFrom().getLanguageCode(), "response.found"), karma.getUsername(), karma.getPoints()) + "\n")));
         } else {
-            response.append(String.format(RESPONSE_FOUND, key.get(), key.get().length() > 0 ? karma.get(key.get()) : 0));
+            response.append(String.format(String.format(I18nHelper.resource("KarmaMessages",
+                    messageUpdate.getMessage().getFrom().getLanguageCode(), "response.found"), key.get(), key.get().length() > 0 ? karma.get(key.get()) : 0)));
         }
 
         return response;
     }
 
     @Override
-    public String name() {
+    public String name(String locale) {
         return "/karma";
     }
 
     @Override
-    public String help() {
-        return this.name() + " - Returns the karma for the given user/key. Ex: /karma chuckNorris";
+    public String help(String locale) {
+        return this.name(locale) + " - " + String.format(I18nHelper.resource("KarmaMessages",
+                locale, "karma.help"));
     }
 
     @Override
-    public String description() {
-        return "search the karma points for the given key";
+    public String description(String locale) {
+        return String.format(I18nHelper.resource("KarmaMessages",
+                locale, "karma.description"));
     }
+
+
 }

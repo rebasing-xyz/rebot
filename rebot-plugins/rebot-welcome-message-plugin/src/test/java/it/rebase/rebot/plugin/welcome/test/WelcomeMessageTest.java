@@ -25,6 +25,8 @@ package it.rebase.rebot.plugin.welcome.test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.object.TelegramResponse;
 import it.rebase.rebot.plugin.welcome.WelcomeMessagePlugin;
@@ -34,6 +36,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
 
 public class WelcomeMessageTest {
 
@@ -95,7 +98,7 @@ public class WelcomeMessageTest {
             "\"first_name\": \"Filippe\"," +
             "\"last_name\": \"Spolti\"," +
             "\"username\": \"fspolti\"," +
-            "\"language_code\": \"en\"" +
+            "\"language_code\": \"pt-br\"" +
             "}," +
             "\"chat\": {" +
             "\"id\": -234234212," +
@@ -120,22 +123,25 @@ public class WelcomeMessageTest {
             "}}}]}";
 
     @Test
-    public void testWelcomeMessage() throws IOException, NoSuchFieldException, IllegalAccessException {
+    public void testWelcomeMessage() throws IOException {
         WelcomeMessagePlugin welcome = new WelcomeMessagePlugin();
-        Assert.assertEquals(String.format(getMessage(welcome, "WELCOME_MESSAGE"), "Mario", "ReBot"), welcome.process(processUpdates(newMember).getResult().get(0)));
+        Assert.assertEquals(String.format(I18nHelper.resource("Welcome", "en", "welcome"),
+                "Mario", "ReBot", Emoji.SMILING_FACE_WITH_OPEN_MOUTH), welcome.process(processUpdates(newMember).getResult().get(0)));
     }
 
     @Test
-    public void testGoodbyeMessage() throws IOException, NoSuchFieldException, IllegalAccessException {
+    public void testGoodbyeMessage() throws IOException{
         WelcomeMessagePlugin left = new WelcomeMessagePlugin();
-        Assert.assertEquals(String.format(getMessage(left, "GOODBYE_MESSAGE"), "Mario"), left.process(processUpdates(leftMember).getResult().get(0)));
+        Assert.assertEquals(String.format(I18nHelper.resource("Welcome", "pt-br", "traitor"),
+                "Mario", Emoji.ANGRY_FACE), left.process(processUpdates(leftMember).getResult().get(0)));
     }
 
-    private String getMessage(Object target, String fieldName) throws NoSuchFieldException, IllegalAccessException {
-        Field field = WelcomeMessagePlugin.class.getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return field.get(target).toString();
-    }
+    //private String getMessage(String locale, String target) {
+        //return I18nHelper.resource("Welcome", locale, target);
+//        Field field = WelcomeMessagePlugin.class.getDeclaredField(fieldName);
+//        field.setAccessible(true);
+//        return field.get(target).toString();
+    //}
 
     private TelegramResponse<ArrayList<MessageUpdate>> processUpdates(String update) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

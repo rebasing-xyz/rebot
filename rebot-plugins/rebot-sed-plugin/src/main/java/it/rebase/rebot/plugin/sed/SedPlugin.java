@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.sed;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.plugin.sed.processor.SedResponse;
@@ -39,7 +40,6 @@ import java.util.logging.Logger;
 public class SedPlugin implements PluginProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    private final String MSG_TEMPLATE = "<i>%s</i> meant <b>%s</b>";
 
     @Inject
     @SedCache
@@ -65,7 +65,11 @@ public class SedPlugin implements PluginProvider {
                         newValue = cache.get(sedResponse.getUser_id()).replaceFirst(sedResponse.getOldString(), sedResponse.getNewString());
                     }
                     cache.replace(sedResponse.getUser_id(), newValue);
-                    return String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);
+                    return String.format(
+                            I18nHelper.resource("Sed", update.getMessage().getFrom().getLanguageCode(), "response"),
+                            sedResponse.getUsername(),
+                            newValue);
+                     //String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);
                 }
             } else if (!sedResponse.isProcessable() && !update.getMessage().getText().startsWith("s/")) {
                 if (cache.containsKey(sedResponse.getUser_id())) {

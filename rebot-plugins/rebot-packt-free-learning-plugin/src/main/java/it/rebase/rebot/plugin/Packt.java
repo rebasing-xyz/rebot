@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.plugin.notifier.PacktNotifier;
@@ -43,8 +44,8 @@ public class Packt implements CommandProvider {
 
     @Override
     public void load() {
-        new Thread ( () -> {
-            log.fine("Loading command " + this.name());
+        new Thread(() -> {
+            log.fine("Loading command " + this.name("en"));
             packtNotifier.populate();
         }).start();
     }
@@ -53,30 +54,32 @@ public class Packt implements CommandProvider {
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
         if (key.isPresent() && key.get().equals("notify")) return packtNotifier.registerNotification(messageUpdate);
         if (key.isPresent() && key.get().equals("off")) return packtNotifier.unregisterNotification(messageUpdate);
+        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         try {
-            return packtNotifier.get();
+            return packtNotifier.get(locale);
         } catch (final Exception e) {
-            return String.format("%s is in error state, info: %s", this.name(), e.getMessage());
+            return String.format(
+                    I18nHelper.resource("Packt", locale, "error.state"), this.name(locale), e.getMessage());
         }
     }
 
     @Override
-    public String name() {
+    public String name(String locale) {
         return "/packt";
     }
 
     @Override
-    public String help() {
-        StringBuilder builder = new StringBuilder(this.name() + " - ");
-        builder.append("Returns the information about the daily free ebook offered by Packt Publishing\n");
-        builder.append("    <code>" + this.name() + "</code> - returns information about the daily free ebook.\n");
-        builder.append("    <code>" + this.name() + " notify</code> - Enable notifications for a group or for a private chat. The notifications are sent daily at 23h00.\n");
-        builder.append("    <code>" + this.name() + " off</code> - Disable the notifications.");
-        return builder.toString();
+    public String help(String locale) {
+        return String.format(
+                I18nHelper.resource("Packt", locale, "packt.help"),
+                this.name(locale),
+                this.name(locale),
+                this.name(locale),
+                this.name(locale));
     }
 
     @Override
-    public String description() {
-        return "returns the daily free ebook";
+    public String description(String locale) {
+        return I18nHelper.resource("Packt", locale, "description");
     }
 }

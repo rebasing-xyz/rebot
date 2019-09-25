@@ -23,13 +23,14 @@
 
 package it.rebase.rebot.plugin.welcome;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.LeftChatMember;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.object.NewChatMember;
 import it.rebase.rebot.api.spi.PluginProvider;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.lang.invoke.MethodHandles;
@@ -40,9 +41,6 @@ import java.util.logging.Logger;
 public class WelcomeMessagePlugin implements PluginProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
-    private final String WELCOME_MESSAGE = "Hello <b>%s</b>, welcome to the %s group. Do you know me? Try to type /help and see what I can do. " + Emoji.SMILING_FACE_WITH_OPEN_MOUTH;
-    private final String GOODBYE_MESSAGE = "There were a traitor among us, <b>%s</b> left us." + Emoji.ANGRY_FACE;
 
     @Override
     public String process(MessageUpdate update) {
@@ -57,10 +55,12 @@ public class WelcomeMessagePlugin implements PluginProvider {
     /**
      * When a member join, left or gets excluded from an Telegram group a msg will be sent to the target group.
      * If the member added or removed is a bot, no message is sent.
+     *
      * @param update {@link MessageUpdate}
      * @return true if the message is to inform a new member or if a member left the chat
      */
     private String chatMember(MessageUpdate update) {
+        String locale = update.getMessage().getFrom().getLanguageCode();
         ObjectMapper mapper = new ObjectMapper();
         final Message message = new Message();
         for (Map.Entry<String, Object> entry : update.getMessage().getAdditionalProperties().entrySet()) {
@@ -68,7 +68,10 @@ public class WelcomeMessagePlugin implements PluginProvider {
             if (entry.getKey().equals("new_chat_member")) {
                 NewChatMember member = mapper.convertValue(entry.getValue(), NewChatMember.class);
                 if (!member.isIs_bot()) {
-                    message.setText(String.format(WELCOME_MESSAGE, member.getFirst_name(), update.getMessage().getChat().getTitle()));
+                    message.setText(String.format(I18nHelper.resource("Welcome", locale, "welcome"),
+                            member.getFirst_name(),
+                            update.getMessage().getChat().getTitle(),
+                            Emoji.SMILING_FACE_WITH_OPEN_MOUTH));
                 } else {
                     log.fine("[" + member.getUsername() + "] is bot, ignoring welcome message;");
                 }
@@ -76,7 +79,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
             } else if (entry.getKey().equals("left_chat_participant")) {
                 LeftChatMember member = mapper.convertValue(entry.getValue(), LeftChatMember.class);
                 if (!member.isIs_bot()) {
-                    message.setText(String.format(GOODBYE_MESSAGE, member.getFirst_name()));
+                    message.setText(String.format(I18nHelper.resource("Welcome", locale, "traitor"),
+                            member.getFirst_name(),
+                            Emoji.ANGRY_FACE));
                 } else {
                     log.fine("[" + member.getUsername() + "] is bot, ignoring goodbye message;");
                 }

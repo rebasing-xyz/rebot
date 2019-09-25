@@ -51,7 +51,7 @@ public class KarmaRepository {
         try {
             return (int) em.createNativeQuery("SELECT points FROM KARMA where username='" + key + "'").getSingleResult();
         } catch (final Exception e) {
-            log.fine("There is no karma for [" + key + "]");
+            log.fine("get() - There is no karma for [" + key + "]");
             return 0;
         }
     }
@@ -69,7 +69,7 @@ public class KarmaRepository {
             return em.createQuery(karmaQuery).getResultList();
 
         } catch (final Exception e) {
-            log.fine("There is no karma for [" + key + "]");
+            log.fine("list() - There is no karma for [" + key + "]");
             return Arrays.asList(new Karma(key, 0));
         }
     }

@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.currency;
 
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.plugin.currency.ecb.AvailableCurrencies;
@@ -53,24 +54,24 @@ public class Currency implements CommandProvider {
     @CurrencyCache
     Cache<String, Object> cache;
 
-    private List<Cube> cubes;
-
     @Override
     public void load() {
-        new Thread ( () -> {
-            log.fine("Loading command " + this.name());
+        new Thread(() -> {
+            // on startup defaults to en
+            log.fine("Loading command " + this.name("en"));
             ecbClient.getAndPersistDailyCurrencies();
         }).start();
     }
 
     @Override
-    public String name() {
-        return "/currency";
+    public String name(String locale) {
+        return I18nHelper.resource("CurrencyMessages", locale, "command.name");
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        if (key.get().length() < 1) return "Parameter is required.";
+        String locale =  messageUpdate.getMessage().getFrom().getLanguageCode();
+        if (key.get().length() < 1) return I18nHelper.resource("CurrencyMessages", locale, "required.parameter");
 
         StringBuilder response = new StringBuilder();
         CurrencyObject currency = new CurrencyObject(key.get().toUpperCase());
@@ -79,20 +80,30 @@ public class Currency implements CommandProvider {
 
             switch (currency.firstParameter()) {
 
-                case "BASE": // não ok
+                case "BASE":
                     try {
-                        response.append("Base: <b>" + currency.baseCurrency() + "</b>\n");
+                        response.append(String.format(
+                                I18nHelper.resource("CurrencyMessages", locale, "base.response"),
+                                currency.baseCurrency()));
+
                         for (String symbol : currency.symbols()) {
                             if (!currency.baseCurrency().equals(symbol)) {
-                                response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + currency.baseCurrency() + "</b> = ");
-                                response.append("<code>" + getCurrencyValue(currency.baseCurrency(), symbol, currency.exchangeValue()) + "</code> ");
-                                response.append("<b>" + symbol.toUpperCase() + "</b>\n");
+                                response.append(String.format(
+                                        I18nHelper.resource("CurrencyMessages", locale, "base.response.append"),
+                                        currency.exchangeValue(),
+                                        currency.baseCurrency(),
+                                        getCurrencyValue(currency.baseCurrency(), symbol, currency.exchangeValue(), locale),
+                                        symbol.toUpperCase()));
                             }
                         }
                     } catch (final Exception e) {
-                        response.append("Symbol <b> " + currency.baseCurrency() + " not supported");
+                        response.append(String.format(
+                                I18nHelper.resource("CurrencyMessages", locale, "symbol.not.supported"),
+                                currency.baseCurrency()));
                     }
-                    response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
+                    response.append(String.format(
+                            I18nHelper.resource("CurrencyMessages", locale, "currency.date"),
+                            cache.get("time")));
                     break;
 
                 case "GET":
@@ -103,48 +114,54 @@ public class Currency implements CommandProvider {
                     try {
                         response.append(AvailableCurrencies.valueOf(currency.symbol()).fullName());
                     } catch (final Exception e) {
-                        response.append("Currency not found: " + currency.symbol());
+                        response.append(String.format(
+                                I18nHelper.resource("CurrencyMessages", locale, "not.found"),
+                                currency.symbol()));
                     }
                     break;
 
                 default:
                     for (String symb : currency.symbols()) {
                         if (ECBHelper.DEFAULT_BASE_CURRENCY.equals(symb)) {
-                            response.append("The default base currency is " + ECBHelper.DEFAULT_BASE_CURRENCY + ", to use a different base currency use /currency base &#60;desired_currency&#62;\n");
+                            response.append(String.format(
+                                    I18nHelper.resource("CurrencyMessages", locale, "base.currency"),
+                                    ECBHelper.DEFAULT_BASE_CURRENCY));
+
                         } else {
-                            response.append("<b>#</b> " + currency.exchangeValue() + "<b> " + ECBHelper.DEFAULT_BASE_CURRENCY + "</b> = ");
-                            response.append("<code>" + getCurrencyValue(ECBHelper.DEFAULT_BASE_CURRENCY, symb, currency.exchangeValue()) + "</code> ");
-                            response.append("<b>" + symb.toUpperCase() + "</b>\n");
+                            response.append(String.format(
+                                    I18nHelper.resource("CurrencyMessages", locale, "exrate.response"),
+                                    currency.exchangeValue(),
+                                    ECBHelper.DEFAULT_BASE_CURRENCY,
+                                    getCurrencyValue(ECBHelper.DEFAULT_BASE_CURRENCY, symb, currency.exchangeValue(), locale),
+                                    symb.toUpperCase()));
                         }
                     }
-                    response.append("\n<code>Current rates update: </code><b>" + cache.get("time") + "</b>");
+                    response.append(String.format(
+                            I18nHelper.resource("CurrencyMessages", locale, "currency.date"),
+                            cache.get("time")));
                     break;
             }
             return response.toString();
 
         } else {
-            return "Currency plugin is not functional, contact the administrator";
+            return I18nHelper.resource("CurrencyMessages", locale, "error.state");
         }
 
     }
 
     @Override
-    public String help() {
-        StringBuilder response = new StringBuilder(this.name() + " - " + this.description() + ", base currency is USD.\n ");
-        response.append("Ex: " + this.name() + " BRL - returns the BRL value based on USD, Also accepts more than one like BRL, EUR, GBP\n");
-        response.append("Ex: " + this.name() + " base BRL USD,GBP,AUD - returns the values of USD, GBP and AUD based on BRL\n");
-        response.append("Ex: " + this.name() + " For exchange rate use /currency or /currency base BASE_CURRENCY BRL 10\n");
-        response.append("Ex: " + this.name() + " get - returns all supported currencies\n");
-        response.append("Ex: " + this.name() + " name EUR - returns the EUR currency name");
+    public String help(String locale) {
+        StringBuilder response = new StringBuilder(this.name(locale) + " - " + this.description(locale));
+        response.append(I18nHelper.resource("CurrencyMessages", locale, "currency.help"));
         return response.toString();
     }
 
     @Override
-    public String description() {
-        return "currency rates + exchange rate";
+    public String description(String locale) {
+        return I18nHelper.resource("CurrencyMessages", locale, "description");
     }
 
-    private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate) {
+    private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate, String locale) {
         try {
             if (currencyID.equalsIgnoreCase("EUR")) {
                 return ECBHelper.calculateRateConversion((Cube) cache.get(baseCurrencyId), Optional.empty(), targetExrate);
@@ -155,7 +172,7 @@ public class Currency implements CommandProvider {
         } catch (final Exception e) {
             e.printStackTrace();
         }
-        return "Currency not supported";
+        return I18nHelper.resource("CurrencyMessages", locale, "not.supported");
     }
 
     /**

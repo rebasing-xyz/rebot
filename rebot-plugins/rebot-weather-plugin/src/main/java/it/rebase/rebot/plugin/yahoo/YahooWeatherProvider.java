@@ -24,6 +24,7 @@
 package it.rebase.rebot.plugin.yahoo;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.plugin.yahoo.pojo.Condition;
 import it.rebase.rebot.plugin.yahoo.pojo.YahooQueryResponse;
 
@@ -74,7 +75,7 @@ public class YahooWeatherProvider {
      * @param location Ex: Uberlandia, MG
      * @return the forecast for the given city
      */
-    public String execute(String location) {
+    public String execute(String location, String locale) {
 
         String normalizedLocation = normalize(location);
         String endpointQuery = YAHOO_WEATHER_ENDPOINT + "?location=" + normalizedLocation + "&format=json";
@@ -95,7 +96,9 @@ public class YahooWeatherProvider {
         YahooQueryResponse yahooQueryResponse = response.readEntity(YahooQueryResponse.class);
         log.fine(yahooQueryResponse.toString());
         if (null == yahooQueryResponse.getLocation().getWoeid()) {
-            return "Forecast for <b>" + location + "</b> not found.";
+            return String.format(
+                    I18nHelper.resource("Weather", locale, "forecast.not.found"),
+                    location);
 
         } else {
             Condition condition = yahooQueryResponse.getCurrent_observation().getCondition();
@@ -103,13 +106,15 @@ public class YahooWeatherProvider {
             String region = yahooQueryResponse.getLocation().getRegion();
             String country = yahooQueryResponse.getLocation().getCountry();
             String cityRegion = String.format("%s, %s - %s", city, region, country);
-            StringBuilder builder = new StringBuilder();
-            builder.append("<b>Condition for: " + cityRegion + "</b>\n");
-            builder.append("<code>" + toCelsius(condition.getTemperature()) + "°C / ");
-            builder.append(condition.getTemperature() + "°F</code> - <em>" + condition.getText() + "</em>\n");
-            builder.append("\nhttps://www.yahoo.com/news/weather/rebot/" + country.replace(" ", "-") +
-                    "/" + city.replace(" ", "-") + "-" + yahooQueryResponse.getLocation().getWoeid());
-            return builder.toString();
+            return String.format(
+                    I18nHelper.resource("Weather", locale, "forecast"),
+                    cityRegion,
+                    toCelsius(condition.getTemperature()),
+                    condition.getTemperature(),
+                    condition.getText(),
+                    country.replace(" ", "-"),
+                    city.replace(" ", "-"),
+                    yahooQueryResponse.getLocation().getWoeid());
         }
     }
 
