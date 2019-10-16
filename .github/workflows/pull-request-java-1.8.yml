@@ -17,9 +17,7 @@ jobs:
     - if: success()
       uses: actions/labeler@v2
       with:
-        configuration-path: .github/labeler.yml
-        ready: ./*
-
-      
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        configuration-path: .github/labeler.yml     
       
   
