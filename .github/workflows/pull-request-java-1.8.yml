@@ -1,4 +1,4 @@
-name: Java CI - Java 8
+name: Java 8 CI
 
 on: pull_request
 jobs:
@@ -17,7 +17,7 @@ jobs:
     - if: success()
       uses: actions/labeler@v2
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        configuration-path: .github/labeler.yml
         ready: ./*
 
       
