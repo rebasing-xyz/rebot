@@ -28,17 +28,20 @@ import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
 
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class ReBotPredicate {
+
+    // same from karma plugin
+    private static Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-|\\—|\\–)($)");
 
     public static Predicate<MessageUpdate> messageIsNotNull() {
         return m -> null != m.getMessage().getText();
     }
 
     public static Predicate<MessageUpdate> isCommand() {
-        return m -> m.getMessage().getText().startsWith("/");
+        return m -> m.getMessage().getText().startsWith("/") && !KARMA_PATTERN.matcher(m.getMessage().getText()).find();
     }
-
     public static Predicate<MessageUpdate> botCommand(String botUserId) {
         return m -> (m.getMessage().getText().contains("@" + botUserId) || !m.getMessage().getText().contains("@"));
     }
