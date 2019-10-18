@@ -23,20 +23,23 @@
 
 package it.rebase.rebot.telegram.api.filter;
 
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
 import it.rebase.rebot.api.object.ChatAdministrator;
 import it.rebase.rebot.api.object.MessageUpdate;
-import it.rebase.rebot.service.persistence.repository.ApiRepository;
-
-import java.util.function.Predicate;
 
 public class ReBotPredicate {
+
+    // same from karma plugin
+    private static Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-|\\—|\\–)($)");
 
     public static Predicate<MessageUpdate> messageIsNotNull() {
         return m -> null != m.getMessage().getText();
     }
 
     public static Predicate<MessageUpdate> isCommand() {
-        return m -> m.getMessage().getText().startsWith("/");
+        return m -> m.getMessage().getText().startsWith("/") && !KARMA_PATTERN.matcher(m.getMessage().getText()).find();
     }
 
     public static Predicate<MessageUpdate> botCommand(String botUserId) {
@@ -51,9 +54,8 @@ public class ReBotPredicate {
         return m -> m.getMessage().getChat().getType().equals("private");
     }
 
-    public static Predicate<ChatAdministrator> isUserAdmin( String user) {
+    public static Predicate<ChatAdministrator> isUserAdmin(String user) {
         return chatAdministrator -> chatAdministrator.getUser().getUsername().equals(user) ||
                 chatAdministrator.getUser().getFirstName().equals(user);
     }
-
 }
