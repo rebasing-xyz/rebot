@@ -22,12 +22,12 @@
  */
 
 
-package it.rebase.rebot.telegram.api.message.sender;
+package it.rebase.rebot.api.message.sender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
 import it.rebase.rebot.api.object.Message;
-import it.rebase.rebot.telegram.api.httpclient.BotCloseableHttpClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;

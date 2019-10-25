@@ -25,23 +25,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Telegram API Parent</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-telegram-api</url>
+    <name>ReBot - Telegram API Shared Components</name>
+    <url>https://github.com/rebase-it/rebot/tree/master/rebot-telegram-api/rebot-telegram-api-spi</url>
 
     <description>
-        Parant pom for ReBot Telegram bot api
+        ReBot Telegram API Shared Components - Expose components used by plugins and api
     </description>
 
     <parent>
         <groupId>it.rebase</groupId>
-        <artifactId>rebot-parent</artifactId>
+        <artifactId>rebot-telegram-api-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>it.rebase</groupId>
-    <artifactId>rebot-telegram-api-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <artifactId>rebot-telegram-api-shared-components</artifactId>
+    <packaging>jar</packaging>
 
     <licenses>
         <license>
@@ -66,11 +64,19 @@
       <tag>HEAD</tag>
   </scm>
 
-    <modules>
-        <module>rebot-telegram-api-objects</module>
-        <module>rebot-telegram-api</module>
-        <module>rebot-telegram-api-shared-components</module>
-        <module>rebot-telegram-api-emojis</module>
-        <module>rebot-telegram-api-spi</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.rebase</groupId>
+            <artifactId>rebot-telegram-api-spi</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

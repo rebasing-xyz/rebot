@@ -21,17 +21,11 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package it.rebase.rebot.telegram.api.chat.admin;
 
-package it.rebase.rebot.telegram.api.httpclient;
+import it.rebase.rebot.api.object.MessageUpdate;
 
-import it.rebase.rebot.telegram.api.message.sender.MessageSender;
-import org.apache.http.impl.client.CloseableHttpClient;
+public interface ChatAdministrators {
 
-public interface IBotCloseableHttpClient {
-
-    /**
-     * CloseableHttpClient used by the rebot api no {@link it.rebase.rebot.telegram.api.UpdatesReceiver} e {@link MessageSender}
-     * @return {@link CloseableHttpClient}
-     */
-    CloseableHttpClient get();
+    boolean isAdministrator(MessageUpdate messageUpdate);
 }

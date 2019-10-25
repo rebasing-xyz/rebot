@@ -21,16 +21,24 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package it.rebase.rebot.plugin.welcome.test;
 
-package it.rebase.rebot.telegram.api.message.sender;
+import it.rebase.rebot.plugin.welcome.kogito.WelcomeChallenge;
 
-import it.rebase.rebot.api.object.Message;
+public class Common {
 
-public interface Sender {
+    public static int challengeResult(WelcomeChallenge challenge) {
 
-    /**
-     * Verifies if a message can be sent, null or empty messages will be ignored
-     * @param message to be sent
-     */
-    void processOutgoingMessage(Message message);
+        switch (challenge.getOp()) {
+            case "+":
+                return challenge.getNumber1() + challenge.getNumber2();
+            case "-":
+                return challenge.getNumber1() - challenge.getNumber2();
+            case "*":
+                return challenge.getNumber1() * challenge.getNumber2();
+            default:
+                // no default value expected
+                return 0;
+        }
+    }
 }

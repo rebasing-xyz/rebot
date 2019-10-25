@@ -19,141 +19,153 @@
     COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
     IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Telegram Bot Example</name>
-    <url>https://github.com/rebase-it/rebot</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Telegram Bot Example</name>
+  <url>https://github.com/rebase-it/rebot</url>
 
-    <description>
-        A bot for telegram based on ReBot Telegram API
-    </description>
+  <description>
+    A bot for telegram based on ReBot Telegram API
+  </description>
 
-    <!-- Parent -->
-    <parent>
-        <groupId>it.rebase</groupId>
-        <artifactId>rebot-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
-    <!-- Artifact Configuration -->
+  <!-- Parent -->
+  <parent>
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-telegram-bot</artifactId>
+    <artifactId>rebot-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-orm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jdbc-h2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-scheduler</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy</artifactId>
-        </dependency>
+  <!-- Artifact Configuration -->
+  <groupId>it.rebase</groupId>
+  <artifactId>rebot-telegram-bot</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
-        <!-- rebot dependencies -->
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-telegram-api-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-telegram-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-telegram-api-objects</artifactId>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-scheduler</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-kogito</artifactId>
+    </dependency>
 
-        <!-- plugins and services -->
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-ping-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-uptime-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-urban-dictionary-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-faq-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-packt-free-learning-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-karma-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-welcome-message-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-sed-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-weather-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-currency-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-chuck-norris-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.rebase</groupId>
-            <artifactId>rebot-brazil-postalcode-plugin</artifactId>
-        </dependency>
-    </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${version.surefire.plugin}</version>
-                <configuration>
-                    <systemProperties>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                    </systemProperties>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-maven-plugin</artifactId>
-                <version>${io.quarkus.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                           <uberJar>true</uberJar>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <!-- rebot dependencies -->
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-telegram-api-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-telegram-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-telegram-api-objects</artifactId>
+    </dependency>
+
+    <!-- plugins and services -->
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-ping-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-uptime-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-urban-dictionary-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-faq-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-packt-free-learning-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-karma-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-welcome-message-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-sed-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-weather-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-currency-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-chuck-norris-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.rebase</groupId>
+      <artifactId>rebot-brazil-postalcode-plugin</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.surefire.plugin}</version>
+        <configuration>
+          <systemProperties>
+            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+          </systemProperties>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${io.quarkus.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+            </goals>
+            <configuration>
+              <uberJar>true</uberJar>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.kie.kogito</groupId>
+        <artifactId>kogito-maven-plugin</artifactId>
+        <version>${version.org.kie.kogito}</version>
+        <extensions>false</extensions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

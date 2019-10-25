@@ -23,22 +23,28 @@
 
 package it.rebase.rebot.plugin.welcome.test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.quarkus.test.junit.QuarkusTest;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.object.TelegramResponse;
 import it.rebase.rebot.plugin.welcome.WelcomeMessagePlugin;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
-
+@QuarkusTest
 public class WelcomeMessageTest {
+
+    @Inject
+    WelcomeMessagePlugin welcome;
 
     private String newMember = "{" +
             "\"ok\": true," +
@@ -122,26 +128,33 @@ public class WelcomeMessageTest {
             "\"username\": \"moliveira\"" +
             "}}}]}";
 
+    private String messageUpdate = "{\"ok\":true,\"result\":[{\"update_id\":542669457," +
+            "\"message\":{\"message_id\":56, " +
+            "\"from\":{\"id\":14289485,\"is_bot\":false," +
+            "\"first_name\":\"Mario\",\"last_name\":\"Oliveira\"," +
+            "\"username\":\"moliveira\",\"language_code\":\"pt-br\"}," +
+            "\"chat\":{\"id\":-1001336143392,\"title\":\"ReBot\"," +
+            "\"type\":\"supergroup\"},\"date\":1573225372,\"text\":\"58\"}}]}";
+
+    @BeforeAll
+    public static void prepre() {
+        System.setProperty("it.rebase.rebot.telegram.token", "faketoken");
+        System.setProperty("it.rebase.rebot.telegram.userId", "fakeBotID");
+    }
+
     @Test
     public void testWelcomeMessage() throws IOException {
-        WelcomeMessagePlugin welcome = new WelcomeMessagePlugin();
-        Assert.assertEquals(String.format(I18nHelper.resource("Welcome", "en", "welcome"),
-                "Mario", "ReBot", Emoji.SMILING_FACE_WITH_OPEN_MOUTH), welcome.process(processUpdates(newMember).getResult().get(0)));
+        welcome.process(processUpdates(newMember).getResult().get(0));
+        String userResponse = welcome.process(processUpdates(messageUpdate).getResult().get(0));
+        System.out.println("asDASd " + userResponse);
+        Assertions.assertTrue(userResponse.contains("Sorry <b>moliveira</b>, the challenge answer"));
     }
 
     @Test
-    public void testGoodbyeMessage() throws IOException{
-        WelcomeMessagePlugin left = new WelcomeMessagePlugin();
-        Assert.assertEquals(String.format(I18nHelper.resource("Welcome", "pt-br", "traitor"),
-                "Mario", Emoji.ANGRY_FACE), left.process(processUpdates(leftMember).getResult().get(0)));
+    public void testGoodbyeMessage() throws IOException {
+        Assertions.assertEquals(String.format(I18nHelper.resource("Welcome", "pt-br", "traitor"),
+                                              "Mario", Emoji.ANGRY_FACE), welcome.process(processUpdates(leftMember).getResult().get(0)));
     }
-
-    //private String getMessage(String locale, String target) {
-        //return I18nHelper.resource("Welcome", locale, target);
-//        Field field = WelcomeMessagePlugin.class.getDeclaredField(fieldName);
-//        field.setAccessible(true);
-//        return field.get(target).toString();
-    //}
 
     private TelegramResponse<ArrayList<MessageUpdate>> processUpdates(String update) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
