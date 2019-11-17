@@ -21,7 +21,6 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 package it.rebase.rebot.telegram.api.message;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
@@ -32,7 +31,7 @@ import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
-import it.rebase.rebot.telegram.api.message.sender.MessageSender;
+import it.rebase.rebot.api.message.sender.MessageSender;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;

@@ -33,7 +33,7 @@ import it.rebase.rebot.plugin.pojo.LoadDailyOffer;
 import it.rebase.rebot.service.cache.qualifier.DefaultCache;
 import it.rebase.rebot.service.persistence.pojo.PacktNotification;
 import it.rebase.rebot.service.persistence.repository.PacktRepository;
-import it.rebase.rebot.telegram.api.message.sender.MessageSender;
+import it.rebase.rebot.api.message.sender.MessageSender;
 import org.infinispan.Cache;
 
 import javax.enterprise.context.ApplicationScoped;

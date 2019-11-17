@@ -23,7 +23,7 @@
 
 package it.rebase.rebot.api.object;
 
-public class NewChatMember {
+public class ChatMember {
 
     private int id;
     private boolean is_bot;
@@ -73,7 +73,7 @@ public class NewChatMember {
 
     @Override
     public String toString() {
-        return "NewChatMember{" +
+        return "ChatMember{" +
                 "id=" + id +
                 ", is_bot=" + is_bot +
                 ", first_name='" + first_name + '\'' +

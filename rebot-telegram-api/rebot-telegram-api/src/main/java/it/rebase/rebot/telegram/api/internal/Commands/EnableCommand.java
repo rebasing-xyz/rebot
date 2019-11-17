@@ -28,7 +28,7 @@ import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
-import it.rebase.rebot.telegram.api.chat.administrators.ChatAdministrators;
+import it.rebase.rebot.telegram.api.chat.admin.ChatAdministratorsImpl;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -49,7 +49,7 @@ public class EnableCommand implements AdministrativeCommandProvider {
     private UpdatesReceiver updatesReceiver;
 
     @Inject
-    private ChatAdministrators chatAdministrators;
+    private ChatAdministratorsImpl chatAdministratorsImpl;
 
     @Override
     public void load() {
@@ -59,7 +59,7 @@ public class EnableCommand implements AdministrativeCommandProvider {
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
         String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
-        boolean isAdministrator = chatAdministrators.isAdministrator(messageUpdate);
+        boolean isAdministrator = chatAdministratorsImpl.isAdministrator(messageUpdate);
         if (isAdministrator && updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId()))
             return String.format(
                     I18nHelper.resource("Administrative", locale, "enable.command.already.enabled"),

@@ -21,25 +21,23 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package it.rebase.rebot.plugin.welcome.test;
 
-package it.rebase.rebot.telegram.api.httpclient;
+import it.rebase.rebot.plugin.welcome.kogito.WelcomeChallenge;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+public class WelcomeChallengeTest {
 
-import javax.enterprise.context.ApplicationScoped;
-import java.util.concurrent.TimeUnit;
+    @Test
+    public void testWelcomeChallenge() {
 
-@ApplicationScoped
-public class BotCloseableHttpClient implements IBotCloseableHttpClient {
-
-    @Override
-    public CloseableHttpClient get() {
-        return HttpClientBuilder.create()
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                .setMaxConnTotal(100)
-                .build();
+        WelcomeChallenge challenge = new WelcomeChallenge("admin");
+        Assertions.assertTrue(challenge.getNumber1() > 0 && challenge.getNumber1() < 100);
+        Assertions.assertTrue(challenge.getNumber2() > 0 && challenge.getNumber2() < 100);
+        Assertions.assertEquals("admin", challenge.getUser());
+        Assertions.assertEquals(challenge.result(), Common.challengeResult(challenge));
+        challenge.setAnswer(Common.challengeResult(challenge));
+        Assertions.assertEquals(false, challenge.isKickUser());
     }
 }

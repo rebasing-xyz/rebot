@@ -4,6 +4,7 @@ target
 .project
 .classpath
 .idea/
+.settings/
 *.iml
 *.log
 ObjectStore/

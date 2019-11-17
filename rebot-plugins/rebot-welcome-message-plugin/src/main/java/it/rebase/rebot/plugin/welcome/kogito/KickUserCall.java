@@ -21,41 +21,40 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package it.rebase.rebot.telegram.api.message.endpoint;
-
-import it.rebase.rebot.api.object.Chat;
-import it.rebase.rebot.api.object.Message;
-import it.rebase.rebot.api.message.sender.MessageSender;
+package it.rebase.rebot.plugin.welcome.kogito;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
-@Path("/message")
+import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.api.message.sender.MessageSender;
+import it.rebase.rebot.api.object.Chat;
+import it.rebase.rebot.api.object.Message;
+import it.rebase.rebot.api.user.management.UserManagement;
+
 @ApplicationScoped
-public class RestMessageSender {
-
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+public class KickUserCall {
 
     @Inject
-    private MessageSender sender;
+    UserManagement userManagement;
 
-    @GET
-    @Path("send/{chatId}/{message}")
-    public Response send(@PathParam("chatId") Long chatId, @PathParam("message") String message) {
-        log.fine("Rest Endpoint called, trying to send the message: [" + message + "] to  chat id [" + chatId + "]");
-        try {
-            sender.processOutgoingMessage(buildMessage(chatId, message));
-            return Response.ok("Message Sent").build();
-        } catch (final Exception e) {
-            return Response.serverError().entity(e.getMessage()).build();
-        }
+    @Inject
+    MessageSender sender;
+
+    public WelcomeChallenge kickUser(WelcomeChallenge welcomeChallenge) {
+        System.out.println("kicking user " + welcomeChallenge.toString());
+        userManagement.kickUser(welcomeChallenge.getUser_id(), welcomeChallenge.getChat_id(), 20L);
+
+        // send kicked message
+        String messageText = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.timeout"),
+                                       welcomeChallenge.getUser(),
+                                       Emoji.ALARM_CLOCK);
+        sender.processOutgoingMessage(buildMessage(welcomeChallenge.getChat_id(), messageText));
+
+        return welcomeChallenge;
     }
+
 
     private Message buildMessage(Long target, String txt) {
         Chat chat = new Chat();
@@ -65,4 +64,6 @@ public class RestMessageSender {
         message.setText(txt);
         return message;
     }
+
 }
+
