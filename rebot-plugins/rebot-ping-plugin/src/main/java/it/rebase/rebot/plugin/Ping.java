@@ -37,7 +37,7 @@ public class Ping implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name("en"));
+        log.fine("Loading command " + this.name());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Ping implements CommandProvider {
     }
 
     @Override
-    public String name(String locale) {
+    public String name() {
         return "/ping";
     }
 

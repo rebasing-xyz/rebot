@@ -40,7 +40,7 @@ public class Uptime implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command  " + this.name("en"));
+        log.fine("Loading command  " + this.name());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Uptime implements CommandProvider {
     }
 
     @Override
-    public String name(String locale) {
+    public String name() {
         return "/uptime";
     }
 
@@ -57,7 +57,7 @@ public class Uptime implements CommandProvider {
     public String help(String locale) {
         return String.format(
                 I18nHelper.resource("Uptime", locale, "uptime.help"),
-                this.name(locale));
+                this.name());
     }
 
     @Override

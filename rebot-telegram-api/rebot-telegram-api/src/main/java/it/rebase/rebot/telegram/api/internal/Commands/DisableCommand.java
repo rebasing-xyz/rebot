@@ -53,7 +53,7 @@ public class DisableCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name("en"));
+        log.fine("Enabling administrative command " + this.name());
     }
 
     @Override
@@ -72,15 +72,15 @@ public class DisableCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public String name(String locale) {
-        return I18nHelper.resource("Administrative", locale, "disable.command.name");
+    public String name() {
+        return "/disable";
     }
 
     @Override
     public String help(String locale) {
         return String.format(
                 I18nHelper.resource("Administrative", locale, "disable.command.help"),
-                this.name(locale));
+                this.name());
     }
 
     @Override

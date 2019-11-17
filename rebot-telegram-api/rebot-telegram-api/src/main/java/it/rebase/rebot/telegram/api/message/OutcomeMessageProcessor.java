@@ -104,18 +104,17 @@ public class OutcomeMessageProcessor implements Processor {
 
         String[] args = messageUpdate.getMessage().getText().split(" ");
         String command2process = args[0].replace("@" + botUserId, "");
-        String help = I18nHelper.resource("Administrative", locale, "internal.help.command");
 
-        if (command2process.equals(help)) {
-            command.forEach(c -> response.append(c.name(locale) + " - " + c.description(locale) + "\n"));
-            administrativeCommand.forEach(ac -> response.append(ac.name(locale) + " - " + ac.description(locale) + "\n"));
+        if (command2process.equals("/help")) {
+            command.forEach(c -> response.append(c.name() + " - " + c.description(locale) + "\n"));
+            administrativeCommand.forEach(ac -> response.append(ac.name() + " - " + ac.description(locale) + "\n"));
             response.append(I18nHelper.resource("Administrative", locale, "internal.help.response"));
         }
 
         //help command
         command.forEach(command -> {
             if (command.canProcessCommand(messageUpdate, botUserId)) {
-                if (concat(args).equals(help.replace("/",""))) {
+                if (concat(args).equals("help")) {
                     response.append(command.help(locale));
                 } else {
                     response.append(command.execute(Optional.of(concat(args)), messageUpdate));

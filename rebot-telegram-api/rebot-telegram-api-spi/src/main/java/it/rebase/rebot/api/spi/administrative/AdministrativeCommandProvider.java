@@ -49,10 +49,9 @@ public interface AdministrativeCommandProvider {
     Object execute(Optional<String> key, MessageUpdate messageUpdate);
 
     /**
-     * @param locale
      * @return the command name
      */
-    String name(String locale);
+    String name();
 
     /**
      * @param locale
@@ -95,7 +94,7 @@ public interface AdministrativeCommandProvider {
         } else {
             return true ? messageUpdate.getMessage().getText().startsWith("/") &&
                     (messageUpdate.getMessage().getText().contains("@" + botUserId) || !messageUpdate.getMessage().getText().contains("@")) &&
-                    extractCommand(messageUpdate.getMessage().getText(), botUserId).equals(name(messageUpdate.getMessage().getFrom().getLanguageCode())) : false;
+                    extractCommand(messageUpdate.getMessage().getText(), botUserId).equals(name()) : false;
         }
     }
 }

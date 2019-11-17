@@ -45,7 +45,7 @@ public class Faq implements CommandProvider {
 
     public void load() {
         new Thread(() -> {
-            log.fine("Loading command  " + this.name("en"));
+            log.fine("Loading command  " + this.name());
             service.populateCache();
         }).start();
     }
@@ -55,12 +55,12 @@ public class Faq implements CommandProvider {
         String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         return key.get().length() > 0 ? service.query(key.get(), locale) : String.format(
                 I18nHelper.resource("Faq", locale, "parameter.required"),
-                this.name(locale));
+                this.name());
     }
 
     @Override
-    public String name(String locale) {
-        return I18nHelper.resource("Faq", locale, "command.name");
+    public String name() {
+        return "/faq";
     }
 
     @Override

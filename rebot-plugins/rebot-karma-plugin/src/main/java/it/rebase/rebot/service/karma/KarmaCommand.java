@@ -47,14 +47,14 @@ public class KarmaCommand implements CommandProvider {
     @Override
     public void load() {
         // on startup set the locale to en
-        log.fine("Loading command " + this.name("en"));
+        log.fine("Loading command " + this.name());
     }
 
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
         if (key.get().length() < 1) {
-            return "Parameter is required, use " + this.name(messageUpdate.getMessage().getFrom().getLanguageCode()) + " help for assistance.";
+            return "Parameter is required, use " + this.name() + " help for assistance.";
         }
 
         StringBuilder response = new StringBuilder();
@@ -77,13 +77,13 @@ public class KarmaCommand implements CommandProvider {
     }
 
     @Override
-    public String name(String locale) {
+    public String name() {
         return "/karma";
     }
 
     @Override
     public String help(String locale) {
-        return this.name(locale) + " - " + String.format(I18nHelper.resource("KarmaMessages",
+        return this.name() + " - " + String.format(I18nHelper.resource("KarmaMessages",
                 locale, "karma.help"));
     }
 

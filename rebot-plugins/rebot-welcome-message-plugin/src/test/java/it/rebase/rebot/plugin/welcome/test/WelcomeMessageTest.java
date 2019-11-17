@@ -59,7 +59,7 @@ public class WelcomeMessageTest {
             "\"first_name\": \"Filippe\"," +
             "\"last_name\": \"Spolti\"," +
             "\"username\": \"fspolti\"," +
-            "\"language_code\": \"en\"" +
+            "\"language_code\": \"en-us\"" +
             "}," +
             "\"chat\": {" +
             "\"id\": -234234212," +
