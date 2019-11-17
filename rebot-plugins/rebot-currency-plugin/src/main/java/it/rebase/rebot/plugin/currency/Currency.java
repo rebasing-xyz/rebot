@@ -58,14 +58,14 @@ public class Currency implements CommandProvider {
     public void load() {
         new Thread(() -> {
             // on startup defaults to en
-            log.fine("Loading command " + this.name("en"));
+            log.fine("Loading command " + this.name());
             ecbClient.getAndPersistDailyCurrencies();
         }).start();
     }
 
     @Override
-    public String name(String locale) {
-        return I18nHelper.resource("CurrencyMessages", locale, "command.name");
+    public String name() {
+        return "/currency";
     }
 
     @Override
@@ -151,7 +151,7 @@ public class Currency implements CommandProvider {
 
     @Override
     public String help(String locale) {
-        StringBuilder response = new StringBuilder(this.name(locale) + " - " + this.description(locale));
+        StringBuilder response = new StringBuilder(this.name() + " - " + this.description(locale));
         response.append(I18nHelper.resource("CurrencyMessages", locale, "currency.help"));
         return response.toString();
     }

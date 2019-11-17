@@ -44,7 +44,7 @@ public class Weather implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name("en"));
+        log.fine("Loading command " + this.name());
     }
 
     @Override
@@ -56,26 +56,26 @@ public class Weather implements CommandProvider {
         } catch (final Exception e) {
             response = String.format(
                     I18nHelper.resource("Weather", locale, "error.state"),
-                    this.name(locale),
+                    this.name(),
                     e.getMessage());
             e.printStackTrace();
         }
         return key.get().length() > 0 ? response : String.format(
                 I18nHelper.resource("Weather", locale, "parameter.required"),
-                this.name(locale));
+                this.name());
     }
 
     @Override
-    public String name(String locale) {
-        return I18nHelper.resource("Weather", locale, "command.name");
+    public String name() {
+        return "/weather";
     }
 
     @Override
     public String help(String locale) {
         return String.format(
                 I18nHelper.resource("Weather", locale, "weather.help"),
-                this.name(locale),
-                this.name(locale));
+                this.name(),
+                this.name());
     }
 
     @Override

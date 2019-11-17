@@ -47,29 +47,29 @@ public class DumpMenuCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name("en"));
+        log.fine("Enabling administrative command " + this.name());
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
         String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
         StringBuilder response = new StringBuilder();
-        command.forEach(c -> response.append(c.name(locale).replace("/", "") + " - " + c.description(locale) + "\n"));
-        administrativeCommand.forEach(c -> response.append(c.name(locale).replace("/", "") + " - " + c.description(locale) + "\n"));
+        command.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description(locale) + "\n"));
+        administrativeCommand.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description(locale) + "\n"));
         response.append( I18nHelper.resource("Administrative", locale, "dump.command.append.help"));
         return response.toString();
     }
 
     @Override
-    public String name(String locale) {
-        return I18nHelper.resource("Administrative", locale, "dump.command.name");
+    public String name() {
+        return "/dump";
     }
 
     @Override
     public String help(String locale) {
         return String.format(
                 I18nHelper.resource("Administrative", locale, "dump.command.help"),
-                this.name(locale));
+                this.name());
     }
 
     @Override

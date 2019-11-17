@@ -46,18 +46,18 @@ public class UrbanDictionary implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name("en"));
+        log.fine("Loading command " + this.name());
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
         return key.get().length() > 0 ? helper.query(key.get()) : String.format(
                 I18nHelper.resource("Urban", messageUpdate.getMessage().getFrom().getLanguageCode(), "required.parameter"),
-                this.name(messageUpdate.getMessage().getFrom().getLanguageCode()));
+                this.name());
     }
 
     @Override
-    public String name(String locale) {
+    public String name() {
         return "/urban";
     }
 
@@ -65,7 +65,7 @@ public class UrbanDictionary implements CommandProvider {
     public String help(String locale) {
         return String.format(
                 I18nHelper.resource("Urban", locale, "urban.help"),
-                this.name(locale));
+                this.name());
     }
 
     @Override

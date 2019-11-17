@@ -45,7 +45,7 @@ public class Packt implements CommandProvider {
     @Override
     public void load() {
         new Thread(() -> {
-            log.fine("Loading command " + this.name("en"));
+            log.fine("Loading command " + this.name());
             packtNotifier.populate();
         }).start();
     }
@@ -59,12 +59,12 @@ public class Packt implements CommandProvider {
             return packtNotifier.get(locale);
         } catch (final Exception e) {
             return String.format(
-                    I18nHelper.resource("Packt", locale, "error.state"), this.name(locale), e.getMessage());
+                    I18nHelper.resource("Packt", locale, "error.state"), this.name(), e.getMessage());
         }
     }
 
     @Override
-    public String name(String locale) {
+    public String name() {
         return "/packt";
     }
 
@@ -72,10 +72,10 @@ public class Packt implements CommandProvider {
     public String help(String locale) {
         return String.format(
                 I18nHelper.resource("Packt", locale, "packt.help"),
-                this.name(locale),
-                this.name(locale),
-                this.name(locale),
-                this.name(locale));
+                this.name(),
+                this.name(),
+                this.name(),
+                this.name());
     }
 
     @Override

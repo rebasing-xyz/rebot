@@ -80,18 +80,18 @@ public class BrazilPostalCode implements CommandProvider {
 
         return key.get().length() > 0 ? service.query(query, limitResult, returnOnlyUf, locale) :
                 String.format(I18nHelper.resource("PostalCodeMessages",
-                        messageUpdate.getMessage().getFrom().getLanguageCode(), "usage"), this.name(locale));
+                        messageUpdate.getMessage().getFrom().getLanguageCode(), "usage"), this.name());
 
     }
 
     @Override
-    public String name(String locale) {
+    public String name() {
         return "/ddd";
     }
 
     @Override
     public String help(String locale) {
-        StringBuilder strBuilder = new StringBuilder(this.name(locale) + " - ");
+        StringBuilder strBuilder = new StringBuilder(this.name() + " - ");
         strBuilder.append(I18nHelper.resource("PostalCodeMessages", locale, "ddd.help"));
         return strBuilder.toString();
     }

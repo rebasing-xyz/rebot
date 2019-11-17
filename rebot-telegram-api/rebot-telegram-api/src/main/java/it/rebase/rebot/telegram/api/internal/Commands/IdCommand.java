@@ -39,7 +39,7 @@ public class IdCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name("en"));
+        log.fine("Enabling administrative command " + this.name());
     }
 
     @Override
@@ -51,13 +51,13 @@ public class IdCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public String name(String locale) {
+    public String name() {
         return "/id";
     }
 
     @Override
     public String help(String locale) {
-        return this.name(locale) + " " + this.description(locale);
+        return this.name() + " " + this.description(locale);
     }
 
     @Override
