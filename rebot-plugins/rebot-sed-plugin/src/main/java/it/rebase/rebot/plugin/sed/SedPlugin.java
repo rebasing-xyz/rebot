@@ -46,7 +46,7 @@ public class SedPlugin implements PluginProvider {
     Cache<Long, String> cache;
 
     @Override
-    public String process(MessageUpdate update) {
+    public String process(MessageUpdate update, String locale) {
 
         if (null == update.getMessage().getText()) {
             return null;
@@ -66,7 +66,7 @@ public class SedPlugin implements PluginProvider {
                     }
                     cache.replace(sedResponse.getUser_id(), newValue);
                     return String.format(
-                            I18nHelper.resource("Sed", update.getMessage().getFrom().getLanguageCode(), "response"),
+                            I18nHelper.resource("Sed", locale, "response"),
                             sedResponse.getUsername(),
                             newValue);
                      //String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);

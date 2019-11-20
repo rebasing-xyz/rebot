@@ -23,18 +23,19 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
+import it.rebase.rebot.api.user.management.UserManagement;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
-import it.rebase.rebot.telegram.api.chat.admin.ChatAdministratorsImpl;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class EnableCommand implements AdministrativeCommandProvider {
@@ -49,7 +50,7 @@ public class EnableCommand implements AdministrativeCommandProvider {
     private UpdatesReceiver updatesReceiver;
 
     @Inject
-    private ChatAdministratorsImpl chatAdministratorsImpl;
+    private UserManagement userManagement;
 
     @Override
     public void load() {
@@ -57,14 +58,16 @@ public class EnableCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
-        boolean isAdministrator = chatAdministratorsImpl.isAdministrator(messageUpdate);
-        if (isAdministrator && updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId()))
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+        boolean isAdministrator = userManagement.isAdministrator(messageUpdate);
+        if (isAdministrator && updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) {
             return String.format(
                     I18nHelper.resource("Administrative", locale, "enable.command.already.enabled"),
                     botUserId);
-        if (!isAdministrator) return I18nHelper.resource("Administrative", locale, "enable.command.not.allowed");
+        }
+        if (!isAdministrator) {
+            return I18nHelper.resource("Administrative", locale, "enable.command.not.allowed");
+        }
         updatesReceiver.enable(messageUpdate.getMessage());
         return String.format(
                 I18nHelper.resource("Administrative", locale, "enable.command.enabled"),

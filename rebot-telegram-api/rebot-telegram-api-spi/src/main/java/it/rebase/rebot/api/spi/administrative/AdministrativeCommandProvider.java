@@ -44,9 +44,10 @@ public interface AdministrativeCommandProvider {
      *
      * @param key           command parameters
      * @param messageUpdate message update
+     * @param locale locale
      * @return the query result based on the key
      */
-    Object execute(Optional<String> key, MessageUpdate messageUpdate);
+    Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale);
 
     /**
      * @return the command name

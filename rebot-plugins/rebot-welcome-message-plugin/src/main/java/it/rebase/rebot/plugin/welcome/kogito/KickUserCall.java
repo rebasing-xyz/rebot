@@ -23,6 +23,9 @@
 
 package it.rebase.rebot.plugin.welcome.kogito;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -36,6 +39,8 @@ import it.rebase.rebot.api.user.management.UserManagement;
 @ApplicationScoped
 public class KickUserCall {
 
+    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+
     @Inject
     UserManagement userManagement;
 
@@ -43,15 +48,13 @@ public class KickUserCall {
     MessageSender sender;
 
     public WelcomeChallenge kickUser(WelcomeChallenge welcomeChallenge) {
-        System.out.println("kicking user " + welcomeChallenge.toString());
-        userManagement.kickUser(welcomeChallenge.getUser_id(), welcomeChallenge.getChat_id(), 20L);
-
+        log.fine("kicking user with Challenge: " + welcomeChallenge.toString());
         // send kicked message
         String messageText = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.timeout"),
                                        welcomeChallenge.getUser(),
                                        Emoji.ALARM_CLOCK);
         sender.processOutgoingMessage(buildMessage(welcomeChallenge.getChat_id(), messageText));
-
+        userManagement.kickUser(welcomeChallenge.getUser_id(), welcomeChallenge.getChat_id(), 20L);
         return welcomeChallenge;
     }
 

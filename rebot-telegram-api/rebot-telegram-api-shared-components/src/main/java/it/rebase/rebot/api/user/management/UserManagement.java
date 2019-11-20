@@ -23,6 +23,9 @@
 
 package it.rebase.rebot.api.user.management;
 
+import it.rebase.rebot.api.object.MessageUpdate;
+import it.rebase.rebot.api.object.User;
+
 public interface UserManagement {
 
     void kickUser(long userId, long chatId);
@@ -32,4 +35,10 @@ public interface UserManagement {
     void unbanUser(long userId, long chatId);
 
     void unbanUser(long userId, long chatId, long waitBeforeBan);
+
+    User getMe();
+
+    boolean isAdministrator(MessageUpdate messageUpdate);
+
+    boolean isAdministrator(long chatId);
 }

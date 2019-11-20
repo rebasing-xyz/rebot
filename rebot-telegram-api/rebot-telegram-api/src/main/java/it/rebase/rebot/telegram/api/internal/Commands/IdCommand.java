@@ -43,7 +43,7 @@ public class IdCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         StringBuilder response = new StringBuilder();
         response.append("<b>User ID:</b> <code>" + messageUpdate.getMessage().getFrom().getId() + "</code>");
         response.append(" / <b>Chat ID:</b> <code>" + messageUpdate.getMessage().getChat().getId() + "</code>");

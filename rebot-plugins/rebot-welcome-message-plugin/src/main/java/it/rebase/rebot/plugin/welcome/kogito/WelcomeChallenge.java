@@ -44,8 +44,8 @@ public class WelcomeChallenge implements Serializable {
      * randomize two numbers and a math operator to start the challenge
      */
     public WelcomeChallenge(String username) {
-        this.number1 = randomNumber(100);
-        this.number2 = randomNumber(100);
+        this.number1 = randomNumber(10);
+        this.number2 = randomNumber(10);
         this.op = defineMathOp();
         this.user = username;
         this.kickUser = true;

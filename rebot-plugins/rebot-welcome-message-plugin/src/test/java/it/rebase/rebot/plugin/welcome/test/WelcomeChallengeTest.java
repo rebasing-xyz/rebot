@@ -33,8 +33,8 @@ public class WelcomeChallengeTest {
     public void testWelcomeChallenge() {
 
         WelcomeChallenge challenge = new WelcomeChallenge("admin");
-        Assertions.assertTrue(challenge.getNumber1() > 0 && challenge.getNumber1() < 100);
-        Assertions.assertTrue(challenge.getNumber2() > 0 && challenge.getNumber2() < 100);
+        Assertions.assertTrue(challenge.getNumber1() >= 0 && challenge.getNumber1() <= 100);
+        Assertions.assertTrue(challenge.getNumber2() >= 0 && challenge.getNumber2() <= 100);
         Assertions.assertEquals("admin", challenge.getUser());
         Assertions.assertEquals(challenge.result(), Common.challengeResult(challenge));
         challenge.setAnswer(Common.challengeResult(challenge));

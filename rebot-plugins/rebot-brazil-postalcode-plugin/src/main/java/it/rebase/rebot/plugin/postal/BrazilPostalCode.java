@@ -53,8 +53,7 @@ public class BrazilPostalCode implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         long limitResult = DEFAULT_RESULT_LIMIT;
         boolean returnOnlyUf = RETURN_ONLY_UF;
         String query = key.get();
@@ -80,7 +79,7 @@ public class BrazilPostalCode implements CommandProvider {
 
         return key.get().length() > 0 ? service.query(query, limitResult, returnOnlyUf, locale) :
                 String.format(I18nHelper.resource("PostalCodeMessages",
-                        messageUpdate.getMessage().getFrom().getLanguageCode(), "usage"), this.name());
+                        locale, "usage"), this.name());
 
     }
 

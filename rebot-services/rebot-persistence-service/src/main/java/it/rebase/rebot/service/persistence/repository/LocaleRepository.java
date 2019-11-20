@@ -23,59 +23,55 @@
 
 package it.rebase.rebot.service.persistence.repository;
 
-import it.rebase.rebot.service.persistence.pojo.BotStatus;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.service.persistence.pojo.ChatLocale;
 
 @Transactional
 @ApplicationScoped
-public class ApiRepository {
+public class LocaleRepository {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final String DEFAULT_LOCALE = "en_US";
 
     @Inject
     EntityManager em;
 
-    /**
-     * Persist the bot state in the database
-     * @param botStatus {@link BotStatus}
-     */
-    public void persist(BotStatus botStatus) {
-        log.fine("Persisting " + botStatus.toString());
-        em.persist(botStatus);
-        em.flush();
-    }
-
-    /**
-     * Delete the bot state in the database for the given chatId
-     * @param chatId {@link long}
-     */
-    public void remove(long chatId) {
-        log.fine("Enabling bot for chat  " + chatId);
-        Query q = em.createNativeQuery("DELETE FROM BOT_STATUS where ID="+ chatId+";");
-        q.executeUpdate();
-        em.flush();
-    }
-
-    /**
-     * @return if the bot is enabled or not
-     * In case there is no state saved return true.
-     */
-    public boolean isEnabled(long chatId) {
+    public String get(long chatId, String chatTitle) {
         try {
-            Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where ID="+ chatId+";");
-            return (boolean) q.getSingleResult();
+            return em.createNamedQuery("ChatLocale.Get", ChatLocale.class)
+                    .setParameter("chatId", chatId)
+                    .getSingleResult().getChatLocale();
         } catch (final Exception e) {
-            return true;
+            e.printStackTrace();
+            log.fine("get() - There is no locale for  chat[" + chatId + "], defaulting to " + DEFAULT_LOCALE);
+            this.persistChatLocale(new ChatLocale(chatId, chatTitle, DEFAULT_LOCALE));
+            return DEFAULT_LOCALE;
         }
     }
 
+    public List<ChatLocale> getRegisteredChatLocale() {
+        CriteriaQuery<ChatLocale> criteria = em.getCriteriaBuilder().createQuery(ChatLocale.class);
+        criteria.select(criteria.from(ChatLocale.class));
+        return em.createQuery(criteria).getResultList();
+    }
+
+    public String persistChatLocale(ChatLocale chatLocale) {
+        try {
+            log.fine("Persisting " + chatLocale.toString());
+            em.merge(chatLocale);
+            em.flush();
+        } catch (final Exception e) {
+            return "failed to persist locale " + chatLocale.toString();
+        }
+        return "persisted";
+    }
 }

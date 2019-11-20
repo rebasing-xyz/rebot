@@ -23,18 +23,21 @@
 
 package it.rebase.rebot.service.karma;
 
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.service.persistence.pojo.Karma;
 import it.rebase.rebot.service.persistence.repository.KarmaRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
+import static it.rebase.rebot.api.utils.Formatter.normalize;
 
 @ApplicationScoped
 public class KarmaCommand implements CommandProvider {
@@ -50,9 +53,8 @@ public class KarmaCommand implements CommandProvider {
         log.fine("Loading command " + this.name());
     }
 
-
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         if (key.get().length() < 1) {
             return "Parameter is required, use " + this.name() + " help for assistance.";
         }
@@ -63,14 +65,13 @@ public class KarmaCommand implements CommandProvider {
             List<Karma> karmas = karma.list(key.get());
             if (karmas.isEmpty()) {
                 response.append(String.format(I18nHelper.resource("KarmaMessages",
-                        messageUpdate.getMessage().getFrom().getLanguageCode(), "response.not.found"), key.get()));
+                                                                  locale, "response.not.found"), key.get()));
             }
-            karmas.stream().forEach(karma ->
-                    response.append(String.format(String.format(I18nHelper.resource("KarmaMessages",
-                            messageUpdate.getMessage().getFrom().getLanguageCode(), "response.found"), karma.getUsername(), karma.getPoints()) + "\n")));
+            karmas.stream().forEach(karma -> response.append(String.format(String.format(I18nHelper.resource("KarmaMessages",
+                                                               locale, "response.found"), normalize(karma.getUsername()), karma.getPoints()) + "\n")));
         } else {
             response.append(String.format(String.format(I18nHelper.resource("KarmaMessages",
-                    messageUpdate.getMessage().getFrom().getLanguageCode(), "response.found"), key.get(), key.get().length() > 0 ? karma.get(key.get()) : 0)));
+                                                                            locale, "response.found"), normalize(key.get()), key.get().length() > 0 ? karma.get(key.get()) : 0)));
         }
 
         return response;
@@ -84,13 +85,13 @@ public class KarmaCommand implements CommandProvider {
     @Override
     public String help(String locale) {
         return this.name() + " - " + String.format(I18nHelper.resource("KarmaMessages",
-                locale, "karma.help"));
+                                                                       locale, "karma.help"));
     }
 
     @Override
     public String description(String locale) {
         return String.format(I18nHelper.resource("KarmaMessages",
-                locale, "karma.description"));
+                                                 locale, "karma.description"));
     }
 
 

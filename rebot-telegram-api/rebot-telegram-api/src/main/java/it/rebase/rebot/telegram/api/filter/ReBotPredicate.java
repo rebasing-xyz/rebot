@@ -23,12 +23,13 @@
 
 package it.rebase.rebot.telegram.api.filter;
 
-import it.rebase.rebot.api.object.ChatAdministrator;
-import it.rebase.rebot.api.object.MessageUpdate;
-import it.rebase.rebot.service.persistence.repository.ApiRepository;
-
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+
+import it.rebase.rebot.api.object.ChatAdministrator;
+import it.rebase.rebot.api.object.MessageUpdate;
+
+import static it.rebase.rebot.telegram.api.utils.StringUtils.concat;
 
 public class ReBotPredicate {
 
@@ -42,6 +43,7 @@ public class ReBotPredicate {
     public static Predicate<MessageUpdate> isCommand() {
         return m -> m.getMessage().getText().startsWith("/") && !KARMA_PATTERN.matcher(m.getMessage().getText()).find();
     }
+
     public static Predicate<MessageUpdate> botCommand(String botUserId) {
         return m -> (m.getMessage().getText().contains("@" + botUserId) || !m.getMessage().getText().contains("@"));
     }
@@ -50,13 +52,7 @@ public class ReBotPredicate {
         return m -> m.getMessage().getFrom().isIsBot();
     }
 
-    public static Predicate<MessageUpdate> isPrivateChat() {
-        return m -> m.getMessage().getChat().getType().equals("private");
+    public static Predicate<MessageUpdate> help() {
+        return m -> concat(m.getMessage().getText().split(" ")).equals("help");
     }
-
-    public static Predicate<ChatAdministrator> isUserAdmin( String user) {
-        return chatAdministrator -> chatAdministrator.getUser().getUsername().equals(user) ||
-                chatAdministrator.getUser().getFirstName().equals(user);
-    }
-
 }

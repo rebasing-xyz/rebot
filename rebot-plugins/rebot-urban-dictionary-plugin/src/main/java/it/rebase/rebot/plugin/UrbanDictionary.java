@@ -50,9 +50,9 @@ public class UrbanDictionary implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         return key.get().length() > 0 ? helper.query(key.get()) : String.format(
-                I18nHelper.resource("Urban", messageUpdate.getMessage().getFrom().getLanguageCode(), "required.parameter"),
+                I18nHelper.resource("Urban",locale, "required.parameter"),
                 this.name());
     }
 

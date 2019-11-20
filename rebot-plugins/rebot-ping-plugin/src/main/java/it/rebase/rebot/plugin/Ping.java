@@ -41,7 +41,7 @@ public class Ping implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         return "pong";
     }
 

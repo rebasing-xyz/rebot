@@ -51,8 +51,7 @@ public class DumpMenuCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         StringBuilder response = new StringBuilder();
         command.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description(locale) + "\n"));
         administrativeCommand.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description(locale) + "\n"));

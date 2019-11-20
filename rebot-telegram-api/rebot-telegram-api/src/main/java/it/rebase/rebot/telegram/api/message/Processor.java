@@ -48,5 +48,4 @@ public interface Processor {
      * @param messageUpdate Message to be processed
      */
     void nonCommandProcessor(MessageUpdate messageUpdate);
-
 }

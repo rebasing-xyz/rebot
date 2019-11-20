@@ -109,5 +109,50 @@ private String botTokenId;
 
 If the property is set to required and it is not set, the bot will fail to start.
 
+## Internationalization Plugin
+
+The api supports internationalization, for now there are two languages support: en_Us and pt_BR.
+The locale is set at chat level which means the configuration will be applied to all chat members.
+
+Only chat administrators can change this configuration. To chage the locale definition just do:
+
+```bash
+/locale pt_br
+
+# or
+
+/locale en_us
+```
+
+### Add support to internationalization to your plugin
+
+For create a ReBot plugin you must implement the CommandProvider or the PluginProvider interfaces which is already
+prepared for the locale setup, i.e. the methods receives the locale which is set by the Core API, that way the locale is
+set/read by chatID on only one place.
+
+All you need to do is define the resource bundle under *resources* directory of your project, then use it on your plugin like
+the example below:
+
+```java
+    @Override
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+        String response;
+        try {
+            response = yahoo.execute(key.get(), locale);
+        } catch (final Exception e) {
+            response = String.format(
+                    I18nHelper.resource("Weather", locale, "error.state"),
+                    this.name(),
+                    e.getMessage());
+            e.printStackTrace();
+        }
+        return key.get().length() > 0 ? response : String.format(
+                I18nHelper.resource("Weather", locale, "parameter.required"),
+                this.name());
+    }
+```
+
+For more information take a look on the [i18n helper](https://github.com/rebase-it/rebot/tree/master/rebot-telegram-api/rebot-telegram-api-spi/src/main/java/it/rebase/rebot/api/i18n).
+
 ### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it
