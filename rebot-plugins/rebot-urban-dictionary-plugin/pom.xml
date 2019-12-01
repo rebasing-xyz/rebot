@@ -39,9 +39,7 @@
     </parent>
 
     <!-- Artifact Configuration -->
-    <groupId>it.rebase</groupId>
     <artifactId>rebot-urban-dictionary-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <licenses>
