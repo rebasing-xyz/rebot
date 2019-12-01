@@ -39,7 +39,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class BrazilPostalCodeProducer {
+public class BrazilPostalCacheProducer {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
@@ -48,12 +48,12 @@ public class BrazilPostalCodeProducer {
     @Produces
     @BrazilPostalCodeCache
     public Cache<String, PostalCode> returnCache() {
-        return dddCacheContainer().getCache();
+        return postalCodeCacheContainer().getCache();
     }
 
     @Produces
-    public Configuration dddCacheConfiguration() {
-        log.info("Configuring ddd-cache...");
+    public Configuration postalCodeCacheConfiguration() {
+        log.info("Configuring brazil-postal-code-cache...");
         return new ConfigurationBuilder()
                 .indexing()
                 .autoConfig(true)
@@ -61,7 +61,7 @@ public class BrazilPostalCodeProducer {
                 .build();
     }
 
-    public EmbeddedCacheManager dddCacheContainer() {
+    public EmbeddedCacheManager postalCodeCacheContainer() {
         if (null ==  defaultCacheManager) {
             GlobalConfiguration g = new GlobalConfigurationBuilder()
                     .nonClusteredDefault()
@@ -69,7 +69,7 @@ public class BrazilPostalCodeProducer {
                     .globalJmxStatistics()
                     .allowDuplicateDomains(false)
                     .build();
-            defaultCacheManager =  new DefaultCacheManager(g, dddCacheConfiguration());
+            defaultCacheManager =  new DefaultCacheManager(g, postalCodeCacheConfiguration());
         }
         return defaultCacheManager;
     }

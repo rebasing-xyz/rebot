@@ -51,8 +51,7 @@ public class Faq implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         return key.get().length() > 0 ? service.query(key.get(), locale) : String.format(
                 I18nHelper.resource("Faq", locale, "parameter.required"),
                 this.name());

@@ -24,6 +24,7 @@
 package it.rebase.rebot.telegram.api.internal.Commands;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -32,14 +33,15 @@ import javax.inject.Inject;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.api.i18n.SupportedLocales;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.api.user.management.UserManagement;
+import it.rebase.rebot.service.persistence.pojo.ChatLocale;
 import it.rebase.rebot.service.persistence.repository.LocaleRepository;
-import it.rebase.rebot.telegram.api.UpdatesReceiver;
 
 @ApplicationScoped
-public class DisableCommand implements AdministrativeCommandProvider {
+public class LocaleCommand implements AdministrativeCommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
@@ -48,50 +50,70 @@ public class DisableCommand implements AdministrativeCommandProvider {
     String botUserId;
 
     @Inject
-    private UpdatesReceiver updatesReceiver;
-
-    @Inject
     private UserManagement userManagement;
 
     @Inject
-    private LocaleRepository repository;
+    private LocaleRepository localeRepository;
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name());
+        log.fine("Enabling chat locale command " + this.name());
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+
         boolean isAdministrator = userManagement.isAdministrator(messageUpdate);
-        if (isAdministrator && !updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) {
-            return String.format(
-                    I18nHelper.resource("Administrative", locale, "disable.command.already.disabled"),
-                    botUserId);
+
+        if (!key.isPresent() || key.get().equals("")) {
+            return String.format(I18nHelper.resource("Administrative", locale, "locale.current.definition"),
+                                 messageUpdate.getMessage().getChat().getTitle(),
+                                 localeRepository.get(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()));
+        } else {
+
+            if (!isAdministrator) {
+                return I18nHelper.resource("Administrative", locale, "locale.command.not.allowed");
+            }
+
+            try {
+
+                ChatLocale chatLocale = new ChatLocale(messageUpdate.getMessage().getChat().getId(),
+                                                       messageUpdate.getMessage().getChat().getTitle(),
+                                                       SupportedLocales.valueOf(key.get()).localeName());
+
+                if ("persisted".equals(localeRepository.persistChatLocale(chatLocale))) {
+                    return String.format(I18nHelper.resource("Administrative", SupportedLocales.valueOf(key.get()).localeName(),
+                                                             "locale.current.definition"),
+                                         messageUpdate.getMessage().getChat().getTitle(),
+                                         localeRepository.get(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()));
+                }
+            } catch (final Exception e) {
+
+                return String.format(I18nHelper.resource("Administrative", locale, "locale.definition.not.valid"),
+                                     key.get(),
+                                     Arrays.asList(SupportedLocales.class.getEnumConstants()));
+            }
+
+            return "Something went wrong, check logs or contact administrator: just@rebase.it";
         }
-        if (!isAdministrator) {
-            return I18nHelper.resource("Administrative", locale, "disable.command.not.allowed");
-        }
-        updatesReceiver.disable(messageUpdate.getMessage());
-        return String.format(
-                I18nHelper.resource("Administrative", locale, "disable.command.disabled"),
-                botUserId);
     }
 
     @Override
     public String name() {
-        return "/disable";
+        return "/locale";
     }
 
     @Override
     public String help(String locale) {
         return String.format(
-                I18nHelper.resource("Administrative", locale, "disable.command.help"),
+                I18nHelper.resource("Administrative", locale, "locale.command.help"),
+                this.name(),
+                this.name(),
                 this.name());
     }
 
     @Override
     public String description(String locale) {
-        return I18nHelper.resource("Administrative", locale, "disable.command.description");
+        return I18nHelper.resource("Administrative", locale, "locale.command.description");
     }
 }

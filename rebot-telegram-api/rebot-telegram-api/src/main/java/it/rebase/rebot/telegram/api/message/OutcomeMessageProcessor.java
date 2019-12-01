@@ -23,32 +23,37 @@
 
 package it.rebase.rebot.telegram.api.message;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.api.message.sender.MessageSender;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
-import it.rebase.rebot.api.message.sender.MessageSender;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
+import it.rebase.rebot.service.persistence.repository.LocaleRepository;
 
 import static it.rebase.rebot.telegram.api.filter.ReBotPredicate.isCommand;
 import static it.rebase.rebot.telegram.api.filter.ReBotPredicate.messageIsNotNull;
+import static it.rebase.rebot.telegram.api.utils.StringUtils.concat;
 
 @ApplicationScoped
 public class OutcomeMessageProcessor implements Processor {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private boolean isAdministrativeCommand = false;
+
+    private String locale;
 
     @Inject
     @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
@@ -66,20 +71,25 @@ public class OutcomeMessageProcessor implements Processor {
     private MessageSender reply;
     @Inject
     private ApiRepository apiRepository;
-
+    @Inject
+    private LocaleRepository localeRepository;
 
     @Override
     public void process(MessageUpdate messageUpdate) {
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+        locale = localeRepository.get(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle());
+        log.fine("current message is being processed with the locale: " + locale);
         // before proceed with other commands/plugins execute administrative commands
         administrativeCommand.forEach(c -> {
+
             if (c.canProcessCommand(messageUpdate, botUserId)) {
                 if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help(locale)));
                     isAdministrativeCommand = true;
                     return;
                 }
-                reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.execute(null, messageUpdate).toString()));
+                reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
+                                                         messageUpdate.getMessage().getChat(),
+                                                         c.execute(Optional.of(concat(messageUpdate.getMessage().getText().split(" "))), messageUpdate, locale).toString()));
                 isAdministrativeCommand = true;
                 return;
             }
@@ -98,7 +108,7 @@ public class OutcomeMessageProcessor implements Processor {
 
     @Override
     public void commandProcessor(MessageUpdate messageUpdate) {
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+
         final StringBuilder response = new StringBuilder("");
         log.fine("Processing command: " + messageUpdate.getMessage().getText());
 
@@ -113,11 +123,12 @@ public class OutcomeMessageProcessor implements Processor {
 
         //help command
         command.forEach(command -> {
+
             if (command.canProcessCommand(messageUpdate, botUserId)) {
                 if (concat(args).equals("help")) {
                     response.append(command.help(locale));
                 } else {
-                    response.append(command.execute(Optional.of(concat(args)), messageUpdate));
+                    response.append(command.execute(Optional.of(concat(args)), messageUpdate, locale));
                     log.fine("COMMAND_PROCESSOR - Command processed, result is: " + response);
                 }
             }
@@ -125,7 +136,7 @@ public class OutcomeMessageProcessor implements Processor {
         if (response.length() < 1 && !isAdministrativeCommand) {
             log.fine("Command [" + messageUpdate.getMessage().getText() + "] will not to be processed by this bot or is not an administrative command.");
         }
-        reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), (response.toString())));
+        reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()));
     }
 
     @Override
@@ -136,10 +147,12 @@ public class OutcomeMessageProcessor implements Processor {
         message.setMessageId(messageUpdate.getMessage().getMessageId());
 
         plugin.forEach(plugin -> {
-            message.setText(plugin.process(messageUpdate));
+            message.setText(plugin.process(messageUpdate, locale));
             try {
                 if (null != message.getText()) {
-                    if (message.getText().contains("karma")) message.setMessageId(0);
+                    if (message.getText().contains("karma")) {
+                        message.setMessageId(0);
+                    }
                     reply.processOutgoingMessage(message);
                 }
             } catch (final Exception e) {
@@ -148,22 +161,5 @@ public class OutcomeMessageProcessor implements Processor {
         });
     }
 
-    /**
-     * Parse the parameters received into a single String and make it lower case
-     *
-     * @param parameters
-     * @return the formatted string
-     */
-    private String concat(String... parameters) {
-        String result = "";
-        for (int i = 1; i < parameters.length; i++) {
-            if (parameters.length > i + 1) {
-                result += parameters[i] + " ";
-            } else {
-                result += parameters[i];
-            }
-        }
-        return result.toLowerCase();
-    }
 
 }

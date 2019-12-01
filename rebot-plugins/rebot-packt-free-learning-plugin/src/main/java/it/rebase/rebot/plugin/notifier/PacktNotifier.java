@@ -127,7 +127,7 @@ public class PacktNotifier {
         }
     }
 
-    public String registerNotification(MessageUpdate message) {
+    public String registerNotification(MessageUpdate message, String locale) {
         String channel;
         if (message.getMessage().getChat().getType().equals("group") || message.getMessage().getChat().getType().equals("supergroup")) {
             channel = message.getMessage().getChat().getTitle();
@@ -136,10 +136,10 @@ public class PacktNotifier {
         }
         return repository.register(new PacktNotification(message.getMessage().getChat().getId(),
                 channel,
-                message.getMessage().getFrom().getLanguageCode()));
+               locale));
     }
 
-    public String unregisterNotification(MessageUpdate message) {
+    public String unregisterNotification(MessageUpdate message, String locale) {
         String channel;
         if (message.getMessage().getChat().getType().equals("group") || message.getMessage().getChat().getType().equals("supergroup")) {
             channel = message.getMessage().getChat().getTitle();
@@ -148,7 +148,7 @@ public class PacktNotifier {
         }
         return repository.unregister(new PacktNotification(message.getMessage().getChat().getId(),
                 channel,
-                message.getMessage().getFrom().getLanguageCode()));
+                locale));
     }
 
     private void notify(Long chatId, String locale) {

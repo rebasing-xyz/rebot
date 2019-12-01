@@ -42,6 +42,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import static it.rebase.rebot.api.utils.Formatter.normalize;
+
 @ApplicationScoped
 public class KarmaPlugin implements PluginProvider {
 
@@ -69,7 +71,7 @@ public class KarmaPlugin implements PluginProvider {
     }
 
     @Override
-    public String process(MessageUpdate update) {
+    public String process(MessageUpdate update, String locale) {
         StringBuilder response = new StringBuilder();
         try {
             if (canProcess(update.getMessage().getText()) && !update.isEdited()) {
@@ -130,7 +132,7 @@ public class KarmaPlugin implements PluginProvider {
                 break;
 
         }
-        return String.format(KARMA_MESSAGE, target, cache.get(target + ":" + username));
+        return String.format(KARMA_MESSAGE, normalize(target), cache.get(target + ":" + username));
     }
 
     /**

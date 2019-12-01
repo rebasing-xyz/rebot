@@ -51,10 +51,9 @@ public class Packt implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        if (key.isPresent() && key.get().equals("notify")) return packtNotifier.registerNotification(messageUpdate);
-        if (key.isPresent() && key.get().equals("off")) return packtNotifier.unregisterNotification(messageUpdate);
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+        if (key.isPresent() && key.get().equals("notify")) return packtNotifier.registerNotification(messageUpdate, locale);
+        if (key.isPresent() && key.get().equals("off")) return packtNotifier.unregisterNotification(messageUpdate, locale);
         try {
             return packtNotifier.get(locale);
         } catch (final Exception e) {

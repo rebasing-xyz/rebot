@@ -41,6 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.message.sender.MessageSender;
+import it.rebase.rebot.api.object.ChatAdministrator;
 import it.rebase.rebot.api.object.ChatMember;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -89,8 +90,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
      * will also return the challenge in case of new comers.
      */
     @Override
-    public String process(MessageUpdate update) {
-        String locale = update.getMessage().getFrom().getLanguageCode();
+    public String process(MessageUpdate update, String locale) {
+
+
 
         if (leftMember.test(update)) {
             return leftChatMemberMessage(update, locale);
@@ -99,15 +101,18 @@ public class WelcomeMessagePlugin implements PluginProvider {
             Collection<? extends ProcessInstance<? extends Model>> instances = welcomeProcess.instances().values();
 
             // if new member and if there is not started process, start a new challenge
-            //instances.isEmpty() &&
             if (newMember.test(update)) {
+
+                // TODO (userManagement.getMe());
+                // TODO add retry option, user hava 3 chances to answer the challenge correctly before be kicked
+
                 for (ChatMember member : chatMember(update)) {
                     String username = null != member.getUsername() ? member.getUsername() : member.getFirst_name();
 
                     WelcomeChallenge challenge = new WelcomeChallenge(username);
                     challenge.setUser_id(member.getId());
                     challenge.setChat_id(update.getMessage().getChat().getId());
-                    challenge.setLocale(update.getMessage().getFrom().getLanguageCode());
+                    challenge.setLocale(locale);
 
                     Model model = welcomeProcess.createModel();
                     Map<String, Object> parameters = new HashMap<>();
@@ -154,23 +159,23 @@ public class WelcomeMessagePlugin implements PluginProvider {
                                                     new HumanTaskTransition(Complete.ID, results, policy));
 
                         if (challenge.isKickUser()) {
-                            response.append(String.format(I18nHelper.resource("Welcome", challenge.getLocale(), "challenge.wrong.answer"),
+                            response.append(String.format(I18nHelper.resource("Welcome", locale, "challenge.wrong.answer"),
                                                           username,
                                                           userAnswer,
                                                           challenge.result(),
                                                           Emoji.DISAPPOINTED_FACE));
 
                             // lazy kicker, wait 20 seconds before kick user out so he can read the message
+                            log.fine("Kicking user " + update.getMessage().getFrom().toString() + " ----- From Chat " + update.getMessage().getChat() + " ---- With Challenge " + challenge.toString());
                             userManagement.kickUser(update.getMessage().getFrom().getId(), update.getMessage().getChat().getId(), 20L);
                         } else {
-                            response.append(String.format(I18nHelper.resource("Welcome", challenge.getLocale(), "welcome"),
+                            response.append(String.format(I18nHelper.resource("Welcome", locale, "welcome"),
                                                           update.getMessage().getFrom().getFirstName(),
                                                           update.getMessage().getChat().getTitle(),
                                                           Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_TIGHTLY_CLOSED_EYES));
                         }
                     }
                 });
-
                 return response.toString();
             }
         }

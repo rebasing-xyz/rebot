@@ -144,16 +144,16 @@ public class WelcomeMessageTest {
 
     @Test
     public void testWelcomeMessage() throws IOException {
-        welcome.process(processUpdates(newMember).getResult().get(0));
-        String userResponse = welcome.process(processUpdates(messageUpdate).getResult().get(0));
-        System.out.println("asDASd " + userResponse);
+        welcome.process(processUpdates(newMember).getResult().get(0), "en_US");
+        String userResponse = welcome.process(processUpdates(messageUpdate).getResult().get(0), "en_US");
+        System.out.println("---> " + userResponse);
         Assertions.assertTrue(userResponse.contains("Sorry <b>moliveira</b>, the challenge answer"));
     }
 
     @Test
     public void testGoodbyeMessage() throws IOException {
-        Assertions.assertEquals(String.format(I18nHelper.resource("Welcome", "pt-br", "traitor"),
-                                              "Mario", Emoji.ANGRY_FACE), welcome.process(processUpdates(leftMember).getResult().get(0)));
+        Assertions.assertEquals(String.format(I18nHelper.resource("Welcome", "pt_BR", "traitor"),
+                                              "Mario", Emoji.ANGRY_FACE), welcome.process(processUpdates(leftMember).getResult().get(0), "pt_BR"));
     }
 
     private TelegramResponse<ArrayList<MessageUpdate>> processUpdates(String update) throws IOException {

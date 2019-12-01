@@ -69,8 +69,7 @@ public class Currency implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        String locale =  messageUpdate.getMessage().getFrom().getLanguageCode();
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         if (key.get().length() < 1) return I18nHelper.resource("CurrencyMessages", locale, "required.parameter");
 
         StringBuilder response = new StringBuilder();

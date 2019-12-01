@@ -52,7 +52,7 @@ public class ChuckNorris implements PluginProvider {
     }
 
     @Override
-    public String process(MessageUpdate update) {
+    public String process(MessageUpdate update, String locale) {
         if (canProcess(update.getMessage().getText())) {
             StringBuilder response = new StringBuilder();
 

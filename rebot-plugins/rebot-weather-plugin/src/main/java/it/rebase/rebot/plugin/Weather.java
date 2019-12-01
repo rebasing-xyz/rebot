@@ -48,8 +48,7 @@ public class Weather implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        String locale = messageUpdate.getMessage().getFrom().getLanguageCode();
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
         String response;
         try {
             response = yahoo.execute(key.get(), locale);

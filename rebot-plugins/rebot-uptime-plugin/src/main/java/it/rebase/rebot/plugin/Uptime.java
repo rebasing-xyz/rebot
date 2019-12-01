@@ -44,8 +44,8 @@ public class Uptime implements CommandProvider {
     }
 
     @Override
-    public Object execute(Optional<String> key, MessageUpdate messageUpdate) {
-        return upTime(messageUpdate.getMessage().getFrom().getLanguageCode());
+    public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+        return upTime(locale);
     }
 
     @Override
