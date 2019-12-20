@@ -24,6 +24,7 @@
 package it.rebase.rebot.plugin.karma;
 
 import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.plugin.karma.listener.KarmaEventListener;
@@ -50,7 +51,6 @@ public class KarmaPlugin implements PluginProvider {
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private final Pattern FULL_MSG_PATTERN = Pattern.compile("(\\w*)(\\+\\+|\\-\\-|\\—|\\–)(\\s|$)");
     private final Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-|\\—|\\–)($)");
-    private final String KARMA_MESSAGE = "<b>%s</b> has <b>%d</b> points of karma.\n";
 
     @Inject
     @KarmaCache
@@ -64,7 +64,7 @@ public class KarmaPlugin implements PluginProvider {
 
     @Override
     public void load() {
-        new Thread ( () -> {
+        new Thread(() -> {
             cache.addListener(karmaEventListener);
             log.fine("Plugin karma-plugin enabled.");
         }).start();
@@ -82,7 +82,7 @@ public class KarmaPlugin implements PluginProvider {
                     if ((KARMA_PATTERN.matcher(item).find())) {
                         String keyOperator;
                         String key;
-                        if (item.charAt(item.length() -1 ) == 8212 || item.charAt(item.length() -1 ) == 8211) {
+                        if (item.charAt(item.length() - 1) == 8212 || item.charAt(item.length() - 1) == 8211) {
                             keyOperator = "--";
                             key = item.substring(0, item.length() - 1).toLowerCase();
                         } else {
@@ -93,7 +93,7 @@ public class KarmaPlugin implements PluginProvider {
                     }
                 });
                 for (Map.Entry<String, String> entry : finalTargets.entrySet()) {
-                    response.append(processKarma(entry.getValue(), entry.getKey(), username));
+                    response.append(processKarma(entry.getValue(), entry.getKey(), username, locale));
                 }
             }
         } catch (final Exception e) {
@@ -111,10 +111,11 @@ public class KarmaPlugin implements PluginProvider {
      * @param username user that requested the karma
      * @return the amount of karma + or - 1, or does nothing in case of excessive karma update for the same target
      */
-    private String processKarma(String operator, String target, String username) {
+    private String processKarma(String operator, String target, String username, String locale) {
 
         if (target.equals(username)) {
-            return "Ooops, trying to update your own karma? " + Emoji.DIZZY_FACE;
+            return String.format(I18nHelper.resource("KarmaMessages", locale, "own.karma"),
+                    Emoji.DIZZY_FACE);
         }
 
         int karmaAtual = karma.get(target);
@@ -132,7 +133,8 @@ public class KarmaPlugin implements PluginProvider {
                 break;
 
         }
-        return String.format(KARMA_MESSAGE, normalize(target), cache.get(target + ":" + username));
+        return String.format(I18nHelper.resource("KarmaMessages", locale, "karma.updated"),
+                normalize(target), cache.get(target + ":" + username));
     }
 
     /**
