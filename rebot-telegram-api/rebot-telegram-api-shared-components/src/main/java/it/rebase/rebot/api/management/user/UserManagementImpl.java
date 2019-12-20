@@ -191,8 +191,14 @@ public class UserManagementImpl implements UserManagement {
     }
 
     @Override
-    public boolean isAdministrator(long chatId) {
-        return false;
+    public boolean isBotAdministrator(MessageUpdate messageUpdate) {
+        // override userId and username as Telegram does not expose a endpoint to verify if
+        // the bot is or not a group admin.
+        User bot = this.getMe();
+        MessageUpdate localMessage = messageUpdate;
+        localMessage.getMessage().getFrom().setId(bot.getId());
+        localMessage.getMessage().getFrom().setUsername(bot.getUsername());
+        return isAdministrator(localMessage);
     }
 
     @Override
@@ -203,6 +209,8 @@ public class UserManagementImpl implements UserManagement {
             return true;
         } else {
             long user2test = messageUpdate.getMessage().getFrom().getId();
+            String username = messageUpdate.getMessage().getFrom().getUsername() != null ?
+                    messageUpdate.getMessage().getFrom().getUsername() : messageUpdate.getMessage().getFrom().getFirstName();
 
             Optional<ChatAdministrator> user = getChatAdministrators(messageUpdate.getMessage().getChat().getId())
                     .stream().filter(isUserAdmin(user2test)).findFirst();
@@ -211,7 +219,7 @@ public class UserManagementImpl implements UserManagement {
                 log.fine("User " + user.get().getUser() + " is admin.");
                 return true;
             } else {
-                log.fine("User " + user.get().getUser() + " is not admin.");
+                log.fine("User " + username + " is not admin.");
                 return false;
             }
         }

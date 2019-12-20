@@ -28,17 +28,57 @@ import it.rebase.rebot.api.object.User;
 
 public interface UserManagement {
 
+    /**
+     * kick the given user from the given chatID
+     * bot needs to be a group admin.
+     * @param userId
+     * @param chatId
+     */
     void kickUser(long userId, long chatId);
 
+    /**
+     * kick the given user from the given chatID within the custom delay
+     * bot needs to be a group admin.
+     * @param userId
+     * @param chatId
+     * @param waitBeforeStart
+     */
     void kickUser(long userId, long chatId, long waitBeforeStart);
 
+    /**
+     * unban the given user from the given chatID after kick him
+     * bot needs to be a group admin.
+     * @param userId
+     * @param chatId
+     */
     void unbanUser(long userId, long chatId);
 
+    /**
+     * unban after the given delay the given user from the given chatID after kick the user.
+     * bot needs to be a group admin.
+     * @param userId
+     * @param chatId
+     * @param waitBeforeBan
+     */
     void unbanUser(long userId, long chatId, long waitBeforeBan);
 
+    /**
+     * returns information about the Bot's user.
+     * @return
+     */
     User getMe();
 
+    /**
+     * return if the user who is interacting with the bot is admin or not.
+     * @param messageUpdate
+     * @return
+     */
     boolean isAdministrator(MessageUpdate messageUpdate);
 
-    boolean isAdministrator(long chatId);
+    /**
+     * Verifies if the Bot user is a group admin or not.
+     * @param messageUpdate
+     * @return
+     */
+    boolean isBotAdministrator(MessageUpdate messageUpdate);
 }
