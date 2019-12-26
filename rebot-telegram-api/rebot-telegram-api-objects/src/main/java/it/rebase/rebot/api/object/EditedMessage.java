@@ -44,8 +44,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "text",
         "entities"
 })
-public class EditedMessage implements Serializable
-{
+public class EditedMessage implements Serializable {
+
+    private final static long serialVersionUID = 7093141412295077756L;
 
     @JsonProperty("message_id")
     private long messageId;
@@ -63,7 +64,6 @@ public class EditedMessage implements Serializable
     private List<Entity> entities = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 7093141412295077756L;
 
     @JsonProperty("message_id")
     public long getMessageId() {

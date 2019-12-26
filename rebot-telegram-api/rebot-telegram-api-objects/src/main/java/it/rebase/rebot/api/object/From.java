@@ -46,6 +46,8 @@ import java.util.Map;
 })
 public class From implements Serializable {
 
+    private final static long serialVersionUID = 4331666208050270578L;
+
     @Transient
     @JsonProperty("id")
     private long id;
@@ -62,7 +64,6 @@ public class From implements Serializable {
     @JsonIgnore
     @Transient
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 4331666208050270578L;
 
     @JsonProperty("id")
     public long getId() {

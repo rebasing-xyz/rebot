@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,10 @@ import java.util.Map;
         "can_promote_members",
         "can_restrict_members"
 })
-public class ChatAdministrator {
+public class ChatAdministrator implements Serializable {
+
+    private final static long serialVersionUID = 45848454864865251L;
+
     @JsonProperty("status")
     private String status;
     @JsonProperty("user")

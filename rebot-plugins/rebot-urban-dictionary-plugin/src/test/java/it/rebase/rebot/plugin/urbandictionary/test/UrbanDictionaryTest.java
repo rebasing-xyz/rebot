@@ -32,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 
 public class UrbanDictionaryTest {
 
+
     @Test
     public void testUbClientBuilderDefaultValues() {
         UrbanDictionaryClient client = new UrbanDictionaryClientBuilder().term("lol").build();
@@ -49,7 +50,7 @@ public class UrbanDictionaryTest {
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testNullTerm() {
-        UrbanDictionaryClient o = new UrbanDictionaryClientBuilder().build();
+        UrbanDictionaryClient client = new UrbanDictionaryClientBuilder().build();
     }
 
     @Test

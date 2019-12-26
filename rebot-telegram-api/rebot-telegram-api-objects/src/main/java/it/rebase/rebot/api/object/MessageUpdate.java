@@ -42,6 +42,8 @@ import java.util.Map;
 })
 public class MessageUpdate implements Serializable {
 
+    private final static long serialVersionUID = 83748178983892731L;
+
     @JsonProperty("update_id")
     private long updateId;
     @JsonProperty("message")
@@ -50,7 +52,7 @@ public class MessageUpdate implements Serializable {
     private EditedMessage editedMessage;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 4244707578754086680L;
+
     @JsonIgnore
     public boolean isEdited;
 

@@ -42,6 +42,8 @@ import java.util.Map;
 })
 public class Entity implements Serializable {
 
+    private final static long serialVersionUID = -9087351940740276798L;
+
     @JsonProperty("offset")
     private long offset;
     @JsonProperty("length")
@@ -50,7 +52,6 @@ public class Entity implements Serializable {
     private String type;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -9087351940740276798L;
 
     @JsonProperty("offset")
     public long getOffset() {

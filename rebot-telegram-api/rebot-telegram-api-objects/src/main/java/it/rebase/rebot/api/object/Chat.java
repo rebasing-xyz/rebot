@@ -40,9 +40,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "type",
         "all_members_are_administrators"
 })
-//@RegisterForReflection
-public class Chat implements Serializable
-{
+public class Chat implements Serializable {
+
+    private final static long serialVersionUID = 6964688736453031025L;
 
     @JsonProperty("id")
     private long id;
@@ -54,7 +54,17 @@ public class Chat implements Serializable
     private boolean allMembersAreAdministrators;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 6964688736453031025L;
+
+    public Chat() {}
+
+    public Chat(long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    public Chat(long id) {
+        this.id = id;
+    }
 
     @JsonProperty("id")
     public long getId() {
