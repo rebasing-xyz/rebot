@@ -152,8 +152,7 @@ public class PacktNotifier {
     }
 
     private void notify(Long chatId, String locale) {
-        Chat chat = new Chat();
-        chat.setId(chatId.longValue());
+        Chat chat = new Chat(chatId);
         Message message = new Message();
         message.setChat(chat);
         message.setText(this.get(locale));

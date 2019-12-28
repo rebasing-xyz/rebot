@@ -23,30 +23,17 @@
 
 package it.rebase.rebot.plugin.welcome;
 
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.api.management.message.MessageManagement;
 import it.rebase.rebot.api.message.sender.MessageSender;
-import it.rebase.rebot.api.object.ChatAdministrator;
+import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.ChatMember;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
-import it.rebase.rebot.api.user.management.UserManagement;
+import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.plugin.welcome.kogito.WelcomeChallenge;
 import org.jbpm.process.instance.impl.humantask.HumanTaskTransition;
 import org.jbpm.process.instance.impl.humantask.phases.Claim;
@@ -58,8 +45,22 @@ import org.kie.kogito.process.ProcessInstance;
 import org.kie.kogito.process.WorkItem;
 import org.kie.kogito.services.identity.StaticIdentityProvider;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
+
 import static it.rebase.rebot.plugin.welcome.filter.WelcomePluginPredicate.hasMemberLeft;
 import static it.rebase.rebot.plugin.welcome.filter.WelcomePluginPredicate.hasNewMember;
+import static it.rebase.rebot.plugin.welcome.filter.WelcomePluginPredicate.isNewMemberBot;
 import static it.rebase.rebot.plugin.welcome.filter.WelcomePluginPredicate.senderIsNotBot;
 
 @ApplicationScoped
@@ -75,6 +76,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
     UserManagement userManagement;
 
     @Inject
+    MessageManagement messageManagement;
+
+    @Inject
     MessageSender reply;
 
     private Predicate newMember = hasNewMember();
@@ -85,99 +89,94 @@ public class WelcomeMessagePlugin implements PluginProvider {
      * When a new user join the chat group, a new challenge will be set to him
      * if the challenge is not correctly answered or if a answer is not provided at all
      * the new member will be kicker out from the group.
-     * @param update message to be processed
+     *
+     * @param messageUpdate message to be processed
      * @return the welcome or goodbye message when new member joins
      * will also return the challenge in case of new comers.
      */
     @Override
-    public String process(MessageUpdate update, String locale) {
+    public String process(MessageUpdate messageUpdate, String locale) {
 
+        if (leftMember.test(messageUpdate)) {
+            long id = reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
+                    new Chat(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()),
+                    leftChatMemberMessage(messageUpdate, locale))).getAsLong();
+            messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(), id);
 
-
-        if (leftMember.test(update)) {
-            return leftChatMemberMessage(update, locale);
         } else {
 
+            StringBuilder response = new StringBuilder();
             Collection<? extends ProcessInstance<? extends Model>> instances = welcomeProcess.instances().values();
 
-            // if new member and if there is not started process, start a new challenge
-            if (newMember.test(update)) {
+            if (newMember.test(messageUpdate)) {
+                boolean isBotAdmin = userManagement.isBotAdministrator(messageUpdate);
 
-                // TODO (userManagement.getMe());
-                // TODO add retry option, user hava 3 chances to answer the challenge correctly before be kicked
+                for (ChatMember member : chatMember(messageUpdate)) {
 
-                for (ChatMember member : chatMember(update)) {
                     String username = null != member.getUsername() ? member.getUsername() : member.getFirst_name();
+                    // add user+chatId to make sure that if the user joined two chat rooms at the same time the process will
+                    // not get confused and handle the process wrongly
+                    username = username + "-" +messageUpdate.getMessage().getChat().getId();
 
                     WelcomeChallenge challenge = new WelcomeChallenge(username);
-                    challenge.setUser_id(member.getId());
-                    challenge.setChat_id(update.getMessage().getChat().getId());
+                    challenge.setUserId(member.getId());
+                    challenge.setChatId(messageUpdate.getMessage().getChat().getId());
+                    challenge.setMessageId(messageUpdate.getMessage().getMessageId());
+                    challenge.setChatTitle(messageUpdate.getMessage().getChat().getTitle());
+                    challenge.setNewComerBot(isNewMemberBot().test(member));
                     challenge.setLocale(locale);
 
                     Model model = welcomeProcess.createModel();
                     Map<String, Object> parameters = new HashMap<>();
                     parameters.put("challenge", challenge);
+                    parameters.put("isBotAdmin", isBotAdmin);
                     model.fromMap(parameters);
 
                     ProcessInstance<?> processInstance = welcomeProcess.createInstance(model);
                     processInstance.start();
 
-                    SecurityPolicy policy = securityProviderForUser(username);
-                    processInstance.workItems(policy);
+                    if (processInstance.status() == ProcessInstance.STATE_ACTIVE) {
+                        SecurityPolicy policy = securityProviderForUser(username);
+                        processInstance.workItems(policy);
 
-                    List<WorkItem> workItems = processInstance.workItems(policy);
-                    processInstance.transitionWorkItem(workItems.get(0).getId(), new HumanTaskTransition(Claim.ID, parameters, policy));
+                        List<WorkItem> workItems = processInstance.workItems(policy);
+                        processInstance.transitionWorkItem(workItems.get(0).getId(), new HumanTaskTransition(Claim.ID, parameters, policy));
+                    }
 
-                    update.getMessage().setText(String.format(I18nHelper.resource("Welcome", locale, "challenge.start"),
-                                                              username,
-                                                              update.getMessage().getChat().getTitle(),
-                                                              challenge.showMathOperation()));
-
-                    reply.processOutgoingMessage(update.getMessage());
                 }
                 // msgs will be handled internally if there is more than 1 new member at the same time.
                 // so return null.
                 return null;
+
             } else if (instances.size() > 0) {
-                String username = null != update.getMessage().getFrom().getUsername()
-                        ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName();
+                String username = null != messageUpdate.getMessage().getFrom().getUsername()
+                        ? messageUpdate.getMessage().getFrom().getUsername() : messageUpdate.getMessage().getFrom().getFirstName();
+                // add user+chatId to make sure that if the user joined two chat rooms at the same time the process will
+                // not get confused and handle the process wrongly
+                username = username + "-" +messageUpdate.getMessage().getChat().getId();
                 SecurityPolicy policy = securityProviderForUser(username);
-                StringBuilder response = new StringBuilder();
 
                 instances.stream().forEach(instance -> {
                     List<WorkItem> workItems = instance.workItems(policy);
 
                     if (workItems.size() > 0) {
-                        String userAnswer = update.getMessage().getText().trim();
+                        String userAnswer = messageUpdate.getMessage().getText().trim();
 
                         Map<String, Object> results = new HashMap<>();
                         Model result = instance.variables();
                         WelcomeChallenge challenge = ((WelcomeChallenge) result.toMap().get("challenge"));
                         challenge.setAnswer(Integer.parseInt(userAnswer));
+                        challenge.setMessageId(messageUpdate.getMessage().getMessageId());
+                        challenge.addMessadeIdToDelete(messageUpdate.getMessage().getMessageId());
 
                         instance.transitionWorkItem(workItems.get(0).getId(),
-                                                    new HumanTaskTransition(Complete.ID, results, policy));
+                                new HumanTaskTransition(Complete.ID, results, policy));
 
-                        if (challenge.isKickUser()) {
-                            response.append(String.format(I18nHelper.resource("Welcome", locale, "challenge.wrong.answer"),
-                                                          username,
-                                                          userAnswer,
-                                                          challenge.result(),
-                                                          Emoji.DISAPPOINTED_FACE));
-
-                            // lazy kicker, wait 20 seconds before kick user out so he can read the message
-                            log.fine("Kicking user " + update.getMessage().getFrom().toString() + " ----- From Chat " + update.getMessage().getChat() + " ---- With Challenge " + challenge.toString());
-                            userManagement.kickUser(update.getMessage().getFrom().getId(), update.getMessage().getChat().getId(), 20L);
-                        } else {
-                            response.append(String.format(I18nHelper.resource("Welcome", locale, "welcome"),
-                                                          update.getMessage().getFrom().getFirstName(),
-                                                          update.getMessage().getChat().getTitle(),
-                                                          Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_TIGHTLY_CLOSED_EYES));
-                        }
                     }
                 });
                 return response.toString();
             }
+
         }
         //not expected to reach this point
         return null;
@@ -191,14 +190,15 @@ public class WelcomeMessagePlugin implements PluginProvider {
     /**
      * When a member left or gets excluded from an Telegram group a msg will be sent to the target group.
      * If the member removed is a bot, no message is sent.
+     *
      * @param update {@link MessageUpdate}
      * @return true if the message if a member left the chat
      */
     private String leftChatMemberMessage(MessageUpdate update, String locale) {
         final Message message = new Message();
         message.setText(String.format(I18nHelper.resource("Welcome", locale, "traitor"),
-                                      chatMember(update).get(0).getFirst_name(),
-                                      Emoji.ANGRY_FACE));
+                chatMember(update).get(0).getFirst_name(),
+                Emoji.ANGRY_FACE));
         return message.getText();
     }
 
@@ -224,6 +224,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
     /**
      * Create a Security Policy for the new member so the task can be claimed and completed when
      * the new member answers the challenge.
+     *
      * @param username
      * @return Kogito Security Policy
      */

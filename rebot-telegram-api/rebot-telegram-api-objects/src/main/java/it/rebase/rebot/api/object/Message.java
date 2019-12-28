@@ -48,6 +48,8 @@ import java.util.Map;
 })
 public class Message implements Serializable {
 
+    private final static long serialVersionUID = -7509974983825960019L;
+
     @JsonProperty("message_id")
     private long messageId;
     @JsonProperty("from")
@@ -66,9 +68,9 @@ public class Message implements Serializable {
     private ReplyToMessage replyToMessage;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -7509974983825960019L;
 
-    public Message(){}
+    public Message() {
+    }
 
     public Message(long messageId, Chat chat, String text) {
         this.messageId = messageId;

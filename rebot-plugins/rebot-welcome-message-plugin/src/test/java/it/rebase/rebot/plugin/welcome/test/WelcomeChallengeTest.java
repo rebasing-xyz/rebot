@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.welcome.test;
 
+import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.plugin.welcome.kogito.WelcomeChallenge;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,10 +32,9 @@ public class WelcomeChallengeTest {
 
     @Test
     public void testWelcomeChallenge() {
-
         WelcomeChallenge challenge = new WelcomeChallenge("admin");
-        Assertions.assertTrue(challenge.getNumber1() >= 0 && challenge.getNumber1() <= 100);
-        Assertions.assertTrue(challenge.getNumber2() >= 0 && challenge.getNumber2() <= 100);
+        Assertions.assertTrue(challenge.getNumber1() >= 0 && challenge.getNumber1() <= 10);
+        Assertions.assertTrue(challenge.getNumber2() >= 0 && challenge.getNumber2() <= 10);
         Assertions.assertEquals("admin", challenge.getUser());
         Assertions.assertEquals(challenge.result(), Common.challengeResult(challenge));
         challenge.setAnswer(Common.challengeResult(challenge));

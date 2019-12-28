@@ -58,9 +58,8 @@ public class RestMessageSender {
     }
 
     private Message buildMessage(Long target, String txt) {
-        Chat chat = new Chat();
+        Chat chat = new Chat(target);
         Message message = new Message();
-        chat.setId(target);
         message.setChat(chat);
         message.setText(txt);
         return message;

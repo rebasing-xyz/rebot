@@ -4,7 +4,6 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.object.ChatMember;
-import it.rebase.rebot.api.object.From;
 import it.rebase.rebot.api.object.MessageUpdate;
 
 public class WelcomePluginPredicate {
@@ -35,5 +34,9 @@ public class WelcomePluginPredicate {
 
     public static Predicate<MessageUpdate> senderIsNotBot() {
         return m -> !m.getMessage().getFrom().isIsBot();
+    }
+
+    public static Predicate<ChatMember> isNewMemberBot() {
+        return m -> m.isIs_bot();
     }
 }

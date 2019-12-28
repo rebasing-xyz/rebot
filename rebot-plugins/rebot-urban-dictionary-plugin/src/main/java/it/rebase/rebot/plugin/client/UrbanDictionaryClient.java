@@ -40,9 +40,9 @@ public class UrbanDictionaryClient implements IUrbanDictionaryClient {
 
     private static final String URBAN_DICTIONARY_ENDPOINT = "http://api.urbandictionary.com/v0/define";
 
-    private final String term;
-    private final int numberOfResults;
-    private final boolean showExample;
+    private String term;
+    private int numberOfResults;
+    private boolean showExample;
 
     public UrbanDictionaryClient(UrbanDictionaryClientBuilder builder) {
         this.term = builder.term;

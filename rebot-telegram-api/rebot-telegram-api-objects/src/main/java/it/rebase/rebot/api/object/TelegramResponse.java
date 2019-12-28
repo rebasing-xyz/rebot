@@ -34,6 +34,9 @@ import java.io.Serializable;
 )
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TelegramResponse<T> implements Serializable {
+
+    private final static long serialVersionUID = 939578928398485021L;
+
     private static final String OK_FIELD = "ok";
     private static final String ERROR_CODE_FIELD = "error_code";
     private static final String DESCRIPTION_CODE_FIELD = "description";

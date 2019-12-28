@@ -46,6 +46,8 @@ import java.util.Map;
 })
 public class ReplyToMessage implements Serializable {
 
+    private final static long serialVersionUID = -1312801618623588230L;
+
     @JsonProperty("message_id")
     private long messageId;
     @JsonProperty("from")
@@ -60,7 +62,6 @@ public class ReplyToMessage implements Serializable {
     private List<Entity> entities = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -1312801618623588230L;
 
     @JsonProperty("message_id")
     public long getMessageId() {

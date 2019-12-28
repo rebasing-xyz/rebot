@@ -34,7 +34,7 @@ import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
-import it.rebase.rebot.api.user.management.UserManagement;
+import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.service.persistence.repository.LocaleRepository;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
 

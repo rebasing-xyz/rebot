@@ -42,6 +42,8 @@ import java.util.Map;
 })
 public class Photo implements Serializable {
 
+    private final static long serialVersionUID = 6876475705023269395L;
+
     @JsonProperty("file_id")
     private String fileId;
     @JsonProperty("file_size")
@@ -52,7 +54,6 @@ public class Photo implements Serializable {
     private long height;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 6876475705023269395L;
 
     @JsonProperty("file_id")
     public String getFileId() {

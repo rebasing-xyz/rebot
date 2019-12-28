@@ -25,9 +25,12 @@ package it.rebase.rebot.api.object;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GetUpdatesConfProducer {
+public class GetUpdatesConfProducer implements Serializable {
+
+    private final static long serialVersionUID = 4331666208495867382L;
 
     @JsonProperty("offset")
     private Long offset;

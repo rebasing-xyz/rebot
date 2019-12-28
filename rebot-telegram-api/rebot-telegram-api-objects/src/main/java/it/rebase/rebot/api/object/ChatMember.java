@@ -23,7 +23,11 @@
 
 package it.rebase.rebot.api.object;
 
-public class ChatMember {
+import java.io.Serializable;
+
+public class ChatMember implements Serializable {
+
+    private final static long serialVersionUID = 9854684251814252L;
 
     private int id;
     private boolean is_bot;

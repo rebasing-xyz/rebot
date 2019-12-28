@@ -24,10 +24,13 @@
 
 package it.rebase.rebot.api.message.sender;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
 import it.rebase.rebot.api.object.Message;
+import it.rebase.rebot.api.object.MessageUpdate;
+import it.rebase.rebot.api.object.TelegramResponse;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -42,8 +45,12 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -62,9 +69,10 @@ public class MessageSender implements Sender {
     private BotCloseableHttpClient httpClient;
 
     @Override
-    public void processOutgoingMessage(Message message) {
+    public OptionalLong processOutgoingMessage(Message message) {
         BufferedReader reader = new BufferedReader(new StringReader(message.getText()));
         StringBuilder temporaryMessage = new StringBuilder();
+        OptionalLong temporaryReturnMessageID = OptionalLong.empty();
         try {
             if (message.getText().length() > 1 && !message.getText().equals(null)) {
                 if (message.getText().length() > TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
@@ -82,16 +90,18 @@ public class MessageSender implements Sender {
 
                     log.fine("Sending next part of message.");
                     message.setText(temporaryMessage.toString());
-                    send(message);
+                    temporaryReturnMessageID = send(message);
                     temporaryMessage.setLength(0);
                 } else {
                     log.fine("Sending message: [" + message.getText() + "]");
-                    send(message);
+                    temporaryReturnMessageID = send(message);
                 }
             }
         } catch (final Exception e) {
-            log.finest("Failed to send message: " + e.getMessage());
+            log.warning("Failed to send message: " + e.getMessage());
+            return OptionalLong.of(0);
         }
+        return temporaryReturnMessageID;
     }
 
     /**
@@ -104,7 +114,7 @@ public class MessageSender implements Sender {
      *
      * @param message Message to be sent
      */
-    private void send(Message message) {
+    private OptionalLong send(Message message) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String url = String.format(TELEGRAM_API_SENDER_ENDPOINT, botTokenId);
@@ -123,13 +133,21 @@ public class MessageSender implements Sender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(responseEntity);
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                 log.fine("Telegram API response: [" + responseContent + "]");
+
+                TelegramResponse<Message> telegramResponse = objectMapper.readValue(responseContent,
+                        new TypeReference<TelegramResponse<Message>>() {
+                        });
+                return OptionalLong.of(telegramResponse.getResult().getMessageId());
+
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.warning("Something goes wrong " + e.getMessage());
+                return OptionalLong.of(0);
             }
         } catch (final Exception e) {
             e.printStackTrace();
             log.warning("Something goes wrong " + e.getMessage());
+            return OptionalLong.of(0);
         }
     }
 }

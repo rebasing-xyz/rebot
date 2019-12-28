@@ -70,13 +70,13 @@
         <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
         <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
         <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
-        <io.quarkus.version>1.0.1.Final</io.quarkus.version>
+        <io.quarkus.version>1.1.0.Final</io.quarkus.version>
         <version.infinispan>9.4.9.Final</version.infinispan>
         <version.httpclient>4.5.3</version.httpclient>
         <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
         <version.junit>4.12</version.junit>
         <version.org.mockito>2.12.0</version.org.mockito>
-        <version.org.kie.kogito>0.5.1</version.org.kie.kogito>
+        <version.org.kie.kogito>0.6.1</version.org.kie.kogito>
         <surefire-plugin.version>2.22.0</surefire-plugin.version>
         <version.surefire.plugin>2.20.1</version.surefire.plugin>
         <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>

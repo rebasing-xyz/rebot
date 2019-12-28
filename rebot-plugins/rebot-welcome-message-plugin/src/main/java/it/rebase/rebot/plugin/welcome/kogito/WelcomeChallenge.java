@@ -23,31 +23,39 @@
 
 package it.rebase.rebot.plugin.welcome.kogito;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class WelcomeChallenge implements Serializable {
+public class WelcomeChallenge {
 
     private int number1;
     private int number2;
     private String op;
     private String user;
-    private long chat_id;
-    private long user_id;
+    private String name;
+    private long chatId;
+    private String chatTitle;
+    private long messageId;
+    private List<Long> messadeIdToDelete = new ArrayList<>();
+    private long userId;
     private String locale;
     private int answer;
     private boolean kickUser;
+    private boolean isNewComerBot;
 
-    public WelcomeChallenge() {}
+    public WelcomeChallenge() {
+    }
 
     /**
      * randomize two numbers and a math operator to start the challenge
      */
-    public WelcomeChallenge(String username) {
+    public WelcomeChallenge(String user) {
         this.number1 = randomNumber(10);
         this.number2 = randomNumber(10);
         this.op = defineMathOp();
-        this.user = username;
+        this.user = user;
+        this.name = user.split("-")[0];
         this.kickUser = true;
     }
 
@@ -65,6 +73,14 @@ public class WelcomeChallenge implements Serializable {
 
     public String getUser() {
         return user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isKickUser() {
@@ -88,20 +104,44 @@ public class WelcomeChallenge implements Serializable {
         this.answer = answer;
     }
 
-    public long getChat_id() {
-        return chat_id;
+    public long getChatId() {
+        return chatId;
     }
 
-    public void setChat_id(long chat_id) {
-        this.chat_id = chat_id;
+    public void setChatId(long chatId) {
+        this.chatId = chatId;
     }
 
-    public long getUser_id() {
-        return user_id;
+    public String getChatTitle() {
+        return chatTitle;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setChatTitle(String chatTitle) {
+        this.chatTitle = chatTitle;
+    }
+
+    public long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(long messageId) {
+        this.messageId = messageId;
+    }
+
+    public List<Long> getMessadeIdToDelete() {
+        return messadeIdToDelete;
+    }
+
+    public void addMessadeIdToDelete(long messageId) {
+        this.messadeIdToDelete.add(messageId);
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getLocale() {
@@ -110,6 +150,14 @@ public class WelcomeChallenge implements Serializable {
 
     public void setLocale(String locale) {
         this.locale = locale;
+    }
+
+    public boolean isNewComerBot() {
+        return isNewComerBot;
+    }
+
+    public void setNewComerBot(boolean newComerBot) {
+        isNewComerBot = newComerBot;
     }
 
     public String showMathOperation() {

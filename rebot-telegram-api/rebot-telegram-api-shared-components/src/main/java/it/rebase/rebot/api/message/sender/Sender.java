@@ -26,11 +26,16 @@ package it.rebase.rebot.api.message.sender;
 
 import it.rebase.rebot.api.object.Message;
 
+import java.util.OptionalLong;
+
 public interface Sender {
 
     /**
      * Verifies if a message can be sent, null or empty messages will be ignored
+     *
      * @param message to be sent
+     * @return the message ID, in some cases we need to delete the previously sent message
+     * after a few seconds.
      */
-    void processOutgoingMessage(Message message);
+    OptionalLong processOutgoingMessage(Message message);
 }

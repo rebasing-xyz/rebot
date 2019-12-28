@@ -23,13 +23,18 @@
 
 package it.rebase.rebot.api.httpclient;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.enterprise.context.ApplicationScoped;
-
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+
+import javax.enterprise.context.ApplicationScoped;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @ApplicationScoped
 public class BotCloseableHttpClient implements IBotCloseableHttpClient {
@@ -41,5 +46,18 @@ public class BotCloseableHttpClient implements IBotCloseableHttpClient {
                 .setConnectionTimeToLive(70, TimeUnit.SECONDS)
                 .setMaxConnTotal(100)
                 .build();
+    }
+
+    @Override
+    public HttpPost httpPost(String url, List<NameValuePair> params) {
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
+            return httpPost;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
