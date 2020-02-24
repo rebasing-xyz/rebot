@@ -38,7 +38,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 

@@ -71,7 +71,6 @@
         <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
         <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
         <io.quarkus.version>1.1.0.Final</io.quarkus.version>
-        <version.infinispan>9.4.9.Final</version.infinispan>
         <version.httpclient>4.5.3</version.httpclient>
         <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
         <version.junit>4.12</version.junit>
@@ -108,14 +107,6 @@
                 <version>${version.org.kie.kogito}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.infinispan</groupId>
-                <artifactId>infinispan-bom</artifactId>
-                <version>${version.infinispan}</version>
-                <scope>import</scope>
-                <type>pom</type>
             </dependency>
 
             <!-- http client -->
