@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.service.persistence.pojo;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PACKT_NOTIFIER")
+@Cacheable
 public class PacktNotification {
 
     @Id
