@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.service.persistence.pojo;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +38,7 @@ import java.util.List;
 
 @Entity(name = "ECB_CUBES")
 @Table(name = "ECB_CUBES")
+@Cacheable
 public class Cubes {
 
     @Id

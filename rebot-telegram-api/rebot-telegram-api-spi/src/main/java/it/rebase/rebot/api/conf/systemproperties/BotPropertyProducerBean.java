@@ -49,7 +49,7 @@ public class BotPropertyProducerBean {
     @BotProperty(name = "")
     public String findBotProperty(InjectionPoint injectionPoint) {
         BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
-        String property = readSysProperty(prop.name());
+        String property = readSysProperty(prop.name(), prop.value());
         log.fine("Injecting Property name: [" + prop.name() + "] value: [" + property + "] required [" + prop.required() + "]");
         if (prop.required() && (null == property) || property == "") {
             throw new IllegalStateException("The parameter " + prop.name() + " is required!");
@@ -64,15 +64,15 @@ public class BotPropertyProducerBean {
      * <p>
      * Supports environment variable substitution on the properties file.
      */
-    private String readSysProperty(String propName) {
+    private String readSysProperty(String propName, String defaultValue) {
         Pattern pattern = Pattern.compile("\\$\\{.*?\\}");
 
         String property = null;
-
         String value = System.getProperty(propName);
         if (null != value) {
             return value;
-
+        } else if (defaultValue != "") {
+            return defaultValue;
         } else {
 
             try (final InputStream stream = ClassLoader.getSystemResourceAsStream(PROPERTIES_FILE)) {
@@ -87,7 +87,6 @@ public class BotPropertyProducerBean {
                 } else {
                     return System.getProperty(propName, prop.getProperty(propName));
                 }
-
             } catch (final Exception e) {
                 log.warning("Loading props file failed: " + e.getMessage());
                 return System.getProperty(propName, prop.getProperty(propName));

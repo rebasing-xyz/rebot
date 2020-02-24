@@ -24,16 +24,15 @@
 package it.rebase.rebot.service.persistence.repository;
 
 import it.rebase.rebot.service.persistence.pojo.Karma;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -49,7 +48,11 @@ public class KarmaRepository {
 
     public int get(String key) {
         try {
-            return (int) em.createNativeQuery("SELECT points FROM KARMA where username='" + key + "'").getSingleResult();
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<String> karmaPoints = criteriaBuilder.createQuery(String.class);
+            Root<Karma> karma = karmaPoints.from(Karma.class);
+            karmaPoints.select(karma.get("points")).where(criteriaBuilder.equal(karma.get("username"), key));
+            return Integer.parseInt(em.createQuery(karmaPoints).getSingleResult());
         } catch (final Exception e) {
             log.fine("get() - There is no karma for [" + key + "]");
             return 0;
@@ -61,16 +64,14 @@ public class KarmaRepository {
             CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
             CriteriaQuery<Karma> karmaQuery = criteriaBuilder.createQuery(Karma.class);
             Root<Karma> karma = karmaQuery.from(Karma.class);
-
             karmaQuery.select(karma)
                     .where(criteriaBuilder.like(karma.get("username"), key))
                     .orderBy(criteriaBuilder.asc(karma.get("username")));
-
             return em.createQuery(karmaQuery).getResultList();
 
         } catch (final Exception e) {
             log.fine("list() - There is no karma for [" + key + "]");
-            return Arrays.asList(new Karma(key, 0));
+            return Arrays.asList(new Karma(key, "0"));
         }
     }
 

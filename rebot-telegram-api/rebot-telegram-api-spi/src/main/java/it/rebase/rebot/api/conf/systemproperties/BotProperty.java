@@ -56,4 +56,11 @@ public @interface BotProperty {
      */
     @Nonbinding boolean required() default false;
 
+    /**
+     * Predefine a property value
+     * no default value.
+     * @return its value.
+     */
+    @Nonbinding String value() default "";
+
 }

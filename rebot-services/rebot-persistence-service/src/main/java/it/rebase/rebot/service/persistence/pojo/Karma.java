@@ -37,9 +37,9 @@ public class Karma {
     private String username;
 
     @Column(name = "POINTS", nullable = false, length = 10)
-    private int points;
+    private String points;
 
-    public Karma(String username, int points) {
+    public Karma(String username, String points) {
         this.username = username;
         this.points = points;
     }
@@ -54,11 +54,11 @@ public class Karma {
         this.username = username;
     }
 
-    public int getPoints() {
+    public String getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(String points) {
         this.points = points;
     }
 

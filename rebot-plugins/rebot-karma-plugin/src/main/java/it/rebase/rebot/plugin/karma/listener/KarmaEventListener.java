@@ -59,7 +59,7 @@ public class KarmaEventListener {
     public void entryCreated(@Observes CacheEntryCreatedEvent event) {
         if (event.getValue() != null) {
             try {
-                karma.updateOrCreateKarma(new Karma(event.getKey().toString().split(":")[0], (int) event.getValue()));
+                karma.updateOrCreateKarma(new Karma(event.getKey().toString().split(":")[0], event.getValue().toString()));
             } catch (final Exception e) {
                 e.printStackTrace();
             }
@@ -74,7 +74,7 @@ public class KarmaEventListener {
     @CacheEntryModified
     public void entryModified(@Observes CacheEntryModifiedEvent event) {
         try {
-            karma.updateOrCreateKarma(new Karma(event.getKey().toString().split(":")[0], (int) event.getValue()));
+            karma.updateOrCreateKarma(new Karma(event.getKey().toString().split(":")[0], event.getValue().toString()));
         } catch (final Exception e) {
             e.printStackTrace();
         }

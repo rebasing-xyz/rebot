@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.karma;
 
+import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -51,6 +52,10 @@ public class KarmaPlugin implements PluginProvider {
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private final Pattern FULL_MSG_PATTERN = Pattern.compile("(\\w*)(\\+\\+|\\-\\-|\\—|\\–)(\\s|$)");
     private final Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-|\\—|\\–)($)");
+
+    @Inject
+    @BotProperty(name = "it.rebase.rebot.plugin.karma.timeout", value = "30")
+    String timeout;
 
     @Inject
     @KarmaCache
@@ -121,11 +126,11 @@ public class KarmaPlugin implements PluginProvider {
         int karmaAtual = karma.get(target);
         switch (operator) {
             case "++":
-                cache.putIfAbsent(target + ":" + username, ++karmaAtual, 30, TimeUnit.SECONDS);
+                cache.putIfAbsent(target + ":" + username, ++karmaAtual, getTimeout(), TimeUnit.SECONDS);
                 break;
 
             case "--":
-                cache.putIfAbsent(target + ":" + username, --karmaAtual, 30, TimeUnit.SECONDS);
+                cache.putIfAbsent(target + ":" + username, --karmaAtual, getTimeout(), TimeUnit.SECONDS);
                 break;
 
             default:
@@ -149,4 +154,7 @@ public class KarmaPlugin implements PluginProvider {
         return canProcess;
     }
 
+    private int getTimeout() {
+        return Integer.parseInt(timeout);
+    }
 }

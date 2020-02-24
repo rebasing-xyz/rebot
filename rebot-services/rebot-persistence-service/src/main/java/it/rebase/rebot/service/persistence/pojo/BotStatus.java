@@ -25,6 +25,7 @@ package it.rebase.rebot.service.persistence.pojo;
 
 import it.rebase.rebot.api.object.From;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -34,6 +35,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "BOT_STATUS")
+@Cacheable
 public class BotStatus {
 
     @Id
