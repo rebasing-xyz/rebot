@@ -25,7 +25,6 @@ package it.rebase.rebot.service.cache.producer;
 
 import it.rebase.rebot.service.cache.qualifier.DefaultCache;
 import org.infinispan.Cache;
-import org.infinispan.cdi.embedded.InfinispanExtensionEmbedded;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfiguration;
@@ -80,10 +79,5 @@ public class DefaultCacheProducer {
             defaultCacheManager = new DefaultCacheManager(g, defaultCacheProducer());
         }
         return defaultCacheManager;
-    }
-
-    @Produces
-    public InfinispanExtensionEmbedded defaultInfinispanExtensionEmbedded() {
-        return new InfinispanExtensionEmbedded();
     }
 }
