@@ -80,7 +80,9 @@
     </dependency>
     <dependency>
       <groupId>org.kie.kogito</groupId>
-      <artifactId>drools-compiler</artifactId>
+      <artifactId>kogito-drools</artifactId>
+      <!-- Kogito drools is missing on kogito-bom, remove it when this issue is fixed. -->
+      <version>${version.org.kie.kogito}</version>
     </dependency>
     <dependency>
       <groupId>org.kie.kogito</groupId>
@@ -110,7 +112,6 @@
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <build>
