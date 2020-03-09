@@ -36,6 +36,7 @@ public interface MessageManagement {
      * - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
      * @param chatId the chat from where the message will be deleted
      * @param messageId the message to be deleted
+     * @param timeout how many seconds the message survive
      */
-    void deleteMessage(long chatId, long messageId);
+    void deleteMessage(long chatId, long messageId, long timeout);
 }

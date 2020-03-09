@@ -94,5 +94,13 @@ public class KarmaCommand implements CommandProvider {
                 locale, "karma.description"));
     }
 
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
 
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 }

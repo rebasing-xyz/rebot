@@ -72,4 +72,14 @@ public class UrbanDictionary implements CommandProvider {
     public String description(String locale) {
         return I18nHelper.resource("Urban", locale, "description");
     }
+
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 }

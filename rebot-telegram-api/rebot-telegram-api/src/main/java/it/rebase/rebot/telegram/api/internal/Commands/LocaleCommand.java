@@ -116,4 +116,14 @@ public class LocaleCommand implements AdministrativeCommandProvider {
     public String description(String locale) {
         return I18nHelper.resource("Administrative", locale, "locale.command.description");
     }
+
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 }

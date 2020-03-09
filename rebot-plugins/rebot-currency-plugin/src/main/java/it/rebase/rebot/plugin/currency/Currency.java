@@ -159,6 +159,16 @@ public class Currency implements CommandProvider {
         return I18nHelper.resource("CurrencyMessages", locale, "description");
     }
 
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
+
     private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate, String locale) {
         try {
             if (currencyID.equalsIgnoreCase("EUR")) {

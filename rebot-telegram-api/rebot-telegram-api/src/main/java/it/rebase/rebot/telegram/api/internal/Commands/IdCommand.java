@@ -64,4 +64,14 @@ public class IdCommand implements AdministrativeCommandProvider {
     public String description(String locale) {
         return I18nHelper.resource("Administrative", locale, "id.command.description");
     }
+
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 }

@@ -99,4 +99,14 @@ public class BrazilPostalCode implements CommandProvider {
     public String description(String locale) {
         return I18nHelper.resource("PostalCodeMessages", locale, "description");
     }
+
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 }

@@ -100,8 +100,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
         if (leftMember.test(messageUpdate)) {
             long id = reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
                     new Chat(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()),
-                    leftChatMemberMessage(messageUpdate, locale))).getAsLong();
-            messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(), id);
+                    leftChatMemberMessage(messageUpdate, locale)),false, 0).getAsLong();
+            // TODO remove after the delete message stuff is in place.
+            messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(), id, 20);
 
         } else {
 
@@ -185,6 +186,16 @@ public class WelcomeMessagePlugin implements PluginProvider {
     @Override
     public void load() {
         log.fine("Enabling welcome-message-plugin plugin.");
+    }
+
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
     }
 
     /**

@@ -50,7 +50,7 @@ public class RestMessageSender {
     public Response send(@PathParam("chatId") Long chatId, @PathParam("message") String message) {
         log.fine("Rest Endpoint called, trying to send the message: [" + message + "] to  chat id [" + chatId + "]");
         try {
-            sender.processOutgoingMessage(buildMessage(chatId, message));
+            sender.processOutgoingMessage(buildMessage(chatId, message), false, 0L);
             return Response.ok("Message Sent").build();
         } catch (final Exception e) {
             return Response.serverError().entity(e.getMessage()).build();

@@ -156,6 +156,6 @@ public class PacktNotifier {
         Message message = new Message();
         message.setChat(chat);
         message.setText(this.get(locale));
-        messageSender.processOutgoingMessage(message);
+        messageSender.processOutgoingMessage(message, false, 0);
     }
 }

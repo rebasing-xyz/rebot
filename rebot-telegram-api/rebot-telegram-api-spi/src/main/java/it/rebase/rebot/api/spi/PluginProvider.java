@@ -41,4 +41,16 @@ public interface PluginProvider {
      */
     void load();
 
+    /**
+     * Flag to specify if the messages handled by the given plugin will be removed or not.
+     * @return false or true, if true the messages handled by the given plugin will be removed.
+     */
+    boolean removeMessage();
+
+    /**
+     * The given timeout will be used to define how long the target message will survive in the chat.
+     * Unit in Seconds
+     * @return the configured timeout, this value will be used to delete messages
+     */
+    long deleteMessageTimeout();
 }

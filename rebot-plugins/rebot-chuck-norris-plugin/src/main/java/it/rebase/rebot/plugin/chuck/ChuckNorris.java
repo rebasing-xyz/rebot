@@ -66,6 +66,16 @@ public class ChuckNorris implements PluginProvider {
         return null;
     }
 
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
+
     /**
      * Verifies if the received text can be processed by this plugin
      *
