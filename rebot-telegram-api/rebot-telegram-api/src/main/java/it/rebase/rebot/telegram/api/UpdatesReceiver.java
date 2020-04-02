@@ -176,7 +176,7 @@ public class UpdatesReceiver implements Runnable {
                             });
 
                     if (null == updates.getResult()) {
-                        this.wait(600);
+                        this.wait(1000);
                     }
 
                     updates.getResult().removeIf(n -> n.getUpdateId() < lastUpdateId);

@@ -72,4 +72,13 @@ public class Faq implements CommandProvider {
         return I18nHelper.resource("Faq", locale, "description");
     }
 
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 }

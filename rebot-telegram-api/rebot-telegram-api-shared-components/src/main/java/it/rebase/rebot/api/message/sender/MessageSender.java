@@ -28,8 +28,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
+import it.rebase.rebot.api.management.message.MessageManagement;
 import it.rebase.rebot.api.object.Message;
-import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.object.TelegramResponse;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -45,11 +45,8 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.logging.Logger;
 
@@ -68,16 +65,20 @@ public class MessageSender implements Sender {
     @Inject
     private BotCloseableHttpClient httpClient;
 
+    @Inject
+    private MessageManagement messageManagement;
+
+    // TODO do not return nothing here, messages will be delete in this method.
     @Override
-    public OptionalLong processOutgoingMessage(Message message) {
+    public OptionalLong processOutgoingMessage(Message message, boolean deleteSentMessage, long timeout) {
         BufferedReader reader = new BufferedReader(new StringReader(message.getText()));
         StringBuilder temporaryMessage = new StringBuilder();
-        OptionalLong temporaryReturnMessageID = OptionalLong.empty();
+        OptionalLong messageSentID = OptionalLong.empty();
         try {
             if (message.getText().length() > 1 && !message.getText().equals(null)) {
                 if (message.getText().length() > TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
                     reader.lines().forEach(line -> {
-                        if (temporaryMessage.toString().length() <  TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
+                        if (temporaryMessage.toString().length() < TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
                             temporaryMessage.append(line + "\n");
                         } else {
                             temporaryMessage.append(line + "\n");
@@ -90,18 +91,23 @@ public class MessageSender implements Sender {
 
                     log.fine("Sending next part of message.");
                     message.setText(temporaryMessage.toString());
-                    temporaryReturnMessageID = send(message);
+                    messageSentID = send(message);
                     temporaryMessage.setLength(0);
                 } else {
                     log.fine("Sending message: [" + message.getText() + "]");
-                    temporaryReturnMessageID = send(message);
+                    messageSentID = send(message);
                 }
             }
         } catch (final Exception e) {
             log.warning("Failed to send message: " + e.getMessage());
             return OptionalLong.of(0);
         }
-        return temporaryReturnMessageID;
+
+        if (deleteSentMessage) {
+            messageManagement.deleteMessage(message.getChat().getId(), messageSentID.getAsLong(), timeout);
+        }
+
+        return messageSentID;
     }
 
     /**
@@ -137,6 +143,11 @@ public class MessageSender implements Sender {
                 TelegramResponse<Message> telegramResponse = objectMapper.readValue(responseContent,
                         new TypeReference<TelegramResponse<Message>>() {
                         });
+                if (telegramResponse.hasError() && telegramResponse.getErrorCode() == 404){
+                    log.warning("Failed to send message: " + telegramResponse.getErrorDescription());
+                    return OptionalLong.of(0);
+                }
+
                 return OptionalLong.of(telegramResponse.getResult().getMessageId());
 
             } catch (final Exception e) {

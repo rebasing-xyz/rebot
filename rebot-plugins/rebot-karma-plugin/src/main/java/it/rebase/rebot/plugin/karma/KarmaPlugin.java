@@ -108,6 +108,16 @@ public class KarmaPlugin implements PluginProvider {
         return response.toString();
     }
 
+    @Override
+    public boolean removeMessage() {
+        return false;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 0L;
+    }
+
     /**
      * Process the karma, to trigger it is necessary to use ++ or -- at the end of any string.
      *

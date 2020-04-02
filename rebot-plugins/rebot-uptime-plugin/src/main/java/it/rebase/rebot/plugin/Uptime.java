@@ -65,6 +65,16 @@ public class Uptime implements CommandProvider {
         return I18nHelper.resource("Uptime", locale, "description");
     }
 
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
+
     /**
      * Returns the uptime in the following pattern: 0 Hora(s), 1 minute(s) e 1 second(s).
      * Tip by Ingo

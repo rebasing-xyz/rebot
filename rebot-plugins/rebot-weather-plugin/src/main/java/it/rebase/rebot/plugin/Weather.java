@@ -81,4 +81,14 @@ public class Weather implements CommandProvider {
     public String description(String locale) {
         return  I18nHelper.resource("Weather", locale, "description");
     }
+
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 }

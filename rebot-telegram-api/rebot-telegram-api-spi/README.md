@@ -69,6 +69,15 @@ public class Ping implements CommandProvider {
     public String description() {
         return "pong";
     }
+    @Override
+    public boolean removeMessage() {
+        return true;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 10;
+    }
 
 }
 ```

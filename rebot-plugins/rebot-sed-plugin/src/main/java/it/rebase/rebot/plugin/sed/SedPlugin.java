@@ -87,4 +87,13 @@ public class SedPlugin implements PluginProvider {
         log.fine("Loading plugin sed");
     }
 
+    @Override
+    public boolean removeMessage() {
+        return false;
+    }
+
+    @Override
+    public long deleteMessageTimeout() {
+        return 0;
+    }
 }

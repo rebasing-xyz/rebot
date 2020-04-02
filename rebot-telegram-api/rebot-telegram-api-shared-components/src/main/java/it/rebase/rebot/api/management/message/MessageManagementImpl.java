@@ -62,9 +62,8 @@ public class MessageManagementImpl implements MessageManagement {
     @Inject
     private BotCloseableHttpClient httpClient;
 
-
     @Override
-    public void deleteMessage(long chatId, long messageId) {
+    public void deleteMessage(long chatId, long messageId, long timeout) {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         Runnable task = () -> {
             try {
@@ -92,8 +91,7 @@ public class MessageManagementImpl implements MessageManagement {
                 log.warning("Error " + e.getMessage());
             }
         };
-        // wait 30 seconds to delete the message
-        scheduler.schedule(task, 30, TimeUnit.SECONDS);
+        scheduler.schedule(task, timeout, TimeUnit.SECONDS);
         scheduler.shutdown();
     }
 }
