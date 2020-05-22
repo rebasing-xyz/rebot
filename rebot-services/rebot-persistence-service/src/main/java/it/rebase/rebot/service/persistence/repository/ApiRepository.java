@@ -24,6 +24,7 @@
 package it.rebase.rebot.service.persistence.repository;
 
 import it.rebase.rebot.service.persistence.pojo.BotStatus;
+import it.rebase.rebot.service.persistence.pojo.CommandStatus;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -69,13 +70,49 @@ public class ApiRepository {
      * @return if the bot is enabled or not
      * In case there is no state saved return true.
      */
-    public boolean isEnabled(long chatId) {
+    public boolean isBotEnabled(long chatId) {
         try {
             Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where ID="+ chatId+";");
             return (boolean) q.getSingleResult();
         } catch (final Exception e) {
             return true;
         }
+    }
+
+    /**
+     * @param groupId
+     * @param commandName
+     * @return if the given command is enabled is enabled or not
+     */
+    public boolean isCommandEnabled(long groupId, String commandName) {
+        try {
+            Query q = em.createNativeQuery("SELECT isEnabled from COMMAND_STATUS where groupID="+ groupId+" and commandName='"+ commandName+"';");
+            return (boolean) q.getSingleResult();
+        } catch (final Exception e) {
+            return true;
+        }
+    }
+
+    /**
+     * Enable the given command
+     * @param chatId
+     * @param commandName
+     */
+    public void enableCommand(long chatId, String commandName) {
+        log.fine("Enabling bot command "+commandName+" for chat  " + chatId);
+        Query q = em.createNativeQuery("DELETE FROM COMMAND_STATUS where groupID="+ chatId+" and commandName='"+ commandName+"';");
+        q.executeUpdate();
+        em.flush();
+    }
+
+    /**
+     * Disable the given command
+     * @param commandStatus
+     */
+    public void disableCommand(CommandStatus commandStatus) {
+        log.fine("Disabling command " + commandStatus.toString());
+        em.persist(commandStatus);
+        em.flush();
     }
 
 }

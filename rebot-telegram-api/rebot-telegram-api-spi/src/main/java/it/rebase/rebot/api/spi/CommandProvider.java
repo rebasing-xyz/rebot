@@ -102,5 +102,4 @@ public interface CommandProvider {
                 (messageUpdate.getMessage().getText().contains("@" + botUserId) || !messageUpdate.getMessage().getText().contains("@")) &&
                 extractCommand(messageUpdate.getMessage().getText(), botUserId).equals(name()) : false;
     }
-
 }

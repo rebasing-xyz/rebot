@@ -88,6 +88,11 @@ public class SedPlugin implements PluginProvider {
     }
 
     @Override
+    public String name() {
+        return "sed";
+    }
+
+    @Override
     public boolean removeMessage() {
         return false;
     }

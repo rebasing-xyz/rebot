@@ -114,7 +114,7 @@ public class UpdatesReceiver implements Runnable {
      * When the bot is starting the receiver it will persist its state to survive restarts.
      */
     public boolean isEnabled(long chatId) {
-        return apiRepository.isEnabled(chatId);
+        return apiRepository.isBotEnabled(chatId);
     }
 
     /**

@@ -76,6 +76,11 @@ public class KarmaPlugin implements PluginProvider {
     }
 
     @Override
+    public String name() {
+        return "karma";
+    }
+
+    @Override
     public String process(MessageUpdate update, String locale) {
         StringBuilder response = new StringBuilder();
         try {

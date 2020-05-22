@@ -28,13 +28,17 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
+import it.rebase.rebot.api.spi.CommandProvider;
+import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.api.management.user.UserManagement;
+import it.rebase.rebot.service.persistence.repository.ApiRepository;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
 
 @ApplicationScoped
@@ -48,7 +52,12 @@ public class EnableCommand implements AdministrativeCommandProvider {
 
     @Inject
     private UpdatesReceiver updatesReceiver;
-
+    @Inject
+    private ApiRepository repository;
+    @Inject
+    private Instance<CommandProvider> command;
+    @Inject
+    private Instance<PluginProvider> plugin;
     @Inject
     private UserManagement userManagement;
 
@@ -59,19 +68,38 @@ public class EnableCommand implements AdministrativeCommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+        if (key.get().length() < 1) return I18nHelper.resource("Administrative", locale, "required.parameter");
+
         boolean isAdministrator = userManagement.isAdministrator(messageUpdate);
-        if (isAdministrator && updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) {
-            return String.format(
-                    I18nHelper.resource("Administrative", locale, "enable.command.already.enabled"),
-                    botUserId);
-        }
         if (!isAdministrator) {
             return I18nHelper.resource("Administrative", locale, "enable.command.not.allowed");
         }
-        updatesReceiver.enable(messageUpdate.getMessage());
-        return String.format(
-                I18nHelper.resource("Administrative", locale, "enable.command.enabled"),
-                botUserId);
+
+        if (key.get().equals("bot")) {
+            if (updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) {
+                return String.format(
+                        I18nHelper.resource("Administrative", locale, "enable.command.already.enabled"),
+                        botUserId);
+            }
+
+            updatesReceiver.enable(messageUpdate.getMessage());
+            return String.format(
+                    I18nHelper.resource("Administrative", locale, "enable.command.enabled"),
+                    botUserId);
+        } else {
+            // ve se o parametro passado eh um plugin ou comando valido e ve se ele ja esta ativado.
+            if (repository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), key.get())) {
+                return String.format(
+                        I18nHelper.resource("Administrative", locale, "enable.command.already.enabled"),
+                        key.get());
+            } else {
+                repository.enableCommand(messageUpdate.getMessage().getChat().getId(), key.get());
+                return String.format(
+                        I18nHelper.resource("Administrative", locale, "enable.command.enabled"),
+                        key.get());
+            }
+
+        }
     }
 
     @Override
