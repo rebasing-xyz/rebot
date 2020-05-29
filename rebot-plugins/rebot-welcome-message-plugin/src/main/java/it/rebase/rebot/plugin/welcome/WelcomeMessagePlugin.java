@@ -189,6 +189,11 @@ public class WelcomeMessagePlugin implements PluginProvider {
     }
 
     @Override
+    public String name() {
+        return "welcome";
+    }
+
+    @Override
     public boolean removeMessage() {
         return true;
     }

@@ -114,7 +114,7 @@ public class OutcomeMessageProcessor implements Processor {
             }
         });
 
-        if (apiRepository.isEnabled(messageUpdate.getMessage().getChat().getId())) {
+        if (apiRepository.isBotEnabled(messageUpdate.getMessage().getChat().getId())) {
             Predicate predicate = messageIsNotNull().and(isCommand());
 
             if (predicate.test(messageUpdate)) {
@@ -146,27 +146,31 @@ public class OutcomeMessageProcessor implements Processor {
             messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
                     messageUpdate.getMessage().getMessageId(),
                     10);
-
         }
 
         command.forEach(command -> {
-            if (command.canProcessCommand(messageUpdate, botUserId)) {
-                if (concat(args).equals("help")) {
-                    response.append(command.help(locale));
-                } else {
-                    response.append(command.execute(Optional.of(concat(args)), messageUpdate, locale));
-                    log.fine("COMMAND_PROCESSOR - Command processed, result is: " + response);
-                }
-                reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()),
-                        command.removeMessage(), command.deleteMessageTimeout());
+            if (!apiRepository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), command.name().replace("/", ""))) {
+                return;
+            } else {
+                if (command.canProcessCommand(messageUpdate, botUserId)) {
+                    if (concat(args).equals("help")) {
+                        response.append(command.help(locale));
+                    } else {
+                        response.append(command.execute(Optional.of(concat(args)), messageUpdate, locale));
+                        log.fine("COMMAND_PROCESSOR - Command processed, result is: " + response);
+                    }
+                    reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()),
+                            command.removeMessage(), command.deleteMessageTimeout());
 
-                // delete the command itself
-                if (command.removeMessage()){
-                    messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                            messageUpdate.getMessage().getMessageId(),
-                            command.deleteMessageTimeout());
+                    // delete the command itself
+                    if (command.removeMessage()) {
+                        messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
+                                messageUpdate.getMessage().getMessageId(),
+                                command.deleteMessageTimeout());
+                    }
                 }
             }
+
         });
         if (response.length() < 1 && !isAdministrativeCommand) {
             log.fine("Command [" + messageUpdate.getMessage().getText() + "] will not to be processed by this bot or is not an administrative command.");
@@ -181,22 +185,26 @@ public class OutcomeMessageProcessor implements Processor {
         message.setMessageId(messageUpdate.getMessage().getMessageId());
 
         plugin.forEach(plugin -> {
-            message.setText(plugin.process(messageUpdate, locale));
-            try {
-                if (null != message.getText()) {
-                    if (message.getText().contains("karma")) {
-                        message.setMessageId(0);
+            if (!apiRepository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), plugin.name())) {
+                return;
+            } else {
+                message.setText(plugin.process(messageUpdate, locale));
+                try {
+                    if (null != message.getText()) {
+                        if (message.getText().contains("karma")) {
+                            message.setMessageId(0);
+                        }
+                        reply.processOutgoingMessage(message, plugin.removeMessage(), plugin.deleteMessageTimeout());
+                        // delete the command itself
+                        if (plugin.removeMessage()) {
+                            messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
+                                    messageUpdate.getMessage().getMessageId(),
+                                    plugin.deleteMessageTimeout());
+                        }
                     }
-                    reply.processOutgoingMessage(message, plugin.removeMessage(), plugin.deleteMessageTimeout());
-                    // delete the command itself
-                    if (plugin.removeMessage()){
-                        messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                                messageUpdate.getMessage().getMessageId(),
-                                plugin.deleteMessageTimeout());
-                    }
+                } catch (final Exception e) {
+                    log.fine("NON_COMMAND_PROCESSOR - Message not processed by the available plugins.");
                 }
-            } catch (final Exception e) {
-                log.fine("NON_COMMAND_PROCESSOR - Message not processed by the available plugins.");
             }
         });
     }
