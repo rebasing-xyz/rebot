@@ -112,9 +112,11 @@ just by injecting the `BotProperty` and configuring it to **required** or **not*
 
 ```java
 @Inject
-@BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
-private String botTokenId;
+@BotProperty(name = "it.rebase.rebot.my.property", required = true)
+private String myProperty;
 ```
+
+For global configurations use the `BotConfig` class.
 
 If the property is set to required and it is not set, the bot will fail to start.
 

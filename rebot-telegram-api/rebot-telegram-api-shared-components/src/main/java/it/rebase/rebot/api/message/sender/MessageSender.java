@@ -26,7 +26,7 @@ package it.rebase.rebot.api.message.sender;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
 import it.rebase.rebot.api.management.message.MessageManagement;
 import it.rebase.rebot.api.object.Message;
@@ -59,8 +59,7 @@ public class MessageSender implements Sender {
     private final int TELEGRAM_MESSAGE_CHARACTERS_LIMIT = 4000;
 
     @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
-    String botTokenId;
+    BotConfig config;
 
     @Inject
     private BotCloseableHttpClient httpClient;
@@ -123,7 +122,7 @@ public class MessageSender implements Sender {
     private OptionalLong send(Message message) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String url = String.format(TELEGRAM_API_SENDER_ENDPOINT, botTokenId);
+            String url = String.format(TELEGRAM_API_SENDER_ENDPOINT, config.botTokenId());
             HttpPost httpPost = new HttpPost(url);
             httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
             httpPost.addHeader("content-type", "application/json");
@@ -143,7 +142,7 @@ public class MessageSender implements Sender {
                 TelegramResponse<Message> telegramResponse = objectMapper.readValue(responseContent,
                         new TypeReference<TelegramResponse<Message>>() {
                         });
-                if (telegramResponse.hasError() && telegramResponse.getErrorCode() == 404){
+                if (telegramResponse.hasError() && telegramResponse.getErrorCode() == 404) {
                     log.warning("Failed to send message: " + telegramResponse.getErrorDescription());
                     return OptionalLong.of(0);
                 }

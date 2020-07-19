@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.user.UserManagement;
@@ -46,10 +47,6 @@ import java.util.logging.Logger;
 public class ListAvailablePluginsOrCommands implements AdministrativeCommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.userId", required = true)
-    String botUserId;
 
     @Inject
     private ApiRepository repository;

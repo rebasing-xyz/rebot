@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.i18n.SupportedLocales;
@@ -44,10 +45,6 @@ import it.rebase.rebot.service.persistence.repository.LocaleRepository;
 public class LocaleCommand implements AdministrativeCommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.userId", required = true)
-    String botUserId;
 
     @Inject
     private UserManagement userManagement;

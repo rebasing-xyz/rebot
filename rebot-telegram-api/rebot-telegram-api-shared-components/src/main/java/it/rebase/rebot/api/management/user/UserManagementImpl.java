@@ -26,7 +26,7 @@ package it.rebase.rebot.api.management.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
 import it.rebase.rebot.api.object.ChatAdministrator;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -69,12 +69,7 @@ public class UserManagementImpl implements UserManagement {
     private final String TELEGRAM_GET_ME_ENDPOINT = "https://api.telegram.org/bot%s/getMe";
 
     @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
-    String botTokenId;
-
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.userId", required = true)
-    String botUserId;
+    BotConfig config;
 
     @Inject
     private BotCloseableHttpClient httpClient;
@@ -105,7 +100,7 @@ public class UserManagementImpl implements UserManagement {
     public User getMe() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            HttpGet httpGet = new HttpGet(String.format(TELEGRAM_GET_ME_ENDPOINT, botTokenId));
+            HttpGet httpGet = new HttpGet(String.format(TELEGRAM_GET_ME_ENDPOINT, config.botTokenId()));
             try (CloseableHttpResponse response = httpClient.get().execute(httpGet)) {
                 HttpEntity responseEntity = response.getEntity();
                 BufferedHttpEntity buf = new BufferedHttpEntity(responseEntity);
@@ -140,7 +135,7 @@ public class UserManagementImpl implements UserManagement {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         Runnable task = () -> {
             try {
-                String url = String.format(TELEGRAM_KICKMEMBER_ENDPOINT, botTokenId);
+                String url = String.format(TELEGRAM_KICKMEMBER_ENDPOINT, config.botTokenId());
                 List<NameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("chat_id", chatId + ""));
                 params.add(new BasicNameValuePair("user_id", userId + ""));
@@ -170,7 +165,7 @@ public class UserManagementImpl implements UserManagement {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         Runnable task = () -> {
             try {
-                String url = String.format(TELEGRAM_UNBANMEMBER_ENDPOINT, botTokenId);
+                String url = String.format(TELEGRAM_UNBANMEMBER_ENDPOINT, config.botTokenId());
                 List<NameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("chat_id", chatId + ""));
                 params.add(new BasicNameValuePair("user_id", userId + ""));
@@ -240,7 +235,7 @@ public class UserManagementImpl implements UserManagement {
     private List<ChatAdministrator> getChatAdministrators(long chatId) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            String url = String.format(TELEGRAM_CHAT_ADMINISTRATORS_ENDPOINT, botTokenId);
+            String url = String.format(TELEGRAM_CHAT_ADMINISTRATORS_ENDPOINT, config.botTokenId());
             HttpPost httpPost = new HttpPost(url);
             httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
             List<NameValuePair> params = new ArrayList<>();

@@ -24,6 +24,7 @@
 
 package it.rebase.rebot.api.management.message;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
 import org.apache.http.HttpEntity;
@@ -52,12 +53,7 @@ public class MessageManagementImpl implements MessageManagement {
     private final String TELEGRAM_DELETE_MESSAGE_ENDPOINT = "https://api.telegram.org/bot%s/deleteMessage";
 
     @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
-    String botTokenId;
-
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.userId", required = true)
-    String botUserId;
+    BotConfig config;
 
     @Inject
     private BotCloseableHttpClient httpClient;
@@ -67,7 +63,7 @@ public class MessageManagementImpl implements MessageManagement {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         Runnable task = () -> {
             try {
-                String url = String.format(TELEGRAM_DELETE_MESSAGE_ENDPOINT, botTokenId);
+                String url = String.format(TELEGRAM_DELETE_MESSAGE_ENDPOINT, config.botTokenId());
                 List<NameValuePair> params = new ArrayList<>();
                 params.add(new BasicNameValuePair("chat_id", chatId + ""));
                 params.add(new BasicNameValuePair("message_id", messageId + ""));
