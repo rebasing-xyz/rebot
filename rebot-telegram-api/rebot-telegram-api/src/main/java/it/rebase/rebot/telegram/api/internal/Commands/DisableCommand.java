@@ -23,25 +23,20 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import it.rebase.rebot.api.conf.BotConfig;
+import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.api.management.user.UserManagement;
+import it.rebase.rebot.api.object.MessageUpdate;
+import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
+import it.rebase.rebot.service.persistence.pojo.CommandStatus;
+import it.rebase.rebot.service.persistence.repository.ApiRepository;
+import it.rebase.rebot.telegram.api.UpdatesReceiver;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
 import java.util.logging.Logger;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
-import it.rebase.rebot.api.i18n.I18nHelper;
-import it.rebase.rebot.api.object.MessageUpdate;
-import it.rebase.rebot.api.spi.CommandProvider;
-import it.rebase.rebot.api.spi.PluginProvider;
-import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
-import it.rebase.rebot.api.management.user.UserManagement;
-import it.rebase.rebot.service.persistence.pojo.CommandStatus;
-import it.rebase.rebot.service.persistence.repository.ApiRepository;
-import it.rebase.rebot.service.persistence.repository.LocaleRepository;
-import it.rebase.rebot.telegram.api.UpdatesReceiver;
 
 @ApplicationScoped
 public class DisableCommand implements AdministrativeCommandProvider {
@@ -49,19 +44,15 @@ public class DisableCommand implements AdministrativeCommandProvider {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.userId", required = true)
-    String botUserId;
+    BotConfig config;
 
     @Inject
     private UpdatesReceiver updatesReceiver;
     @Inject
     private ApiRepository repository;
     @Inject
-    private Instance<CommandProvider> command;
-    @Inject
-    private Instance<PluginProvider> plugin;
-    @Inject
     private UserManagement userManagement;
+
     @Override
     public void load() {
         log.fine("Enabling administrative command " + this.name());
@@ -80,13 +71,13 @@ public class DisableCommand implements AdministrativeCommandProvider {
             if (!updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) {
                 return String.format(
                         I18nHelper.resource("Administrative", locale, "disable.command.already.disabled"),
-                        botUserId);
+                        config.botUserId());
             }
 
             updatesReceiver.disable(messageUpdate.getMessage());
             return String.format(
                     I18nHelper.resource("Administrative", locale, "disable.command.disabled"),
-                    botUserId);
+                    config.botUserId());
         } else {
             // ve se o parametro passado eh um plugin ou comando valido e ve se ele ja esta desativado.
             if (!repository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), key.get())) {

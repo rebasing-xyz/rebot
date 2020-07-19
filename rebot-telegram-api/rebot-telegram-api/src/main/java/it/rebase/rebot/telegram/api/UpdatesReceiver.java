@@ -26,6 +26,7 @@ package it.rebase.rebot.telegram.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
 import it.rebase.rebot.api.object.GetUpdatesConfProducer;
@@ -59,12 +60,7 @@ public class UpdatesReceiver implements Runnable {
     private final String TELEGRAM_UPDATE_ENDPOINT = "https://api.telegram.org/bot%s/getUpdates";
 
     @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
-    private String botTokenId;
-
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.userId", required = true)
-    private String botUserId;
+    BotConfig config;
 
     @Inject
     private BotCloseableHttpClient httpClient;
@@ -95,7 +91,7 @@ public class UpdatesReceiver implements Runnable {
         running = true;
         currentThread = new Thread(this);
         currentThread.setDaemon(true);
-        currentThread.setName("Telegram-" + botUserId);
+        currentThread.setName("Telegram-" + config.botUserId());
         currentThread.start();
     }
 
@@ -152,7 +148,7 @@ public class UpdatesReceiver implements Runnable {
             GetUpdatesConfProducer getUpdates = new GetUpdatesConfProducer().setLimit(100).setTimeout(10 * 1000).setOffset(lastUpdateId + 1);
             log.finest("receiver config -> " + getUpdates.toString());
             try {
-                String url = String.format(TELEGRAM_UPDATE_ENDPOINT, botTokenId);
+                String url = String.format(TELEGRAM_UPDATE_ENDPOINT, config.botTokenId());
 
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.addHeader("charset", StandardCharsets.UTF_8.name());

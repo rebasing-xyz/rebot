@@ -47,14 +47,50 @@ public class BotPropertyProducerBean {
     @Produces
     @Dependent
     @BotProperty(name = "")
-    public String findBotProperty(InjectionPoint injectionPoint) {
+    public String findBotStringProperty(InjectionPoint injectionPoint) {
         BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
         String property = readSysProperty(prop.name(), prop.value());
-        log.fine("Injecting Property name: [" + prop.name() + "] value: [" + property + "] required [" + prop.required() + "]");
+        log.fine("Injecting String Property name: [" + prop.name() + "] value: [" + property + "] required [" + prop.required() + "]");
         if (prop.required() && (null == property) || property == "") {
             throw new IllegalStateException("The parameter " + prop.name() + " is required!");
         }
         return property;
+    }
+
+    @Produces
+    @Dependent
+    @BotProperty(name = "")
+    public boolean findBotBoolProperty(InjectionPoint injectionPoint) {
+        BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
+        boolean property = Boolean.parseBoolean(readSysProperty(prop.name(), prop.value()));
+        log.fine("Injecting boolean Property name: [" + prop.name() + "] value: [" + property + "] required [" + prop.required() + "]");
+        if (prop.required()) {
+            throw new IllegalStateException("The parameter " + prop.name() + " is required!");
+        }
+        return property;
+    }
+
+    @Produces
+    @Dependent
+    @BotProperty(name = "")
+    public int findBotIntProperty(InjectionPoint injectionPoint) {
+        BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
+        String property = readSysProperty(prop.name(), prop.value());
+        try {
+            if (null == property) {
+                return -1;
+            }
+            int parsedProperty = Integer.parseInt(property);
+            log.fine("Injecting integer Property name: [" + prop.name() + "] value: [" + parsedProperty + "] required [" + prop.required() + "]");
+
+            if (prop.required()) {
+                throw new IllegalStateException("The parameter " + prop.name() + " is required!");
+            }
+
+            return parsedProperty;
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("System Property [" + prop.name() + "] requires a integer value.");
+        }
     }
 
     /**

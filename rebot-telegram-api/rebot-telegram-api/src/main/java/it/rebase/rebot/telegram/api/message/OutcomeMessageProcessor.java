@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.telegram.api.message;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.message.MessageManagement;
@@ -56,11 +57,8 @@ public class OutcomeMessageProcessor implements Processor {
     private String locale;
 
     @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.token", required = true)
-    String botTokenId;
-    @Inject
-    @BotProperty(name = "it.rebase.rebot.telegram.userId", required = true)
-    String botUserId;
+    BotConfig config;
+
     @Inject
     private Instance<CommandProvider> command;
     @Inject
@@ -83,7 +81,7 @@ public class OutcomeMessageProcessor implements Processor {
         // before proceed with other commands/plugins execute administrative commands
         administrativeCommand.forEach(c -> {
 
-            if (c.canProcessCommand(messageUpdate, botUserId)) {
+            if (c.canProcessCommand(messageUpdate, config.botUserId())) {
                 if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help(locale)),
                             c.removeMessage(),
@@ -132,7 +130,7 @@ public class OutcomeMessageProcessor implements Processor {
         log.fine("Processing command: " + messageUpdate.getMessage().getText());
 
         String[] args = messageUpdate.getMessage().getText().split(" ");
-        String command2process = args[0].replace("@" + botUserId, "");
+        String command2process = args[0].replace("@" + config.botUserId(), "");
 
         // /help command
         // will delete messages within 10 seconds
@@ -152,7 +150,7 @@ public class OutcomeMessageProcessor implements Processor {
             if (!apiRepository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), command.name().replace("/", ""))) {
                 return;
             } else {
-                if (command.canProcessCommand(messageUpdate, botUserId)) {
+                if (command.canProcessCommand(messageUpdate, config.botUserId())) {
                     if (concat(args).equals("help")) {
                         response.append(command.help(locale));
                     } else {
