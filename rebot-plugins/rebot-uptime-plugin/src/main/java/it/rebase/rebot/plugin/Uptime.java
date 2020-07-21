@@ -22,11 +22,13 @@
  */
 package it.rebase.rebot.plugin;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
@@ -37,6 +39,9 @@ import java.util.logging.Logger;
 public class Uptime implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+
+    @Inject
+    BotConfig config;
 
     @Override
     public void load() {
@@ -66,18 +71,18 @@ public class Uptime implements CommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 
     /**
-     * Returns the uptime in the following pattern: 0 Hora(s), 1 minute(s) e 1 second(s).
-     * Tip by Ingo
+     * Returns the uptime in the following pattern: 0 Hour(s), 1 minute(s) e 1 second(s).
+     * Tip by Ingo Weiss
      */
     private String upTime(String locale) {
         Duration duration = Duration.ofMillis(ManagementFactory.getRuntimeMXBean().getUptime());

@@ -23,9 +23,11 @@
 
 package it.rebase.rebot.plugin;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -34,6 +36,9 @@ import java.util.logging.Logger;
 public class Ping implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+
+    @Inject
+    BotConfig config;
 
     @Override
     public void load() {
@@ -61,12 +66,12 @@ public class Ping implements CommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }

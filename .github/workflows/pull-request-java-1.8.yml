@@ -1,4 +1,4 @@
-name: Java 8 CI
+name: ReBot - Java 8
 
 on: pull_request
 jobs:

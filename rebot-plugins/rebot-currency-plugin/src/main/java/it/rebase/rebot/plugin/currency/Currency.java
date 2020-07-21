@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.currency;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
@@ -45,6 +46,9 @@ import java.util.logging.Logger;
 public class Currency implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+
+    @Inject
+    BotConfig config;
 
     @Inject
     ECBClient ecbClient;
@@ -160,13 +164,13 @@ public class Currency implements CommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 
     private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate, String locale) {

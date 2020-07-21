@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.karma;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.i18n.I18nHelper;
@@ -52,6 +53,9 @@ public class KarmaPlugin implements PluginProvider {
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private final Pattern FULL_MSG_PATTERN = Pattern.compile("(\\w*)(\\+\\+|\\-\\-|\\—|\\–)(\\s|$)");
     private final Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-|\\—|\\–)($)");
+
+    @Inject
+    BotConfig config;
 
     @Inject
     @BotProperty(name = "it.rebase.rebot.plugin.karma.timeout", value = "30")
@@ -114,13 +118,13 @@ public class KarmaPlugin implements PluginProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return false;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 0L;
+        return config.deleteMessagesAfter();
     }
 
     /**

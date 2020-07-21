@@ -66,7 +66,7 @@ public interface CommandProvider {
      * Flag to specify if the messages handled by the given plugin will be removed or not.
      * @return false or true, if true the messages handled by the given plugin will be removed.
      */
-    boolean removeMessage();
+    boolean deleteMessage();
 
     /**
      * The given timeout will be used to define how long the target message will survive in the chat.

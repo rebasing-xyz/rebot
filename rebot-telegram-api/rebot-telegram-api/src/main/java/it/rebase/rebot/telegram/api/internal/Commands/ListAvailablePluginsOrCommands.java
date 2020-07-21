@@ -49,6 +49,9 @@ public class ListAvailablePluginsOrCommands implements AdministrativeCommandProv
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
+    BotConfig config;
+
+    @Inject
     private ApiRepository repository;
     @Inject
     private Instance<CommandProvider> command;
@@ -109,12 +112,12 @@ public class ListAvailablePluginsOrCommands implements AdministrativeCommandProv
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 15;
+        return config.deleteMessagesAfter();
     }
 }

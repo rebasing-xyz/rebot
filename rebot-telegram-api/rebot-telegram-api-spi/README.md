@@ -10,7 +10,7 @@ It provides:
  
 Usage:
 
-### Creating a Commands/Plugins:
+### Creating Commands/Plugins:
 
 Each new command, to be recognized by the API, needs to implement the CommandProvider and include the following file under **resources/META-INF/services**:
 
@@ -70,7 +70,7 @@ public class Ping implements CommandProvider {
         return "pong";
     }
     @Override
-    public boolean removeMessage() {
+    public boolean deleteMessage() {
         return true;
     }
 

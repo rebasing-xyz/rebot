@@ -24,6 +24,7 @@
 package it.rebase.rebot.plugin.welcome;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.message.MessageManagement;
@@ -69,6 +70,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
+    BotConfig config;
+
+    @Inject
     @Named("welcome.challenge")
     Process<? extends Model> welcomeProcess;
 
@@ -102,7 +106,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
                     new Chat(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()),
                     leftChatMemberMessage(messageUpdate, locale)),false, 0).getAsLong();
             // TODO remove after the delete message stuff is in place.
-            messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(), id, 20);
+            messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(), id, 30);
 
         } else {
 
@@ -194,13 +198,13 @@ public class WelcomeMessagePlugin implements PluginProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 
     /**

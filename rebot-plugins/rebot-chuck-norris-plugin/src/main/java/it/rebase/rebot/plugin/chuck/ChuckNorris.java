@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.chuck;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.plugin.chuck.utils.Utils;
@@ -40,6 +41,9 @@ public class ChuckNorris implements PluginProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private final Pattern FULL_MSG_PATTERN = Pattern.compile("(chuck norris)");
+
+    @Inject
+    BotConfig config;
 
     @Inject
     ChuckRepository chuckRepository;
@@ -72,13 +76,13 @@ public class ChuckNorris implements PluginProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 
     /**

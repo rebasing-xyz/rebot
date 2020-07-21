@@ -175,6 +175,8 @@ And, the last step is instantiate a new app using the image imported above:
 oc new-app -f https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-container-image/template/rebot-application-template-for-k8s.yaml  \ 
 -p REBOT_TELEGRAM_TOKEN_ID=<TELEGRAM_TOKEN_ID> \
 -p REBOT_TELEGRAM_USER_ID=<TELEGRAM_USER_ID> \
+-p REBOT_TELEGRAM_DELETE_MESSAGES=<REBOT_TELEGRAM_DELETE_MESSAGES> \
+-p REBOT_TELEGRAM_DELETE_MESSAGES_AFTER=<REBOT_TELEGRAM_DELETE_MESSAGES_AFTER> \
 -p REBOT_TELEGRAM_LOG_LEVEL=TRACE \
 -p IMAGE_STREAM_NAMESPACE=<NAMESPACE_WHERE_BOT_WILL_BE_INSTALLED>
 ```
@@ -183,4 +185,4 @@ oc new-app -f https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-con
 At this moment the images are ready to use, enjoy :)
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email to just@rebase.it
+Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or email to just@rebase.it

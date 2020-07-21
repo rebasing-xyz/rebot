@@ -84,10 +84,10 @@ public class OutcomeMessageProcessor implements Processor {
             if (c.canProcessCommand(messageUpdate, config.botUserId())) {
                 if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help(locale)),
-                            c.removeMessage(),
+                            c.deleteMessage(),
                             c.deleteMessageTimeout());
                     // delete the command itself
-                    if (c.removeMessage()) {
+                    if (c.deleteMessage()) {
                         messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
                                 messageUpdate.getMessage().getMessageId(),
                                 c.deleteMessageTimeout());
@@ -99,10 +99,10 @@ public class OutcomeMessageProcessor implements Processor {
                 reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
                                 messageUpdate.getMessage().getChat(),
                                 c.execute(Optional.of(concat(messageUpdate.getMessage().getText().split(" "))), messageUpdate, locale).toString()),
-                        c.removeMessage(),
+                        c.deleteMessage(),
                         c.deleteMessageTimeout());
                 // delete the command itself
-                if (c.removeMessage()) {
+                if (c.deleteMessage()) {
                     messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
                             messageUpdate.getMessage().getMessageId(),
                             c.deleteMessageTimeout());
@@ -158,10 +158,10 @@ public class OutcomeMessageProcessor implements Processor {
                         log.fine("COMMAND_PROCESSOR - Command processed, result is: " + response);
                     }
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()),
-                            command.removeMessage(), command.deleteMessageTimeout());
+                            command.deleteMessage(), command.deleteMessageTimeout());
 
                     // delete the command itself
-                    if (command.removeMessage()) {
+                    if (command.deleteMessage()) {
                         messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
                                 messageUpdate.getMessage().getMessageId(),
                                 command.deleteMessageTimeout());
@@ -192,9 +192,9 @@ public class OutcomeMessageProcessor implements Processor {
                         if (message.getText().contains("karma")) {
                             message.setMessageId(0);
                         }
-                        reply.processOutgoingMessage(message, plugin.removeMessage(), plugin.deleteMessageTimeout());
+                        reply.processOutgoingMessage(message, plugin.deleteMessage(), plugin.deleteMessageTimeout());
                         // delete the command itself
-                        if (plugin.removeMessage()) {
+                        if (plugin.deleteMessage()) {
                             messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
                                     messageUpdate.getMessage().getMessageId(),
                                     plugin.deleteMessageTimeout());

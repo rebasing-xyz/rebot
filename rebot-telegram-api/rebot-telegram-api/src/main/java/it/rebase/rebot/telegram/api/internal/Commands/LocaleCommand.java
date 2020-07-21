@@ -47,6 +47,9 @@ public class LocaleCommand implements AdministrativeCommandProvider {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
+    BotConfig config;
+
+    @Inject
     private UserManagement userManagement;
 
     @Inject
@@ -115,12 +118,12 @@ public class LocaleCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }
