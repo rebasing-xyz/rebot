@@ -23,11 +23,13 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -36,6 +38,9 @@ import java.util.logging.Logger;
 public class IdCommand implements AdministrativeCommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+
+    @Inject
+    BotConfig config;
 
     @Override
     public void load() {
@@ -66,12 +71,12 @@ public class IdCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }

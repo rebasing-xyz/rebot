@@ -53,8 +53,7 @@ public class DisableCommand implements AdministrativeCommandProvider {
     @Inject
     private UserManagement userManagement;
 
-    @Override
-    public void load() {
+    @Override    public void load() {
         log.fine("Enabling administrative command " + this.name());
     }
 
@@ -79,7 +78,7 @@ public class DisableCommand implements AdministrativeCommandProvider {
                     I18nHelper.resource("Administrative", locale, "disable.command.disabled"),
                     config.botUserId());
         } else {
-            // ve se o parametro passado eh um plugin ou comando valido e ve se ele ja esta desativado.
+            // if the provided command or plugin is valid make sure it is not already disabled before proceed.
             if (!repository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), key.get())) {
                 return String.format(
                         I18nHelper.resource("Administrative", locale, "disable.command.already.disabled"),
@@ -111,12 +110,12 @@ public class DisableCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }

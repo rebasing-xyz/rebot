@@ -69,10 +69,10 @@ public class MessageSender implements Sender {
 
     // TODO do not return nothing here, messages will be delete in this method.
     @Override
-    public OptionalLong processOutgoingMessage(Message message, boolean deleteSentMessage, long timeout) {
+    public OptionalLong processOutgoingMessage(Message message, boolean deleteMessage, long timeout) {
         BufferedReader reader = new BufferedReader(new StringReader(message.getText()));
         StringBuilder temporaryMessage = new StringBuilder();
-        OptionalLong messageSentID = OptionalLong.empty();
+        OptionalLong sentMessageID = OptionalLong.empty();
         try {
             if (message.getText().length() > 1 && !message.getText().equals(null)) {
                 if (message.getText().length() > TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
@@ -90,11 +90,11 @@ public class MessageSender implements Sender {
 
                     log.fine("Sending next part of message.");
                     message.setText(temporaryMessage.toString());
-                    messageSentID = send(message);
+                    sentMessageID = send(message);
                     temporaryMessage.setLength(0);
                 } else {
                     log.fine("Sending message: [" + message.getText() + "]");
-                    messageSentID = send(message);
+                    sentMessageID = send(message);
                 }
             }
         } catch (final Exception e) {
@@ -102,11 +102,11 @@ public class MessageSender implements Sender {
             return OptionalLong.of(0);
         }
 
-        if (deleteSentMessage) {
-            messageManagement.deleteMessage(message.getChat().getId(), messageSentID.getAsLong(), timeout);
+        if (deleteMessage) {
+            messageManagement.deleteMessage(message.getChat().getId(), sentMessageID.getAsLong(), timeout);
         }
 
-        return messageSentID;
+        return sentMessageID;
     }
 
     /**

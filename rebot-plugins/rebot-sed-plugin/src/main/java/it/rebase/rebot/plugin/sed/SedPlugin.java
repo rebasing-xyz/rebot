@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.sed;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
@@ -44,6 +45,9 @@ public class SedPlugin implements PluginProvider {
     @Inject
     @SedCache
     Cache<Long, String> cache;
+
+    @Inject
+    BotConfig config;
 
     @Override
     public String process(MessageUpdate update, String locale) {
@@ -93,12 +97,12 @@ public class SedPlugin implements PluginProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return false;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 0;
+        return config.deleteMessagesAfter();
     }
 }

@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
@@ -39,6 +40,9 @@ import java.util.logging.Logger;
 public class UrbanDictionary implements CommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+
+    @Inject
+    BotConfig config;
 
     @Inject
     @Any
@@ -74,12 +78,12 @@ public class UrbanDictionary implements CommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }

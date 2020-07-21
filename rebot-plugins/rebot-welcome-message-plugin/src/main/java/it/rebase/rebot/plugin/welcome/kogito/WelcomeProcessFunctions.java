@@ -69,7 +69,7 @@ public class WelcomeProcessFunctions {
         welcomeChallenge.addMessadeIdToDelete(
                 reply.processOutgoingMessage(new Message(welcomeChallenge.getMessageId(),
                         new Chat(welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle()),
-                        response), false, 0).getAsLong()
+                        response), false,0).getAsLong()
         );
 
         // lazy kicker, wait 20 seconds before kick user out so he can read the message
@@ -122,7 +122,7 @@ public class WelcomeProcessFunctions {
         welcomeChallenge.addMessadeIdToDelete(
                 reply.processOutgoingMessage(new Message(welcomeChallenge.getMessageId(),
                         new Chat(welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle()),
-                        response), true, 20).getAsLong()
+                        response), false,0).getAsLong()
         );
         return welcomeChallenge;
     }
@@ -130,7 +130,7 @@ public class WelcomeProcessFunctions {
     public void deleteMessage(WelcomeChallenge welcomeChallenge) {
         log.info("Welcome Process - Deleting message id [" + Arrays.asList(welcomeChallenge.getMessadeIdToDelete()) + "] from [" + welcomeChallenge.getChatId() + "].");
         welcomeChallenge.getMessadeIdToDelete().stream().forEach(messageId ->
-                messageManagement.deleteMessage(welcomeChallenge.getChatId(), messageId, 20)
+                messageManagement.deleteMessage(welcomeChallenge.getChatId(), messageId, 30)
         );
     }
 

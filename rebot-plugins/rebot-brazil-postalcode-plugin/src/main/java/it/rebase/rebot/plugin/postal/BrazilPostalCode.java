@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.plugin.postal;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
@@ -40,6 +41,9 @@ public class BrazilPostalCode implements CommandProvider {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private Long DEFAULT_RESULT_LIMIT = 2L;
     private boolean RETURN_ONLY_UF = false;
+
+    @Inject
+    BotConfig config;
 
     @Inject
     private BrazilPostalCodeUtils service;
@@ -101,12 +105,12 @@ public class BrazilPostalCode implements CommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }

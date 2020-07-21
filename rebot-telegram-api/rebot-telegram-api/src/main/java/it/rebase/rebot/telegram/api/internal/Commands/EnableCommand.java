@@ -110,12 +110,12 @@ public class EnableCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }

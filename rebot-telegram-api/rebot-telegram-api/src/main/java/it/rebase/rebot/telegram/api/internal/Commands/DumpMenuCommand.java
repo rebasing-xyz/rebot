@@ -23,6 +23,7 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
@@ -39,6 +40,9 @@ import java.util.logging.Logger;
 public class DumpMenuCommand implements AdministrativeCommandProvider {
 
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+
+    @Inject
+    BotConfig config;
 
     @Inject
     private Instance<CommandProvider> command;
@@ -77,12 +81,12 @@ public class DumpMenuCommand implements AdministrativeCommandProvider {
     }
 
     @Override
-    public boolean removeMessage() {
-        return true;
+    public boolean deleteMessage() {
+        return config.deleteMessages();
     }
 
     @Override
     public long deleteMessageTimeout() {
-        return 10;
+        return config.deleteMessagesAfter();
     }
 }

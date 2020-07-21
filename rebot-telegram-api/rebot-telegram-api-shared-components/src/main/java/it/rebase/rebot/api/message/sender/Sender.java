@@ -40,4 +40,5 @@ public interface Sender {
      * after a few seconds.
      */
     OptionalLong processOutgoingMessage(Message message, boolean deleteSentMessage, long timeout);
+
 }

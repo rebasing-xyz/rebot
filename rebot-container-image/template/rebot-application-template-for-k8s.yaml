@@ -32,6 +32,16 @@ parameters:
   name: REBOT_TELEGRAM_USER_ID
   value: rebaseit_bot
   required: true
+- displayName: If true deletes all messages to/from bot.
+  description: "If true deletes all messages to/from bot."
+  name: REBOT_TELEGRAM_DELETE_MESSAGES
+  value: false
+  required: false
+- displayName: Defines how long a message to/from bot will survive. Time unit is seconds.
+  description: "Defines how long a message to/from bot will survive. Time unit is seconds."
+  name: REBOT_TELEGRAM_DELETE_MESSAGES_AFTER
+  value: 60
+  required: false
 - displayName: ReBot Telegram log level
   description: "Set the rebot log level, default is trace."
   name: REBOT_TELEGRAM_LOG_LEVEL
@@ -154,6 +164,10 @@ objects:
             value: "${REBOT_TELEGRAM_USER_ID}"
           - name: REBOT_TELEGRAM_CHAT_ID
             value: "${REBOT_TELEGRAM_CHAT_ID}"
+          - name: REBOT_TELEGRAM_DELETE_MESSAGES
+            value: "${REBOT_TELEGRAM_DELETE_MESSAGES}"
+          - name: REBOT_TELEGRAM_DELETE_MESSAGES_AFTER
+            value: "${REBOT_TELEGRAM_DELETE_MESSAGES_AFTER}"
           - name: REBOT_TELEGRAM_WEATHER_APP_ID
             value: "${REBOT_TELEGRAM_WEATHER_APP_ID}"
           - name: REBOT_TELEGRAM_WEATHER_CONSUMER_KEY
