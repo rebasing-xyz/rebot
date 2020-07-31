@@ -70,18 +70,16 @@
         <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
         <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
         <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
-        <io.quarkus.version>1.2.1.Final</io.quarkus.version>
-        <version.httpclient>4.5.3</version.httpclient>
+        <io.quarkus.version>1.6.1.Final</io.quarkus.version>
+        <version.httpclient>4.5.12</version.httpclient>
         <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
         <version.junit>4.12</version.junit>
         <version.org.mockito>2.12.0</version.org.mockito>
-        <version.org.kie.kogito>0.7.1</version.org.kie.kogito>
+        <version.org.kie.kogito>0.12.0</version.org.kie.kogito>
         <surefire-plugin.version>2.22.0</surefire-plugin.version>
         <version.surefire.plugin>2.20.1</version.surefire.plugin>
         <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <modules>
@@ -103,7 +101,7 @@
 
             <dependency>
                 <groupId>org.kie.kogito</groupId>
-                <artifactId>kogito-deps-bom</artifactId>
+                <artifactId>kogito-bom</artifactId>
                 <version>${version.org.kie.kogito}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -235,5 +233,18 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

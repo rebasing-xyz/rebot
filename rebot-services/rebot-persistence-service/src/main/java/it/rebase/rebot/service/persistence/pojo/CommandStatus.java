@@ -60,6 +60,8 @@ public class CommandStatus {
         this.isEnabled = isEnabled;
     }
 
+    public CommandStatus() { }
+
     public Long getId() {
         return id;
     }
