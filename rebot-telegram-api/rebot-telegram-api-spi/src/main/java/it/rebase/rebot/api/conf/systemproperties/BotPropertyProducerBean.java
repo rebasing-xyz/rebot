@@ -77,7 +77,8 @@ public class BotPropertyProducerBean {
         BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
         String property = readSysProperty(prop.name(), prop.value());
         try {
-            if (null == property) {
+            if (null == property || prop.value().isEmpty()) {
+                log.fine("No value for [" + prop.name() + "], defaulting to -1");
                 return -1;
             }
             int parsedProperty = Integer.parseInt(property);
@@ -89,7 +90,7 @@ public class BotPropertyProducerBean {
 
             return parsedProperty;
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("System Property [" + prop.name() + "] requires a integer value.");
+            throw new NumberFormatException("System Property [" + prop.name() + "] requires a integer value, provided is [" + prop.value() + "].");
         }
     }
 

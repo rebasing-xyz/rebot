@@ -24,7 +24,6 @@
 package it.rebase.rebot.telegram.api.message;
 
 import it.rebase.rebot.api.conf.BotConfig;
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.message.MessageManagement;
 import it.rebase.rebot.api.message.sender.MessageSender;
@@ -139,11 +138,13 @@ public class OutcomeMessageProcessor implements Processor {
             administrativeCommand.forEach(ac -> response.append(ac.name() + " - " + ac.description(locale) + "\n"));
             response.append(I18nHelper.resource("Administrative", locale, "internal.help.response"));
             reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()),
-                    true, 10);
+                    config.deleteMessages(), config.deleteMessagesAfter());
             // delete the command itself
-            messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                    messageUpdate.getMessage().getMessageId(),
-                    10);
+            if (config.deleteMessages()) {
+                messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
+                        messageUpdate.getMessage().getMessageId(),
+                        config.deleteMessagesAfter());
+            }
         }
 
         command.forEach(command -> {
