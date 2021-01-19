@@ -27,12 +27,6 @@ it.rebase.rebot.service.ping.Ping
 
 To create Plugin or Administrative command just rename the file to the fully qualified name of the target interface, for example:
 
-For the Plugin creation, you should add uder **resources/META-INF/services** the following file:
-
-```
-it.rebase.rebot.api.spi.PluginProvider
-```
-
 Example:
 
 This example will use the ReBot Ping Service:
@@ -88,7 +82,6 @@ And the project structure:
 rebot-services/rebot-ping-service/
 ├── pom.xml
 ├── README.md
-├── rebot-ping-service.iml
 └── src
     └── main
         ├── java
@@ -101,8 +94,7 @@ rebot-services/rebot-ping-service/
         └── resources
             └── beans.xml
 
-11 directories, 5 files
-
+11 directories, 4 files
 ```
 
 ### Other Features
@@ -118,7 +110,8 @@ private String myProperty;
 
 For global configurations use the `BotConfig` class.
 
-If the property is set to required and it is not set, the bot will fail to start.
+If the property is set to required and is not set, the bot will fail to start.
+
 
 ## Internationalization Plugin
 

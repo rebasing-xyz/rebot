@@ -62,7 +62,7 @@ public class BrazilPostalCode implements CommandProvider {
         boolean returnOnlyUf = RETURN_ONLY_UF;
         String query = key.get();
         for (String str : key.get().split(" ")) {
-            if (str.contains("--limit=")) {
+            if (str.contains("-limit=")) {
                 try {
                     limitResult = Long.parseLong(str.split("=")[1]);
                     log.fine("Result limit is " + limitResult);
@@ -74,7 +74,7 @@ public class BrazilPostalCode implements CommandProvider {
                 }
                 query = key.get().replace(str, "");
             }
-            if (str.contains("--uf")) {
+            if (str.contains("-uf")) {
                 returnOnlyUf = true;
                 limitResult = 1;
                 query = key.get().replace(str, "");
