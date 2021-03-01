@@ -23,8 +23,24 @@
 
 package it.rebase.rebot.plugin.notifier;
 
+import java.lang.invoke.MethodHandles;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+
 import io.quarkus.scheduler.Scheduled;
 import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.api.message.sender.MessageSender;
 import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -33,22 +49,7 @@ import it.rebase.rebot.plugin.pojo.LoadDailyOffer;
 import it.rebase.rebot.service.cache.qualifier.DefaultCache;
 import it.rebase.rebot.service.persistence.pojo.PacktNotification;
 import it.rebase.rebot.service.persistence.repository.PacktRepository;
-import it.rebase.rebot.api.message.sender.MessageSender;
 import org.infinispan.Cache;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-import java.lang.invoke.MethodHandles;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class PacktNotifier {
@@ -90,7 +91,7 @@ public class PacktNotifier {
 
             Client client = ClientBuilder.newClient();
             WebTarget loadDailyOfferWebTarget = client.target(String.format(PACKT_LOAD_OFFER_ENDPOINT, localDate.format(formatter),
-                    localDate.plus(1, ChronoUnit.DAYS).format(formatter)));
+                                                                            localDate.plus(1, ChronoUnit.DAYS).format(formatter)));
 
             log.fine("Loading daily pack offer with URI: " + loadDailyOfferWebTarget.getUri());
 
@@ -117,10 +118,9 @@ public class PacktNotifier {
             cache.put("book", dailyOffer);
 
             repository.get().stream().forEach(packtNotification ->
-                    this.notify(packtNotification.getChatId(),
-                        packtNotification.getLocale())
+                                                      this.notify(packtNotification.getChatId(),
+                                                                  packtNotification.getLocale())
             );
-
         } catch (final Exception e) {
             e.printStackTrace();
             log.warning("Failed to obtain the ebook information: " + e.getMessage());
@@ -135,8 +135,8 @@ public class PacktNotifier {
             channel = message.getMessage().getFrom().getFirstName();
         }
         return repository.register(new PacktNotification(message.getMessage().getChat().getId(),
-                channel,
-               locale));
+                                                         channel,
+                                                         locale));
     }
 
     public String unregisterNotification(MessageUpdate message, String locale) {
@@ -147,8 +147,8 @@ public class PacktNotifier {
             channel = message.getMessage().getFrom().getFirstName();
         }
         return repository.unregister(new PacktNotification(message.getMessage().getChat().getId(),
-                channel,
-                locale));
+                                                           channel,
+                                                           locale));
     }
 
     private void notify(Long chatId, String locale) {

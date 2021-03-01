@@ -23,6 +23,14 @@
 
 package it.rebase.rebot.plugin.welcome.test;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import io.quarkus.test.junit.QuarkusTest;
 import it.rebase.rebot.plugin.welcome.WelcomeMessagePlugin;
 import it.rebase.rebot.plugin.welcome.kogito.WelcomeChallenge;
@@ -36,13 +44,6 @@ import org.kie.kogito.auth.SecurityPolicy;
 import org.kie.kogito.process.Process;
 import org.kie.kogito.process.ProcessInstance;
 import org.kie.kogito.process.WorkItem;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -106,7 +107,6 @@ public class WelcomeProcessTest {
         assertEquals(ProcessInstance.STATE_COMPLETED, processInstance.status());
     }
 
-
     @Test
     public void testWelcomeChallengeProcessTimeout() throws InterruptedException {
 
@@ -116,7 +116,6 @@ public class WelcomeProcessTest {
         challenge.setNewComerBot(false);
         challenge.setChatTitle("Test-1");
         challenge.setChatId(-12345);
-
 
         Model model = welcomeProcess.createModel();
         Map<String, Object> parameters = new HashMap<>();

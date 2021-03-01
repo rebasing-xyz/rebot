@@ -23,13 +23,12 @@
 
 package it.rebase.rebot;
 
-import it.rebase.rebot.api.object.MessageUpdate;
-import it.rebase.rebot.telegram.api.UpdatesReceiver;
-import it.rebase.rebot.telegram.api.message.OutcomeMessageProcessor;
-import it.rebase.rebot.telegram.api.polling.ReBotLongPoolingBot;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+
+import it.rebase.rebot.api.object.MessageUpdate;
+import it.rebase.rebot.telegram.api.message.OutcomeMessageProcessor;
+import it.rebase.rebot.telegram.api.polling.ReBotLongPoolingBot;
 
 @ApplicationScoped
 public class ReBot implements ReBotLongPoolingBot {
@@ -41,5 +40,4 @@ public class ReBot implements ReBotLongPoolingBot {
     public void onUpdateReceived(MessageUpdate update) {
         msg.process(update);
     }
-
 }

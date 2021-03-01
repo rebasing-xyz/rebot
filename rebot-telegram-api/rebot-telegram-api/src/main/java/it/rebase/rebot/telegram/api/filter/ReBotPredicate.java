@@ -26,7 +26,6 @@ package it.rebase.rebot.telegram.api.filter;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
-import it.rebase.rebot.api.object.ChatAdministrator;
 import it.rebase.rebot.api.object.MessageUpdate;
 
 import static it.rebase.rebot.telegram.api.utils.StringUtils.concat;

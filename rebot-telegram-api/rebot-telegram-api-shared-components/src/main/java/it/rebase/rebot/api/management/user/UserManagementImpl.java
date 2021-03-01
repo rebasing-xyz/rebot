@@ -24,6 +24,20 @@
 
 package it.rebase.rebot.api.management.user;
 
+import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.conf.BotConfig;
@@ -41,19 +55,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 import static it.rebase.rebot.api.shared.filter.RebotSharedFilter.isPrivateChat;
 import static it.rebase.rebot.api.shared.filter.RebotSharedFilter.isUserAdmin;
@@ -252,8 +253,8 @@ public class UserManagementImpl implements UserManagement {
                 }
 
                 TelegramResponse<ArrayList<ChatAdministrator>> chatAdministrators = objectMapper.readValue(responseContent,
-                        new TypeReference<TelegramResponse<ArrayList<ChatAdministrator>>>() {
-                        });
+                                                                                                           new TypeReference<TelegramResponse<ArrayList<ChatAdministrator>>>() {
+                                                                                                           });
 
                 log.fine(chatAdministrators.toString());
                 return chatAdministrators.getResult();
@@ -264,6 +265,4 @@ public class UserManagementImpl implements UserManagement {
             return new ArrayList<>();
         }
     }
-
-
 }

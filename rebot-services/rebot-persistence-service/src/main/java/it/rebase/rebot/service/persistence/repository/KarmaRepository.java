@@ -23,7 +23,10 @@
 
 package it.rebase.rebot.service.persistence.repository;
 
-import it.rebase.rebot.service.persistence.pojo.Karma;
+import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,10 +35,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.service.persistence.pojo.Karma;
 
 @Transactional
 @ApplicationScoped
@@ -68,7 +69,6 @@ public class KarmaRepository {
                     .where(criteriaBuilder.like(karma.get("username"), key))
                     .orderBy(criteriaBuilder.asc(karma.get("username")));
             return em.createQuery(karmaQuery).getResultList();
-
         } catch (final Exception e) {
             log.fine("list() - There is no karma for [" + key + "]");
             return Arrays.asList(new Karma(key, "0"));
@@ -84,5 +84,4 @@ public class KarmaRepository {
             log.warning("Failed to persist object [" + karma.toString() + "]: " + e.getMessage());
         }
     }
-
 }

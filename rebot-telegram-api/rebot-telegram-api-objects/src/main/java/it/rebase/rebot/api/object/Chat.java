@@ -26,6 +26,7 @@ package it.rebase.rebot.api.object;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -55,7 +56,8 @@ public class Chat implements Serializable {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Chat() {}
+    public Chat() {
+    }
 
     public Chat(long id, String title) {
         this.id = id;

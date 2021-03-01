@@ -23,8 +23,17 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -32,16 +41,6 @@ import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class ListAvailablePluginsOrCommands implements AdministrativeCommandProvider {
@@ -74,7 +73,7 @@ public class ListAvailablePluginsOrCommands implements AdministrativeCommandProv
         } else {
             List<String> avialableResources = new ArrayList<>();
             command.stream().forEach(c -> {
-               avialableResources.add(c.name().replace("/",""));
+                avialableResources.add(c.name().replace("/", ""));
             });
             plugin.stream().forEach(p -> {
                 avialableResources.add(p.name());

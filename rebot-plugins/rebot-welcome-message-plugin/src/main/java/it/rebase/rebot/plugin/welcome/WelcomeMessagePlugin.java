@@ -23,18 +23,32 @@
 
 package it.rebase.rebot.plugin.welcome;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.emojis.Emoji;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.message.MessageManagement;
+import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.api.message.sender.MessageSender;
 import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.ChatMember;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
-import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.plugin.welcome.kogito.WelcomeChallenge;
 import org.jbpm.process.instance.impl.humantask.HumanTaskTransition;
 import org.jbpm.process.instance.impl.humantask.phases.Claim;
@@ -45,19 +59,6 @@ import org.kie.kogito.process.Process;
 import org.kie.kogito.process.ProcessInstance;
 import org.kie.kogito.process.WorkItem;
 import org.kie.kogito.services.identity.StaticIdentityProvider;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 import static it.rebase.rebot.plugin.welcome.filter.WelcomePluginPredicate.hasMemberLeft;
 import static it.rebase.rebot.plugin.welcome.filter.WelcomePluginPredicate.hasNewMember;
@@ -103,11 +104,10 @@ public class WelcomeMessagePlugin implements PluginProvider {
 
         if (leftMember.test(messageUpdate)) {
             long id = reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
-                    new Chat(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()),
-                    leftChatMemberMessage(messageUpdate, locale)),false, 0).getAsLong();
+                                                               new Chat(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()),
+                                                               leftChatMemberMessage(messageUpdate, locale)), false, 0).getAsLong();
             // TODO remove after the delete message stuff is in place.
             messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(), id, 30);
-
         } else {
 
             StringBuilder response = new StringBuilder();
@@ -121,7 +121,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
                     String username = null != member.getUsername() ? member.getUsername() : member.getFirst_name();
                     // add user+chatId to make sure that if the user joined two chat rooms at the same time the process will
                     // not get confused and handle the process wrongly
-                    username = username + "-" +messageUpdate.getMessage().getChat().getId();
+                    username = username + "-" + messageUpdate.getMessage().getChat().getId();
 
                     WelcomeChallenge challenge = new WelcomeChallenge(username);
                     challenge.setUserId(member.getId());
@@ -147,18 +147,16 @@ public class WelcomeMessagePlugin implements PluginProvider {
                         List<WorkItem> workItems = processInstance.workItems(policy);
                         processInstance.transitionWorkItem(workItems.get(0).getId(), new HumanTaskTransition(Claim.ID, parameters, policy));
                     }
-
                 }
                 // msgs will be handled internally if there is more than 1 new member at the same time.
                 // so return null.
                 return null;
-
             } else if (instances.size() > 0) {
                 String username = null != messageUpdate.getMessage().getFrom().getUsername()
                         ? messageUpdate.getMessage().getFrom().getUsername() : messageUpdate.getMessage().getFrom().getFirstName();
                 // add user+chatId to make sure that if the user joined two chat rooms at the same time the process will
                 // not get confused and handle the process wrongly
-                username = username + "-" +messageUpdate.getMessage().getChat().getId();
+                username = username + "-" + messageUpdate.getMessage().getChat().getId();
                 SecurityPolicy policy = securityProviderForUser(username);
 
                 instances.stream().forEach(instance -> {
@@ -175,13 +173,11 @@ public class WelcomeMessagePlugin implements PluginProvider {
                         challenge.addMessadeIdToDelete(messageUpdate.getMessage().getMessageId());
 
                         instance.transitionWorkItem(workItems.get(0).getId(),
-                                new HumanTaskTransition(Complete.ID, results, policy));
-
+                                                    new HumanTaskTransition(Complete.ID, results, policy));
                     }
                 });
                 return response.toString();
             }
-
         }
         //not expected to reach this point
         return null;
@@ -217,8 +213,8 @@ public class WelcomeMessagePlugin implements PluginProvider {
     private String leftChatMemberMessage(MessageUpdate update, String locale) {
         final Message message = new Message();
         message.setText(String.format(I18nHelper.resource("Welcome", locale, "traitor"),
-                chatMember(update).get(0).getFirst_name(),
-                Emoji.ANGRY_FACE));
+                                      chatMember(update).get(0).getFirst_name(),
+                                      Emoji.ANGRY_FACE));
         return message.getText();
     }
 

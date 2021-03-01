@@ -23,18 +23,19 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class DumpMenuCommand implements AdministrativeCommandProvider {
@@ -59,7 +60,7 @@ public class DumpMenuCommand implements AdministrativeCommandProvider {
         StringBuilder response = new StringBuilder();
         command.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description(locale) + "\n"));
         administrativeCommand.forEach(c -> response.append(c.name().replace("/", "") + " - " + c.description(locale) + "\n"));
-        response.append( I18nHelper.resource("Administrative", locale, "dump.command.append.help"));
+        response.append(I18nHelper.resource("Administrative", locale, "dump.command.append.help"));
         return response.toString();
     }
 
@@ -77,7 +78,7 @@ public class DumpMenuCommand implements AdministrativeCommandProvider {
 
     @Override
     public String description(String locale) {
-        return  I18nHelper.resource("Administrative", locale, "dump.command.description");
+        return I18nHelper.resource("Administrative", locale, "dump.command.description");
     }
 
     @Override

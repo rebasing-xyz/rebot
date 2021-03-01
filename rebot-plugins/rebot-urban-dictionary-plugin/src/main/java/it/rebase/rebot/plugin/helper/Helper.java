@@ -23,14 +23,6 @@
 
 package it.rebase.rebot.plugin.helper;
 
-import it.rebase.rebot.plugin.client.UrbanDictionaryClient;
-import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
-import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
-import it.rebase.rebot.service.cache.qualifier.UrbanDictionaryCache;
-import org.infinispan.Cache;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -38,6 +30,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import it.rebase.rebot.plugin.client.UrbanDictionaryClient;
+import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
+import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
+import it.rebase.rebot.service.cache.qualifier.UrbanDictionaryCache;
+import org.infinispan.Cache;
 
 @ApplicationScoped
 public class Helper {
@@ -69,7 +70,6 @@ public class Helper {
                 } catch (NumberFormatException e) {
                     return "Parameter " + parameters[i] + " is not valid.";
                 }
-
             } else if (parameters[i].equals("-e")) {
                 showExample = true;
             } else {
@@ -137,8 +137,9 @@ public class Helper {
                 List<CustomTermResponse> itemsWithNoExample = cacheItems.stream().filter(item -> item.getExample() == null).collect(Collectors.toList());
                 if (itemsWithNoExample.size() > 0 || cacheItems.size() != numberOfResults) {
                     log.fine(term + " is available on cache but some information is missing.");
-                    if (showExample)
+                    if (showExample) {
                         builder.showExample();
+                    }
                     client = builder.term(term).numberOfResults(numberOfResults).build();
                     List<CustomTermResponse> ubResult = client.execute();
                     cache.replace(term.trim(), ubResult, 1, TimeUnit.DAYS);
@@ -150,12 +151,12 @@ public class Helper {
             }
         }
         log.fine(term + " is not available on cache, making a new request.");
-        if (showExample)
+        if (showExample) {
             builder.showExample();
+        }
         client = builder.term(term).numberOfResults(numberOfResults).build();
         List<CustomTermResponse> ubResult = client.execute();
         cache.putIfAbsent(term.trim(), ubResult, 1, TimeUnit.DAYS);
         return ubResult;
     }
-
 }

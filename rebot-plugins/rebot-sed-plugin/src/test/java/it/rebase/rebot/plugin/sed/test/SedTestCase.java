@@ -23,6 +23,10 @@
 
 package it.rebase.rebot.plugin.sed.test;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import it.rebase.rebot.api.object.From;
 import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -30,10 +34,6 @@ import it.rebase.rebot.plugin.sed.processor.SedResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class SedTestCase {
 
@@ -53,7 +53,6 @@ public class SedTestCase {
         messageUpdate = new MessageUpdate();
         messageUpdate.setMessage(message);
     }
-
 
     private final List<String> valuesFalse = Arrays.asList(
             "hello",

@@ -24,10 +24,17 @@
 
 package it.rebase.rebot.telegram.api;
 
+import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.conf.BotConfig;
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
 import it.rebase.rebot.api.object.GetUpdatesConfProducer;
 import it.rebase.rebot.api.object.Message;
@@ -44,13 +51,6 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class UpdatesReceiver implements Runnable {
@@ -122,7 +122,7 @@ public class UpdatesReceiver implements Runnable {
     public void disable(Message message) {
         log.info("Disabling bot, requested by " + message.getFrom().toString());
         apiRepository.persist(new BotStatus(false, message.getFrom(),
-                message.getChat().getId()));
+                                            message.getChat().getId()));
     }
 
     /**
@@ -168,8 +168,8 @@ public class UpdatesReceiver implements Runnable {
                     }
 
                     TelegramResponse<ArrayList<MessageUpdate>> updates = objectMapper.readValue(responseContent,
-                            new TypeReference<TelegramResponse<ArrayList<MessageUpdate>>>() {
-                            });
+                                                                                                new TypeReference<TelegramResponse<ArrayList<MessageUpdate>>>() {
+                                                                                                });
 
                     if (null == updates.getResult()) {
                         this.wait(1000);
@@ -200,7 +200,6 @@ public class UpdatesReceiver implements Runnable {
                             });
                     // wait 600ms before check for updates
                     this.wait(600);
-
                 }
             } catch (final Exception e) {
                 e.printStackTrace();

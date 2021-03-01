@@ -23,19 +23,6 @@
 
 package it.rebase.rebot.plugin.yahoo;
 
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
-import it.rebase.rebot.api.i18n.I18nHelper;
-import it.rebase.rebot.plugin.yahoo.pojo.Condition;
-import it.rebase.rebot.plugin.yahoo.pojo.YahooQueryResponse;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.lang.invoke.MethodHandles;
 import java.net.URLEncoder;
@@ -48,6 +35,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+
+import it.rebase.rebot.api.conf.systemproperties.BotProperty;
+import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.plugin.yahoo.pojo.Condition;
+import it.rebase.rebot.plugin.yahoo.pojo.YahooQueryResponse;
 
 @ApplicationScoped
 public class YahooWeatherProvider {
@@ -98,7 +99,6 @@ public class YahooWeatherProvider {
             return String.format(
                     I18nHelper.resource("Weather", locale, "forecast.not.found"),
                     location);
-
         } else {
             Condition condition = yahooQueryResponse.getCurrent_observation().getCondition();
             String city = yahooQueryResponse.getLocation().getCity();

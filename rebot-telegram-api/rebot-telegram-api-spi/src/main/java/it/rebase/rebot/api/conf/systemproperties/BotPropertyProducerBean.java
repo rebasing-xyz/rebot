@@ -23,16 +23,17 @@
 
 package it.rebase.rebot.api.conf.systemproperties;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 
 /**
  * {@link BotProperty} String producer

@@ -23,14 +23,15 @@
 
 package it.rebase.rebot.service.persistence.repository;
 
-import it.rebase.rebot.service.persistence.pojo.Fact;
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.service.persistence.pojo.Fact;
 
 @Transactional
 @ApplicationScoped

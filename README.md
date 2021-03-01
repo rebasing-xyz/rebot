@@ -13,5 +13,11 @@ your Bot Token and Username.
 
 For more details about each module, please visit its README file.
 
+
+## Code Style
+
+This project uses a similar Java code style than https://github.com/kiegroup/droolsjbpm-build-bootstrap/tree/master/ide-configuration
+
+
 ### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it

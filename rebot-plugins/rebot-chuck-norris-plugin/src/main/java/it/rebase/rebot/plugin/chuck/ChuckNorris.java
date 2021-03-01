@@ -23,18 +23,19 @@
 
 package it.rebase.rebot.plugin.chuck;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.plugin.chuck.utils.Utils;
 import it.rebase.rebot.service.persistence.pojo.Fact;
 import it.rebase.rebot.service.persistence.repository.ChuckRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 @ApplicationScoped
 public class ChuckNorris implements PluginProvider {

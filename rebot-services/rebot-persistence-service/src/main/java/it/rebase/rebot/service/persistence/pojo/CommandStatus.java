@@ -23,18 +23,13 @@
 
 package it.rebase.rebot.service.persistence.pojo;
 
-import it.rebase.rebot.api.object.From;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.transaction.Transactional;
-import java.time.Instant;
 
 @Entity(name = "COMMAND_STATUS")
 @Table(name = "COMMAND_STATUS")
@@ -60,7 +55,8 @@ public class CommandStatus {
         this.isEnabled = isEnabled;
     }
 
-    public CommandStatus() { }
+    public CommandStatus() {
+    }
 
     public Long getId() {
         return id;

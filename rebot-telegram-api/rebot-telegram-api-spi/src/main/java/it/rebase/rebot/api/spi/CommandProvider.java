@@ -23,9 +23,9 @@
 
 package it.rebase.rebot.api.spi;
 
-import it.rebase.rebot.api.object.MessageUpdate;
-
 import java.util.Optional;
+
+import it.rebase.rebot.api.object.MessageUpdate;
 
 public interface CommandProvider {
 
@@ -39,7 +39,7 @@ public interface CommandProvider {
      *
      * @param key           command parameters
      * @param messageUpdate message update
-     * @param locale locale
+     * @param locale        locale
      * @return the query result based on the key
      */
     Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale);
@@ -57,6 +57,7 @@ public interface CommandProvider {
 
     /**
      * method to be used with the dump command.
+     *
      * @param locale
      * @return a brief description about the command
      */
@@ -64,6 +65,7 @@ public interface CommandProvider {
 
     /**
      * Flag to specify if the messages handled by the given plugin will be removed or not.
+     *
      * @return false or true, if true the messages handled by the given plugin will be removed.
      */
     boolean deleteMessage();
@@ -71,6 +73,7 @@ public interface CommandProvider {
     /**
      * The given timeout will be used to define how long the target message will survive in the chat.
      * Unit in Seconds
+     *
      * @return the configured timeout, this value will be used to delete messages
      */
     long deleteMessageTimeout();

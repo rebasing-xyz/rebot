@@ -23,16 +23,17 @@
 
 package it.rebase.rebot.api.httpclient;
 
+import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-
-import java.util.List;
 
 public interface IBotCloseableHttpClient {
 
     /**
      * CloseableHttpClient
+     *
      * @return {@link CloseableHttpClient}
      */
     CloseableHttpClient get();
@@ -40,13 +41,13 @@ public interface IBotCloseableHttpClient {
     /**
      * build the http post request
      * Example of parameters:
-     *       List&#60;org.apache.http.message.BasicNameValuePair&#62; params = new ArrayList&#60;&#62;();
-     *       params.add(new BasicNameValuePair("chat_id", chatId));
-     *       params.add(new BasicNameValuePair("user_id", userId));
-     * @param url target http post
+     * List&#60;org.apache.http.message.BasicNameValuePair&#62; params = new ArrayList&#60;&#62;();
+     * params.add(new BasicNameValuePair("chat_id", chatId));
+     * params.add(new BasicNameValuePair("user_id", userId));
+     *
+     * @param url    target http post
      * @param params list of http parameters
      * @return a ready to consume http post payload.
      */
     HttpPost httpPost(String url, List<NameValuePair> params);
-
 }

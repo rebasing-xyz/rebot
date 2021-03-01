@@ -23,18 +23,19 @@
 
 package it.rebase.rebot.api.httpclient;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @ApplicationScoped
 public class BotCloseableHttpClient implements IBotCloseableHttpClient {

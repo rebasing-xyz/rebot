@@ -1,5 +1,8 @@
 package it.rebase.rebot.service.persistence.api;
 
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
 import io.quarkus.test.junit.QuarkusTest;
 import it.rebase.rebot.service.persistence.pojo.CommandStatus;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
@@ -8,9 +11,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -48,6 +48,4 @@ public class CommandTest {
         Assertions.assertTrue(repository.isCommandEnabled(-1, "command1"));
         Assertions.assertTrue(repository.isCommandEnabled(-1, "command2"));
     }
-
-
 }

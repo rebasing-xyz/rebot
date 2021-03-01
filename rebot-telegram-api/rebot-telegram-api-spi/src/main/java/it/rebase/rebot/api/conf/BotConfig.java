@@ -1,9 +1,9 @@
 package it.rebase.rebot.api.conf;
 
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+
+import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 
 @ApplicationScoped
 public class BotConfig {

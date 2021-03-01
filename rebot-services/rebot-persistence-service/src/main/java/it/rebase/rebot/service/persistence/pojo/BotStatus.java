@@ -23,7 +23,7 @@
 
 package it.rebase.rebot.service.persistence.pojo;
 
-import it.rebase.rebot.api.object.From;
+import java.time.Instant;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -31,7 +31,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.Instant;
+
+import it.rebase.rebot.api.object.From;
 
 @Entity
 @Table(name = "BOT_STATUS")

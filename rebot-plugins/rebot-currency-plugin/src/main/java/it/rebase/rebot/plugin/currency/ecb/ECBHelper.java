@@ -23,10 +23,10 @@
 
 package it.rebase.rebot.plugin.currency.ecb;
 
-import it.rebase.rebot.service.persistence.pojo.Cube;
-
 import java.text.DecimalFormat;
 import java.util.Optional;
+
+import it.rebase.rebot.service.persistence.pojo.Cube;
 
 public class ECBHelper {
 
@@ -48,12 +48,10 @@ public class ECBHelper {
             Double finalConversion = formatNumber(targetCurrency.get().getRate() * base);
             return finalConversion;
         }
-
     }
 
     private static double formatNumber(Double number) {
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         return Double.parseDouble(decimalFormat.format(number));
     }
-
 }
