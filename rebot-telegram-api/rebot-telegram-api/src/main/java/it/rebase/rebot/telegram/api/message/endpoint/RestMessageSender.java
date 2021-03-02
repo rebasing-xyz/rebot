@@ -23,9 +23,8 @@
 
 package it.rebase.rebot.telegram.api.message.endpoint;
 
-import it.rebase.rebot.api.object.Chat;
-import it.rebase.rebot.api.object.Message;
-import it.rebase.rebot.api.message.sender.MessageSender;
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,8 +32,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.api.message.sender.MessageSender;
+import it.rebase.rebot.api.object.Chat;
+import it.rebase.rebot.api.object.Message;
 
 @Path("/message")
 @ApplicationScoped
@@ -50,7 +51,7 @@ public class RestMessageSender {
     public Response send(@PathParam("chatId") Long chatId, @PathParam("message") String message) {
         log.fine("Rest Endpoint called, trying to send the message: [" + message + "] to  chat id [" + chatId + "]");
         try {
-            sender.processOutgoingMessage(buildMessage(chatId, message), false,0L);
+            sender.processOutgoingMessage(buildMessage(chatId, message), false, 0L);
             return Response.ok("Message Sent").build();
         } catch (final Exception e) {
             return Response.serverError().entity(e.getMessage()).build();

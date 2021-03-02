@@ -23,6 +23,12 @@
 
 package it.rebase.rebot.plugin.test;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import it.rebase.rebot.plugin.currency.ecb.AvailableCurrencies;
 import it.rebase.rebot.plugin.currency.ecb.EcbSaxHandler;
 import org.apache.http.HttpResponse;
@@ -36,11 +42,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.IOException;
 
 @Ignore
 public class SaxParserTest {
@@ -81,7 +82,6 @@ public class SaxParserTest {
         handler.cubes().getCubes().forEach(cube -> {
             AvailableCurrencies.valueOf(cube.getCurrency());
         });
-
     }
 
     private CloseableHttpClient client() {

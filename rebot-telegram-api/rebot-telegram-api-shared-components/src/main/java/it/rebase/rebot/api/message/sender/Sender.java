@@ -24,21 +24,20 @@
 
 package it.rebase.rebot.api.message.sender;
 
-import it.rebase.rebot.api.object.Message;
-
 import java.util.OptionalLong;
+
+import it.rebase.rebot.api.object.Message;
 
 public interface Sender {
 
     /**
      * Verifies if a message can be sent, null or empty messages will be ignored
      *
-     * @param message to be sent
+     * @param message           to be sent
      * @param deleteSentMessage boolean flag to determine if the message to be sent will be deleted or not.
-     * @param timeout if the boolean flag is true, how long the sent message will survive in the chat.
+     * @param timeout           if the boolean flag is true, how long the sent message will survive in the chat.
      * @return the message ID, in some cases we need to delete the previously sent message
      * after a few seconds.
      */
     OptionalLong processOutgoingMessage(Message message, boolean deleteSentMessage, long timeout);
-
 }

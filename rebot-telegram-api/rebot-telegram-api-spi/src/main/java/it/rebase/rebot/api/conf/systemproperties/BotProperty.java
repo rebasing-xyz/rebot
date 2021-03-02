@@ -23,17 +23,18 @@
 
 package it.rebase.rebot.api.conf.systemproperties;
 
-import javax.enterprise.util.Nonbinding;
-import javax.inject.Qualifier;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.enterprise.util.Nonbinding;
+import javax.inject.Qualifier;
+
 /**
  * Qualifier for te Bot Properties
  * Example:
- *  <pre>
+ * <pre>
  *  &#064;BotProperty(name = "it.rebase.rebot.myproperty", required = true)
  *  Object myProperty;
  *  </pre>
@@ -45,6 +46,7 @@ public @interface BotProperty {
 
     /**
      * The System Property name
+     *
      * @return its name
      */
     @Nonbinding String name();
@@ -52,6 +54,7 @@ public @interface BotProperty {
     /**
      * Make a property required
      * Default is false
+     *
      * @return none
      */
     @Nonbinding boolean required() default false;
@@ -59,8 +62,8 @@ public @interface BotProperty {
     /**
      * Predefine a property value
      * no default value.
+     *
      * @return its value.
      */
     @Nonbinding String value() default "";
-
 }

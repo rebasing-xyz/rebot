@@ -23,6 +23,14 @@
 
 package it.rebase.rebot.plugin.currency.ecb;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import io.quarkus.scheduler.Scheduled;
 import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
 import it.rebase.rebot.service.persistence.repository.EcbRepository;
@@ -33,14 +41,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.infinispan.Cache;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class ECBClient {
@@ -86,5 +86,4 @@ public class ECBClient {
                 .build();
         return HttpClients.custom().setDefaultRequestConfig(config).build();
     }
-
 }

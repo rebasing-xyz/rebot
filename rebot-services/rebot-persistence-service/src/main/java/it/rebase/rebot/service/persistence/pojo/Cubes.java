@@ -23,6 +23,9 @@
 
 package it.rebase.rebot.service.persistence.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,8 +36,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "ECB_CUBES")
 @Table(name = "ECB_CUBES")
@@ -45,7 +46,7 @@ public class Cubes {
     @Column(name = "time", nullable = false)
     private String time;
 
-    @OneToMany(fetch= FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "CUBES_HISTORY", joinColumns = {@JoinColumn(name = "time")}, inverseJoinColumns = {@JoinColumn(name = "cubeId")})
     private List<Cube> cubes = new ArrayList<>();
 

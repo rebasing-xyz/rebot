@@ -23,11 +23,11 @@
 
 package it.rebase.rebot.api.object;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.io.Serializable;
 
 @JsonIgnoreProperties(
         ignoreUnknown = true
@@ -74,7 +74,8 @@ public class TelegramResponse<T> implements Serializable {
     public boolean hasError() {
         if (null != this.errorDescription) {
             return true;
+        } else {
+            return false;
         }
-        else return false;
     }
 }

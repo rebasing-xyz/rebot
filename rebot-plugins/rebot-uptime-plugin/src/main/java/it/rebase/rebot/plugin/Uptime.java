@@ -22,18 +22,19 @@
  */
 package it.rebase.rebot.plugin;
 
-import it.rebase.rebot.api.conf.BotConfig;
-import it.rebase.rebot.api.i18n.I18nHelper;
-import it.rebase.rebot.api.object.MessageUpdate;
-import it.rebase.rebot.api.spi.CommandProvider;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import it.rebase.rebot.api.conf.BotConfig;
+import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.api.object.MessageUpdate;
+import it.rebase.rebot.api.spi.CommandProvider;
 
 @ApplicationScoped
 public class Uptime implements CommandProvider {

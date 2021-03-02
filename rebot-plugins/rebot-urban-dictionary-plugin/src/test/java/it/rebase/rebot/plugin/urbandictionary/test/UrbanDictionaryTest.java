@@ -23,15 +23,14 @@
 
 package it.rebase.rebot.plugin.urbandictionary.test;
 
+import java.io.UnsupportedEncodingException;
+
 import it.rebase.rebot.plugin.client.UrbanDictionaryClient;
 import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.UnsupportedEncodingException;
-
 public class UrbanDictionaryTest {
-
 
     @Test
     public void testUbClientBuilderDefaultValues() {

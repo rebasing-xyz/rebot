@@ -23,17 +23,18 @@
 
 package it.rebase.rebot.plugin.postal;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.plugin.postal.utils.BrazilPostalCodeUtils;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class BrazilPostalCode implements CommandProvider {
@@ -68,8 +69,8 @@ public class BrazilPostalCode implements CommandProvider {
                     log.fine("Result limit is " + limitResult);
                 } catch (final Exception e) {
                     log.warning(String.format("Failed to parse %s, error message: %s",
-                            str.split("="),
-                            e.getMessage()));
+                                              str.split("="),
+                                              e.getMessage()));
                     log.warning(String.format("Defaulting to %d", limitResult));
                 }
                 query = key.get().replace(str, "");
@@ -83,8 +84,7 @@ public class BrazilPostalCode implements CommandProvider {
 
         return key.get().length() > 0 ? service.query(query, limitResult, returnOnlyUf, locale) :
                 String.format(I18nHelper.resource("PostalCodeMessages",
-                        locale, "usage"), this.name());
-
+                                                  locale, "usage"), this.name());
     }
 
     @Override

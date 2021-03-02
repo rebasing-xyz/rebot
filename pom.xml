@@ -24,227 +24,282 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Telegram API Bot Parent</name>
-    <url>https://github.com/rebase-it/rebot</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Telegram API Bot Parent</name>
+  <url>https://github.com/rebase-it/rebot</url>
 
-    <description>
-        ReBot parent pom
-    </description>
+  <description>
+    ReBot parent pom
+  </description>
 
-    <parent>
-        <groupId>it.rebase</groupId>
-        <artifactId>parent-pom</artifactId>
-        <version>0.2</version>
-    </parent>
-
+  <parent>
     <groupId>it.rebase</groupId>
-    <artifactId>rebot-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <artifactId>parent-pom</artifactId>
+    <version>0.2</version>
+  </parent>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebase-it/rebot/tree/master/LICENSE</url>
-        </license>
-    </licenses>
+  <groupId>it.rebase</groupId>
+  <artifactId>rebot-parent</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <developers>
-        <developer>
-            <id>rebaseit</id>
-            <name>Rebase.it</name>
-            <email>just@rebase.it</email>
-            <url>https://rebase.it</url>
-            <organizationUrl>https://github.com/rebase-it</organizationUrl>
-        </developer>
-    </developers>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebase-it/rebot/tree/master/LICENSE</url>
+    </license>
+  </licenses>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
-        <url>https://github.com/rebase-it/rebot</url>
-        <tag>HEAD</tag>
-    </scm>
+  <developers>
+    <developer>
+      <id>rebaseit</id>
+      <name>Rebase.it</name>
+      <email>just@rebase.it</email>
+      <url>https://rebase.it</url>
+      <organizationUrl>https://github.com/rebase-it</organizationUrl>
+    </developer>
+  </developers>
 
-    <properties>
-        <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
-        <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
-        <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
-        <io.quarkus.version>1.6.1.Final</io.quarkus.version>
-        <version.httpclient>4.5.12</version.httpclient>
-        <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
-        <version.junit>4.13.1</version.junit>
-        <version.org.mockito>2.12.0</version.org.mockito>
-        <version.org.kie.kogito>0.12.0</version.org.kie.kogito>
-        <surefire-plugin.version>2.22.0</surefire-plugin.version>
-        <version.surefire.plugin>2.20.1</version.surefire.plugin>
-        <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+  <scm>
+    <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
+    <url>https://github.com/rebase-it/rebot</url>
+    <tag>HEAD</tag>
+  </scm>
 
-    <modules>
-        <module>rebot-services</module>
-        <module>rebot-plugins</module>
-        <module>rebot-telegram</module>
-        <module>rebot-telegram-api</module>
-    </modules>
+  <properties>
+    <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
+    <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
+    <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
+    <io.quarkus.version>1.6.1.Final</io.quarkus.version>
+    <version.httpclient>4.5.12</version.httpclient>
+    <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
+    <version.junit>4.13.1</version.junit>
+    <version.org.mockito>2.12.0</version.org.mockito>
+    <version.org.kie.kogito>0.12.0</version.org.kie.kogito>
+    <surefire-plugin.version>2.22.0</surefire-plugin.version>
+    <version.surefire.plugin>2.20.1</version.surefire.plugin>
+    <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>
+    <version.maven.checkstyle.plugin>3.1.1</version.maven.checkstyle.plugin>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-bom</artifactId>
-                <version>${io.quarkus.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+  <modules>
+    <module>rebot-services</module>
+    <module>rebot-plugins</module>
+    <module>rebot-telegram</module>
+    <module>rebot-telegram-api</module>
+  </modules>
 
-            <dependency>
-                <groupId>org.kie.kogito</groupId>
-                <artifactId>kogito-bom</artifactId>
-                <version>${version.org.kie.kogito}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-bom</artifactId>
+        <version>${io.quarkus.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
-            <!-- http client -->
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${version.httpclient}</version>
-            </dependency>
+      <dependency>
+        <groupId>org.kie.kogito</groupId>
+        <artifactId>kogito-bom</artifactId>
+        <version>${version.org.kie.kogito}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
-            <!-- rebot dependencies -->
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-faq-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-ping-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-uptime-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-packt-free-learning-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-cache-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-persistence-service</artifactId>
-                <version>${version.it.rebase.rebot.services}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-urban-dictionary-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-weather-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-currency-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-chuck-norris-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-brazil-postalcode-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-welcome-message-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-karma-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-sed-plugin</artifactId>
-                <version>${version.it.rebase.rebot.plugins}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-telegram-api</artifactId>
-                <version>${version.it.rebase.rebot.api}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-telegram-api-shared-components</artifactId>
-                <version>${version.it.rebase.rebot.api}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-telegram-api-objects</artifactId>
-                <version>${version.it.rebase.rebot.api}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-telegram-api-emojis</artifactId>
-                <version>${version.it.rebase.rebot.api}</version>
-            </dependency>
-            <dependency>
-                <groupId>it.rebase</groupId>
-                <artifactId>rebot-telegram-api-spi</artifactId>
-                <version>${version.it.rebase.rebot.api}</version>
-            </dependency>
+      <!-- http client -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${version.httpclient}</version>
+      </dependency>
 
-            <!-- tests -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${version.junit}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${version.org.mockito}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>java-hamcrest</artifactId>
-                <version>${version.org.hamcrest.java.hamcrest}</version>
-                <scope>test</scope>
-            </dependency>
+      <!-- rebot dependencies -->
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-faq-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-ping-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-uptime-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-packt-free-learning-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-cache-service</artifactId>
+        <version>${version.it.rebase.rebot.services}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-persistence-service</artifactId>
+        <version>${version.it.rebase.rebot.services}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-urban-dictionary-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-weather-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-currency-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-chuck-norris-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-brazil-postalcode-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-welcome-message-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-karma-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-sed-plugin</artifactId>
+        <version>${version.it.rebase.rebot.plugins}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-telegram-api</artifactId>
+        <version>${version.it.rebase.rebot.api}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-telegram-api-shared-components</artifactId>
+        <version>${version.it.rebase.rebot.api}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-telegram-api-objects</artifactId>
+        <version>${version.it.rebase.rebot.api}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-telegram-api-emojis</artifactId>
+        <version>${version.it.rebase.rebot.api}</version>
+      </dependency>
+      <dependency>
+        <groupId>it.rebase</groupId>
+        <artifactId>rebot-telegram-api-spi</artifactId>
+        <version>${version.it.rebase.rebot.api}</version>
+      </dependency>
 
-        </dependencies>
-    </dependencyManagement>
+      <!-- tests -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${version.junit}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${version.org.mockito}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>java-hamcrest</artifactId>
+        <version>${version.org.hamcrest.java.hamcrest}</version>
+        <scope>test</scope>
+      </dependency>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>11</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${version.maven.checkstyle.plugin}</version>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <checkstyleRules>
+                <module name="Checker">
+                  <!-- Checks for whitespace. -->
+                  <module name="FileTabCharacter">
+                    <property name="severity" value="error"/>
+                    <property name="eachLine" value="true"/>
+                  </module>
+                  <module name="TreeWalker">
+                    <!-- Import settings: getting rid of redundant import, forbid star notation, defined order of imports. -->
+                    <module name="RedundantImport"/>
+                    <module name="AvoidStarImport">
+                      <property name="allowClassImports" value="false"/>
+                      <property name="allowStaticMemberImports" value="false"/>
+                    </module>
+                    <module name="CustomImportOrder">
+                      <property name="customImportOrderRules"
+                                value="STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE###STATIC"/>
+                      <property name="specialImportsRegExp" value="^javax\."/>
+                      <property name="standardPackageRegExp" value="^java\."/>
+                      <property name="sortImportsInGroupAlphabetically" value="true"/>
+                      <property name="separateLineBetweenGroups" value="true"/>
+                    </module>
+                    <module name="UnusedImports"/>
+                    <module name="NeedBraces">
+                      <property name="tokens"
+                                value="LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO"/>
+                    </module>
+                    <module name="EqualsHashCode"/>
+                  </module>
+                </module>
+              </checkstyleRules>
+              <outputFile>${project.build.directory}/checkstyle.log</outputFile>
+              <includeTestSourceDirectory>true</includeTestSourceDirectory>
+              <includeResources>true</includeResources>
+              <includeTestResources>true</includeTestResources>
+              <consoleOutput>true</consoleOutput>
+              <logViolationsToConsole>true</logViolationsToConsole>
+              <failsOnError>true</failsOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

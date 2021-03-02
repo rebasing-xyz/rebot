@@ -24,12 +24,12 @@
 
 package it.rebase.rebot.plugin.welcome.test;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import io.quarkus.test.Mock;
+import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.object.User;
-import it.rebase.rebot.api.management.user.UserManagement;
-
-import javax.enterprise.context.ApplicationScoped;
 
 @Mock
 @ApplicationScoped

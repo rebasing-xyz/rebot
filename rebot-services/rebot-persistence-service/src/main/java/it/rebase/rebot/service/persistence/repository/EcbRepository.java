@@ -1,19 +1,19 @@
 package it.rebase.rebot.service.persistence.repository;
 
-import it.rebase.rebot.service.persistence.pojo.Cubes;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.service.persistence.pojo.Cubes;
 
 @Transactional
 @ApplicationScoped

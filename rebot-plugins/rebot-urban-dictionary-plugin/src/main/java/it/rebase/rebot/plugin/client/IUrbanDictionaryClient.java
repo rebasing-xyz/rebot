@@ -23,13 +23,15 @@
 
 package it.rebase.rebot.plugin.client;
 
-import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
 import java.io.UnsupportedEncodingException;
+
+import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
 
 public interface IUrbanDictionaryClient<T> {
 
     /**
      * Execute the request
+     *
      * @return {@link CustomTermResponse}
      * @throws UnsupportedEncodingException for unsupported encoding operations
      */

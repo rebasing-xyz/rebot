@@ -24,18 +24,6 @@
 
 package it.rebase.rebot.api.management.message;
 
-import it.rebase.rebot.api.conf.BotConfig;
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
-import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -44,6 +32,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import it.rebase.rebot.api.conf.BotConfig;
+import it.rebase.rebot.api.httpclient.BotCloseableHttpClient;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 @ApplicationScoped
 public class MessageManagementImpl implements MessageManagement {
@@ -68,7 +68,7 @@ public class MessageManagementImpl implements MessageManagement {
                 params.add(new BasicNameValuePair("chat_id", chatId + ""));
                 params.add(new BasicNameValuePair("message_id", messageId + ""));
 
-                log.fine("Performing http post request against " + url + " with parameters " +params.toString());
+                log.fine("Performing http post request against " + url + " with parameters " + params.toString());
 
                 try (CloseableHttpResponse response = httpClient.get().execute(httpClient.httpPost(url, params))) {
                     HttpEntity responseEntity = response.getEntity();

@@ -23,6 +23,13 @@
 
 package it.rebase.rebot;
 
+import java.lang.invoke.MethodHandles;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import it.rebase.rebot.api.spi.CommandProvider;
@@ -30,13 +37,6 @@ import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
 import org.jboss.logging.Logger;
-
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
 
 @ApplicationScoped
 public class Startup {
@@ -69,5 +69,4 @@ public class Startup {
         log.info("ReBot is stopping...");
         receiver.interrupt();
     }
-
 }

@@ -1,5 +1,7 @@
 package it.rebase.rebot.plugin.karma;
 
+import javax.inject.Inject;
+
 import io.quarkus.test.junit.QuarkusTest;
 import it.rebase.rebot.api.object.Chat;
 import it.rebase.rebot.api.object.From;
@@ -13,8 +15,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import javax.inject.Inject;
 
 @QuarkusTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -33,14 +33,11 @@ public class KarmaPluginTest {
         karmaPlugin.load();
     }
 
-
     @Test
     @Order(1)
     public void testSimpleKarmaIncrease() {
         karmaPlugin.process(getSimpleMessage("test++"), "en_US");
         Assertions.assertEquals(1, karmaRepository.get("test"));
-
-
     }
 
     @Test
@@ -78,7 +75,7 @@ public class KarmaPluginTest {
         From from = new From();
         from.setUsername("test-username");
         from.setFirstName("FirstName");
-        Message message = new Message(10L,chat, text);
+        Message message = new Message(10L, chat, text);
         message.setFrom(from);
         messageUpdate.setMessage(message);
         messageUpdate.setEdited(false);

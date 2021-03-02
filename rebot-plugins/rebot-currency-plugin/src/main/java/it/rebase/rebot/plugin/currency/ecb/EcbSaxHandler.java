@@ -23,14 +23,15 @@
 
 package it.rebase.rebot.plugin.currency.ecb;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+
 import it.rebase.rebot.service.persistence.pojo.Cube;
 import it.rebase.rebot.service.persistence.pojo.Cubes;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class EcbSaxHandler extends DefaultHandler {
@@ -59,6 +60,7 @@ public class EcbSaxHandler extends DefaultHandler {
         return this.cubes;
     }
 
-    public void clean() {this.cubes = new Cubes();}
-
+    public void clean() {
+        this.cubes = new Cubes();
+    }
 }

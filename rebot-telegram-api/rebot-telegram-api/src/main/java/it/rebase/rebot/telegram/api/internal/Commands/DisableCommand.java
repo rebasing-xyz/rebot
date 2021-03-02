@@ -23,6 +23,13 @@
 
 package it.rebase.rebot.telegram.api.internal.Commands;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.user.UserManagement;
@@ -31,12 +38,6 @@ import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.service.persistence.pojo.CommandStatus;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
 import it.rebase.rebot.telegram.api.UpdatesReceiver;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class DisableCommand implements AdministrativeCommandProvider {
@@ -53,13 +54,16 @@ public class DisableCommand implements AdministrativeCommandProvider {
     @Inject
     private UserManagement userManagement;
 
-    @Override    public void load() {
+    @Override
+    public void load() {
         log.fine("Enabling administrative command " + this.name());
     }
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
-        if (key.get().length() < 1) return I18nHelper.resource("Administrative", locale, "required.parameter");
+        if (key.get().length() < 1) {
+            return I18nHelper.resource("Administrative", locale, "required.parameter");
+        }
 
         boolean isAdministrator = userManagement.isAdministrator(messageUpdate);
         if (!isAdministrator) {

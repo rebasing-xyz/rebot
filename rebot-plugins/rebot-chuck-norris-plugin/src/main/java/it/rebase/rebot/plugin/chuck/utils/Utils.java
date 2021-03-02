@@ -23,14 +23,15 @@
 
 package it.rebase.rebot.plugin.chuck.utils;
 
-import it.rebase.rebot.service.persistence.pojo.Fact;
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.service.persistence.pojo.Fact;
 
 public class Utils {
 
@@ -48,5 +49,4 @@ public class Utils {
 
         return response.readEntity(Fact.class);
     }
-
 }

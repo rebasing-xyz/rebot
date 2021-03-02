@@ -23,6 +23,15 @@
 
 package it.rebase.rebot.telegram.api.message;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.management.message.MessageManagement;
@@ -34,14 +43,6 @@ import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import it.rebase.rebot.service.persistence.repository.ApiRepository;
 import it.rebase.rebot.service.persistence.repository.LocaleRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 import static it.rebase.rebot.telegram.api.filter.ReBotPredicate.isCommand;
 import static it.rebase.rebot.telegram.api.filter.ReBotPredicate.messageIsNotNull;
@@ -83,28 +84,28 @@ public class OutcomeMessageProcessor implements Processor {
             if (c.canProcessCommand(messageUpdate, config.botUserId())) {
                 if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help(locale)),
-                            c.deleteMessage(),
-                            c.deleteMessageTimeout());
+                                                 c.deleteMessage(),
+                                                 c.deleteMessageTimeout());
                     // delete the command itself
                     if (c.deleteMessage()) {
                         messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                                messageUpdate.getMessage().getMessageId(),
-                                c.deleteMessageTimeout());
+                                                        messageUpdate.getMessage().getMessageId(),
+                                                        c.deleteMessageTimeout());
                     }
 
                     isAdministrativeCommand = true;
                     return;
                 }
                 reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
-                                messageUpdate.getMessage().getChat(),
-                                c.execute(Optional.of(concat(messageUpdate.getMessage().getText().split(" "))), messageUpdate, locale).toString()),
-                        c.deleteMessage(),
-                        c.deleteMessageTimeout());
+                                                         messageUpdate.getMessage().getChat(),
+                                                         c.execute(Optional.of(concat(messageUpdate.getMessage().getText().split(" "))), messageUpdate, locale).toString()),
+                                             c.deleteMessage(),
+                                             c.deleteMessageTimeout());
                 // delete the command itself
                 if (c.deleteMessage()) {
                     messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                            messageUpdate.getMessage().getMessageId(),
-                            c.deleteMessageTimeout());
+                                                    messageUpdate.getMessage().getMessageId(),
+                                                    c.deleteMessageTimeout());
                 }
                 isAdministrativeCommand = true;
                 return;
@@ -138,12 +139,12 @@ public class OutcomeMessageProcessor implements Processor {
             administrativeCommand.forEach(ac -> response.append(ac.name() + " - " + ac.description(locale) + "\n"));
             response.append(I18nHelper.resource("Administrative", locale, "internal.help.response"));
             reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()),
-                    config.deleteMessages(), config.deleteMessagesAfter());
+                                         config.deleteMessages(), config.deleteMessagesAfter());
             // delete the command itself
             if (config.deleteMessages()) {
                 messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                        messageUpdate.getMessage().getMessageId(),
-                        config.deleteMessagesAfter());
+                                                messageUpdate.getMessage().getMessageId(),
+                                                config.deleteMessagesAfter());
             }
         }
 
@@ -159,17 +160,16 @@ public class OutcomeMessageProcessor implements Processor {
                         log.fine("COMMAND_PROCESSOR - Command processed, result is: " + response);
                     }
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()),
-                            command.deleteMessage(), command.deleteMessageTimeout());
+                                                 command.deleteMessage(), command.deleteMessageTimeout());
 
                     // delete the command itself
                     if (command.deleteMessage()) {
                         messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                                messageUpdate.getMessage().getMessageId(),
-                                command.deleteMessageTimeout());
+                                                        messageUpdate.getMessage().getMessageId(),
+                                                        command.deleteMessageTimeout());
                     }
                 }
             }
-
         });
         if (response.length() < 1 && !isAdministrativeCommand) {
             log.fine("Command [" + messageUpdate.getMessage().getText() + "] will not to be processed by this bot or is not an administrative command.");
@@ -197,8 +197,8 @@ public class OutcomeMessageProcessor implements Processor {
                         // delete the command itself
                         if (plugin.deleteMessage()) {
                             messageManagement.deleteMessage(messageUpdate.getMessage().getChat().getId(),
-                                    messageUpdate.getMessage().getMessageId(),
-                                    plugin.deleteMessageTimeout());
+                                                            messageUpdate.getMessage().getMessageId(),
+                                                            plugin.deleteMessageTimeout());
                         }
                     }
                 } catch (final Exception e) {

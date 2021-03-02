@@ -23,18 +23,17 @@
 
 package it.rebase.rebot.service.persistence.repository;
 
-import it.rebase.rebot.service.persistence.pojo.BotStatus;
-import it.rebase.rebot.service.persistence.pojo.CommandStatus;
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.service.persistence.pojo.BotStatus;
+import it.rebase.rebot.service.persistence.pojo.CommandStatus;
 
 @Transactional
 @ApplicationScoped
@@ -47,6 +46,7 @@ public class ApiRepository {
 
     /**
      * Persist the bot state in the database
+     *
      * @param botStatus {@link BotStatus}
      */
     public void persist(BotStatus botStatus) {
@@ -57,11 +57,12 @@ public class ApiRepository {
 
     /**
      * Delete the bot state in the database for the given chatId
+     *
      * @param chatId {@link long}
      */
     public void remove(long chatId) {
         log.fine("Enabling bot for chat  " + chatId);
-        Query q = em.createNativeQuery("DELETE FROM BOT_STATUS where ID="+ chatId+";");
+        Query q = em.createNativeQuery("DELETE FROM BOT_STATUS where ID=" + chatId + ";");
         q.executeUpdate();
         em.flush();
     }
@@ -72,7 +73,7 @@ public class ApiRepository {
      */
     public boolean isBotEnabled(long chatId) {
         try {
-            Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where ID="+ chatId+";");
+            Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where ID=" + chatId + ";");
             return (boolean) q.getSingleResult();
         } catch (final Exception e) {
             return true;
@@ -86,7 +87,7 @@ public class ApiRepository {
      */
     public boolean isCommandEnabled(long groupId, String commandName) {
         try {
-            Query q = em.createNativeQuery("SELECT isEnabled from COMMAND_STATUS where groupID="+ groupId+" and commandName='"+ commandName+"';");
+            Query q = em.createNativeQuery("SELECT isEnabled from COMMAND_STATUS where groupID=" + groupId + " and commandName='" + commandName + "';");
             return (boolean) q.getSingleResult();
         } catch (final Exception e) {
             return true;
@@ -95,18 +96,20 @@ public class ApiRepository {
 
     /**
      * Enable the given command
+     *
      * @param chatId
      * @param commandName
      */
     public void enableCommand(long chatId, String commandName) {
-        log.fine("Enabling bot command "+commandName+" for chat  " + chatId);
-        Query q = em.createNativeQuery("DELETE FROM COMMAND_STATUS where groupID="+ chatId+" and commandName='"+ commandName+"';");
+        log.fine("Enabling bot command " + commandName + " for chat  " + chatId);
+        Query q = em.createNativeQuery("DELETE FROM COMMAND_STATUS where groupID=" + chatId + " and commandName='" + commandName + "';");
         q.executeUpdate();
         em.flush();
     }
 
     /**
      * Disable the given command
+     *
      * @param commandStatus
      */
     public void disableCommand(CommandStatus commandStatus) {
@@ -114,5 +117,4 @@ public class ApiRepository {
         em.persist(commandStatus);
         em.flush();
     }
-
 }

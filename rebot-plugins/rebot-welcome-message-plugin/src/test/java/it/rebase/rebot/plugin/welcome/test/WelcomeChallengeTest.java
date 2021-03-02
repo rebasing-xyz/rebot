@@ -23,7 +23,6 @@
 
 package it.rebase.rebot.plugin.welcome.test;
 
-import it.rebase.rebot.api.object.Message;
 import it.rebase.rebot.plugin.welcome.kogito.WelcomeChallenge;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

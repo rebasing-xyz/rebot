@@ -24,6 +24,18 @@
 
 package it.rebase.rebot.api.message.sender;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.OptionalLong;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.rebase.rebot.api.conf.BotConfig;
@@ -38,17 +50,6 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.lang.invoke.MethodHandles;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.OptionalLong;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class MessageSender implements Sender {
@@ -140,15 +141,14 @@ public class MessageSender implements Sender {
                 log.fine("Telegram API response: [" + responseContent + "]");
 
                 TelegramResponse<Message> telegramResponse = objectMapper.readValue(responseContent,
-                        new TypeReference<TelegramResponse<Message>>() {
-                        });
+                                                                                    new TypeReference<TelegramResponse<Message>>() {
+                                                                                    });
                 if (telegramResponse.hasError() && telegramResponse.getErrorCode() == 404) {
                     log.warning("Failed to send message: " + telegramResponse.getErrorDescription());
                     return OptionalLong.of(0);
                 }
 
                 return OptionalLong.of(telegramResponse.getResult().getMessageId());
-
             } catch (final Exception e) {
                 e.printStackTrace();
                 log.warning("Something goes wrong " + e.getMessage());

@@ -23,6 +23,14 @@
 
 package it.rebase.rebot.plugin.currency;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -34,13 +42,6 @@ import it.rebase.rebot.plugin.currency.ecb.ECBHelper;
 import it.rebase.rebot.service.cache.qualifier.CurrencyCache;
 import it.rebase.rebot.service.persistence.pojo.Cube;
 import org.infinispan.Cache;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class Currency implements CommandProvider {
@@ -73,7 +74,9 @@ public class Currency implements CommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
-        if (key.get().length() < 1) return I18nHelper.resource("CurrencyMessages", locale, "required.parameter");
+        if (key.get().length() < 1) {
+            return I18nHelper.resource("CurrencyMessages", locale, "required.parameter");
+        }
 
         StringBuilder response = new StringBuilder();
         CurrencyObject currency = new CurrencyObject(key.get().toUpperCase());
@@ -128,7 +131,6 @@ public class Currency implements CommandProvider {
                             response.append(String.format(
                                     I18nHelper.resource("CurrencyMessages", locale, "base.currency"),
                                     ECBHelper.DEFAULT_BASE_CURRENCY));
-
                         } else {
                             response.append(String.format(
                                     I18nHelper.resource("CurrencyMessages", locale, "exrate.response"),
@@ -144,11 +146,9 @@ public class Currency implements CommandProvider {
                     break;
             }
             return response.toString();
-
         } else {
             return I18nHelper.resource("CurrencyMessages", locale, "error.state");
         }
-
     }
 
     @Override
@@ -196,13 +196,15 @@ public class Currency implements CommandProvider {
         try {
             log.fine("Verifying if the cache is functional");
             Cube cube = (Cube) cache.get("USD");
-            if (null != cube.getCurrency()) return true;
-            else return false;
+            if (null != cube.getCurrency()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (final Exception e) {
             e.printStackTrace();
             log.fine("Currency Plugin is not functional at this moment [" + e.getMessage() + "]");
             return false;
         }
     }
-
 }

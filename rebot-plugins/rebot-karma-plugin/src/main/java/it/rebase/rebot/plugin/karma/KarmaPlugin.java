@@ -23,6 +23,18 @@
 
 package it.rebase.rebot.plugin.karma;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.emojis.Emoji;
@@ -33,17 +45,6 @@ import it.rebase.rebot.plugin.karma.listener.KarmaEventListener;
 import it.rebase.rebot.service.cache.qualifier.KarmaCache;
 import it.rebase.rebot.service.persistence.repository.KarmaRepository;
 import org.infinispan.Cache;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import static it.rebase.rebot.api.utils.Formatter.normalize;
 
@@ -139,7 +140,7 @@ public class KarmaPlugin implements PluginProvider {
 
         if (target.equals(username)) {
             return String.format(I18nHelper.resource("KarmaMessages", locale, "own.karma"),
-                    Emoji.DIZZY_FACE);
+                                 Emoji.DIZZY_FACE);
         }
 
         int karmaAtual = karma.get(target);
@@ -155,10 +156,9 @@ public class KarmaPlugin implements PluginProvider {
             default:
                 //do nothing
                 break;
-
         }
         return String.format(I18nHelper.resource("KarmaMessages", locale, "karma.updated"),
-                normalize(target), cache.get(target + ":" + username));
+                             normalize(target), cache.get(target + ":" + username));
     }
 
     /**

@@ -32,12 +32,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import it.rebase.rebot.api.conf.BotConfig;
-import it.rebase.rebot.api.conf.systemproperties.BotProperty;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.i18n.SupportedLocales;
+import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.administrative.AdministrativeCommandProvider;
-import it.rebase.rebot.api.management.user.UserManagement;
 import it.rebase.rebot.service.persistence.pojo.ChatLocale;
 import it.rebase.rebot.service.persistence.repository.LocaleRepository;
 

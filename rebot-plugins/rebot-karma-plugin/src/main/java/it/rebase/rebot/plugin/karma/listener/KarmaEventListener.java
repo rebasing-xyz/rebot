@@ -23,6 +23,12 @@
 
 package it.rebase.rebot.plugin.karma.listener;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
+
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
 import it.rebase.rebot.service.cache.qualifier.KarmaCache;
 import it.rebase.rebot.service.persistence.pojo.Karma;
 import it.rebase.rebot.service.persistence.repository.KarmaRepository;
@@ -35,11 +41,6 @@ import org.infinispan.notifications.cachelistener.event.CacheEntryCreatedEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryExpiredEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryModifiedEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryRemovedEvent;
-
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 @Listener
 public class KarmaEventListener {
@@ -100,5 +101,4 @@ public class KarmaEventListener {
     public void entryRemoved(@Observes CacheEntryRemovedEvent event) {
         log.fine("entry " + event.getKey() + " removed from the cache");
     }
-
 }

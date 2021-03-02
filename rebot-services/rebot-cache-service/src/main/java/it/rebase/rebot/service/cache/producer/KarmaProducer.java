@@ -23,6 +23,12 @@
 
 package it.rebase.rebot.service.cache.producer;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+
 import it.rebase.rebot.service.cache.qualifier.KarmaCache;
 import org.infinispan.Cache;
 import org.infinispan.configuration.cache.Configuration;
@@ -31,11 +37,6 @@ import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class KarmaProducer {

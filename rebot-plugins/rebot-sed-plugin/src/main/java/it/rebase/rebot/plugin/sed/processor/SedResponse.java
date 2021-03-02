@@ -22,11 +22,11 @@
  */
 package it.rebase.rebot.plugin.sed.processor;
 
-import it.rebase.rebot.api.object.MessageUpdate;
-
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import it.rebase.rebot.api.object.MessageUpdate;
 
 public class SedResponse {
 
@@ -98,7 +98,9 @@ public class SedResponse {
             for (int i = 0; i < msg.length(); i++) {
                 if (msg.charAt(i) == '/' && msg.charAt(i - 1) != '\\') {
                     count++;
-                    if (count == 2) middlePosition = i;
+                    if (count == 2) {
+                        middlePosition = i;
+                    }
                 }
             }
             boolean preProcess = (null == msg || count != 3 || msg.equals("s///") || msg.equals("s///g"));
@@ -110,7 +112,6 @@ public class SedResponse {
                 username = null != update.getMessage().getFrom().getUsername() ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName();
                 oldString = msg.substring(2, middlePosition).replace("\\", "");
                 newString = msg.substring(middlePosition + 1, fullReplace ? msg.length() - 2 : msg.length() - 1);
-
             } else {
                 log.fine("Sed Plugin - can process [" + msg + "] - false");
             }

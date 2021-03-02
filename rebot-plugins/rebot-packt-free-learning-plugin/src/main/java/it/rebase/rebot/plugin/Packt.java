@@ -23,17 +23,18 @@
 
 package it.rebase.rebot.plugin;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
 import it.rebase.rebot.api.spi.CommandProvider;
 import it.rebase.rebot.plugin.notifier.PacktNotifier;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class Packt implements CommandProvider {
@@ -56,8 +57,12 @@ public class Packt implements CommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
-        if (key.isPresent() && key.get().equals("notify")) return packtNotifier.registerNotification(messageUpdate, locale);
-        if (key.isPresent() && key.get().equals("off")) return packtNotifier.unregisterNotification(messageUpdate, locale);
+        if (key.isPresent() && key.get().equals("notify")) {
+            return packtNotifier.registerNotification(messageUpdate, locale);
+        }
+        if (key.isPresent() && key.get().equals("off")) {
+            return packtNotifier.unregisterNotification(messageUpdate, locale);
+        }
         try {
             return packtNotifier.get(locale);
         } catch (final Exception e) {

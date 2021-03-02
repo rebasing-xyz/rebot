@@ -23,18 +23,19 @@
 
 package it.rebase.rebot.plugin.client;
 
-import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
-import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
-import it.rebase.rebot.service.cache.pojo.urban.Term;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+
+import it.rebase.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
+import it.rebase.rebot.service.cache.pojo.urban.CustomTermResponse;
+import it.rebase.rebot.service.cache.pojo.urban.Term;
 
 public class UrbanDictionaryClient implements IUrbanDictionaryClient {
 
@@ -48,7 +49,6 @@ public class UrbanDictionaryClient implements IUrbanDictionaryClient {
         this.term = builder.term;
         this.numberOfResults = builder.numberOfResults;
         this.showExample = builder.showExample;
-
     }
 
     public String getTerm() {
@@ -114,5 +114,4 @@ public class UrbanDictionaryClient implements IUrbanDictionaryClient {
     private String encode(String term) throws UnsupportedEncodingException {
         return URLEncoder.encode(term, "UTF-8");
     }
-
 }

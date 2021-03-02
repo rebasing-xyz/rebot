@@ -23,6 +23,15 @@
 
 package it.rebase.rebot.plugin;
 
+import java.lang.invoke.MethodHandles;
+import java.net.URL;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.scheduler.Scheduled;
@@ -32,21 +41,12 @@ import it.rebase.rebot.service.cache.pojo.faq.Project;
 import it.rebase.rebot.service.cache.qualifier.FaqCache;
 import org.infinispan.Cache;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.net.URL;
-import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 @ApplicationScoped
 public class FaqHelper {
 
     public static final String JSON_SOURCE_LOCATION = "https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-plugins/rebot-faq-plugin/src/main/resources/META-INF/faq-properties.json";
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
 
     @Inject
     @FaqCache
@@ -100,5 +100,4 @@ public class FaqHelper {
 
         return stbuilder.toString();
     }
-
 }

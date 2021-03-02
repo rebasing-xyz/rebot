@@ -23,18 +23,19 @@
 
 package it.rebase.rebot.service.persistence.repository;
 
-import it.rebase.rebot.api.i18n.I18nHelper;
-import it.rebase.rebot.service.persistence.pojo.PacktNotification;
-import org.hibernate.exception.ConstraintViolationException;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-import java.util.logging.Logger;
+
+import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.service.persistence.pojo.PacktNotification;
+import org.hibernate.exception.ConstraintViolationException;
 
 @Transactional
 @ApplicationScoped

@@ -23,6 +23,13 @@
 
 package it.rebase.rebot.plugin.sed;
 
+import java.lang.invoke.MethodHandles;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import it.rebase.rebot.api.conf.BotConfig;
 import it.rebase.rebot.api.i18n.I18nHelper;
 import it.rebase.rebot.api.object.MessageUpdate;
@@ -30,12 +37,6 @@ import it.rebase.rebot.api.spi.PluginProvider;
 import it.rebase.rebot.plugin.sed.processor.SedResponse;
 import it.rebase.rebot.service.cache.qualifier.SedCache;
 import org.infinispan.Cache;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.lang.invoke.MethodHandles;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class SedPlugin implements PluginProvider {
@@ -73,7 +74,7 @@ public class SedPlugin implements PluginProvider {
                             I18nHelper.resource("Sed", locale, "response"),
                             sedResponse.getUsername(),
                             newValue);
-                     //String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);
+                    //String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);
                 }
             } else if (!sedResponse.isProcessable() && !update.getMessage().getText().startsWith("s/")) {
                 if (cache.containsKey(sedResponse.getUser_id())) {

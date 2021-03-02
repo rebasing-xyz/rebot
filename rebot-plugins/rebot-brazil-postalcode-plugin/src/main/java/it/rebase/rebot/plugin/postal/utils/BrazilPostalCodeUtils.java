@@ -23,14 +23,6 @@
 
 package it.rebase.rebot.plugin.postal.utils;
 
-import it.rebase.rebot.api.emojis.Emoji;
-import it.rebase.rebot.api.i18n.I18nHelper;
-import it.rebase.rebot.service.cache.pojo.postal.PostalCode;
-import it.rebase.rebot.service.cache.qualifier.BrazilPostalCodeCache;
-import org.infinispan.Cache;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +32,15 @@ import java.text.Normalizer;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import it.rebase.rebot.api.emojis.Emoji;
+import it.rebase.rebot.api.i18n.I18nHelper;
+import it.rebase.rebot.service.cache.pojo.postal.PostalCode;
+import it.rebase.rebot.service.cache.qualifier.BrazilPostalCodeCache;
+import org.infinispan.Cache;
 
 @ApplicationScoped
 public class BrazilPostalCodeUtils {
@@ -80,19 +81,19 @@ public class BrazilPostalCodeUtils {
 
         if (foundValues.size() <= 0) {
             stbuilder.append(String.format(I18nHelper.resource("PostalCodeMessages", locale, "county.not.found"),
-                    key,
-                    Emoji.TRIANGULAR_FLAG_ON_POST));
+                                           key,
+                                           Emoji.TRIANGULAR_FLAG_ON_POST));
         } else {
             for (PostalCode postalCode : foundValues) {
                 if (returnUF) {
                     stbuilder.append(String.format(I18nHelper.resource("PostalCodeMessages", locale, "uf.response"),
-                            postalCode.getNationalCode(),
-                            postalCode.getUF()));
+                                                   postalCode.getNationalCode(),
+                                                   postalCode.getUF()));
                 } else {
                     stbuilder.append(String.format(I18nHelper.resource("PostalCodeMessages", locale, "postal.code.response"),
-                            postalCode.getCounty(),
-                            postalCode.getUF(),
-                            postalCode.getNationalCode()));
+                                                   postalCode.getCounty(),
+                                                   postalCode.getUF(),
+                                                   postalCode.getNationalCode()));
                 }
             }
         }
