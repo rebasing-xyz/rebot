@@ -35,18 +35,18 @@ $ cekit build -v
 2019-04-12 15:29:20,668 cekit        INFO     Using overrides file from 'dev-overrides.yaml'.
 2019-04-12 15:29:20,668 cekit        DEBUG    Loading descriptor from path 'dev-overrides.yaml'.
 2019-04-12 15:29:20,677 cekit        INFO     Initializing image descriptor...
-2019-04-12 15:29:20,677 cekit        DEBUG    Retrieving module repositories for 'rebaseit/rebot'
+2019-04-12 15:29:20,677 cekit        DEBUG    Retrieving module repositories for 'rebasing-zyx/rebot'
 2019-04-12 15:29:20,678 cekit        INFO     Preparing resource 'modules'
 ....
 2019-04-12 15:29:21,358 cekit        INFO     Using Docker builder to build the image.
-2019-04-12 15:29:21,358 cekit        DEBUG    Building image with tags: 'rebaseit/rebot:1.0-SNAPSHOT', 'rebaseit/rebot:latest'
+2019-04-12 15:29:21,358 cekit        DEBUG    Building image with tags: 'rebasing-zyx/rebot:1.0-SNAPSHOT', 'rebasing-zyx/rebot:latest'
 ...
 2019-04-12 15:30:00,479 cekit        INFO     Docker: Successfully built 18b191d8a0bd
-2019-04-12 15:30:00,595 cekit        INFO     Image built and available under following tags: rebaseit/rebot:1.0-SNAPSHOT, rebaseit/rebot:latest
+2019-04-12 15:30:00,595 cekit        INFO     Image built and available under following tags: rebasing-zyx/rebot:1.0-SNAPSHOT, rebasing-zyx/rebot:latest
 2019-04-12 15:30:00,595 cekit        INFO     Finished!
 ```
 
-As result, we have a new image *quay.io/rebase-it/rebot:* with the **1.0-SNAPSHOT** and **latest** tags.
+As result, we have a new image *quay.io/rebasing-zyx/rebot:* with the **1.0-SNAPSHOT** and **latest** tags.
 
 
 You can check it by running the following command:
@@ -54,15 +54,15 @@ You can check it by running the following command:
 ```bash
 $ docker images
 REPOSITORY          T        AG                 IMAGE ID            CREATED             SIZE
-quay.io/rebase-it/rebot      1.0-SNAPSHOT        18b191d8a0bd        2 minutes ago       475 MB
-quay.io/rebase-it/rebot      latest              18b191d8a0bd        2 minutes ago       475 MB
+quay.io/rebasing-zyx/rebot      1.0-SNAPSHOT        18b191d8a0bd        2 minutes ago       475 MB
+quay.io/rebasing-zyx/rebot      latest              18b191d8a0bd        2 minutes ago       475 MB
 ```
 
 You can now run the image:
 
 ```bash
 $ docker run -it --env REBOT_TELEGRAM_TOKEN_ID=YOUR_TOKEN_ID --env REBOT_TELEGRAM_USER_ID=YOUR_BOT_USER_ID \ 
---env REBOT_TELEGRAM_CHAT_ID=YOUR_CHAT_ID --env REBOT_TELEGRAM_LOG_LEVEL=trace  quay.io/rebase-it/rebot:latest
+--env REBOT_TELEGRAM_CHAT_ID=YOUR_CHAT_ID --env REBOT_TELEGRAM_LOG_LEVEL=trace  quay.io/rebasing-zyx/rebot:latest
 
 Bot correctly configured.
 Running ReBot image with the following configurations:
@@ -99,21 +99,21 @@ Get the image id
 ```bash
 $ docker images
 REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
-quay.io/rebase-it/rebot      1.0-SNAPSHOT        de88568e6ba8        2 minutes ago       475 MB
-quay.io/rebase-it/rebot      latest              de88568e6ba8        2 minutes ago       475 MB
+quay.io/rebasing-xyz/rebot      1.0-SNAPSHOT        de88568e6ba8        2 minutes ago       475 MB
+quay.io/rebasing-xyz/rebot      latest              de88568e6ba8        2 minutes ago       475 MB
 ```
 
 In this case the image ID is **18b191d8a0bd**, with the id in hands we can now squash it:
 
 
 ```bash
-$ docker-squash de88568e6ba8 --tag=quay.io/rebase-it/rebot:1.0-SNAPSHOT --from e05a9ff73944
+$ docker-squash de88568e6ba8 --tag=quay.io/rebasing-xyz/rebot:1.0-SNAPSHOT --from e05a9ff73944
 ...
 2019-04-12 15:57:21,748 root         INFO     Original image size: 456.34 MB
 2019-04-12 15:57:21,748 root         INFO     Squashed image size: 381.25 MB
 2019-04-12 15:57:21,748 root         INFO     Image size decreased by 16.45 %
 2019-04-12 15:57:21,748 root         INFO     New squashed image ID is 8eeba7995f3f718f74c8047f03d07f1266e312d8e00eecd24b56e517409e92d1
-2019-04-12 15:57:22,888 root         INFO     Image registered in Docker daemon as quay.io/rebase-it/rebot:1.0-SNAPSHOT
+2019-04-12 15:57:22,888 root         INFO     Image registered in Docker daemon as quay.io/rebasing-xyz/rebot:1.0-SNAPSHOT
 2019-04-12 15:57:22,938 root         INFO     Done
 ```
 
@@ -126,7 +126,7 @@ Now verify the new size:
 ```bash
 $ docker images
 REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
-quay.io/rebase-it/rebot      1.0-SNAPSHOT        8eeba7995f3f        2 minutes ago       396 MB
+quay.io/rebasing-xyz/rebot      1.0-SNAPSHOT        8eeba7995f3f        2 minutes ago       396 MB
 ```
 
 ### Running ReBot image on OpenShift
@@ -135,8 +135,8 @@ As first step, import the image:
 
 ```bash
 $ oc new-project rebot
-$ oc tag --source=docker quay.io/rebase-it/rebot:1.0-SNAPSHOT rebot/rebot:1.0-SNAPSHOT --reference-policy=local 
-Tag rebot:1.0-SNAPSHOT set to quay.io/rebase-it/rebot:1.0-SNAPSHOT.
+$ oc tag --source=docker quay.io/rebasing-xyz/rebot:1.0-SNAPSHOT rebot/rebot:1.0-SNAPSHOT --reference-policy=local 
+Tag rebot:1.0-SNAPSHOT set to quay.io/rebasing-xyz/rebot:1.0-SNAPSHOT.
 ```
 
 Then we can verify the image stream:
@@ -153,10 +153,10 @@ Unique Images:		1
 Tags:			1
 
 1.0-SNAPSHOT
-  tagged from quay.io/rebase-it/rebot:1.0-SNAPSHOT
+  tagged from quay.io/rebasing-xyz/rebot:1.0-SNAPSHOT
     prefer registry pullthrough when referencing this tag
 
-  * quay.io/rebase-it/rebot@sha256:7d5c0d68d3ecc905ce5e7392ce1a56b90548ee9e014456ae83cb0c0db795352c
+  * quay.io/rebasing-xyz/rebot@sha256:7d5c0d68d3ecc905ce5e7392ce1a56b90548ee9e014456ae83cb0c0db795352c
       13 seconds ago
 
 ```
@@ -172,7 +172,7 @@ rebot-telegram-bot   docker-registry.default.svc:5000/rebot/rebot-telegram-bot  
 And, the last step is instantiate a new app using the image imported above:
 
 ```bash
-oc new-app -f https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-container-image/template/rebot-application-template-for-k8s.yaml  \ 
+oc new-app -f https://raw.githubusercontent.com/rebasing-xyz/rebot/master/rebot-container-image/template/rebot-application-template-for-k8s.yaml  \ 
 -p REBOT_TELEGRAM_TOKEN_ID=<TELEGRAM_TOKEN_ID> \
 -p REBOT_TELEGRAM_USER_ID=<TELEGRAM_USER_ID> \
 -p REBOT_TELEGRAM_DELETE_MESSAGES=<REBOT_TELEGRAM_DELETE_MESSAGES> \
@@ -185,4 +185,4 @@ oc new-app -f https://raw.githubusercontent.com/rebase-it/rebot/master/rebot-con
 At this moment the images are ready to use, enjoy :)
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or email to just@rebase.it
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new);

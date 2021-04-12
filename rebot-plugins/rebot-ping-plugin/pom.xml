@@ -2,7 +2,7 @@
 <!--
     The MIT License (MIT)
 
-    Copyright (c) 2017 Rebase.it ReBot <just@rebase.it>
+    Copyright (c) 2017 Rebasing.xyz ReBot
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of
     this software and associated documentation files (the "Software"), to deal in
@@ -26,14 +26,14 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>ReBot - Ping Plugin</name>
-    <url>https://github.com/rebase-it/rebot/tree/master/rebot-plugins/rebot-ping-plugin</url>
+    <url>https://github.com/rebasing-xyz/rebot/rebot/tree/master/rebot-plugins/rebot-ping-plugin</url>
 
     <description>
         Implementation of /ping command
     </description>
 
     <parent>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-plugins-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -45,23 +45,22 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://github.com/rebase-it/rebot/tree/master/LICENSE</url>
+            <url>https://github.com/rebasing-xyz/rebot/rebot/tree/master/LICENSE</url>
         </license>
     </licenses>
 
     <developers>
         <developer>
-            <id>rebaseit</id>
-            <name>Rebase.it</name>
-            <email>just@rebase.it</email>
-            <url>https://rebase.it</url>
-            <organizationUrl>https://github.com/rebase-it</organizationUrl>
+            <id>rebasingxyz</id>
+            <name>Rebasing.xyz</name>
+           <url>https://github.com/rebasing-xyz/rebot</url>
+            <organizationUrl>https://github.com/rebasing-xyz/rebot</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
-        <url>https://github.com/rebase-it/rebot</url>
+        <connection>scm:git:git@github.com:rebasing-xyz/rebot/rebot.git</connection>
+        <url>https://github.com/rebasing-xyz/rebot/rebot</url>
       <tag>HEAD</tag>
   </scm>
 
@@ -75,15 +74,15 @@
 
         <!-- rebot dependencies -->
         <dependency>
-            <groupId>it.rebase</groupId>
+            <groupId>xyz.rebasing</groupId>
             <artifactId>rebot-telegram-api-spi</artifactId>
         </dependency>
         <dependency>
-            <groupId>it.rebase</groupId>
+            <groupId>xyz.rebasing</groupId>
             <artifactId>rebot-telegram-api-emojis</artifactId>
         </dependency>
         <dependency>
-            <groupId>it.rebase</groupId>
+            <groupId>xyz.rebasing</groupId>
             <artifactId>rebot-telegram-api-objects</artifactId>
         </dependency>
 

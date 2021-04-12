@@ -15,14 +15,14 @@ Usage:
 Each new command, to be recognized by the API, needs to implement the CommandProvider and include the following file under **resources/META-INF/services**:
 
 ```
-it.rebase.rebot.api.spi.CommandProvider
+CommandProvider
 ```
 Its content should be the fully qualified name of the class that implement the CommandProvider interface:
 
 For example:
 
 ```
-it.rebase.rebot.service.ping.Ping
+xyz.rebasing.rebot.service.ping.Ping
 ```
 
 To create Plugin or Administrative command just rename the file to the fully qualified name of the target interface, for example:
@@ -85,8 +85,8 @@ rebot-services/rebot-ping-service/
 └── src
     └── main
         ├── java
-        │   └── it
-        │       └── rebase
+        │   └── xyz
+        │       └── rebasing
         │           └── rebot
         │               └── service
         │                   └── ping
@@ -104,7 +104,7 @@ just by injecting the `BotProperty` and configuring it to **required** or **not*
 
 ```java
 @Inject
-@BotProperty(name = "it.rebase.rebot.my.property", required = true)
+@BotProperty(name = "xyz.rebasing.rebot.my.property", required = true)
 private String myProperty;
 ```
 
@@ -156,7 +156,7 @@ the example below:
     }
 ```
 
-For more information take a look on the [i18n helper](https://github.com/rebase-it/rebot/tree/master/rebot-telegram-api/rebot-telegram-api-spi/src/main/java/it/rebase/rebot/api/i18n).
+For more information take a look on the [i18n helper](https://github.com/rebasing-xyz/rebot/tree/master/rebot-telegram-api/rebot-telegram-api-spi/src/main/java/xyz/rebasing/rebot/api/i18n).
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).

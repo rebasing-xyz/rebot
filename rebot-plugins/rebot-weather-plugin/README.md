@@ -15,13 +15,13 @@ https://weather.yahoo.com/country/state/city-455917/
 To use this plugin you will need to provide the following system properties:
 
 ```java
--Dit.rebase.rebot.plugin.yahoo.app.id=<YOUR_APP_ID>
--Dit.rebase.rebot.plugin.yahoo.app.consumerKey=<YOUR_APP_COMSUMER_KEY>
--Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=<YOUR_APP_CONSUMER_SECRET>
+-Dxyz.rebasing.rebot.plugin.yahoo.app.id=<YOUR_APP_ID>
+-Dxyz.rebasing.rebot.plugin.yahoo.app.consumerKey=<YOUR_APP_COMSUMER_KEY>
+-Dxyz.rebasing.rebot.plugin.yahoo.app.consumerSecret=<YOUR_APP_CONSUMER_SECRET>
 ```
 
 To create your app, please refer https://developer.yahoo.com/weather/. 
 
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/rebot/issues/new).

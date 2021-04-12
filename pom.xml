@@ -2,7 +2,7 @@
 <!--
     The MIT License (MIT)
 
-    Copyright (c) 2017 Rebase.it ReBot <just@rebase.it>
+    Copyright (c) 2017 Rebasing.xyz ReBot
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of
     this software and associated documentation files (the "Software"), to deal in
@@ -26,19 +26,20 @@
 
   <modelVersion>4.0.0</modelVersion>
   <name>ReBot - Telegram API Bot Parent</name>
-  <url>https://github.com/rebase-it/rebot</url>
+  <url>https://github.com/rebasing-xyz/rebot</url>
 
   <description>
     ReBot parent pom
   </description>
 
   <parent>
+    <!-- remove this parent later -->
     <groupId>it.rebase</groupId>
     <artifactId>parent-pom</artifactId>
     <version>0.2</version>
   </parent>
 
-  <groupId>it.rebase</groupId>
+  <groupId>xyz.rebasing</groupId>
   <artifactId>rebot-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -46,30 +47,29 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/rebase-it/rebot/tree/master/LICENSE</url>
+      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
     </license>
   </licenses>
 
   <developers>
     <developer>
-      <id>rebaseit</id>
-      <name>Rebase.it</name>
-      <email>just@rebase.it</email>
-      <url>https://rebase.it</url>
-      <organizationUrl>https://github.com/rebase-it</organizationUrl>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+     <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:rebase-it/rebot.git</connection>
-    <url>https://github.com/rebase-it/rebot</url>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
     <tag>HEAD</tag>
   </scm>
 
   <properties>
-    <version.it.rebase.rebot.plugins>1.0-SNAPSHOT</version.it.rebase.rebot.plugins>
-    <version.it.rebase.rebot.services>1.0-SNAPSHOT</version.it.rebase.rebot.services>
-    <version.it.rebase.rebot.api>1.0-SNAPSHOT</version.it.rebase.rebot.api>
+    <version.xyz.rebasing.rebot.plugins>1.0-SNAPSHOT</version.xyz.rebasing.rebot.plugins>
+    <version.xyz.rebasing.rebot.services>1.0-SNAPSHOT</version.xyz.rebasing.rebot.services>
+    <version.xyz.rebasing.rebot.api>1.0-SNAPSHOT</version.xyz.rebasing.rebot.api>
     <io.quarkus.version>1.6.1.Final</io.quarkus.version>
     <version.httpclient>4.5.12</version.httpclient>
     <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
@@ -86,8 +86,8 @@
   <modules>
     <module>rebot-services</module>
     <module>rebot-plugins</module>
-    <module>rebot-telegram</module>
     <module>rebot-telegram-api</module>
+    <module>rebot-telegram</module>
   </modules>
 
   <dependencyManagement>
@@ -117,99 +117,99 @@
 
       <!-- rebot dependencies -->
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-faq-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-ping-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-uptime-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-packt-free-learning-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-cache-service</artifactId>
-        <version>${version.it.rebase.rebot.services}</version>
+        <version>${version.xyz.rebasing.rebot.services}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-persistence-service</artifactId>
-        <version>${version.it.rebase.rebot.services}</version>
+        <version>${version.xyz.rebasing.rebot.services}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-urban-dictionary-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-weather-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-currency-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-chuck-norris-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-brazil-postalcode-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-welcome-message-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-karma-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-sed-plugin</artifactId>
-        <version>${version.it.rebase.rebot.plugins}</version>
+        <version>${version.xyz.rebasing.rebot.plugins}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-telegram-api</artifactId>
-        <version>${version.it.rebase.rebot.api}</version>
+        <version>${version.xyz.rebasing.rebot.api}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-telegram-api-shared-components</artifactId>
-        <version>${version.it.rebase.rebot.api}</version>
+        <version>${version.xyz.rebasing.rebot.api}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-telegram-api-objects</artifactId>
-        <version>${version.it.rebase.rebot.api}</version>
+        <version>${version.xyz.rebasing.rebot.api}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-telegram-api-emojis</artifactId>
-        <version>${version.it.rebase.rebot.api}</version>
+        <version>${version.xyz.rebasing.rebot.api}</version>
       </dependency>
       <dependency>
-        <groupId>it.rebase</groupId>
+        <groupId>xyz.rebasing</groupId>
         <artifactId>rebot-telegram-api-spi</artifactId>
-        <version>${version.it.rebase.rebot.api}</version>
+        <version>${version.xyz.rebasing.rebot.api}</version>
       </dependency>
 
       <!-- tests -->

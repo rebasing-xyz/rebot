@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2017 Rebase.it ReBot <just@rebase.it>
+# Copyright (c) 2017 Rebasing.xyz ReBot
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
@@ -20,20 +20,20 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [Unit]
-Description=Rebase.it ReBot Telegram bot service
+Description=Rebasing.xzy ReBot Telegram bot service
 After=network.target
 
 [Service]
-User=spolti
+User=rebot
 Restart=always
 Type=simple
 TimeoutStartSec=120
-PIDFile=/opt/rebot/rebase-it-rebot.pid
-EnvironmentFile=-/opt/rebot/rebase-it-rebot.conf
+PIDFile=/opt/rebot/rebasing-xyz/rebot.pid
+EnvironmentFile=-/opt/rebot/rebasing-xyz/rebot.conf
 WorkingDirectory=/opt/rebot
-ExecStart=/opt/rebot/rebase-it-rebot.sh start
-ExecStop=/opt/rebot/rebase-it-rebot.sh stop
-ExecReload=/opt/rebot/rebase-it-rebot.sh restart
+ExecStart=/opt/rebot/rebasing-xyz/rebot.sh start
+ExecStop=/opt/rebot/rebasing-xyz/rebasing-xyz-rebot.sh stop
+ExecReload=/opt/rebot/rebasing-xyz/rebasing-xyz-rebot.sh restart
 
 [Install]
 WantedBy=multi-user.target

@@ -36,7 +36,7 @@ Add the following dependency on your pom.xml:
 ```java
 <!-- Urban Dictionary client -->
 <dependency>
-    <groupId>it.rebase</groupId>
+    <groupId>xyz.rebasing</groupId>
     <artifactId>rebot-urban-dictionary-service</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
@@ -55,4 +55,4 @@ Where:
 - **showExample** by default it is false, if you set it the result will bring a exemple about the term usage.
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).

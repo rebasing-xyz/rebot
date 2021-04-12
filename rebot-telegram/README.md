@@ -26,11 +26,11 @@ The ReBot Bot implementation.
 Execute the following command:
 
 ```sh
-java -Dit.rebase.rebot.telegram.token=<TELEGRAM_TOKEN> 
-     -Dit.rebase.rebot.telegram.userId=<BOT_USER_ID> \
-     -Dit.rebase.rebot.plugin.yahoo.app.id=<YAHOO_APP_ID> \
-     -Dit.rebase.rebot.plugin.yahoo.app.consumerKey=<YAHOO_APP_CONSUMER_KEY> \
-     -Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=<YAHOO_APP_CONSUMER_SECRET> \
+java -Dxyz.rebasing.rebot.telegram.token=<TELEGRAM_TOKEN> 
+     -Dxyz.rebasing.rebot.telegram.userId=<BOT_USER_ID> \
+     -Dxyz.rebasing.rebot.plugin.yahoo.app.id=<YAHOO_APP_ID> \
+     -Dxyz.rebasing.rebot.plugin.yahoo.app.consumerKey=<YAHOO_APP_CONSUMER_KEY> \
+     -Dxyz.rebasing.rebot.plugin.yahoo.app.consumerSecret=<YAHOO_APP_CONSUMER_SECRET> \
      -jar rebot-telegram-bot-<VERSION>-runner.jar
  ```
  
@@ -48,4 +48,4 @@ The bot username is: **@rebaseit_bot**
 
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/rebot/issues/new).

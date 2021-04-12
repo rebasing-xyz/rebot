@@ -13,4 +13,4 @@ Capabilities:
  - http client: small httpclient shared accross api and plugins.
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebase-it/rebot/issues/new) or send a email: just@rebase.it
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).
