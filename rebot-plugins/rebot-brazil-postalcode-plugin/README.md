@@ -17,5 +17,4 @@ To retrieve only the UF (State) for a given postal code, use the *-uf* flag:
 
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue]
-(https://github.com/rebase-it/rebot/issues/new) or send an email: just@rebase.it
+Feel free to raise a [issue] (https://github.com/rebasing-xyz/rebot/issues/new).

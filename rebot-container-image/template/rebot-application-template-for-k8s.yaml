@@ -15,7 +15,7 @@ message:  |-
               ReBot Telegram User ID: ${REBOT_TELEGRAM_USER_ID}
               ReBot Telegram Chat ID: ${REBOT_TELEGRAM_CHAT_ID}
 
-           For more information about using this template, see https://github.com/rebase-it/rebot/tree/v0.3/rebot-container-image.
+           For more information about using this template, see https://github.com/rebasing-xyz/rebot/rebot/tree/v0.3/rebot-container-image.
 parameters:
 - displayName: Application Name
   description: "The name for the application."

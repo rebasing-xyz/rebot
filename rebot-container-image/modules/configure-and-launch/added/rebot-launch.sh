@@ -21,12 +21,12 @@ echo "REBOT_TELEGRAM_LOG_LEVEL: $REBOT_TELEGRAM_LOG_LEVEL"
 
 
 cd $REBOT_HOME && exec java -jar \
-    -Dit.rebase.rebot.telegram.token=${REBOT_TELEGRAM_TOKEN_ID} \
-    -Dit.rebase.rebot.telegram.userId=${REBOT_TELEGRAM_USER_ID} \
-    -Dit.rebase.rebot.delete.messages=${REBOT_TELEGRAM_DELETE_MESSAGES} \
-    -Dit.rebase.rebot.delete.messages.after=${REBOT_TELEGRAM_DELETE_MESSAGES_AFTER} \
-    -Dit.rebase.rebot.plugin.yahoo.app.id=${REBOT_TELEGRAM_WEATHER_APP_ID} \
-    -Dit.rebase.rebot.plugin.yahoo.app.consumerKey=${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY} \
-    -Dit.rebase.rebot.plugin.yahoo.app.consumerSecret=${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET} \
-    -Dquarkus.log.category."it.rebase".level=${REBOT_TELEGRAM_LOG_LEVEL} \
+    -Dxyz.rebasing.rebot.telegram.token=${REBOT_TELEGRAM_TOKEN_ID} \
+    -Dxyz.rebasing.rebot.telegram.userId=${REBOT_TELEGRAM_USER_ID} \
+    -Dxyz.rebasing.rebot.delete.messages=${REBOT_TELEGRAM_DELETE_MESSAGES} \
+    -Dxyz.rebasing.rebot.delete.messages.after=${REBOT_TELEGRAM_DELETE_MESSAGES_AFTER} \
+    -Dxyz.rebasing.rebot.plugin.yahoo.app.id=${REBOT_TELEGRAM_WEATHER_APP_ID} \
+    -Dxyz.rebasing.rebot.plugin.yahoo.app.consumerKey=${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY} \
+    -Dxyz.rebasing.rebot.plugin.yahoo.app.consumerSecret=${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET} \
+    -Dquarkus.log.category."xyz.rebasing".level=${REBOT_TELEGRAM_LOG_LEVEL} \
     ${REBOT_QUARKUS_BINARY}

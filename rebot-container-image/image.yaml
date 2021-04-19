@@ -1,15 +1,13 @@
 schema_version: 1
 
-name: "quay.io/rebase-it/rebot"
+name: "quay.io/rebasing-xyz/rebot"
 description: "ReBot Telegram Bot container image"
-version: "1.0"
+version: "2.0"
 from: "docker.io/adoptopenjdk/openjdk11:slim"
-
-
 
 labels:
     - name: "maintainer"
-      value: "just@rebase.it"
+      value: "filippespolti@gmail.com"
     - name: "io.k8s.description"
       value: "A Java Telegram bot"
     - name: "io.k8s.display-name"
@@ -52,8 +50,8 @@ modules:
       repositories:
           - path: modules
       install:
-          - name: rebot-prepare
-          - name: configure-and-launch
+          - name: xyz.rebasing.rebot-prepare
+          - name: xyz.rebasing.configure-and-launch
 artifacts:
     - name: rebot-telegram-bot-1.0-SNAPSHOT-runner.jar
       url: https://repo.maven.apache.org/maven2/it/rebase/rebot-telegram-bot/1.0-SNAPSHOT/rebot-telegram-bot-1.0-SNAPSHOT-runner.jar
