@@ -44,7 +44,7 @@ import xyz.rebasing.rebot.service.cache.qualifier.FaqCache;
 @ApplicationScoped
 public class FaqHelper {
 
-    public static final String JSON_SOURCE_LOCATION = "https://raw.githubusercontent.com/rebasing-xyz/rebot/rebot/master/rebot-plugins/rebot-faq-plugin/src/main/resources/META-INF/faq-properties.json";
+    public static final String JSON_SOURCE_LOCATION = "https://raw.githubusercontent.com/rebasing-xyz/rebot/master/rebot-plugins/rebot-faq-plugin/src/main/resources/META-INF/faq-properties.json";
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 

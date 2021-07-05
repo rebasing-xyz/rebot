@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>ReBot - Weather Plugin</name>
-    <url>https://github.com/rebasing-xyz/rebot/rebot/tree/master/rebot-plugins/rebot-weather-plugin</url>
+    <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-weather-plugin</url>
 
     <description>
         Implementation of /weather command.
@@ -45,7 +45,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/rebot/tree/master/LICENSE</url>
+            <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
         </license>
     </licenses>
 
@@ -59,8 +59,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot/rebot</url>
+        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+        <url>https://github.com/rebasing-xyz/rebot</url>
       <tag>HEAD</tag>
   </scm>
 
@@ -73,6 +73,10 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
         </dependency>
 
         <!-- jackson fasterxml -->
@@ -91,5 +95,11 @@
             <artifactId>rebot-telegram-api-spi</artifactId>
         </dependency>
 
+        <!-- tests dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

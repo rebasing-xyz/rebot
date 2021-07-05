@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -34,7 +34,7 @@ import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.CommandProvider;
-import xyz.rebasing.rebot.plugin.yahoo.YahooWeatherProvider;
+import xyz.rebasing.rebot.plugin.provider.openweather.OpenWeatherProvider;
 
 @ApplicationScoped
 public class Weather implements CommandProvider {
@@ -45,7 +45,7 @@ public class Weather implements CommandProvider {
     BotConfig config;
 
     @Inject
-    private YahooWeatherProvider yahoo;
+    private OpenWeatherProvider openWeather;
 
     @Override
     public void load() {
@@ -54,9 +54,16 @@ public class Weather implements CommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+
+        if (key.get().length() < 1) {
+            return String.format(
+                    I18nHelper.resource("Weather", locale, "parameter.required"),
+                    this.name());
+        }
+
         String response;
         try {
-            response = yahoo.execute(key.get(), locale);
+            response = openWeather.execute(key.get(), locale);
         } catch (final Exception e) {
             response = String.format(
                     I18nHelper.resource("Weather", locale, "error.state"),
@@ -64,9 +71,7 @@ public class Weather implements CommandProvider {
                     e.getMessage());
             e.printStackTrace();
         }
-        return key.get().length() > 0 ? response : String.format(
-                I18nHelper.resource("Weather", locale, "parameter.required"),
-                this.name());
+        return response;
     }
 
     @Override

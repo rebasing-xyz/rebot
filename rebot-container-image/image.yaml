@@ -38,12 +38,8 @@ envs:
     - name: "REBOT_TELEGRAM_DELETE_MESSAGES_AFTER"
       example: "60"
       description: "Define how long the message will survive in the chat before its deletion. Time unit is seconds."
-    - name: "REBOT_TELEGRAM_WEATHER_APP_ID"
+    - name: "REBOT_TELEGRAM_OPENWEATHER_APPID"
       description: "Yahoo Weather Application ID"
-    - name: "REBOT_TELEGRAM_WEATHER_CONSUMER_KEY"
-      description: "Yahoo Weather Application Consumer Key"
-    - name: "REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET"
-      description: "Yahoo Weather Application Consumer Secret"
 ports:
     - value: 8080
 modules:
