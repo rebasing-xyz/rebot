@@ -1,27 +1,35 @@
 # ReBot Weather Plugin
 
-Retrieve the weather condition, in °C and °F, based on the Yahoo weather API.
+Retrieve the weather condition, in °C and °F, based on the OpenWeather API.
 
 Usage:
 
 ```
-/weather Uberlandia, Minas Gerais
+/weather Uberlandia -c BR
 
-Conditions for Uberlandia, MG, BR at 01:00 AM BRST:
-21.1°C / 70°F - Cloudy
-https://weather.yahoo.com/country/state/city-455917/
+Condition for: Uberlândia - BR 
+        Condition:  clear sky 
+  Temperature:  20.6°C / 69.01°F 
+          Min:  20.6°C / 69.01°F 
+          Max:  20.6°C / 69.01°F 
+   Feels like:  19.6°C / 67.21°F 
+     Humidity:  34.0
 ```
 
-To use this plugin you will need to provide the following system properties:
+For help:
 
-```java
--Dxyz.rebasing.rebot.plugin.yahoo.app.id=<YOUR_APP_ID>
--Dxyz.rebasing.rebot.plugin.yahoo.app.consumerKey=<YOUR_APP_COMSUMER_KEY>
--Dxyz.rebasing.rebot.plugin.yahoo.app.consumerSecret=<YOUR_APP_CONSUMER_SECRET>
+```
+/weather help
 ```
 
-To create your app, please refer https://developer.yahoo.com/weather/. 
+To use this plugin you will need to provide the following system property:
+
+```
+-Dxyz.rebasing.rebot.plugin.openweather.appid=<YOUR_APP_ID>
+```
+
+To create your app, please refer https://openweathermap.org/appid. 
 
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/rebot/issues/new).
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).

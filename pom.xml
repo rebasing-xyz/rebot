@@ -72,6 +72,7 @@
     <version.xyz.rebasing.rebot.api>1.0-SNAPSHOT</version.xyz.rebasing.rebot.api>
     <io.quarkus.version>1.6.1.Final</io.quarkus.version>
     <version.httpclient>4.5.13</version.httpclient>
+    <version.com.squareup.okhttp3>4.9.0</version.com.squareup.okhttp3>
     <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
     <version.junit>4.13.1</version.junit>
     <version.org.mockito>2.12.0</version.org.mockito>
@@ -113,6 +114,13 @@
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${version.httpclient}</version>
+      </dependency>
+
+      <!-- okhttp -->
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>${version.com.squareup.okhttp3}</version>
       </dependency>
 
       <!-- rebot dependencies -->

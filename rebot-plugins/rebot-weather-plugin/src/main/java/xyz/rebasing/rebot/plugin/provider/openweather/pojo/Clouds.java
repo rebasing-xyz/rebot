@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -21,50 +21,35 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.service.cache.pojo.faq;
+package xyz.rebasing.rebot.plugin.provider.openweather.pojo;
 
-/**
- * This POJO will be used to parser the following JSON file:
- * https://raw.githubusercontent.com/rebasing-xyz/rebot/master/rebot-services/rebot-faq-service/src/main/resources/META-INF/faq-properties.json
- */
-public class Project {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-    public String id;
-    public String link;
-    public String description;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "all"
+})
+public class Clouds {
 
-    public Project() {
+    @JsonProperty("all")
+    private int all;
+
+    @JsonProperty("all")
+    public int getAll() {
+        return all;
     }
 
-    /*
-     * Returns the project name with the project's link in the markdown pattern
-     */
+    @JsonProperty("all")
+    public void setAll(int all) {
+        this.all = all;
+    }
+
     @Override
     public String toString() {
-        return "<a href=\"" + getLink() + "\">" + getId() + "</a>";
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        return "Clouds{" +
+                "all=" + all +
+                '}';
     }
 }

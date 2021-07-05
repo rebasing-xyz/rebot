@@ -21,67 +21,63 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.plugin.yahoo.pojo;
+package xyz.rebasing.rebot.plugin.provider.openweather.pojo;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "sunrise",
-        "sunset"
+        "speed",
+        "deg",
+        "gust"
 })
-public class Astronomy {
+public class Wind {
 
-    @JsonProperty("sunrise")
-    private String sunrise;
-    @JsonProperty("sunset")
-    private String sunset;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("speed")
+    private float speed;
+    @JsonProperty("deg")
+    private int deg;
+    @JsonProperty("gust")
+    private float gust;
 
-    @JsonProperty("sunrise")
-    public String getSunrise() {
-        return sunrise;
+    @JsonProperty("speed")
+    public float getSpeed() {
+        return speed;
     }
 
-    @JsonProperty("sunrise")
-    public void setSunrise(String sunrise) {
-        this.sunrise = sunrise;
+    @JsonProperty("speed")
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
-    @JsonProperty("sunset")
-    public String getSunset() {
-        return sunset;
+    @JsonProperty("deg")
+    public int getDeg() {
+        return deg;
     }
 
-    @JsonProperty("sunset")
-    public void setSunset(String sunset) {
-        this.sunset = sunset;
+    @JsonProperty("deg")
+    public void setDeg(int deg) {
+        this.deg = deg;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @JsonProperty("gust")
+    public float getGust() {
+        return gust;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @JsonProperty("gust")
+    public void setGust(float gust) {
+        this.gust = gust;
     }
 
     @Override
     public String toString() {
-        return "Astronomy{" +
-                "sunrise='" + sunrise + '\'' +
-                ", sunset='" + sunset + '\'' +
+        return "Wind{" +
+                "speed=" + speed +
+                ", deg=" + deg +
+                ", gust=" + gust +
                 '}';
     }
 }

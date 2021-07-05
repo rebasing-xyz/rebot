@@ -15,7 +15,7 @@ message:  |-
               ReBot Telegram User ID: ${REBOT_TELEGRAM_USER_ID}
               ReBot Telegram Chat ID: ${REBOT_TELEGRAM_CHAT_ID}
 
-           For more information about using this template, see https://github.com/rebasing-xyz/rebot/rebot/tree/v0.3/rebot-container-image.
+           For more information about using this template, see https://github.com/rebasing-xyz/rebot/tree/v0.3/rebot-container-image.
 parameters:
 - displayName: Application Name
   description: "The name for the application."
@@ -47,18 +47,10 @@ parameters:
   name: REBOT_TELEGRAM_LOG_LEVEL
   value: INFO
   required: true
-- displayName: ReBot Telegram Weather App ID
-  description: "Yahoo APP ID"
-  name: REBOT_TELEGRAM_WEATHER_APP_ID
-  required: false
-- displayName: ReBot Telegram Weather Consumer Key
-  description: "Yahoo App Consumer Key"
-  name: REBOT_TELEGRAM_WEATHER_CONSUMER_KEY
-  required: false
-- displayName: ReBot Telegram Weather Consumer Key
-  description: "Yahoo App Consumer Secret"
-  name: REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET
-  required: false
+- displayName: ReBot Telegram Open Weather App ID
+  description: "OpenWeather APP ID"
+  name: REBOT_TELEGRAM_OPENWEATHER_APPID
+  required: true
 - displayName: ReBot Custom http Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: <application-name>-<project>.<default-domain-suffix>'
@@ -168,12 +160,8 @@ objects:
             value: "${REBOT_TELEGRAM_DELETE_MESSAGES}"
           - name: REBOT_TELEGRAM_DELETE_MESSAGES_AFTER
             value: "${REBOT_TELEGRAM_DELETE_MESSAGES_AFTER}"
-          - name: REBOT_TELEGRAM_WEATHER_APP_ID
-            value: "${REBOT_TELEGRAM_WEATHER_APP_ID}"
-          - name: REBOT_TELEGRAM_WEATHER_CONSUMER_KEY
-            value: "${REBOT_TELEGRAM_WEATHER_CONSUMER_KEY}"
-          - name: REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET
-            value: "${REBOT_TELEGRAM_WEATHER_CONSUMER_SECRET}"
+          - name: REBOT_TELEGRAM_OPENWEATHER_APPID
+            value: "${REBOT_TELEGRAM_OPENWEATHER_APPID}"
         volumes:
         - name: "${APPLICATION_NAME}-volume"
           persistentVolumeClaim:

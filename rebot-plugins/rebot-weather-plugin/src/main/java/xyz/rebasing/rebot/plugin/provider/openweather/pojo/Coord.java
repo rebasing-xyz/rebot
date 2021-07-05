@@ -21,23 +21,49 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.plugin.urbandictionary.test;
+package xyz.rebasing.rebot.plugin.provider.openweather.pojo;
 
-import org.junit.Assert;
-import org.junit.Test;
-import xyz.rebasing.rebot.plugin.helper.Helper;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class CommandTest {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "lon",
+        "lat"
+})
+public class Coord {
 
-    @Test
-    public void testNegativeParameter() {
-        Helper helper = new Helper();
-        Assert.assertEquals(helper.query("/urban -c -1 lol"), "Only positive values are valid: -1");
+    @JsonProperty("lon")
+    private float lon;
+    @JsonProperty("lat")
+    private float lat;
+
+    @JsonProperty("lon")
+    public float getLon() {
+        return lon;
     }
 
-    @Test
-    public void testNonIntegerParameter() {
-        Helper helper = new Helper();
-        Assert.assertEquals(helper.query("/urban -c lol"), "Parameter lol is not valid.");
+    @JsonProperty("lon")
+    public void setLon(float lon) {
+        this.lon = lon;
+    }
+
+    @JsonProperty("lat")
+    public float getLat() {
+        return lat;
+    }
+
+    @JsonProperty("lat")
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    @Override
+    public String toString() {
+        return "Coord{" +
+                "lon=" + lon +
+                ", lat=" + lat +
+                '}';
     }
 }

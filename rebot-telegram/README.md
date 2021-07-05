@@ -28,9 +28,7 @@ Execute the following command:
 ```sh
 java -Dxyz.rebasing.rebot.telegram.token=<TELEGRAM_TOKEN> 
      -Dxyz.rebasing.rebot.telegram.userId=<BOT_USER_ID> \
-     -Dxyz.rebasing.rebot.plugin.yahoo.app.id=<YAHOO_APP_ID> \
-     -Dxyz.rebasing.rebot.plugin.yahoo.app.consumerKey=<YAHOO_APP_CONSUMER_KEY> \
-     -Dxyz.rebasing.rebot.plugin.yahoo.app.consumerSecret=<YAHOO_APP_CONSUMER_SECRET> \
+     -Dxyz.rebasing.rebot.plugin.openweather.appid=<YOUR_APP_ID> \
      -jar rebot-telegram-bot-<VERSION>-runner.jar
  ```
  
@@ -48,4 +46,4 @@ The bot username is: **@rebaseit_bot**
 
 
 ### Did you find a bug or do you have a suggestion?
-Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/rebot/issues/new).
+Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).

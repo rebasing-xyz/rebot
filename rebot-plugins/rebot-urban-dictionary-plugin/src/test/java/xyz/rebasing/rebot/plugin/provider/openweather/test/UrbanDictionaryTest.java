@@ -21,7 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.plugin.urbandictionary.test;
+package xyz.rebasing.rebot.plugin.provider.openweather.test;
 
 import java.io.UnsupportedEncodingException;
 

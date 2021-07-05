@@ -59,8 +59,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot/rebot</url>
+        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+        <url>https://github.com/rebasing-xyz/rebot</url>
       <tag>HEAD</tag>
   </scm>
 
