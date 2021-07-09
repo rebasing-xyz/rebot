@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -42,6 +41,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
 
@@ -68,7 +68,7 @@ public class MessageManagementImpl implements MessageManagement {
                 params.add(new BasicNameValuePair("chat_id", chatId + ""));
                 params.add(new BasicNameValuePair("message_id", messageId + ""));
 
-                log.fine("Performing http post request against " + url + " with parameters " + params.toString());
+                log.debugv("Performing http post request against {0} with parameters {1}", url, params.toString());
 
                 try (CloseableHttpResponse response = httpClient.get().execute(httpClient.httpPost(url, params))) {
                     HttpEntity responseEntity = response.getEntity();
@@ -76,15 +76,16 @@ public class MessageManagementImpl implements MessageManagement {
                     String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                     if (response.getStatusLine().getStatusCode() != 200) {
-                        log.warning("Error received from Telegram API (deleteMessage), status code is " + response.getStatusLine().getStatusCode());
-                        log.warning("Response is " + responseContent);
+                        log.warnv("Error received from Telegram API (deleteMessage), status code is {0}",
+                                  response.getStatusLine().getStatusCode());
+                        log.warnv("Response is {0}", responseContent);
                     } else {
-                        log.fine("Message deleted.");
+                        log.debug("Message deleted.");
                     }
                 }
             } catch (final Exception e) {
                 e.printStackTrace();
-                log.warning("Error " + e.getMessage());
+                log.warnv("Error {0}", e.getMessage());
             }
         };
         scheduler.schedule(task, timeout, TimeUnit.SECONDS);

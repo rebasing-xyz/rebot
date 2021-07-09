@@ -27,7 +27,6 @@ package xyz.rebasing.rebot.telegram.api;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -42,6 +41,7 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
 import xyz.rebasing.rebot.api.object.GetUpdatesConfProducer;
@@ -146,7 +146,7 @@ public class UpdatesReceiver implements Runnable {
         ObjectMapper objectMapper = new ObjectMapper();
         while (running) {
             GetUpdatesConfProducer getUpdates = new GetUpdatesConfProducer().setLimit(100).setTimeout(10 * 1000).setOffset(lastUpdateId + 1);
-            log.finest("receiver config -> " + getUpdates.toString());
+            log.tracev("receiver config -> {0}", getUpdates.toString());
             try {
                 String url = String.format(TELEGRAM_UPDATE_ENDPOINT, config.botTokenId());
 
@@ -161,15 +161,15 @@ public class UpdatesReceiver implements Runnable {
                     String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                     if (response.getStatusLine().getStatusCode() != 200) {
-                        log.warning("Error received from Telegram API, status code is " + response.getStatusLine().getStatusCode());
+                        log.warnv("Error received from Telegram API, status code is {0}", response.getStatusLine().getStatusCode());
                         synchronized (this) {
                             this.wait(600);
                         }
                     }
 
-                    TelegramResponse<ArrayList<MessageUpdate>> updates = objectMapper.readValue(responseContent,
-                                                                                                new TypeReference<TelegramResponse<ArrayList<MessageUpdate>>>() {
-                                                                                                });
+                    TelegramResponse<ArrayList<MessageUpdate>> updates = objectMapper.
+                            readValue(responseContent, new TypeReference<>() {
+                            });
 
                     if (null == updates.getResult()) {
                         this.wait(1000);
@@ -181,7 +181,7 @@ public class UpdatesReceiver implements Runnable {
                             .forEach(u -> {
                                 // make sure that even edited messages will be intercepted by the rebot.
                                 if (null != u.getEditedMessage()) {
-                                    log.finest("is updated message? " + true);
+                                    log.trace("is updated message? true");
                                     Message msg = new Message();
                                     msg.setChat(u.getEditedMessage().getChat());
                                     msg.setDate(u.getEditedMessage().getDate());
@@ -195,7 +195,7 @@ public class UpdatesReceiver implements Runnable {
                                     u.setEdited(false);
                                 }
                                 // notify the implementations of ReBotLongPoolingBot about the received messages.
-                                log.finest("Message is [ " + u.toString() + "]");
+                                log.tracev("Message is [{0}]", u.toString());
                                 callback.onUpdateReceived(u);
                             });
                     // wait 600ms before check for updates
@@ -203,7 +203,7 @@ public class UpdatesReceiver implements Runnable {
                 }
             } catch (final Exception e) {
                 e.printStackTrace();
-                log.warning("Error " + e.getMessage());
+                log.warnv("Error {0}", e.getMessage());
             }
         }
     }

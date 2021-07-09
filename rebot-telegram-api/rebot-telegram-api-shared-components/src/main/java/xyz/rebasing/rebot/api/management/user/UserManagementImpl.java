@@ -33,7 +33,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -49,6 +48,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
 import xyz.rebasing.rebot.api.object.ChatAdministrator;
@@ -108,18 +108,19 @@ public class UserManagementImpl implements UserManagement {
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                 if (response.getStatusLine().getStatusCode() != 200) {
-                    log.warning("Error received from Telegram API (getMe), status code is " + response.getStatusLine().getStatusCode());
-                    log.warning("Response is " + responseContent);
+                    log.warnv("Error received from Telegram API (getMe), status code is {0}",
+                              response.getStatusLine().getStatusCode());
+                    log.warnv("Response is {0}", responseContent);
                 }
 
                 TelegramResponse<User> me = objectMapper.readValue(responseContent, new TypeReference<TelegramResponse<User>>() {
                 });
-                log.fine("WhoAmi: " + me.toString());
+                log.debugv("WhoAmi: {0}", me.toString());
                 return me.getResult();
             }
         } catch (final Exception e) {
             e.printStackTrace();
-            log.warning("Error " + e.getMessage());
+            log.warnv("Error {0}", e.getMessage());
             return null;
         }
     }
@@ -147,15 +148,15 @@ public class UserManagementImpl implements UserManagement {
                     String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                     if (response.getStatusLine().getStatusCode() != 200) {
-                        log.warning("Error received from Telegram API (doKickUser), status code is " + response.getStatusLine().getStatusCode());
-                        log.warning("Response is " + responseContent);
+                        log.warnv("Error received from Telegram API (doKickUser), status code is {0}", response.getStatusLine().getStatusCode());
+                        log.warnv("Response is {0}", responseContent);
                     } else {
-                        log.fine("User removed from group " + responseContent);
+                        log.debugv("User removed from group {0}", responseContent);
                     }
                 }
             } catch (final Exception e) {
                 e.printStackTrace();
-                log.warning("Error " + e.getMessage());
+                log.warnv("Error {0}", e.getMessage());
             }
         };
         scheduler.schedule(task, waitBeforeStart, TimeUnit.SECONDS);
@@ -177,15 +178,16 @@ public class UserManagementImpl implements UserManagement {
                     String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                     if (response.getStatusLine().getStatusCode() != 200) {
-                        log.warning("Error received from Telegram API (doUnbanUser), status code is " + response.getStatusLine().getStatusCode());
-                        log.warning("Response is " + responseContent);
+                        log.warnv("Error received from Telegram API (doUnbanUser), status code is {0}",
+                                  response.getStatusLine().getStatusCode());
+                        log.warnv("Response is {0}", responseContent);
                     } else {
-                        log.fine("User unbanned from group " + responseContent);
+                        log.debugv("User unbanned from group {0}", responseContent);
                     }
                 }
             } catch (final Exception e) {
                 e.printStackTrace();
-                log.warning("Error " + e.getMessage());
+                log.warnv("Error {0}", e.getMessage());
             }
         };
         scheduler.schedule(task, waitBeforeBan, TimeUnit.SECONDS);
@@ -218,10 +220,10 @@ public class UserManagementImpl implements UserManagement {
                     .stream().filter(isUserAdmin(user2test)).findFirst();
 
             if (user.isPresent()) {
-                log.fine("User " + user.get().getUser() + " is admin.");
+                log.debugv("User {0} is admin.", user.get().getUser());
                 return true;
             } else {
-                log.fine("User " + username + " is not admin.");
+                log.debugv("User {0} is not admin.", username);
                 return false;
             }
         }
@@ -249,19 +251,20 @@ public class UserManagementImpl implements UserManagement {
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
 
                 if (response.getStatusLine().getStatusCode() != 200) {
-                    log.warning("Error received from Telegram API (getChatAdministrators), status code is " + response.getStatusLine().getStatusCode());
+                    log.warnv("Error received from Telegram API (getChatAdministrators), status code is {0}",
+                              response.getStatusLine().getStatusCode());
                 }
 
-                TelegramResponse<ArrayList<ChatAdministrator>> chatAdministrators = objectMapper.readValue(responseContent,
-                                                                                                           new TypeReference<TelegramResponse<ArrayList<ChatAdministrator>>>() {
-                                                                                                           });
+                TelegramResponse<ArrayList<ChatAdministrator>> chatAdministrators = objectMapper.
+                        readValue(responseContent, new TypeReference<>() {
+                        });
 
-                log.fine(chatAdministrators.toString());
+                log.debug(chatAdministrators.toString());
                 return chatAdministrators.getResult();
             }
         } catch (final Exception e) {
             e.printStackTrace();
-            log.warning("Error " + e.getMessage());
+            log.warnv("Error {0}", e.getMessage());
             return new ArrayList<>();
         }
     }

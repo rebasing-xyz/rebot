@@ -3,7 +3,6 @@ package xyz.rebasing.rebot.service.persistence.repository;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -13,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.pojo.Cubes;
 
 @Transactional
@@ -26,12 +26,12 @@ public class EcbRepository {
 
     public void persist(Cubes cubes) {
         if (!exists(cubes.getClass(), cubes.getTime())) {
-            log.fine("Persisting cubes: " + cubes.toString());
+            log.debugv("Persisting cubes: {0}", cubes.toString());
             em.persist(cubes);
             em.flush();
-            log.fine("Currencies successfully imported.");
+            log.debug("Currencies successfully imported.");
         } else {
-            log.warning("Currencies for date [" + cubes.getTime() + "] already exists.");
+            log.warnv("Currencies for date [{0}] already exists.", cubes.getTime());
         }
     }
 

@@ -24,7 +24,6 @@
 package xyz.rebasing.rebot.telegram.api.message.endpoint;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,6 +32,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.message.sender.MessageSender;
 import xyz.rebasing.rebot.api.object.Chat;
 import xyz.rebasing.rebot.api.object.Message;
@@ -49,7 +49,7 @@ public class RestMessageSender {
     @GET
     @Path("send/{chatId}/{message}")
     public Response send(@PathParam("chatId") Long chatId, @PathParam("message") String message) {
-        log.fine("Rest Endpoint called, trying to send the message: [" + message + "] to  chat id [" + chatId + "]");
+        log.debugv("Rest Endpoint called, trying to send the message: [{0}] to  chat id [{1}]", message, chatId);
         try {
             sender.processOutgoingMessage(buildMessage(chatId, message), false, 0L);
             return Response.ok("Message Sent").build();

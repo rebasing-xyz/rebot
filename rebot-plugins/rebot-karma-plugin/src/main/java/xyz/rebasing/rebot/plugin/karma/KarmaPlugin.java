@@ -29,13 +29,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.conf.systemproperties.BotProperty;
 import xyz.rebasing.rebot.api.emojis.Emoji;
@@ -76,7 +76,7 @@ public class KarmaPlugin implements PluginProvider {
     public void load() {
         new Thread(() -> {
             cache.addListener(karmaEventListener);
-            log.fine("Plugin karma-plugin enabled.");
+            log.debug("Plugin karma-plugin enabled.");
         }).start();
     }
 
@@ -113,7 +113,6 @@ public class KarmaPlugin implements PluginProvider {
             }
         } catch (final Exception e) {
             e.printStackTrace();
-            log.warning(e.getMessage());
         }
         return response.toString();
     }
@@ -169,7 +168,7 @@ public class KarmaPlugin implements PluginProvider {
      */
     private boolean canProcess(String messageContent) {
         boolean canProcess = null == messageContent ? false : FULL_MSG_PATTERN.matcher(messageContent).find();
-        log.fine("Karma plugin - can process [" + messageContent + "] - " + canProcess);
+        log.debugv("Karma plugin - can process [{0}] - {1}", messageContent, canProcess);
         return canProcess;
     }
 

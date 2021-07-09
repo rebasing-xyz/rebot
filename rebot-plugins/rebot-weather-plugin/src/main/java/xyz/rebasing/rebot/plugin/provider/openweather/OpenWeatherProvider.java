@@ -27,7 +27,6 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -37,6 +36,7 @@ import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.systemproperties.BotProperty;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.plugin.provider.openweather.builder.OpenWeatherRequestBuilder;
@@ -82,7 +82,7 @@ public class OpenWeatherProvider {
             }
         }
         String query = String.join(" ", argsList);
-        log.fine("Parameters received [Query: " + query + "], [Country Code: " + countryCode + "], [lang: " + lang + "]");
+        log.debugv("Parameters received [Query: {0}], [Country Code: {1}], [lang: {2}]", query, countryCode, lang);
 
         OpenWeatherRequest openWeatherRequest = new OpenWeatherRequestBuilder()
                 .withQuery(query)
@@ -91,7 +91,7 @@ public class OpenWeatherProvider {
                 .withAppId(appId)
                 .build();
 
-        log.fine("Performing OpenWeather API call with the following url " + openWeatherRequest.toString());
+        log.debugv("Performing OpenWeather API call with the following url {0}", openWeatherRequest.toString());
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))

@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -24,13 +24,13 @@
 package xyz.rebasing.rebot.plugin.chuck.utils;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.pojo.Fact;
 
 public class Utils {
@@ -44,7 +44,9 @@ public class Utils {
         Response response = target.request().get();
 
         if (response.getStatus() != 200) {
-            log.warning("Failed to connect in the endpoint " + CHUCK_NORRIS_FACTS_ENDPOINT + ", status code is: " + response.getStatus());
+            log.warnv("Failed to connect in the endpoint {0}, status code is: {1}",
+                      CHUCK_NORRIS_FACTS_ENDPOINT,
+                      response.getStatus());
         }
 
         return response.readEntity(Fact.class);

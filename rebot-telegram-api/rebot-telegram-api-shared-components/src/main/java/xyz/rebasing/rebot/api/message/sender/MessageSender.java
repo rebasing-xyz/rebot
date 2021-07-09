@@ -31,7 +31,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.OptionalLong;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -45,6 +44,7 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
 import xyz.rebasing.rebot.api.management.message.MessageManagement;
@@ -82,24 +82,24 @@ public class MessageSender implements Sender {
                             temporaryMessage.append(line + "\n");
                         } else {
                             temporaryMessage.append(line + "\n");
-                            log.fine("Message exceeded " + TELEGRAM_MESSAGE_CHARACTERS_LIMIT + " ending partial message.");
+                            log.debugv("Message exceeded {0} ending partial message.", TELEGRAM_MESSAGE_CHARACTERS_LIMIT);
                             message.setText(temporaryMessage.toString());
                             send(message);
                             temporaryMessage.setLength(0);
                         }
                     });
 
-                    log.fine("Sending next part of message.");
+                    log.debug("Sending next part of message.");
                     message.setText(temporaryMessage.toString());
                     sentMessageID = send(message);
                     temporaryMessage.setLength(0);
                 } else {
-                    log.fine("Sending message: [" + message.getText() + "]");
+                    log.debugv("Sending message: [{0}]", message.getText());
                     sentMessageID = send(message);
                 }
             }
         } catch (final Exception e) {
-            log.warning("Failed to send message: " + e.getMessage());
+            log.warnv("Failed to send message: {0}", e.getMessage());
             return OptionalLong.of(0);
         }
 
@@ -138,25 +138,26 @@ public class MessageSender implements Sender {
                 HttpEntity responseEntity = response.getEntity();
                 BufferedHttpEntity buf = new BufferedHttpEntity(responseEntity);
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-                log.fine("Telegram API response: [" + responseContent + "]");
+                log.debugv("Telegram API response: [{0}]", responseContent);
 
-                TelegramResponse<Message> telegramResponse = objectMapper.readValue(responseContent,
-                                                                                    new TypeReference<TelegramResponse<Message>>() {
-                                                                                    });
+                TelegramResponse<Message> telegramResponse = objectMapper.
+                        readValue(responseContent, new TypeReference<>() {
+                        });
+
                 if (telegramResponse.hasError() && telegramResponse.getErrorCode() == 404) {
-                    log.warning("Failed to send message: " + telegramResponse.getErrorDescription());
+                    log.warnv("Failed to send message: {0}", telegramResponse.getErrorDescription());
                     return OptionalLong.of(0);
                 }
 
                 return OptionalLong.of(telegramResponse.getResult().getMessageId());
             } catch (final Exception e) {
                 e.printStackTrace();
-                log.warning("Something goes wrong " + e.getMessage());
+                log.warnv("Something goes wrong {0}", e.getMessage());
                 return OptionalLong.of(0);
             }
         } catch (final Exception e) {
             e.printStackTrace();
-            log.warning("Something goes wrong " + e.getMessage());
+            log.warnv("Something goes wrong {0}", e.getMessage());
             return OptionalLong.of(0);
         }
     }

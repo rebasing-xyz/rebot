@@ -24,10 +24,10 @@
 package xyz.rebasing.rebot.plugin.currency.ecb;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.jboss.logging.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 import xyz.rebasing.rebot.service.persistence.pojo.Cube;
@@ -46,11 +46,12 @@ public class EcbSaxHandler extends DefaultHandler {
         if ("cube".equalsIgnoreCase(qName)) {
             if (null != attributes.getValue("time")) {
                 cubes.setTime(attributes.getValue("time"));
-                log.fine("time: " + attributes.getValue("time"));
+                log.debugv("time: {0}", attributes.getValue("time"));
             } else if (null != attributes.getValue("currency") && null != attributes.getValue("rate")) {
                 cube.setCurrency(attributes.getValue("currency"));
                 cube.setRate(Float.parseFloat(attributes.getValue("rate")));
-                log.fine("Parsing [Currency: " + attributes.getValue("currency") + " - rate: " + attributes.getValue("rate") + "]");
+                log.debugv("Parsing [Currency: {0} - rate: {1}]", attributes.getValue("currency"),
+                           attributes.getValue("rate"));
                 cubes.addCube(cube);
             }
         }

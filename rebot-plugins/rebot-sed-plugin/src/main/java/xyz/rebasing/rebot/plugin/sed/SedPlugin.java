@@ -25,12 +25,12 @@ package xyz.rebasing.rebot.plugin.sed;
 
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
@@ -58,7 +58,7 @@ public class SedPlugin implements PluginProvider {
         }
 
         if (update.getMessage().getText().startsWith("/")) {
-            log.fine("Sed plugin - Ignoring command [" + update.getMessage().getText() + "]");
+            log.debugv("Sed plugin - Ignoring command [{0}]", update.getMessage().getText());
         } else {
             SedResponse sedResponse = new SedResponse().process(update);
             if (sedResponse.isProcessable() && cache.containsKey(sedResponse.getUser_id())) {
@@ -74,7 +74,6 @@ public class SedPlugin implements PluginProvider {
                             I18nHelper.resource("Sed", locale, "response"),
                             sedResponse.getUsername(),
                             newValue);
-                    //String.format(MSG_TEMPLATE, sedResponse.getUsername(), newValue);
                 }
             } else if (!sedResponse.isProcessable() && !update.getMessage().getText().startsWith("s/")) {
                 if (cache.containsKey(sedResponse.getUser_id())) {
@@ -89,7 +88,7 @@ public class SedPlugin implements PluginProvider {
 
     @Override
     public void load() {
-        log.fine("Loading plugin sed");
+        log.debugv("Loading plugin {0}", this.name());
     }
 
     @Override

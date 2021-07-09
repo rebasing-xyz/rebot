@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -25,11 +25,11 @@ package xyz.rebasing.rebot.plugin;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.CommandProvider;
@@ -44,7 +44,7 @@ public class Ping implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name());
+        log.debugv("Loading command {0}", this.name());
     }
 
     @Override

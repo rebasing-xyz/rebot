@@ -26,11 +26,11 @@ package xyz.rebasing.rebot.telegram.api.internal.Commands;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.i18n.SupportedLocales;
@@ -56,7 +56,7 @@ public class LocaleCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling chat locale command " + this.name());
+        log.debugv("Enabling chat locale command {0}", this.name());
     }
 
     @Override
@@ -67,7 +67,8 @@ public class LocaleCommand implements AdministrativeCommandProvider {
         if (!key.isPresent() || key.get().equals("")) {
             return String.format(I18nHelper.resource("Administrative", locale, "locale.current.definition"),
                                  messageUpdate.getMessage().getChat().getTitle(),
-                                 localeRepository.get(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()));
+                                 localeRepository.get(messageUpdate.getMessage().getChat().getId(),
+                                                      messageUpdate.getMessage().getChat().getTitle()));
         } else {
 
             if (!isAdministrator) {
@@ -81,7 +82,8 @@ public class LocaleCommand implements AdministrativeCommandProvider {
                                                        SupportedLocales.valueOf(key.get()).localeName());
 
                 if ("persisted".equals(localeRepository.persistChatLocale(chatLocale))) {
-                    return String.format(I18nHelper.resource("Administrative", SupportedLocales.valueOf(key.get()).localeName(),
+                    return String.format(I18nHelper.resource("Administrative",
+                                                             SupportedLocales.valueOf(key.get()).localeName(),
                                                              "locale.current.definition"),
                                          messageUpdate.getMessage().getChat().getTitle(),
                                          localeRepository.get(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle()));

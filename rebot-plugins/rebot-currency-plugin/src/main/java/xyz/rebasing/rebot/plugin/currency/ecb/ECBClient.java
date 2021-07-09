@@ -24,7 +24,6 @@
 package xyz.rebasing.rebot.plugin.currency.ecb;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -39,6 +38,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.cache.qualifier.CurrencyCache;
 import xyz.rebasing.rebot.service.persistence.repository.EcbRepository;
 
@@ -62,7 +62,7 @@ public class ECBClient {
     @Scheduled(every = "12h", delay = 60)
     public void getAndPersistDailyCurrencies() {
         try {
-            log.fine("Parsing currencies from " + ECB_XML_ADDRESS);
+            log.debugv("Parsing currencies from {0}", ECB_XML_ADDRESS);
             SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
             HttpGet httpReq = new HttpGet(ECB_XML_ADDRESS);
             HttpResponse response = client().execute(httpReq);
@@ -74,7 +74,7 @@ public class ECBClient {
                 cache.put("time", handler.cubes().getTime());
             });
         } catch (final Exception e) {
-            log.severe("Error to retrieve currency rates from " + ECB_XML_ADDRESS + " - message: " + e.getMessage());
+            log.errorv("Error to retrieve currency rates from {0} - message: {1}", ECB_XML_ADDRESS, e.getMessage());
         } finally {
             handler.clean();
         }

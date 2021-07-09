@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -26,7 +26,6 @@ package xyz.rebasing.rebot.api.conf.systemproperties;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.util.Properties;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +33,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+
+import org.jboss.logging.Logger;
 
 /**
  * {@link BotProperty} String producer
@@ -51,7 +52,8 @@ public class BotPropertyProducerBean {
     public String findBotStringProperty(InjectionPoint injectionPoint) {
         BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
         String property = readSysProperty(prop.name(), prop.value());
-        log.fine("Injecting String Property name: [" + prop.name() + "] value: [" + property + "] required [" + prop.required() + "]");
+        log.debugv("Injecting String Property name: [{0}] value: [{1}] required [{2}]",
+                   prop.name(), property, prop.required());
         if (prop.required() && (null == property) || property == "") {
             throw new IllegalStateException("The parameter " + prop.name() + " is required!");
         }
@@ -64,7 +66,8 @@ public class BotPropertyProducerBean {
     public boolean findBotBoolProperty(InjectionPoint injectionPoint) {
         BotProperty prop = injectionPoint.getAnnotated().getAnnotation(BotProperty.class);
         boolean property = Boolean.parseBoolean(readSysProperty(prop.name(), prop.value()));
-        log.fine("Injecting boolean Property name: [" + prop.name() + "] value: [" + property + "] required [" + prop.required() + "]");
+        log.debugv("Injecting boolean Property name: [{0}] value: [{1}] required [{2}]",
+                   prop.name(),property, prop.required());
         if (prop.required()) {
             throw new IllegalStateException("The parameter " + prop.name() + " is required!");
         }
@@ -79,11 +82,12 @@ public class BotPropertyProducerBean {
         String property = readSysProperty(prop.name(), prop.value());
         try {
             if (null == property || prop.value().isEmpty()) {
-                log.fine("No value for [" + prop.name() + "], defaulting to -1");
+                log.debugv("No value for [{0}], defaulting to -1", prop.name());
                 return -1;
             }
             int parsedProperty = Integer.parseInt(property);
-            log.fine("Injecting integer Property name: [" + prop.name() + "] value: [" + parsedProperty + "] required [" + prop.required() + "]");
+            log.debugv("Injecting integer Property name: [{0}] value: [{1}] required [{2}]",
+                       prop.name(), parsedProperty, prop.required());
 
             if (prop.required()) {
                 throw new IllegalStateException("The parameter " + prop.name() + " is required!");
@@ -119,14 +123,14 @@ public class BotPropertyProducerBean {
                 if (matcher.find()) {
                     String envVar = prop.getProperty(propName).substring(matcher.start() + 2, matcher.end() - 1);
                     property = System.getenv(envVar);
-                    log.finest("Read environment variable [" + envVar + "] from properties file, new value [" + property + "]");
-                    log.finest("Command line System properties takes precedence.");
+                    log.tracev("Read environment variable [{0}] from properties file, new value [{1}]", envVar, property);
+                    log.trace("Command line System properties takes precedence.");
                     return property;
                 } else {
                     return System.getProperty(propName, prop.getProperty(propName));
                 }
             } catch (final Exception e) {
-                log.warning("Loading props file failed: " + e.getMessage());
+                log.warnv("Loading props file failed: {0}", e.getMessage());
                 return System.getProperty(propName, prop.getProperty(propName));
             }
         }

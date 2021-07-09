@@ -23,9 +23,9 @@
 package xyz.rebasing.rebot.plugin.sed.processor;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
 
 public class SedResponse {
@@ -106,14 +106,14 @@ public class SedResponse {
             boolean preProcess = (null == msg || count != 3 || msg.equals("s///") || msg.equals("s///g"));
             boolean canProcess = preProcess ? false : FULL_MSG_PATTERN.matcher(msg).find();
             if (canProcess) {
-                log.fine("Sed Plugin - " + this.toString());
+                log.debugv("Sed Plugin - {0}", this.toString());
                 fullReplace = msg.endsWith("/g") ? true : false;
                 processable = canProcess;
                 username = null != update.getMessage().getFrom().getUsername() ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName();
                 oldString = msg.substring(2, middlePosition).replace("\\", "");
                 newString = msg.substring(middlePosition + 1, fullReplace ? msg.length() - 2 : msg.length() - 1);
             } else {
-                log.fine("Sed Plugin - can process [" + msg + "] - false");
+                log.debugv("Sed Plugin - can process [{0}] - false", msg);
             }
 
             processable = canProcess;
