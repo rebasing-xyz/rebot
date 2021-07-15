@@ -25,11 +25,11 @@ package xyz.rebasing.rebot.telegram.api.internal.Commands;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.management.user.UserManagement;
@@ -56,7 +56,7 @@ public class DisableCommand implements AdministrativeCommandProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling administrative command " + this.name());
+        log.debugv("Enabling administrative command {0}", this.name());
     }
 
     @Override

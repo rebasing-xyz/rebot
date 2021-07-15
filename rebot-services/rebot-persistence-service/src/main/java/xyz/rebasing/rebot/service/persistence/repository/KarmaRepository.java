@@ -26,7 +26,6 @@ package xyz.rebasing.rebot.service.persistence.repository;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -36,6 +35,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.pojo.Karma;
 
 @Transactional
@@ -55,7 +55,7 @@ public class KarmaRepository {
             karmaPoints.select(karma.get("points")).where(criteriaBuilder.equal(karma.get("username"), key));
             return Integer.parseInt(em.createQuery(karmaPoints).getSingleResult());
         } catch (final Exception e) {
-            log.fine("get() - There is no karma for [" + key + "]");
+            log.debugv("get() - There is no karma for [{0}]", key);
             return 0;
         }
     }
@@ -70,18 +70,18 @@ public class KarmaRepository {
                     .orderBy(criteriaBuilder.asc(karma.get("username")));
             return em.createQuery(karmaQuery).getResultList();
         } catch (final Exception e) {
-            log.fine("list() - There is no karma for [" + key + "]");
+            log.debugv("list() - There is no karma for [{0}]", key);
             return Arrays.asList(new Karma(key, "0"));
         }
     }
 
     public void updateOrCreateKarma(Karma karma) {
-        log.fine("Updating the karma for [" + karma.toString() + "]");
+        log.debugv("Updating the karma for [{0}]", karma.toString());
         try {
             em.merge(karma);
             em.flush();
         } catch (final Exception e) {
-            log.warning("Failed to persist object [" + karma.toString() + "]: " + e.getMessage());
+            log.warnv("Failed to persist object [{0}]: {1}", karma.toString(), e.getMessage());
         }
     }
 }

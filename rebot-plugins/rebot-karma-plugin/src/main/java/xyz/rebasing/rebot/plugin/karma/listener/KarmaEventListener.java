@@ -24,7 +24,6 @@
 package xyz.rebasing.rebot.plugin.karma.listener;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -38,6 +37,7 @@ import org.infinispan.notifications.cachelistener.event.CacheEntryCreatedEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryExpiredEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryModifiedEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryRemovedEvent;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.cache.qualifier.KarmaCache;
 import xyz.rebasing.rebot.service.persistence.pojo.Karma;
 import xyz.rebasing.rebot.service.persistence.repository.KarmaRepository;
@@ -88,7 +88,7 @@ public class KarmaEventListener {
      */
     @CacheEntryExpired
     public void entryExpired(@Observes CacheEntryExpiredEvent event) {
-        log.fine("CacheEntryExpired " + event.getKey() + " " + event.getValue().toString());
+        log.debugv("CacheEntryExpired {0} {1}", event.getKey(), event.getValue().toString());
     }
 
     /**
@@ -99,6 +99,6 @@ public class KarmaEventListener {
      */
     @CacheEntryRemoved
     public void entryRemoved(@Observes CacheEntryRemovedEvent event) {
-        log.fine("entry " + event.getKey() + " removed from the cache");
+        log.debugv("entry {0} removed from the cache.", event.getKey());
     }
 }

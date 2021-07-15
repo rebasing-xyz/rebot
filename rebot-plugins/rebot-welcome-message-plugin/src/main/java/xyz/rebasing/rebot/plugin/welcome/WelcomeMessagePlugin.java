@@ -31,13 +31,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jboss.logging.Logger;
 import org.jbpm.process.instance.impl.humantask.HumanTaskTransition;
 import org.jbpm.process.instance.impl.humantask.phases.Claim;
 import org.jbpm.process.instance.impl.workitem.Complete;
@@ -185,7 +185,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling welcome-message-plugin plugin.");
+        log.debug("Enabling welcome-message-plugin plugin.");
     }
 
     @Override
@@ -226,7 +226,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
         ObjectMapper mapper = new ObjectMapper();
         List<ChatMember> members = new ArrayList<>();
         for (Map.Entry<String, Object> entry : update.getMessage().getAdditionalProperties().entrySet()) {
-            log.fine("Additional Properties: KEY + " + entry.getKey() + " - VALUE " + entry.getValue().toString());
+            log.debugv("Additional Properties: KEY {0} - VALUE {1}", entry.getKey(), entry.getValue().toString());
             if (entry.getKey().equals("new_chat_members")) {
                 return mapper.convertValue(entry.getValue(), mapper.getTypeFactory().constructCollectionType(List.class, ChatMember.class));
             } else if (entry.getKey().equals("left_chat_participant")) {

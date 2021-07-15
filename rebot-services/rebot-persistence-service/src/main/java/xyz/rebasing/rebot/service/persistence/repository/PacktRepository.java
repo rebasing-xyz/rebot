@@ -25,7 +25,6 @@ package xyz.rebasing.rebot.service.persistence.repository;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,6 +33,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.service.persistence.pojo.PacktNotification;
 
@@ -76,7 +76,7 @@ public class PacktRepository {
                     I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.removed"),
                     packtNotification.getChannel());
         } catch (final Exception e) {
-            log.warning("Failed to remove the notification: " + e.getMessage());
+            log.warnv("Failed to remove the notification: {0}", e.getMessage());
             return String.format(
                     I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.fail.to.remove"),
                     e.getCause());

@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -25,11 +25,11 @@ package xyz.rebasing.rebot.plugin.postal;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
@@ -66,12 +66,10 @@ public class BrazilPostalCode implements CommandProvider {
             if (str.contains("-limit=")) {
                 try {
                     limitResult = Long.parseLong(str.split("=")[1]);
-                    log.fine("Result limit is " + limitResult);
+                    log.debugv("Result limit is {0}", limitResult);
                 } catch (final Exception e) {
-                    log.warning(String.format("Failed to parse %s, error message: %s",
-                                              str.split("="),
-                                              e.getMessage()));
-                    log.warning(String.format("Defaulting to %d", limitResult));
+                    log.warnv("Failed to parse {0}, error message: {1}", str.split("="), e.getMessage());
+                    log.warnv("Defaulting to {0}", limitResult);
                 }
                 query = key.get().replace(str, "");
             }

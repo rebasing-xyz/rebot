@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -26,12 +26,12 @@ package xyz.rebasing.rebot.telegram.api.message;
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.management.message.MessageManagement;
@@ -77,13 +77,15 @@ public class OutcomeMessageProcessor implements Processor {
     @Override
     public void process(MessageUpdate messageUpdate) {
         locale = localeRepository.get(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle());
-        log.fine("current message is being processed with the locale: " + locale);
+        log.debugv("current message is being processed with the locale: {0}", locale);
         // before proceed with other commands/plugins execute administrative commands
         administrativeCommand.forEach(c -> {
 
             if (c.canProcessCommand(messageUpdate, config.botUserId())) {
                 if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
-                    reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), c.help(locale)),
+                    reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
+                                                             messageUpdate.getMessage().getChat(),
+                                                             c.help(locale)),
                                                  c.deleteMessage(),
                                                  c.deleteMessageTimeout());
                     // delete the command itself
@@ -98,7 +100,10 @@ public class OutcomeMessageProcessor implements Processor {
                 }
                 reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
                                                          messageUpdate.getMessage().getChat(),
-                                                         c.execute(Optional.of(concat(messageUpdate.getMessage().getText().split(" "))), messageUpdate, locale).toString()),
+                                                         c.execute(Optional.of(
+                                                                 concat(messageUpdate.getMessage().getText().split(" "))),
+                                                                   messageUpdate,
+                                                                   locale).toString()),
                                              c.deleteMessage(),
                                              c.deleteMessageTimeout());
                 // delete the command itself
@@ -127,7 +132,7 @@ public class OutcomeMessageProcessor implements Processor {
     public void commandProcessor(MessageUpdate messageUpdate) {
 
         final StringBuilder response = new StringBuilder("");
-        log.fine("Processing command: " + messageUpdate.getMessage().getText());
+        log.debugv("Processing command: {0}", messageUpdate.getMessage().getText());
 
         String[] args = messageUpdate.getMessage().getText().split(" ");
         String command2process = args[0].replace("@" + config.botUserId(), "");
@@ -157,9 +162,11 @@ public class OutcomeMessageProcessor implements Processor {
                         response.append(command.help(locale));
                     } else {
                         response.append(command.execute(Optional.of(concat(args)), messageUpdate, locale));
-                        log.fine("COMMAND_PROCESSOR - Command processed, result is: " + response);
+                        log.debugv("COMMAND_PROCESSOR - Command processed, result is: {0}", response);
                     }
-                    reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(), messageUpdate.getMessage().getChat(), response.toString()),
+                    reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
+                                                             messageUpdate.getMessage().getChat(),
+                                                             response.toString()),
                                                  command.deleteMessage(), command.deleteMessageTimeout());
 
                     // delete the command itself
@@ -172,13 +179,14 @@ public class OutcomeMessageProcessor implements Processor {
             }
         });
         if (response.length() < 1 && !isAdministrativeCommand) {
-            log.fine("Command [" + messageUpdate.getMessage().getText() + "] will not to be processed by this bot or is not an administrative command.");
+            log.debugv("Command [{0}] will not to be processed by this bot or is not an administrative command.",
+                       messageUpdate.getMessage().getText() + "");
         }
     }
 
     @Override
     public void nonCommandProcessor(MessageUpdate messageUpdate) {
-        log.fine("NON_COMMAND_PROCESSOR - Processing message: " + messageUpdate.getMessage().toString());
+        log.debugv("NON_COMMAND_PROCESSOR - Processing message: {0}", messageUpdate.getMessage().toString());
         Message message = new Message();
         message.setChat(messageUpdate.getMessage().getChat());
         message.setMessageId(messageUpdate.getMessage().getMessageId());
@@ -202,7 +210,7 @@ public class OutcomeMessageProcessor implements Processor {
                         }
                     }
                 } catch (final Exception e) {
-                    log.fine("NON_COMMAND_PROCESSOR - Message not processed by the available plugins.");
+                    log.debug("NON_COMMAND_PROCESSOR - Message not processed by the available plugins.");
                 }
             }
         });

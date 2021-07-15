@@ -29,7 +29,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -40,6 +39,7 @@ import javax.ws.rs.core.Response;
 
 import io.quarkus.scheduler.Scheduled;
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.message.sender.MessageSender;
 import xyz.rebasing.rebot.api.object.Chat;
@@ -83,7 +83,7 @@ public class PacktNotifier {
 
     @Scheduled(cron = "0 30 05 * * ?")
     public void populate() {
-        log.fine("Retrieving information about the daily free ebook.");
+        log.debug("Retrieving information about the daily free ebook.");
         try {
             Date today = new Date();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -93,26 +93,29 @@ public class PacktNotifier {
             WebTarget loadDailyOfferWebTarget = client.target(String.format(PACKT_LOAD_OFFER_ENDPOINT, localDate.format(formatter),
                                                                             localDate.plus(1, ChronoUnit.DAYS).format(formatter)));
 
-            log.fine("Loading daily pack offer with URI: " + loadDailyOfferWebTarget.getUri());
+            log.debugv("Loading daily pack offer with URI: {0}", loadDailyOfferWebTarget.getUri());
 
             Response loadDailyOfferResponse = loadDailyOfferWebTarget.request().get();
             if (loadDailyOfferResponse.getStatus() != 200) {
-                log.warning("Failed to connect in the endpoint " + loadDailyOfferWebTarget.getUri() + ", status code is: " + loadDailyOfferResponse.getStatus());
+                log.warnv("Failed to connect in the endpoint {0}, status code is: {1}",
+                          loadDailyOfferWebTarget.getUri(),
+                          loadDailyOfferResponse.getStatus());
             }
 
             LoadDailyOffer loadDailyOffer = loadDailyOfferResponse.readEntity(LoadDailyOffer.class);
-            log.fine(loadDailyOffer.toString());
+            log.debug(loadDailyOffer.toString());
 
             WebTarget getDailyOffer = client.target(String.format(PACKT_DAILY_OFFER_ENDPOINT, loadDailyOffer.getData().get(0).getProductId()));
-            log.finest("Getting daily pack offer with URI: " + getDailyOffer.getUri());
+            log.tracev("Getting daily pack offer with URI: {0}", getDailyOffer.getUri());
 
             Response getDailyOfferResponse = getDailyOffer.request().get();
             if (getDailyOfferResponse.getStatus() != 200) {
-                log.warning("Failed to connect in the endpoint " + getDailyOffer.getUri() + ", status code is: " + getDailyOfferResponse.getStatus());
+                log.warnv("Failed to connect in the endpoint {0}, status code is: {1}",
+                          getDailyOffer.getUri(), getDailyOfferResponse.getStatus());
             }
 
             DailyOffer dailyOffer = getDailyOfferResponse.readEntity(DailyOffer.class);
-            log.fine(dailyOffer.toString());
+            log.debug(dailyOffer.toString());
 
             cache.clear();
             cache.put("book", dailyOffer);
@@ -123,7 +126,7 @@ public class PacktNotifier {
             );
         } catch (final Exception e) {
             e.printStackTrace();
-            log.warning("Failed to obtain the ebook information: " + e.getMessage());
+            log.warnv("Failed to obtain the ebook information: {0}", e.getMessage());
         }
     }
 

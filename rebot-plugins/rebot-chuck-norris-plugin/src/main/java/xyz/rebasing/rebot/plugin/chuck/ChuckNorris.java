@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -24,12 +24,12 @@
 package xyz.rebasing.rebot.plugin.chuck;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.PluginProvider;
@@ -53,7 +53,7 @@ public class ChuckNorris implements PluginProvider {
 
     @Override
     public void load() {
-        log.fine("Enabling Chuck Norris plugin.");
+        log.debug("Enabling Chuck Norris plugin.");
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ChuckNorris implements PluginProvider {
             response.append(fact.getValue());
 
             // Persist chuck fact Asynchronously
-            new Thread(() -> chuckRepository.persisteChuckFact(fact)).start();
+            new Thread(() -> chuckRepository.persistChuckFact(fact)).start();
             return response.toString();
         }
         return null;
@@ -94,7 +94,7 @@ public class ChuckNorris implements PluginProvider {
      */
     private boolean canProcess(String messageContent) {
         boolean canProcess = null == messageContent ? false : FULL_MSG_PATTERN.matcher(messageContent.toLowerCase()).find();
-        log.fine("Chuck Norris plugin - can process [" + messageContent + "] - " + canProcess);
+        log.debugv("Chuck Norris plugin - can process [" + messageContent + "] - " + canProcess);
         return canProcess;
     }
 }

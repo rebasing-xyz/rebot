@@ -25,7 +25,6 @@ package xyz.rebasing.rebot.service.cache.producer;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -37,6 +36,7 @@ import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.cache.pojo.urban.CustomTermResponse;
 import xyz.rebasing.rebot.service.cache.qualifier.UrbanDictionaryCache;
 

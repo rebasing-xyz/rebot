@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -24,7 +24,6 @@
 package xyz.rebasing.rebot.service.persistence.repository;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,6 +31,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.pojo.BotStatus;
 import xyz.rebasing.rebot.service.persistence.pojo.CommandStatus;
 
@@ -50,7 +50,7 @@ public class ApiRepository {
      * @param botStatus {@link BotStatus}
      */
     public void persist(BotStatus botStatus) {
-        log.fine("Persisting " + botStatus.toString());
+        log.debugv("Persisting {0}", botStatus.toString());
         em.persist(botStatus);
         em.flush();
     }
@@ -61,7 +61,7 @@ public class ApiRepository {
      * @param chatId {@link long}
      */
     public void remove(long chatId) {
-        log.fine("Enabling bot for chat  " + chatId);
+        log.debugv("Enabling bot for chat {0}", chatId);
         Query q = em.createNativeQuery("DELETE FROM BOT_STATUS where ID=" + chatId + ";");
         q.executeUpdate();
         em.flush();
@@ -101,7 +101,7 @@ public class ApiRepository {
      * @param commandName
      */
     public void enableCommand(long chatId, String commandName) {
-        log.fine("Enabling bot command " + commandName + " for chat  " + chatId);
+        log.debugv("Enabling bot command {0} for chat {1}", commandName, chatId);
         Query q = em.createNativeQuery("DELETE FROM COMMAND_STATUS where groupID=" + chatId + " and commandName='" + commandName + "';");
         q.executeUpdate();
         em.flush();
@@ -113,7 +113,7 @@ public class ApiRepository {
      * @param commandStatus
      */
     public void disableCommand(CommandStatus commandStatus) {
-        log.fine("Disabling command " + commandStatus.toString());
+        log.debugv("Disabling command {0}", commandStatus.toString());
         em.persist(commandStatus);
         em.flush();
     }

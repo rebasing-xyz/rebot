@@ -26,12 +26,12 @@ package xyz.rebasing.rebot.plugin.currency;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
@@ -62,7 +62,7 @@ public class Currency implements CommandProvider {
     public void load() {
         new Thread(() -> {
             // on startup defaults to en
-            log.fine("Loading command " + this.name());
+            log.debugv("Loading command {0}", this.name());
             ecbClient.getAndPersistDailyCurrencies();
         }).start();
     }
@@ -194,7 +194,7 @@ public class Currency implements CommandProvider {
      */
     private boolean canProcess() {
         try {
-            log.fine("Verifying if the cache is functional");
+            log.debug("Verifying if the cache is functional");
             Cube cube = (Cube) cache.get("USD");
             if (null != cube.getCurrency()) {
                 return true;
@@ -203,7 +203,7 @@ public class Currency implements CommandProvider {
             }
         } catch (final Exception e) {
             e.printStackTrace();
-            log.fine("Currency Plugin is not functional at this moment [" + e.getMessage() + "]");
+            log.debugv("Currency Plugin is not functional at this moment [{0}]", e.getMessage());
             return false;
         }
     }

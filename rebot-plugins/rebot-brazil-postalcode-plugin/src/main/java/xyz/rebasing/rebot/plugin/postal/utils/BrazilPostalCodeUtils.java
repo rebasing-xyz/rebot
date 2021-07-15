@@ -30,13 +30,13 @@ import java.io.InputStreamReader;
 import java.lang.invoke.MethodHandles;
 import java.text.Normalizer;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.service.cache.pojo.postal.PostalCode;
@@ -58,20 +58,20 @@ public class BrazilPostalCodeUtils {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(CSV_FILE))) {
             while ((line = br.readLine()) != null) {
                 String[] linePos = line.split(CSV_SEPARATOR);
-                log.finest("Processing " + linePos[0] + " " + linePos[1] + " " + linePos[2] + " " + linePos[3]);
+                log.tracev("Processing {0} {1} {2} {3}", linePos[0], linePos[1], linePos[2], linePos[3]);
                 // remove accents before put on cache
                 String county = removeAccent(linePos[2]);
                 cache.put(county, new PostalCode(linePos[0], linePos[1], county, linePos[3]));
             }
         } catch (IOException e) {
-            log.severe("Failed to parse CSV File: " + e.getMessage());
+            log.errorv("Failed to parse CSV File: {0}", e.getMessage());
         }
     }
 
     public String query(String key, long limitResult, boolean returnUF, String locale) {
         StringBuilder stbuilder = new StringBuilder();
 
-        log.fine(String.format("Search key ---- %s with parameters --limit-result=%d and --uf=%s", removeAccent(key).toUpperCase(), limitResult, returnUF));
+        log.debugv("Search key ---- {0} with parameters --limit-result={1} and --uf={2}", removeAccent(key).toUpperCase(), limitResult, returnUF);
         List<PostalCode> foundValues = cache.values().stream()
                 .filter(item -> item instanceof PostalCode)
                 .filter(item -> item.getCounty().toUpperCase().contains(removeAccent(key).toUpperCase())

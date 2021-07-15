@@ -26,7 +26,6 @@ package xyz.rebasing.rebot.plugin;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -36,6 +35,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.scheduler.Scheduled;
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.service.cache.pojo.faq.Project;
@@ -55,7 +55,7 @@ public class FaqHelper {
     @Scheduled(every = "1800s", delay = 30)
     public void populateCache() {
         try {
-            log.fine("Trying to read the file " + JSON_SOURCE_LOCATION);
+            log.debugv("Trying to read the file {0}", JSON_SOURCE_LOCATION);
             URL jsonUrl = new URL(JSON_SOURCE_LOCATION);
 
             ObjectMapper mapper = new ObjectMapper();
@@ -63,13 +63,13 @@ public class FaqHelper {
             });
 
             myObjects.stream().forEach(project -> {
-                log.fine("Add entry in the cache: [" + project.getId() + " - " + project.id + "]");
+                log.debugv("Add entry in the cache: [{0}] - {1}]", project.getId(), project.id);
                 cache.putIfAbsent(project.getId(), project);
             });
-            log.fine("Cache successfully populated.");
+            log.debug("Cache successfully populated.");
             myObjects.clear();
         } catch (Exception e) {
-            log.warning("Failed to populate the cache: " + e.getMessage());
+            log.warnv("Failed to populate the cache: {0}", e.getMessage());
             e.printStackTrace();
         }
     }

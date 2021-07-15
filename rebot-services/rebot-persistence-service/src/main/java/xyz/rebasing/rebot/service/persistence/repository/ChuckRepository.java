@@ -24,13 +24,13 @@
 package xyz.rebasing.rebot.service.persistence.repository;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.pojo.Fact;
 
 @Transactional
@@ -42,14 +42,14 @@ public class ChuckRepository {
     @Inject
     EntityManager entityManager;
 
-    public void persisteChuckFact(Fact fact) {
-        log.fine("Persisting chuck object [" + fact.toString() + "]");
+    public void persistChuckFact(Fact fact) {
+        log.debugv("Persisting chuck object [{0}]", fact.toString());
         try {
             entityManager.merge(fact);
             entityManager.flush();
         } catch (final Exception e) {
             e.printStackTrace();
-            log.warning("Failed to persist object [" + fact.toString() + "]: " + e.getMessage());
+            log.warnv("Failed to persist object [{0}]:", fact.toString(), e.getMessage());
         }
     }
 }

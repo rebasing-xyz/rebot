@@ -28,13 +28,13 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.infinispan.Cache;
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.plugin.client.UrbanDictionaryClient;
 import xyz.rebasing.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
 import xyz.rebasing.rebot.service.cache.pojo.urban.CustomTermResponse;
@@ -136,7 +136,7 @@ public class Helper {
             if (showExample || cacheItems.size() != numberOfResults) {
                 List<CustomTermResponse> itemsWithNoExample = cacheItems.stream().filter(item -> item.getExample() == null).collect(Collectors.toList());
                 if (itemsWithNoExample.size() > 0 || cacheItems.size() != numberOfResults) {
-                    log.fine(term + " is available on cache but some information is missing.");
+                    log.debugv("{0} is available on cache but some information is missing.", term);
                     if (showExample) {
                         builder.showExample();
                     }
@@ -146,11 +146,11 @@ public class Helper {
                     return ubResult;
                 }
             } else {
-                log.fine(term + " is available on cache, returning it from cache.");
+                log.debugv("{0} is available on cache, returning it from cache.", term);
                 return cacheItems;
             }
         }
-        log.fine(term + " is not available on cache, making a new request.");
+        log.debugv("{0} is not available on cache, making a new request.", term);
         if (showExample) {
             builder.showExample();
         }

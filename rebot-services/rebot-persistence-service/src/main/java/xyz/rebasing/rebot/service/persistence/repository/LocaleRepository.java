@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -25,7 +25,6 @@ package xyz.rebasing.rebot.service.persistence.repository;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,6 +32,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.pojo.ChatLocale;
 
 @Transactional
@@ -52,7 +52,7 @@ public class LocaleRepository {
                     .getSingleResult().getChatLocale();
         } catch (final Exception e) {
             e.printStackTrace();
-            log.fine("get() - There is no locale for  chat[" + chatId + "], defaulting to " + DEFAULT_LOCALE);
+            log.debugv("get() - There is no locale for  chat [{0}], defaulting to {1}", chatId, DEFAULT_LOCALE);
             this.persistChatLocale(new ChatLocale(chatId, chatTitle, DEFAULT_LOCALE));
             return DEFAULT_LOCALE;
         }
@@ -66,7 +66,7 @@ public class LocaleRepository {
 
     public String persistChatLocale(ChatLocale chatLocale) {
         try {
-            log.fine("Persisting " + chatLocale.toString());
+            log.debugv("Persisting {0}", chatLocale.toString());
             em.merge(chatLocale);
             em.flush();
         } catch (final Exception e) {

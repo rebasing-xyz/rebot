@@ -25,11 +25,11 @@ package xyz.rebasing.rebot.plugin;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.object.MessageUpdate;
@@ -49,7 +49,7 @@ public class Weather implements CommandProvider {
 
     @Override
     public void load() {
-        log.fine("Loading command " + this.name());
+        log.debugv("Loading command ", this.name());
     }
 
     @Override

@@ -25,12 +25,12 @@ package xyz.rebasing.rebot.plugin.welcome.kogito;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.logging.Logger;
 import org.kie.kogito.Model;
 import org.kie.kogito.process.Process;
 import xyz.rebasing.rebot.api.emojis.Emoji;
@@ -74,13 +74,16 @@ public class WelcomeProcessFunctions {
         );
 
         // lazy kicker, wait 20 seconds before kick user out so he can read the message
-        log.fine("Kicking user " + welcomeChallenge.getUser() + " ----- From Chat " + welcomeChallenge.getChatTitle() + " ---- With Challenge " + welcomeChallenge.toString());
+        log.debugv("Kicking user {0} ----- From Chat {1} ---- With Challenge {2}",
+                   welcomeChallenge.getUser(),
+                   welcomeChallenge.getChatTitle(),
+                   welcomeChallenge.toString());
         userManagement.kickUser(welcomeChallenge.getUserId(), welcomeChallenge.getChatId(), 20L);
         return welcomeChallenge;
     }
 
     public WelcomeChallenge kickUserTimeout(WelcomeChallenge welcomeChallenge) {
-        log.fine("kicking user with Challenge: " + welcomeChallenge.toString());
+        log.debugv("kicking user with Challenge: {0}", welcomeChallenge.toString());
         // send kicked message
         String response = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.timeout"),
                                         welcomeChallenge.getName(),
@@ -89,7 +92,8 @@ public class WelcomeProcessFunctions {
         // get the sent message's id to be deleted.
         welcomeChallenge.addMessadeIdToDelete(
                 reply.processOutgoingMessage(new Message(welcomeChallenge.getMessageId(),
-                                                         new Chat(welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle()),
+                                                         new Chat(welcomeChallenge.getChatId(),
+                                                                  welcomeChallenge.getChatTitle()),
                                                          response), false, 0).getAsLong()
         );
         userManagement.kickUser(welcomeChallenge.getUserId(), welcomeChallenge.getChatId(), 20L);
@@ -97,7 +101,7 @@ public class WelcomeProcessFunctions {
     }
 
     public WelcomeChallenge sendChallengeMessage(WelcomeChallenge welcomeChallenge) {
-        log.fine("Starting Challenge " + welcomeChallenge.toString());
+        log.debugv("Starting Challenge {0}", welcomeChallenge.toString());
         String response = (String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.start"),
                                          welcomeChallenge.getName(),
                                          welcomeChallenge.getChatTitle(),
@@ -113,7 +117,8 @@ public class WelcomeProcessFunctions {
     }
 
     public WelcomeChallenge sendWelcomeMessage(WelcomeChallenge welcomeChallenge) {
-        log.fine("Welcoming user " + welcomeChallenge.getUser() + " to group id[" + welcomeChallenge.getChatId() + "] -name [" + welcomeChallenge.getChatTitle() + "].");
+        log.debugv("Welcoming user {0} to group id[{1}] -name [{2}]",
+                   welcomeChallenge.getUser(), welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle());
         String response = (String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "welcome"),
                                          welcomeChallenge.getName(),
                                          welcomeChallenge.getChatTitle(),
