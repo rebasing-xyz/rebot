@@ -99,10 +99,10 @@ public class KarmaPlugin implements PluginProvider {
                         String key;
                         if (item.charAt(item.length() - 1) == 8212 || item.charAt(item.length() - 1) == 8211) {
                             keyOperator = "--";
-                            key = item.substring(0, item.length() - 1).toLowerCase();
+                            key = item.substring(0, item.length() - 1);
                         } else {
                             keyOperator = item.substring(item.length() - 2);
-                            key = item.substring(0, item.length() - 2).toLowerCase();
+                            key = item.substring(0, item.length() - 2);
                         }
                         finalTargets.putIfAbsent(key, keyOperator);
                     }
