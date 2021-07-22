@@ -54,7 +54,7 @@ public class BotPropertyProducerBean {
         String property = readSysProperty(prop.name(), prop.value());
         log.debugv("Injecting String Property name: [{0}] value: [{1}] required [{2}]",
                    prop.name(), property, prop.required());
-        if (prop.required() && (null == property) || property == "") {
+        if (prop.required() && (null == property) || property.equals("")) {
             throw new IllegalStateException("The parameter " + prop.name() + " is required!");
         }
         return property;

@@ -24,97 +24,101 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Packtpub Free Learning Plugin</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-packt-free-learning-plugin</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Packtpub Free Learning Plugin</name>
+  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-packt-free-learning-plugin</url>
 
-    <description>
-        Implementation of /packt command
-    </description>
+  <description>
+    Implementation of /packt command
+  </description>
 
-    <parent>
-        <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-plugins-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>xyz.rebasing</groupId>
+    <artifactId>rebot-plugins-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <!-- Artifact Configuration -->
-    <artifactId>rebot-packt-free-learning-plugin</artifactId>
-    <packaging>jar</packaging>
+  <!-- Artifact Configuration -->
+  <artifactId>rebot-packt-free-learning-plugin</artifactId>
+  <packaging>jar</packaging>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <id>rebasingxyz</id>
-            <name>Rebasing.xyz</name>
-           <url>https://github.com/rebasing-xyz/rebot</url>
-            <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+      <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
+    </developer>
+  </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot</url>
-      <tag>HEAD</tag>
+  <scm>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
+    <tag>HEAD</tag>
   </scm>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-scheduler</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.28</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-            <version>2.28</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-            <version>2.28</version>
-        </dependency>
+  <properties>
+    <version.org.glassfish.jersey>3.0.2</version.org.glassfish.jersey>
+  </properties>
 
-        <!-- rebot dependencies -->
-        <dependency>
-            <groupId>xyz.rebasing</groupId>
-            <artifactId>rebot-telegram-api-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>xyz.rebasing</groupId>
-            <artifactId>rebot-telegram-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>xyz.rebasing</groupId>
-            <artifactId>rebot-cache-service</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>xyz.rebasing</groupId>
-            <artifactId>rebot-persistence-service</artifactId>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-scheduler</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${version.org.glassfish.jersey}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <version>${version.org.glassfish.jersey}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>${version.org.glassfish.jersey}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-    </dependencies>
+    <!-- rebot dependencies -->
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-telegram-api-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-telegram-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-cache-service</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-persistence-service</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

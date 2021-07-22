@@ -25,6 +25,7 @@ package xyz.rebasing.rebot.service.persistence.repository;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,7 +33,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.service.persistence.pojo.PacktNotification;
@@ -48,20 +48,23 @@ public class PacktRepository {
 
     public String register(PacktNotification packtNotification) {
         try {
+
+            Optional<PacktNotification> p = get().stream().
+                    filter(pn -> pn.getChatId().equals(packtNotification.getChatId()))
+                    .findFirst();
+
+            if (p.isPresent()) {
+                return String.format(
+                        I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.already.exists"),
+                        packtNotification.getChannel());
+            }
+
             em.persist(packtNotification);
-            em.flush();
+
             return String.format(
                     I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.created"),
                     packtNotification.getChannel());
         } catch (final Exception e) {
-            Throwable t = e.getCause();
-            while ((t != null) && !(t instanceof ConstraintViolationException)) {
-                if (t.getClass().toString().contains("ConstraintViolationException")) {
-                    return String.format(
-                            I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.already.exists"),
-                            packtNotification.getChannel());
-                }
-            }
             return String.format(
                     I18nHelper.resource("Common", packtNotification.getLocale(), "packt.notification.fail.to.create"),
                     e.getCause());

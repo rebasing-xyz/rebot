@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -28,11 +28,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import xyz.rebasing.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
 import xyz.rebasing.rebot.service.cache.pojo.urban.CustomTermResponse;
 import xyz.rebasing.rebot.service.cache.pojo.urban.Term;
@@ -79,29 +78,37 @@ public class UrbanDictionaryClient implements IUrbanDictionaryClient {
      */
     public List<CustomTermResponse> execute() throws UnsupportedEncodingException {
 
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(this.URBAN_DICTIONARY_ENDPOINT + "?term=" + encode(this.term));
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+        Request request = new Request.Builder()
+                .url(this.URBAN_DICTIONARY_ENDPOINT + "?term=" + encode(this.term))
+                .get()
+                .build();
 
-        Response response = target.request().get();
+        try (Response response = client.newCall(request).execute()) {
 
-        if (response.getStatus() != 200) {
-            throw new RuntimeException("Failed to connect in the urban dictionary endpoint " + this.URBAN_DICTIONARY_ENDPOINT + ", status code is: " + response.getStatus());
+            if (response.code() == 404) {
+                throw new RuntimeException("Failed to connect in the urban dictionary endpoint " +
+                                                   this.URBAN_DICTIONARY_ENDPOINT + ", status code is: " + response.code());
+            }
+
+            List<CustomTermResponse> c = new ArrayList<>();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Term t = objectMapper.readValue(response.body().string(), Term.class);
+            t.getList()
+                    .stream().limit(this.numberOfResults)
+                    .forEach(entry -> {
+                        if (this.showExample) {
+                            c.add(new CustomTermResponse(entry.getWord(), entry.getDefinition(), entry.getExample(), entry.getPermalink()));
+                        } else {
+                            c.add(new CustomTermResponse(entry.getWord(), entry.getDefinition(), entry.getPermalink()));
+                        }
+                    });
+            return c;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
-
-        List<CustomTermResponse> c = new ArrayList<>();
-
-        response.readEntity(Term.class)
-                .getList()
-                .stream().limit(this.numberOfResults)
-                .forEach(entry -> {
-                    if (this.showExample) {
-                        c.add(new CustomTermResponse(entry.getWord(), entry.getDefinition(), entry.getExample(), entry.getPermalink()));
-                    } else {
-                        c.add(new CustomTermResponse(entry.getWord(), entry.getDefinition(), entry.getPermalink()));
-                    }
-                });
-
-        return c;
     }
 
     /**
