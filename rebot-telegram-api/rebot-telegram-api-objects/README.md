@@ -1,6 +1,6 @@
 # ReBot Telegram API Objects
 
-Provides all the needed POJOs for serialization/deserialization of JSON contents needed for communicating with
+Provides all the needed Domain API objects for serialization/deserialization of JSON contents needed for communicating with
 Telegram API.
 
 ### Did you find a bug or do you have a suggestion?

@@ -23,7 +23,7 @@
 
 package xyz.rebasing.rebot.api.spi;
 
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 public interface PluginProvider {
 

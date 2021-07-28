@@ -25,7 +25,7 @@ package xyz.rebasing.rebot.api.spi;
 
 import java.util.Optional;
 
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 public interface CommandProvider {
 

@@ -31,14 +31,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
-import org.infinispan.Cache;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.plugin.client.UrbanDictionaryClient;
 import xyz.rebasing.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
-import xyz.rebasing.rebot.service.cache.pojo.urban.CustomTermResponse;
-import xyz.rebasing.rebot.service.cache.qualifier.UrbanDictionaryCache;
+import xyz.rebasing.rebot.plugin.domain.CustomTermResponse;
 
 @ApplicationScoped
 public class Helper {
@@ -47,9 +46,10 @@ public class Helper {
 
     private UrbanDictionaryClient client;
 
-    @Inject
-    @UrbanDictionaryCache
-    private Cache<Object, List<CustomTermResponse>> cache;
+    Cache<Object, List<CustomTermResponse>> cache = Caffeine.newBuilder()
+            .expireAfterWrite(1, TimeUnit.DAYS)
+            .recordStats()
+            .build();
 
     public String query(String param) {
         String term = "";
@@ -131,8 +131,8 @@ public class Helper {
     private List<CustomTermResponse> processRequest(String term, int numberOfResults, boolean showExample) throws UnsupportedEncodingException {
 
         UrbanDictionaryClientBuilder builder = new UrbanDictionaryClientBuilder();
-        if (cache.containsKey(term.trim())) {
-            List<CustomTermResponse> cacheItems = cache.get(term.trim());
+        if (cache.asMap().containsKey(term.trim())) {
+            List<CustomTermResponse> cacheItems = cache.asMap().get(term.trim());
             if (showExample || cacheItems.size() != numberOfResults) {
                 List<CustomTermResponse> itemsWithNoExample = cacheItems.stream().filter(item -> item.getExample() == null).collect(Collectors.toList());
                 if (itemsWithNoExample.size() > 0 || cacheItems.size() != numberOfResults) {
@@ -142,7 +142,7 @@ public class Helper {
                     }
                     client = builder.term(term).numberOfResults(numberOfResults).build();
                     List<CustomTermResponse> ubResult = client.execute();
-                    cache.replace(term.trim(), ubResult, 1, TimeUnit.DAYS);
+                    cache.asMap().replace(term.trim(), ubResult);
                     return ubResult;
                 }
             } else {
@@ -156,7 +156,7 @@ public class Helper {
         }
         client = builder.term(term).numberOfResults(numberOfResults).build();
         List<CustomTermResponse> ubResult = client.execute();
-        cache.putIfAbsent(term.trim(), ubResult, 1, TimeUnit.DAYS);
+        cache.asMap().putIfAbsent(term.trim(), ubResult);
         return ubResult;
     }
 }

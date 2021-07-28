@@ -26,7 +26,7 @@ package xyz.rebasing.rebot;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.telegram.api.message.OutcomeMessageProcessor;
 import xyz.rebasing.rebot.telegram.api.polling.ReBotLongPoolingBot;
 

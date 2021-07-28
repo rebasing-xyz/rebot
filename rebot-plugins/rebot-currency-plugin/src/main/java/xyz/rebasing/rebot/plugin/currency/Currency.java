@@ -30,18 +30,16 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.infinispan.Cache;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.CommandProvider;
 import xyz.rebasing.rebot.plugin.currency.ecb.AvailableCurrencies;
 import xyz.rebasing.rebot.plugin.currency.ecb.CurrencyObject;
 import xyz.rebasing.rebot.plugin.currency.ecb.ECBClient;
 import xyz.rebasing.rebot.plugin.currency.ecb.ECBHelper;
-import xyz.rebasing.rebot.service.cache.qualifier.CurrencyCache;
-import xyz.rebasing.rebot.service.persistence.pojo.Cube;
+import xyz.rebasing.rebot.service.persistence.domain.Cube;
 
 @ApplicationScoped
 public class Currency implements CommandProvider {
@@ -53,10 +51,6 @@ public class Currency implements CommandProvider {
 
     @Inject
     ECBClient ecbClient;
-
-    @Inject
-    @CurrencyCache
-    Cache<String, Object> cache;
 
     @Override
     public void load() {
@@ -108,7 +102,7 @@ public class Currency implements CommandProvider {
                     }
                     response.append(String.format(
                             I18nHelper.resource("CurrencyMessages", locale, "currency.date"),
-                            cache.get("time")));
+                            ecbClient.cache().getIfPresent("time")));
                     break;
 
                 case "GET":
@@ -142,7 +136,7 @@ public class Currency implements CommandProvider {
                     }
                     response.append(String.format(
                             I18nHelper.resource("CurrencyMessages", locale, "currency.date"),
-                            cache.get("time")));
+                            ecbClient.cache().getIfPresent("time")));
                     break;
             }
             return response.toString();
@@ -176,11 +170,15 @@ public class Currency implements CommandProvider {
     private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate, String locale) {
         try {
             if (currencyID.equalsIgnoreCase("EUR")) {
-                return ECBHelper.calculateRateConversion((Cube) cache.get(baseCurrencyId), Optional.empty(), targetExrate);
+                return ECBHelper.calculateRateConversion((Cube) ecbClient.cache().getIfPresent(baseCurrencyId),
+                                                         Optional.empty(),
+                                                         targetExrate);
             }
 
-            Cube cube = (Cube) cache.get(String.valueOf(AvailableCurrencies.valueOf(currencyID)));
-            return ECBHelper.calculateRateConversion((Cube) cache.get(baseCurrencyId), Optional.of(cube), targetExrate);
+            Cube cube = (Cube) ecbClient.cache().getIfPresent(String.valueOf(AvailableCurrencies.valueOf(currencyID)));
+            return ECBHelper.calculateRateConversion((Cube) ecbClient.cache().getIfPresent(baseCurrencyId),
+                                                     Optional.of(cube),
+                                                     targetExrate);
         } catch (final Exception e) {
             e.printStackTrace();
         }
@@ -195,7 +193,7 @@ public class Currency implements CommandProvider {
     private boolean canProcess() {
         try {
             log.debug("Verifying if the cache is functional");
-            Cube cube = (Cube) cache.get("USD");
+            Cube cube = (Cube) ecbClient.cache().getIfPresent("USD");
             if (null != cube.getCurrency()) {
                 return true;
             } else {

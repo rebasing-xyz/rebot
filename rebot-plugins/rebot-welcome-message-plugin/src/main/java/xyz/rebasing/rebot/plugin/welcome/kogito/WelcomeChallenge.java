@@ -49,6 +49,7 @@ public class WelcomeChallenge {
 
     /**
      * randomize two numbers and a math operator to start the challenge
+     * @param user that will answer the challenge
      */
     public WelcomeChallenge(String user) {
         this.number1 = randomNumber(10);

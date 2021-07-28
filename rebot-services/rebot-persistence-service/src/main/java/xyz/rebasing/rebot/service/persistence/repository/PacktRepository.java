@@ -35,7 +35,7 @@ import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
-import xyz.rebasing.rebot.service.persistence.pojo.PacktNotification;
+import xyz.rebasing.rebot.service.persistence.domain.PacktNotification;
 
 @Transactional
 @ApplicationScoped

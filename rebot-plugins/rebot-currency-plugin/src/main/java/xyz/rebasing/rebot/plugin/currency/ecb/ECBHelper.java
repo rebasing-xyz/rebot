@@ -26,7 +26,7 @@ package xyz.rebasing.rebot.plugin.currency.ecb;
 import java.text.DecimalFormat;
 import java.util.Optional;
 
-import xyz.rebasing.rebot.service.persistence.pojo.Cube;
+import xyz.rebasing.rebot.service.persistence.domain.Cube;
 
 public class ECBHelper {
 

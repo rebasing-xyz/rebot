@@ -30,9 +30,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import xyz.rebasing.rebot.api.object.From;
-import xyz.rebasing.rebot.api.object.Message;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.From;
+import xyz.rebasing.rebot.api.domain.Message;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.plugin.sed.processor.SedResponse;
 
 public class SedTestCase {

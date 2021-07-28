@@ -4,7 +4,6 @@ Here you can find each service or command available for use within your Telegram
 
 #### Services
 
- - [ReBot Cache Service](rebot-cache-service/README.md)
  - [ReBot Persistence Service](rebot-persistence-service)
 
 

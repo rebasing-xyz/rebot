@@ -24,82 +24,77 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Weather Plugin</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-weather-plugin</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Weather Plugin</name>
+  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-weather-plugin</url>
 
-    <description>
-        Implementation of /weather command.
-    </description>
+  <description>
+    Implementation of /weather command.
+  </description>
 
-    <parent>
-        <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-plugins-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>xyz.rebasing</groupId>
+    <artifactId>rebot-plugins-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <!-- Artifact Configuration -->
-    <artifactId>rebot-weather-plugin</artifactId>
-    <packaging>jar</packaging>
+  <!-- Artifact Configuration -->
+  <artifactId>rebot-weather-plugin</artifactId>
+  <packaging>jar</packaging>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <id>rebasingxyz</id>
-            <name>Rebasing.xyz</name>
-           <url>https://github.com/rebasing-xyz/rebot</url>
-            <organizationUrl>https://github.com/rebasing-xyz/rebot</organizationUrl>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+      <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz/rebot</organizationUrl>
+    </developer>
+  </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot</url>
-      <tag>HEAD</tag>
+  <scm>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
+    <tag>HEAD</tag>
   </scm>
 
-    <dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+    </dependency>
 
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-        </dependency>
+    <!-- jackson fasterxml -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
 
-        <!-- jackson fasterxml -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
+    <!-- rebot dependencies -->
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-telegram-api-spi</artifactId>
+    </dependency>
 
-        <!-- rebot dependencies -->
-        <dependency>
-            <groupId>xyz.rebasing</groupId>
-            <artifactId>rebot-telegram-api-spi</artifactId>
-        </dependency>
-
-        <!-- tests dependency -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <!-- tests dependency -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

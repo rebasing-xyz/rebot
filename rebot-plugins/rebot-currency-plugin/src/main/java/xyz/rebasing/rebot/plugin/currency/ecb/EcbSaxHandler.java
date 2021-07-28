@@ -30,8 +30,8 @@ import javax.enterprise.context.ApplicationScoped;
 import org.jboss.logging.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
-import xyz.rebasing.rebot.service.persistence.pojo.Cube;
-import xyz.rebasing.rebot.service.persistence.pojo.Cubes;
+import xyz.rebasing.rebot.service.persistence.domain.Cube;
+import xyz.rebasing.rebot.service.persistence.domain.Cubes;
 
 @ApplicationScoped
 public class EcbSaxHandler extends DefaultHandler {

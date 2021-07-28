@@ -44,18 +44,6 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-arc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-orm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-jdbc-h2</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-scheduler</artifactId>
     </dependency>
     <dependency>
@@ -66,7 +54,6 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-quarkus</artifactId>
     </dependency>
-
 
     <!-- rebot dependencies -->
     <dependency>
@@ -85,7 +72,35 @@
     <!-- plugins and services -->
     <dependency>
       <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-brazil-postalcode-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-chuck-norris-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-currency-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-faq-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-karma-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-packt-free-learning-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
       <artifactId>rebot-ping-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-sed-plugin</artifactId>
     </dependency>
     <dependency>
       <groupId>xyz.rebasing</groupId>
@@ -97,39 +112,11 @@
     </dependency>
     <dependency>
       <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-faq-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-packt-free-learning-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-karma-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-welcome-message-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-sed-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
       <artifactId>rebot-weather-plugin</artifactId>
     </dependency>
     <dependency>
       <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-currency-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-chuck-norris-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-brazil-postalcode-plugin</artifactId>
+      <artifactId>rebot-welcome-message-plugin</artifactId>
     </dependency>
   </dependencies>
 
@@ -153,9 +140,6 @@
             <goals>
               <goal>build</goal>
             </goals>
-            <configuration>
-              <uberJar>true</uberJar>
-            </configuration>
           </execution>
         </executions>
       </plugin>

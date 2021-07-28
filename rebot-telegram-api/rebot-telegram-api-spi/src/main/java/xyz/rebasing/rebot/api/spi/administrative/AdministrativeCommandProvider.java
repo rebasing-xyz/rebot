@@ -25,7 +25,7 @@ package xyz.rebasing.rebot.api.spi.administrative;
 
 import java.util.Optional;
 
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 /**
  * That's an interface to be used for administrative commands.

@@ -50,11 +50,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
+import xyz.rebasing.rebot.api.domain.ChatAdministrator;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.TelegramResponse;
+import xyz.rebasing.rebot.api.domain.User;
 import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
-import xyz.rebasing.rebot.api.object.ChatAdministrator;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
-import xyz.rebasing.rebot.api.object.TelegramResponse;
-import xyz.rebasing.rebot.api.object.User;
 
 import static xyz.rebasing.rebot.api.shared.filter.RebotSharedFilter.isPrivateChat;
 import static xyz.rebasing.rebot.api.shared.filter.RebotSharedFilter.isUserAdmin;

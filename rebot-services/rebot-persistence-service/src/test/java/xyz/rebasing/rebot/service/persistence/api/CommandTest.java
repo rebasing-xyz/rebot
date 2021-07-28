@@ -9,7 +9,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import xyz.rebasing.rebot.service.persistence.pojo.CommandStatus;
+import xyz.rebasing.rebot.service.persistence.domain.CommandStatus;
 import xyz.rebasing.rebot.service.persistence.repository.ApiRepository;
 
 @QuarkusTest

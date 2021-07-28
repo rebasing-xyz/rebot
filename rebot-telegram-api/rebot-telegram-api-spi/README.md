@@ -118,7 +118,7 @@ If the property is set to required and is not set, the bot will fail to start.
 The api supports internationalization, for now there are two languages support: en_Us and pt_BR.
 The locale is set at chat level which means the configuration will be applied to all chat members.
 
-Only chat administrators can change this configuration. To chage the locale definition just do:
+Only chat administrators can change this configuration. To change the locale definition just do:
 
 ```bash
 /locale pt_br

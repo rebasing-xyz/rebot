@@ -26,8 +26,8 @@ package xyz.rebasing.rebot.api.shared.filter;
 
 import java.util.function.Predicate;
 
-import xyz.rebasing.rebot.api.object.ChatAdministrator;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.ChatAdministrator;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 public class RebotSharedFilter {
 

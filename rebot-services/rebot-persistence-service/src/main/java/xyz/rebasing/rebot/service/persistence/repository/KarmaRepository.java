@@ -36,7 +36,7 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.service.persistence.pojo.Karma;
+import xyz.rebasing.rebot.service.persistence.domain.Karma;
 
 @Transactional
 @ApplicationScoped

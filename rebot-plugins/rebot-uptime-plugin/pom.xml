@@ -24,61 +24,56 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Uptime Plugin</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-uptime-plugin</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Uptime Plugin</name>
+  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-uptime-plugin</url>
 
-    <description>
-        Implementation of /uptime command
-    </description>
+  <description>
+    Implementation of /uptime command
+  </description>
 
-    <parent>
-        <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-plugins-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>xyz.rebasing</groupId>
+    <artifactId>rebot-plugins-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <!-- Artifact Configuration -->
-    <artifactId>rebot-uptime-plugin</artifactId>
-    <packaging>jar</packaging>
+  <!-- Artifact Configuration -->
+  <artifactId>rebot-uptime-plugin</artifactId>
+  <packaging>jar</packaging>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <id>rebasingxyz</id>
-            <name>Rebasing.xyz</name>
-           <url>https://github.com/rebasing-xyz/rebot</url>
-            <organizationUrl>https://github.com/rebasing-xyz/rebot</organizationUrl>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+      <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz/rebot</organizationUrl>
+    </developer>
+  </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot</url>
-      <tag>HEAD</tag>
+  <scm>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
+    <tag>HEAD</tag>
   </scm>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
+  <dependencies>
+    <!-- rebot dependencies -->
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-telegram-api-spi</artifactId>
+    </dependency>
 
-        </dependency>
-
-        <!-- rebot dependencies -->
-        <dependency>
-            <groupId>xyz.rebasing</groupId>
-            <artifactId>rebot-telegram-api-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
 </project>

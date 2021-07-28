@@ -33,7 +33,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.service.persistence.pojo.ChatLocale;
+import xyz.rebasing.rebot.service.persistence.domain.ChatLocale;
 
 @Transactional
 @ApplicationScoped

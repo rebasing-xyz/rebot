@@ -26,7 +26,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.regex.Pattern;
 
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 public class SedResponse {
 

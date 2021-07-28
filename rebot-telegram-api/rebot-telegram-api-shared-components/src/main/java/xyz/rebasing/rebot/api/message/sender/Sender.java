@@ -26,7 +26,7 @@ package xyz.rebasing.rebot.api.message.sender;
 
 import java.util.OptionalLong;
 
-import xyz.rebasing.rebot.api.object.Message;
+import xyz.rebasing.rebot.api.domain.Message;
 
 public interface Sender {
 

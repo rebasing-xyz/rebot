@@ -28,27 +28,29 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import io.quarkus.scheduler.Scheduled;
-import org.infinispan.Cache;
+import okhttp3.ConnectionSpec;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.jboss.logging.Logger;
+import xyz.rebasing.rebot.api.domain.Chat;
+import xyz.rebasing.rebot.api.domain.Message;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.message.sender.MessageSender;
-import xyz.rebasing.rebot.api.object.Chat;
-import xyz.rebasing.rebot.api.object.Message;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
-import xyz.rebasing.rebot.plugin.pojo.DailyOffer;
-import xyz.rebasing.rebot.plugin.pojo.LoadDailyOffer;
-import xyz.rebasing.rebot.service.cache.qualifier.DefaultCache;
-import xyz.rebasing.rebot.service.persistence.pojo.PacktNotification;
+import xyz.rebasing.rebot.plugin.domain.DailyOffer;
+import xyz.rebasing.rebot.plugin.domain.LoadDailyOffer;
+import xyz.rebasing.rebot.service.persistence.domain.PacktNotification;
 import xyz.rebasing.rebot.service.persistence.repository.PacktRepository;
 
 @ApplicationScoped
@@ -60,9 +62,7 @@ public class PacktNotifier {
     private static final String PACKT_LOAD_OFFER_ENDPOINT = "https://services.packtpub.com/free-learning-v1/offers?dateFrom=%sT00:00:00.000Z&dateTo=%sT00:00:00.000Z";
     private static final String PACKT_DAILY_OFFER_ENDPOINT = "https://static.packt-cdn.com/products/%s/summary";
 
-    @Inject
-    @DefaultCache
-    Cache<String, Object> cache;
+    Cache<String, Object> cache = Caffeine.newBuilder().build();
 
     @Inject
     private MessageSender messageSender;
@@ -71,7 +71,7 @@ public class PacktNotifier {
     private PacktRepository repository;
 
     public String get(String locale) {
-        DailyOffer dailyOffer = (DailyOffer) cache.get("book");
+        DailyOffer dailyOffer = (DailyOffer) cache.getIfPresent("book");
         String pages = null != dailyOffer.getPages() ? dailyOffer.getPages().toString() : "N/A";
         return String.format(
                 I18nHelper.resource("Packt", locale, "book"),
@@ -83,41 +83,51 @@ public class PacktNotifier {
 
     @Scheduled(cron = "0 30 05 * * ?")
     public void populate() {
+
         log.debug("Retrieving information about the daily free ebook.");
-        try {
-            Date today = new Date();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate localDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Date today = new Date();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            Client client = ClientBuilder.newClient();
-            WebTarget loadDailyOfferWebTarget = client.target(String.format(PACKT_LOAD_OFFER_ENDPOINT, localDate.format(formatter),
-                                                                            localDate.plus(1, ChronoUnit.DAYS).format(formatter)));
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
+                .build();
 
-            log.debugv("Loading daily pack offer with URI: {0}", loadDailyOfferWebTarget.getUri());
+        Request loadDailyOfferrequest = new Request.Builder()
+                .url(String.format(PACKT_LOAD_OFFER_ENDPOINT, localDate.format(formatter),
+                                   localDate.plus(1, ChronoUnit.DAYS).format(formatter)))
+                .get()
+                .build();
 
-            Response loadDailyOfferResponse = loadDailyOfferWebTarget.request().get();
-            if (loadDailyOfferResponse.getStatus() != 200) {
+        try (Response response = client.newCall(loadDailyOfferrequest).execute()) {
+
+            if (response.code() != 200) {
                 log.warnv("Failed to connect in the endpoint {0}, status code is: {1}",
-                          loadDailyOfferWebTarget.getUri(),
-                          loadDailyOfferResponse.getStatus());
+                          loadDailyOfferrequest.url(),
+                          response.code());
             }
 
-            LoadDailyOffer loadDailyOffer = loadDailyOfferResponse.readEntity(LoadDailyOffer.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            LoadDailyOffer loadDailyOffer = objectMapper.readValue(response.body().string(), LoadDailyOffer.class);
             log.debug(loadDailyOffer.toString());
 
-            WebTarget getDailyOffer = client.target(String.format(PACKT_DAILY_OFFER_ENDPOINT, loadDailyOffer.getData().get(0).getProductId()));
-            log.tracev("Getting daily pack offer with URI: {0}", getDailyOffer.getUri());
+            Request getDailyOfferRequest = new Request.Builder()
+                    .url(String.format(String.format(PACKT_DAILY_OFFER_ENDPOINT, loadDailyOffer.getData().get(0).getProductId())))
+                    .get()
+                    .build();
 
-            Response getDailyOfferResponse = getDailyOffer.request().get();
-            if (getDailyOfferResponse.getStatus() != 200) {
+            log.tracev("Getting daily pack offer with URI: {0}", getDailyOfferRequest.url());
+
+            Response getDailyOfferResponse = client.newCall(getDailyOfferRequest).execute();
+            if (getDailyOfferResponse.code() != 200) {
                 log.warnv("Failed to connect in the endpoint {0}, status code is: {1}",
-                          getDailyOffer.getUri(), getDailyOfferResponse.getStatus());
+                          getDailyOfferRequest.url(), getDailyOfferResponse.code());
             }
 
-            DailyOffer dailyOffer = getDailyOfferResponse.readEntity(DailyOffer.class);
+            DailyOffer dailyOffer = objectMapper.readValue(getDailyOfferResponse.body().string(), DailyOffer.class);
             log.debug(dailyOffer.toString());
 
-            cache.clear();
+            cache.invalidateAll();
             cache.put("book", dailyOffer);
 
             repository.get().stream().forEach(packtNotification ->

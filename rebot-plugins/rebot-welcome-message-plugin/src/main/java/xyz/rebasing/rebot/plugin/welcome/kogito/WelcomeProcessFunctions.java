@@ -33,13 +33,13 @@ import javax.inject.Named;
 import org.jboss.logging.Logger;
 import org.kie.kogito.Model;
 import org.kie.kogito.process.Process;
+import xyz.rebasing.rebot.api.domain.Chat;
+import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.management.message.MessageManagement;
 import xyz.rebasing.rebot.api.management.user.UserManagement;
 import xyz.rebasing.rebot.api.message.sender.MessageSender;
-import xyz.rebasing.rebot.api.object.Chat;
-import xyz.rebasing.rebot.api.object.Message;
 
 @ApplicationScoped
 public class WelcomeProcessFunctions {

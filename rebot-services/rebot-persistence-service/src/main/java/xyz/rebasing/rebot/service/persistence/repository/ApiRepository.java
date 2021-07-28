@@ -32,8 +32,8 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.service.persistence.pojo.BotStatus;
-import xyz.rebasing.rebot.service.persistence.pojo.CommandStatus;
+import xyz.rebasing.rebot.service.persistence.domain.BotStatus;
+import xyz.rebasing.rebot.service.persistence.domain.CommandStatus;
 
 @Transactional
 @ApplicationScoped

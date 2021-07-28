@@ -1,7 +1,7 @@
 /*
  *  The MIT License (MIT)
  *
- *  Copyright (c) 2017 Rebasing.xyz ReBot 
+ *  Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -27,9 +27,9 @@ package xyz.rebasing.rebot.plugin.welcome.test;
 import javax.enterprise.context.ApplicationScoped;
 
 import io.quarkus.test.Mock;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.User;
 import xyz.rebasing.rebot.api.management.user.UserManagement;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
-import xyz.rebasing.rebot.api.object.User;
 
 @Mock
 @ApplicationScoped

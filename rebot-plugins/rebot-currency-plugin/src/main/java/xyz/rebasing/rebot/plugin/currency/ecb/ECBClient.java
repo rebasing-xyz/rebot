@@ -30,6 +30,8 @@ import javax.inject.Inject;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import io.quarkus.scheduler.Scheduled;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.CookieSpecs;
@@ -37,9 +39,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.infinispan.Cache;
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.service.cache.qualifier.CurrencyCache;
 import xyz.rebasing.rebot.service.persistence.repository.EcbRepository;
 
 @ApplicationScoped
@@ -55,9 +55,11 @@ public class ECBClient {
     @Inject
     EcbRepository repository;
 
-    @Inject
-    @CurrencyCache
-    Cache<String, Object> cache;
+    Cache<String, Object> c = Caffeine.newBuilder().build();
+
+    public Cache<String, Object> cache() {
+        return c;
+    }
 
     @Scheduled(every = "12h", delay = 60)
     public void getAndPersistDailyCurrencies() {
@@ -68,11 +70,12 @@ public class ECBClient {
             HttpResponse response = client().execute(httpReq);
             saxParser.parse(response.getEntity().getContent(), handler);
             repository.persist(handler.cubes());
-            cache.clear();
+            c.cleanUp();
             handler.cubes().getCubes().forEach(cube -> {
-                cache.put(cube.getCurrency(), cube);
-                cache.put("time", handler.cubes().getTime());
+                c.put(cube.getCurrency(), cube);
+                c.put("time", handler.cubes().getTime());
             });
+
         } catch (final Exception e) {
             log.errorv("Error to retrieve currency rates from {0} - message: {1}", ECB_XML_ADDRESS, e.getMessage());
         } finally {
