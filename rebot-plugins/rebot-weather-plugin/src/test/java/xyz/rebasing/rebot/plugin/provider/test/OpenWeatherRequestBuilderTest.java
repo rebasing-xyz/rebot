@@ -78,4 +78,15 @@ public class OpenWeatherRequestBuilderTest {
         String expected = "https://api.openweathermap.org/data/2.5/weather?q=Uberlandia&units=imperial&lang=pt_br&appid=my-key";
         Assert.assertEquals(expected, requestUrl.toString());
     }
+
+    @Test
+    public void testUrlWithRain() {
+        OpenWeatherRequest requestUrl = new OpenWeatherRequestBuilder()
+                .withQuery("Sao Paulo")
+                .withLang("pt_br")
+                .withAppId(API_KEY)
+                .build();
+        String expected = "https://api.openweathermap.org/data/2.5/weather?q=Sao Paulo&units=imperial&lang=pt_br&appid=my-key";
+        Assert.assertEquals(expected, requestUrl.toString());
+    }
 }
