@@ -33,11 +33,11 @@ import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
+import xyz.rebasing.rebot.api.domain.Message;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.management.message.MessageManagement;
 import xyz.rebasing.rebot.api.message.sender.MessageSender;
-import xyz.rebasing.rebot.api.object.Message;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.CommandProvider;
 import xyz.rebasing.rebot.api.spi.PluginProvider;
 import xyz.rebasing.rebot.api.spi.administrative.AdministrativeCommandProvider;
@@ -101,7 +101,7 @@ public class OutcomeMessageProcessor implements Processor {
                 reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
                                                          messageUpdate.getMessage().getChat(),
                                                          c.execute(Optional.of(
-                                                                 concat(messageUpdate.getMessage().getText().split(" "))),
+                                                                           concat(messageUpdate.getMessage().getText().split(" "))),
                                                                    messageUpdate,
                                                                    locale).toString()),
                                              c.deleteMessage(),

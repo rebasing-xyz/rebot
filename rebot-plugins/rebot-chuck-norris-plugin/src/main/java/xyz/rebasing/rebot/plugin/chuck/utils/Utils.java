@@ -31,7 +31,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.service.persistence.pojo.Fact;
+import xyz.rebasing.rebot.service.persistence.domain.Fact;
 
 public class Utils {
 

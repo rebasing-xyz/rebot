@@ -71,11 +71,11 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-arc</artifactId>
+      <artifactId>quarkus-hibernate-orm</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-orm</artifactId>
+      <artifactId>quarkus-cache</artifactId>
     </dependency>
 
     <dependency>
@@ -87,10 +87,6 @@
     <dependency>
       <groupId>xyz.rebasing</groupId>
       <artifactId>rebot-telegram-api-spi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-cache-service</artifactId>
     </dependency>
 
     <dependency>

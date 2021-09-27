@@ -31,8 +31,8 @@ import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.CommandProvider;
 import xyz.rebasing.rebot.plugin.notifier.PacktNotifier;
 

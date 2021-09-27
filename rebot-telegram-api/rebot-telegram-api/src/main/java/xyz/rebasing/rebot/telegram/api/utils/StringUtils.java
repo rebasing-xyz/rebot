@@ -28,7 +28,7 @@ public class StringUtils {
 
     /**
      * Parse the parameters received into a single String and make it lower case
-     * @param parameters
+     * @param parameters that will be concatenated separated by spaces
      * @return the formatted string
      */
     public static String concat(String... parameters) {

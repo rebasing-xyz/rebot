@@ -71,10 +71,6 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-arc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-scheduler</artifactId>
     </dependency>
     <dependency>
@@ -82,19 +78,13 @@
       <artifactId>quarkus-resteasy</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-client</artifactId>
-      <version>${version.org.glassfish.jersey}</version>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-cache</artifactId>
     </dependency>
+
     <dependency>
-      <groupId>org.glassfish.jersey.inject</groupId>
-      <artifactId>jersey-hk2</artifactId>
-      <version>${version.org.glassfish.jersey}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-json-jackson</artifactId>
-      <version>${version.org.glassfish.jersey}</version>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
     </dependency>
 
     <!-- rebot dependencies -->
@@ -105,10 +95,6 @@
     <dependency>
       <groupId>xyz.rebasing</groupId>
       <artifactId>rebot-telegram-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-cache-service</artifactId>
     </dependency>
     <dependency>
       <groupId>xyz.rebasing</groupId>

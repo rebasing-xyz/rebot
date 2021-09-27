@@ -33,8 +33,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import xyz.rebasing.rebot.plugin.client.builder.UrbanDictionaryClientBuilder;
-import xyz.rebasing.rebot.service.cache.pojo.urban.CustomTermResponse;
-import xyz.rebasing.rebot.service.cache.pojo.urban.Term;
+import xyz.rebasing.rebot.plugin.domain.CustomTermResponse;
+import xyz.rebasing.rebot.plugin.domain.Term;
 
 public class UrbanDictionaryClient implements IUrbanDictionaryClient {
 

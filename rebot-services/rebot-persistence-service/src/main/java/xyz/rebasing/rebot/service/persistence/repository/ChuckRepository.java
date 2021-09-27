@@ -31,7 +31,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.service.persistence.pojo.Fact;
+import xyz.rebasing.rebot.service.persistence.domain.Fact;
 
 @Transactional
 @ApplicationScoped

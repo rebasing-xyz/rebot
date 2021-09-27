@@ -35,10 +35,8 @@ java -Dxyz.rebasing.rebot.telegram.token=<TELEGRAM_TOKEN>
 For mor information about how to create an Yahoo app, please refer to this [link](https://developer.yahoo.com/weather/).
 Those parameters are required for the weather plugin work.
  
- 
     
 PS: The bot token is private, you can retrieve yours through the Telegram's BotFather
-
 
 ### Would you like to try it?
 The bot is up and running, feel free to add it in a group or to test it on a private chat.
@@ -47,3 +45,4 @@ The bot username is: **@rebaseit_bot**
 
 ### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).
+

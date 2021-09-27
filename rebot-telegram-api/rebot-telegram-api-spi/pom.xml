@@ -65,11 +65,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-
-        </dependency>
-        <dependency>
             <groupId>xyz.rebasing</groupId>
             <artifactId>rebot-telegram-api-objects</artifactId>
         </dependency>

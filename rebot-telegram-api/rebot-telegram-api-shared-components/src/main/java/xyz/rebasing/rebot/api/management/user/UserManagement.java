@@ -24,8 +24,8 @@
 
 package xyz.rebasing.rebot.api.management.user;
 
-import xyz.rebasing.rebot.api.object.MessageUpdate;
-import xyz.rebasing.rebot.api.object.User;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.User;
 
 public interface UserManagement {
 

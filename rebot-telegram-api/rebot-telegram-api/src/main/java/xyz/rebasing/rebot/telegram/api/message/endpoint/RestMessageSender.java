@@ -33,9 +33,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
+import xyz.rebasing.rebot.api.domain.Chat;
+import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.message.sender.MessageSender;
-import xyz.rebasing.rebot.api.object.Chat;
-import xyz.rebasing.rebot.api.object.Message;
 
 @Path("/message")
 @ApplicationScoped

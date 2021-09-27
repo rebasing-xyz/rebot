@@ -43,12 +43,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
+import xyz.rebasing.rebot.api.domain.GetUpdatesConfProducer;
+import xyz.rebasing.rebot.api.domain.Message;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.TelegramResponse;
 import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
-import xyz.rebasing.rebot.api.object.GetUpdatesConfProducer;
-import xyz.rebasing.rebot.api.object.Message;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
-import xyz.rebasing.rebot.api.object.TelegramResponse;
-import xyz.rebasing.rebot.service.persistence.pojo.BotStatus;
+import xyz.rebasing.rebot.service.persistence.domain.BotStatus;
 import xyz.rebasing.rebot.service.persistence.repository.ApiRepository;
 import xyz.rebasing.rebot.telegram.api.polling.ReBotLongPoolingBot;
 
@@ -106,8 +106,10 @@ public class UpdatesReceiver implements Runnable {
     }
 
     /**
-     * @return the bot status, true for enabled or false for disabled
      * When the bot is starting the receiver it will persist its state to survive restarts.
+     *
+     * @param chatId where the api will verify if the bot is or not enabled
+     * @return the bot status, true for enabled or false for disabled
      */
     public boolean isEnabled(long chatId) {
         return apiRepository.isBotEnabled(chatId);

@@ -29,18 +29,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.invoke.MethodHandles;
 import java.text.Normalizer;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
-import org.infinispan.Cache;
+import io.quarkus.cache.CacheResult;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
-import xyz.rebasing.rebot.service.cache.pojo.postal.PostalCode;
-import xyz.rebasing.rebot.service.cache.qualifier.BrazilPostalCodeCache;
+import xyz.rebasing.rebot.plugin.postal.domain.PostalCode;
 
 @ApplicationScoped
 public class BrazilPostalCodeUtils {
@@ -49,34 +49,35 @@ public class BrazilPostalCodeUtils {
     private InputStream CSV_FILE = this.getClass().getClassLoader().getResourceAsStream("META-INF/brazil-postal-code-list.csv");
     private String CSV_SEPARATOR = ";";
 
-    @Inject
-    @BrazilPostalCodeCache
-    Cache<String, PostalCode> cache;
-
-    public void processCSVFile() {
+    @CacheResult(cacheName = "ddd-cache")
+    public Map<String, PostalCode> processCSVFile() {
         String line;
+        Map<String, PostalCode> map = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(CSV_FILE))) {
             while ((line = br.readLine()) != null) {
                 String[] linePos = line.split(CSV_SEPARATOR);
                 log.tracev("Processing {0} {1} {2} {3}", linePos[0], linePos[1], linePos[2], linePos[3]);
                 // remove accents before put on cache
                 String county = removeAccent(linePos[2]);
-                cache.put(county, new PostalCode(linePos[0], linePos[1], county, linePos[3]));
+                map.put(county, new PostalCode(linePos[0], linePos[1], county, linePos[3]));
             }
         } catch (IOException e) {
             log.errorv("Failed to parse CSV File: {0}", e.getMessage());
         }
+        return map;
     }
 
     public String query(String key, long limitResult, boolean returnUF, String locale) {
         StringBuilder stbuilder = new StringBuilder();
 
         log.debugv("Search key ---- {0} with parameters --limit-result={1} and --uf={2}", removeAccent(key).toUpperCase(), limitResult, returnUF);
-        List<PostalCode> foundValues = cache.values().stream()
-                .filter(item -> item instanceof PostalCode)
-                .filter(item -> item.getCounty().toUpperCase().contains(removeAccent(key).toUpperCase())
-                        || item.getNationalCode().equals(key.trim()))
+        // processCSVFile() is cached by Quarkus Cache
+        List<PostalCode> foundValues = processCSVFile().entrySet().stream()
+                .filter(item -> item.getValue() instanceof PostalCode)
+                .filter(item -> item.getValue().getCounty().toUpperCase().contains(removeAccent(key).toUpperCase())
+                        || item.getValue().getNationalCode().equals(key.trim()))
                 .limit(limitResult)
+                .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
 
         if (foundValues.size() <= 0) {

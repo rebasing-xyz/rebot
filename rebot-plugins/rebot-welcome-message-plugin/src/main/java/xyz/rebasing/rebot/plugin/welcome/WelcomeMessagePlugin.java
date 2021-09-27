@@ -48,15 +48,15 @@ import org.kie.kogito.process.ProcessInstance;
 import org.kie.kogito.process.WorkItem;
 import org.kie.kogito.services.identity.StaticIdentityProvider;
 import xyz.rebasing.rebot.api.conf.BotConfig;
+import xyz.rebasing.rebot.api.domain.Chat;
+import xyz.rebasing.rebot.api.domain.ChatMember;
+import xyz.rebasing.rebot.api.domain.Message;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.management.message.MessageManagement;
 import xyz.rebasing.rebot.api.management.user.UserManagement;
 import xyz.rebasing.rebot.api.message.sender.MessageSender;
-import xyz.rebasing.rebot.api.object.Chat;
-import xyz.rebasing.rebot.api.object.ChatMember;
-import xyz.rebasing.rebot.api.object.Message;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.PluginProvider;
 import xyz.rebasing.rebot.plugin.welcome.kogito.WelcomeChallenge;
 
@@ -241,8 +241,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
      * Create a Security Policy for the new member so the task can be claimed and completed when
      * the new member answers the challenge.
      *
-     * @param username
-     * @return Kogito Security Policy
+     * @param username that will be used to create the security policy which will make the given started process be able
+     *                 to move forward only by the user who had started it.
+     * @return Kogito Process SecurityPolicy
      */
     public SecurityPolicy securityProviderForUser(String username) {
         StaticIdentityProvider identity = new StaticIdentityProvider(username, Collections.singletonList("users"));

@@ -24,59 +24,59 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <name>ReBot - Plugins Parent</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins</url>
+  <name>ReBot - Plugins Parent</name>
+  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins</url>
 
-    <description>
-        Plugins Parent pom.
-    </description>
+  <description>
+    Plugins Parent pom.
+  </description>
 
-    <parent>
-        <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>xyz.rebasing</groupId>
+    <artifactId>rebot-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>rebot-plugins-parent</artifactId>
-    <packaging>pom</packaging>
+  <artifactId>rebot-plugins-parent</artifactId>
+  <packaging>pom</packaging>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <id>rebasingxyz</id>
-            <name>Rebasing.xyz</name>
-           <url>https://github.com/rebasing-xyz/rebot</url>
-            <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+      <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
+    </developer>
+  </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot</url>
-      <tag>HEAD</tag>
+  <scm>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
+    <tag>HEAD</tag>
   </scm>
 
-    <!-- Plugins -->
-    <modules>
-        <module>rebot-chuck-norris-plugin</module>
-        <module>rebot-currency-plugin</module>
-        <module>rebot-faq-plugin</module>
-        <module>rebot-karma-plugin</module>
-        <module>rebot-brazil-postalcode-plugin</module>
-        <module>rebot-packt-free-learning-plugin</module>
-        <module>rebot-ping-plugin</module>
-        <module>rebot-sed-plugin</module>
-        <module>rebot-urban-dictionary-plugin</module>
-        <module>rebot-uptime-plugin</module>
-        <module>rebot-weather-plugin</module>
-        <module>rebot-welcome-message-plugin</module>
-    </modules>
+  <!-- Plugins -->
+  <modules>
+    <module>rebot-brazil-postalcode-plugin</module>
+    <module>rebot-chuck-norris-plugin</module>
+    <module>rebot-currency-plugin</module>
+    <module>rebot-faq-plugin</module>
+    <module>rebot-karma-plugin</module>
+    <module>rebot-packt-free-learning-plugin</module>
+    <module>rebot-ping-plugin</module>
+    <module>rebot-sed-plugin</module>
+    <module>rebot-uptime-plugin</module>
+    <module>rebot-urban-dictionary-plugin</module>
+    <module>rebot-weather-plugin</module>
+    <module>rebot-welcome-message-plugin</module>
+  </modules>
 </project>

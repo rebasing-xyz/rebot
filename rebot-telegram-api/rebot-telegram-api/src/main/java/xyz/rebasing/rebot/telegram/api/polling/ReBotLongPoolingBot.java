@@ -24,7 +24,7 @@
 
 package xyz.rebasing.rebot.telegram.api.polling;
 
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 public interface ReBotLongPoolingBot {
 

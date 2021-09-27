@@ -46,10 +46,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
+import xyz.rebasing.rebot.api.domain.Message;
+import xyz.rebasing.rebot.api.domain.TelegramResponse;
 import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
 import xyz.rebasing.rebot.api.management.message.MessageManagement;
-import xyz.rebasing.rebot.api.object.Message;
-import xyz.rebasing.rebot.api.object.TelegramResponse;
 
 @ApplicationScoped
 public class MessageSender implements Sender {

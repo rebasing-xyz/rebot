@@ -40,7 +40,7 @@ import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.systemproperties.BotProperty;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.plugin.provider.openweather.builder.OpenWeatherRequestBuilder;
-import xyz.rebasing.rebot.plugin.provider.openweather.pojo.OpenWeather;
+import xyz.rebasing.rebot.plugin.provider.openweather.domain.OpenWeather;
 import xyz.rebasing.rebot.plugin.provider.openweather.request.OpenWeatherRequest;
 
 @ApplicationScoped

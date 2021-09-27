@@ -29,7 +29,7 @@
     <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-telegram-api/rebot-telegram-api-objects</url>
 
     <description>
-        POJOs to serialization/deserialization of requests/responses to Telegram's API
+        API domain objects to serialization/deserialization of requests/responses to Telegram's API
     </description>
 
     <parent>

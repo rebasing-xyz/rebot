@@ -3,8 +3,8 @@ package xyz.rebasing.rebot.plugin.welcome.filter;
 import java.util.function.Predicate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import xyz.rebasing.rebot.api.object.ChatMember;
-import xyz.rebasing.rebot.api.object.MessageUpdate;
+import xyz.rebasing.rebot.api.domain.ChatMember;
+import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 public class WelcomePluginPredicate {
 

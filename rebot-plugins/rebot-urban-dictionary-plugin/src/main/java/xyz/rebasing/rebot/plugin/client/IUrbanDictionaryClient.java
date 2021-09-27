@@ -25,7 +25,7 @@ package xyz.rebasing.rebot.plugin.client;
 
 import java.io.UnsupportedEncodingException;
 
-import xyz.rebasing.rebot.service.cache.pojo.urban.CustomTermResponse;
+import xyz.rebasing.rebot.plugin.domain.CustomTermResponse;
 
 public interface IUrbanDictionaryClient<T> {
 
