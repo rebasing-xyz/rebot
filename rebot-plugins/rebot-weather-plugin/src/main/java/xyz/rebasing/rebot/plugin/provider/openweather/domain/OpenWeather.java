@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "base",
         "main",
         "visibility",
+        "rain",
         "wind",
         "clouds",
         "dt",
@@ -57,6 +58,8 @@ public class OpenWeather {
     private Main main;
     @JsonProperty("visibility")
     private int visibility;
+    @JsonProperty("rain")
+    private Rain rain;
     @JsonProperty("wind")
     private Wind wind;
     @JsonProperty("clouds")
@@ -207,15 +210,16 @@ public class OpenWeather {
     @Override
     public String toString() {
         return "OpenWeather{" +
-                "coord=" + coord.toString() +
-                ", weather=" + weather.toString() +
+                "coord=" + coord +
+                ", weather=" + weather +
                 ", base='" + base + '\'' +
-                ", main=" + main.toString() +
+                ", main=" + main +
                 ", visibility=" + visibility +
-                ", wind=" + wind.toString() +
-                ", clouds=" + clouds.toString() +
+                ", rain=" + rain +
+                ", wind=" + wind +
+                ", clouds=" + clouds +
                 ", dt=" + dt +
-                ", sys=" + sys.toString() +
+                ", sys=" + sys +
                 ", timezone=" + timezone +
                 ", id=" + id +
                 ", name='" + name + '\'' +
