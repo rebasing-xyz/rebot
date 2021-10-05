@@ -14,7 +14,6 @@ import xyz.rebasing.rebot.api.domain.Chat;
 import xyz.rebasing.rebot.api.domain.From;
 import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
-import xyz.rebasing.rebot.karma.plugin.KarmaPlugin;
 import xyz.rebasing.rebot.service.persistence.repository.KarmaRepository;
 
 @QuarkusTest

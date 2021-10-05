@@ -35,7 +35,7 @@ import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.i18n.SupportedLocales;
-import xyz.rebasing.rebot.api.management.user.UserManagement;
+import xyz.rebasing.rebot.api.shared.components.management.user.UserManagement;
 import xyz.rebasing.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import xyz.rebasing.rebot.service.persistence.domain.ChatLocale;
 import xyz.rebasing.rebot.service.persistence.repository.LocaleRepository;
