@@ -76,7 +76,7 @@
     </dependency>
     <dependency>
       <groupId>xyz.rebasing</groupId>
-      <artifactId>rebot-telegram-api-objects</artifactId>
+      <artifactId>rebot-telegram-api-domain</artifactId>
     </dependency>
   </dependencies>
 

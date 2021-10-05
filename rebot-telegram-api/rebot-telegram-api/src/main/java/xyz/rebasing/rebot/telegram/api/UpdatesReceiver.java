@@ -47,7 +47,7 @@ import xyz.rebasing.rebot.api.domain.GetUpdatesConfProducer;
 import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.domain.TelegramResponse;
-import xyz.rebasing.rebot.api.httpclient.BotCloseableHttpClient;
+import xyz.rebasing.rebot.api.shared.components.httpclient.BotCloseableHttpClient;
 import xyz.rebasing.rebot.service.persistence.domain.BotStatus;
 import xyz.rebasing.rebot.service.persistence.repository.ApiRepository;
 import xyz.rebasing.rebot.telegram.api.polling.ReBotLongPoolingBot;

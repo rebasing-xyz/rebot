@@ -54,9 +54,9 @@ import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
-import xyz.rebasing.rebot.api.management.message.MessageManagement;
-import xyz.rebasing.rebot.api.management.user.UserManagement;
-import xyz.rebasing.rebot.api.message.sender.MessageSender;
+import xyz.rebasing.rebot.api.shared.components.management.message.MessageManagement;
+import xyz.rebasing.rebot.api.shared.components.management.user.UserManagement;
+import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
 import xyz.rebasing.rebot.api.spi.PluginProvider;
 import xyz.rebasing.rebot.plugin.welcome.kogito.WelcomeChallenge;
 

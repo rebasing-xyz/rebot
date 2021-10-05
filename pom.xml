@@ -201,7 +201,7 @@
       </dependency>
       <dependency>
         <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-telegram-api-objects</artifactId>
+        <artifactId>rebot-telegram-api-domain</artifactId>
         <version>${version.xyz.rebasing.rebot.api}</version>
       </dependency>
       <dependency>

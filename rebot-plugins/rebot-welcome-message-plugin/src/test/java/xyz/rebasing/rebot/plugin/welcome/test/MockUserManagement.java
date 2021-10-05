@@ -29,7 +29,7 @@ import javax.enterprise.context.ApplicationScoped;
 import io.quarkus.test.Mock;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.domain.User;
-import xyz.rebasing.rebot.api.management.user.UserManagement;
+import xyz.rebasing.rebot.api.shared.components.management.user.UserManagement;
 
 @Mock
 @ApplicationScoped
