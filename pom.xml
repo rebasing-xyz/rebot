@@ -32,13 +32,6 @@
     ReBot parent pom
   </description>
 
-  <parent>
-    <!-- remove this parent later -->
-    <groupId>it.rebase</groupId>
-    <artifactId>parent-pom</artifactId>
-    <version>0.2</version>
-  </parent>
-
   <groupId>xyz.rebasing</groupId>
   <artifactId>rebot-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -55,7 +48,7 @@
     <developer>
       <id>rebasingxyz</id>
       <name>Rebasing.xyz</name>
-     <url>https://github.com/rebasing-xyz/rebot</url>
+      <url>https://github.com/rebasing-xyz/rebot</url>
       <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
     </developer>
   </developers>
@@ -77,11 +70,19 @@
     <version.junit>4.13.1</version.junit>
     <version.org.mockito>2.12.0</version.org.mockito>
     <version.org.kie.kogito>1.9.0.Final</version.org.kie.kogito>
+    <!-- maven plugins version -->
     <surefire-plugin.version>2.22.0</surefire-plugin.version>
     <version.surefire.plugin>2.20.1</version.surefire.plugin>
     <version.maven.compiler.plugin>3.7.0</version.maven.compiler.plugin>
     <version.maven.checkstyle.plugin>3.1.1</version.maven.checkstyle.plugin>
+    <version.maven.source.plugin>3.0.1</version.maven.source.plugin>
+    <version.maven.javadoc.plugin>3.0.0-M1</version.maven.javadoc.plugin>
+    <version.maven.release.plugin>2.5.3</version.maven.release.plugin>
+    <version.maven.gpg.plugin>1.6</version.maven.gpg.plugin>
+    <version.nexus.staging.maven.plugin>1.6.8</version.nexus.staging.maven.plugin>
+    <!-- project build properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.compile.java.version>11</project.compile.java.version>
   </properties>
 
   <modules>
@@ -245,7 +246,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <release>11</release>
+          <release>${project.compile.java.version}</release>
         </configuration>
       </plugin>
       <plugin>
@@ -302,7 +303,98 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${version.maven.source.plugin}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${version.maven.javadoc.plugin}</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
+  <profiles>
+    <profile>
+      <id>sign</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${version.maven.gpg.plugin}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>${version.maven.release.plugin}</version>
+            <configuration>
+              <autoVersionSubmodules>true</autoVersionSubmodules>
+              <pushChanges>false</pushChanges>
+              <localCheckout>true</localCheckout>
+              <useReleaseProfile>false</useReleaseProfile>
+              <releaseProfiles>release</releaseProfiles>
+              <goals>deploy</goals>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>${version.nexus.staging.maven.plugin}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>oss</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <distributionManagement>
+        <snapshotRepository>
+          <id>oss</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+          <id>oss</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 </project>
