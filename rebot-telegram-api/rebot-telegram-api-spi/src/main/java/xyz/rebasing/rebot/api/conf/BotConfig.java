@@ -1,27 +1,22 @@
 package xyz.rebasing.rebot.api.conf;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
-import xyz.rebasing.rebot.api.conf.systemproperties.BotProperty;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class BotConfig {
 
-    @Inject
-    @BotProperty(name = "xyz.rebasing.rebot.telegram.token", required = true)
+    @ConfigProperty(name = "xyz.rebasing.rebot.telegram.token")
     String botTokenId;
 
-    @Inject
-    @BotProperty(name = "xyz.rebasing.rebot.telegram.userId", required = true)
+    @ConfigProperty(name = "xyz.rebasing.rebot.telegram.userId")
     String botUserId;
 
-    @Inject
-    @BotProperty(name = "xyz.rebasing.rebot.delete.messages")
+    @ConfigProperty(name = "xyz.rebasing.rebot.delete.messages", defaultValue = "false")
     boolean deleteMessages;
 
-    @Inject
-    @BotProperty(name = "xyz.rebasing.rebot.delete.messages.after")
+    @ConfigProperty(name = "xyz.rebasing.rebot.delete.messages.after", defaultValue = "120")
     int deleteMessagesAfter;
 
     public String botTokenId() {
