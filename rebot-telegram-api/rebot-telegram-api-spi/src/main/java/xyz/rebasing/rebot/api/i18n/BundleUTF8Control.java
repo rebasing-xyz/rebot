@@ -43,6 +43,5 @@ public class BundleUTF8Control extends ResourceBundle.Control {
             }
         }
         return bundle;
-
     }
 }

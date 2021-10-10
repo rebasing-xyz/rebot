@@ -24,52 +24,52 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Telegram API Parent</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Telegram API Parent</name>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api</url>
 
-    <description>
-        Parant pom for ReBot Telegram bot api
-    </description>
+  <description>
+    Parent pom for ReBot Telegram bot API
+  </description>
 
-    <parent>
-        <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
+  <parent>
     <groupId>xyz.rebasing</groupId>
-    <artifactId>rebot-telegram-api-parent</artifactId>
+    <artifactId>rebot-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+  </parent>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
-        </license>
-    </licenses>
+  <groupId>xyz.rebasing</groupId>
+  <artifactId>rebot-telegram-api-parent</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <developers>
-        <developer>
-            <id>rebasingxyz</id>
-            <name>Rebasing.xyz</name>
-           <url>https://github.com/rebasing-xyz/rebot</url>
-            <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
-        </developer>
-    </developers>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
+    </license>
+  </licenses>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot</url>
-      <tag>HEAD</tag>
+  <developers>
+    <developer>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+      <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
+    <tag>HEAD</tag>
   </scm>
 
-    <modules>
-        <module>rebot-telegram-api-domain</module>
-        <module>rebot-telegram-api</module>
-        <module>rebot-telegram-api-shared-components</module>
-        <module>rebot-telegram-api-emojis</module>
-        <module>rebot-telegram-api-spi</module>
-    </modules>
+  <modules>
+    <module>rebot-telegram-api-domain</module>
+    <module>rebot-telegram-api</module>
+    <module>rebot-telegram-api-shared-components</module>
+    <module>rebot-telegram-api-emojis</module>
+    <module>rebot-telegram-api-spi</module>
+  </modules>
 </project>

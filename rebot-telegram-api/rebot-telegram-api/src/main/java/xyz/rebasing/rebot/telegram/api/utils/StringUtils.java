@@ -24,6 +24,8 @@
 
 package xyz.rebasing.rebot.telegram.api.utils;
 
+import java.util.Locale;
+
 public class StringUtils {
 
     /**
@@ -40,7 +42,7 @@ public class StringUtils {
                 result += parameters[i];
             }
         }
-        return result.toLowerCase();
+        return result.toLowerCase(new Locale("en", "US"));
     }
 
 

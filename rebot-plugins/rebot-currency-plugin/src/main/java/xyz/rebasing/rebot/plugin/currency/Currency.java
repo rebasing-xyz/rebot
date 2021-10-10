@@ -25,6 +25,7 @@ package xyz.rebasing.rebot.plugin.currency;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -73,7 +74,7 @@ public class Currency implements CommandProvider {
         }
 
         StringBuilder response = new StringBuilder();
-        CurrencyObject currency = new CurrencyObject(key.get().toUpperCase());
+        CurrencyObject currency = new CurrencyObject(key.get().toUpperCase(Locale.forLanguageTag(locale)));
 
         if (canProcess()) {
 
