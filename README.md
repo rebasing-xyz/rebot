@@ -16,7 +16,7 @@ For more details about each module, please visit its README file.
 
 ## Code Style
 
-This project uses a similar Java code style than https://github.com/kiegroup/droolsjbpm-build-bootstrap/tree/master/ide-configuration
+This project uses a similar Java code style than https://github.com/kiegroup/droolsjbpm-build-bootstrap/tree/main/ide-configuration
 
 
 ### Did you find a bug or do you have a suggestion?

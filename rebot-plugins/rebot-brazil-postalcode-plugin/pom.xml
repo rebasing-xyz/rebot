@@ -27,7 +27,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <name>ReBot - Brazil Postal Code Plugin</name>
-  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-ping-plugin</url>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-plugins/rebot-ping-plugin</url>
 
   <description>
     Brazil national code for cities
@@ -46,7 +46,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
     </license>
   </licenses>
 

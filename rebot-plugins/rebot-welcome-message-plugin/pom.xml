@@ -27,7 +27,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>ReBot - Welcome Message Plugin</name>
-  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-welcome-message</url>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-plugins/rebot-welcome-message</url>
 
   <description>
     A plugin to send a welcome and goodbye message when a user enter or leave a telegram group.
@@ -45,7 +45,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
     </license>
   </licenses>
 

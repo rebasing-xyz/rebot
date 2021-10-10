@@ -26,7 +26,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <name>ReBot - Chuck Norris Plugin</name>
-  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-chuck-norris-plugin</url>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-plugins/rebot-chuck-norris-plugin</url>
 
   <description>
     Implementation of Chuck Norris plugin
@@ -45,7 +45,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
     </license>
   </licenses>
 

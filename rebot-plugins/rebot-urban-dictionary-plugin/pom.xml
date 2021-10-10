@@ -26,7 +26,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <name>ReBot - Urban Dictionary Plugin</name>
-  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-plugins/rebot-urban-dictionary-plugin</url>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-plugins/rebot-urban-dictionary-plugin</url>
 
   <description>
     Implementation of /urban command
@@ -45,7 +45,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
     </license>
   </licenses>
 

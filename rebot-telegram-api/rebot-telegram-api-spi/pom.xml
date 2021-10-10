@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>ReBot - Telegram API SPI</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-telegram-api/rebot-telegram-api-spi</url>
+    <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api/rebot-telegram-api-spi</url>
 
     <description>
         Service Provider Interfaces
@@ -44,7 +44,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+            <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
         </license>
     </licenses>
 
