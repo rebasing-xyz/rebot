@@ -36,8 +36,8 @@ import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
-import xyz.rebasing.rebot.api.conf.systemproperties.BotProperty;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.plugin.weather.providers.openweather.builder.OpenWeatherRequestBuilder;
 import xyz.rebasing.rebot.plugin.weather.providers.openweather.domain.OpenWeather;
@@ -49,7 +49,7 @@ public class OpenWeatherProvider {
     private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
-    @BotProperty(name = "xyz.rebasing.rebot.plugin.openweather.appid", required = true)
+    @ConfigProperty(name = "xyz.rebasing.rebot.plugin.openweather.appid")
     private String appId;
 
     /**

@@ -99,18 +99,22 @@ rebot-services/rebot-ping-service/
 
 ### Other Features
 
-This service also provides the ability to configure System Properties in any place of your Bot,
-just by injecting the `BotProperty` and configuring it to **required** or **not**. Example:
+Rebot uses Eclipse Microprofile Config, see an example below on how to use it:
 
 ```java
-@Inject
-@BotProperty(name = "xyz.rebasing.rebot.my.property", required = true)
+@ConfigProperty(name = "xyz.rebasing.rebot.my.property")
 private String myProperty;
 ```
 
-For global configurations use the `BotConfig` class.
+Once you have defined the example code, it can also be set using environment variables, eg: 
 
-If the property is set to required and is not set, the bot will fail to start.
+```
+export XYZ_REBASING_REBOT_MY_PROPERTY=my_valye
+```
+
+For more information please visit Quarkus' [website](https://quarkus.io/guides/config).
+
+For global configurations use the `BotConfig` class.
 
 
 ## Internationalization Plugin
