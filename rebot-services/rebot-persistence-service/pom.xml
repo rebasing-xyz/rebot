@@ -25,7 +25,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <name>ReBot - Persistence Service</name>
-  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-services/rebot-persistence-service</url>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-services/rebot-persistence-service</url>
 
   <description>
     Persistence layer, by default it uses H2 file database.
@@ -43,7 +43,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
     </license>
   </licenses>
 

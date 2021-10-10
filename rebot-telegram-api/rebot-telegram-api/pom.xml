@@ -24,7 +24,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <name>ReBot - Telegram API</name>
-  <url>https://github.com/rebasing-xyz/rebot/tree/master/rebot-telegram-api/rebot-telegram-api</url>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api/rebot-telegram-api</url>
 
   <description>
     Telegram Java API
@@ -42,7 +42,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/rebasing-xyz/rebot/tree/master/LICENSE</url>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
     </license>
   </licenses>
 

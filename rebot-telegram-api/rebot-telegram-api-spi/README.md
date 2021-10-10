@@ -156,7 +156,7 @@ the example below:
     }
 ```
 
-For more information take a look on the [i18n helper](https://github.com/rebasing-xyz/rebot/tree/master/rebot-telegram-api/rebot-telegram-api-spi/src/main/java/xyz/rebasing/rebot/api/i18n).
+For more information take a look on the [i18n helper](https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api/rebot-telegram-api-spi/src/main/java/xyz/rebasing/rebot/api/i18n).
 
 ### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).
