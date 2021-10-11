@@ -70,8 +70,6 @@ public class UpdatesReceiver implements Runnable {
 
     private Long lastUpdateId = 0L;
 
-    private volatile boolean running = false;
-
     private RequestConfig requestConfig;
 
     private Thread currentThread;
@@ -83,12 +81,11 @@ public class UpdatesReceiver implements Runnable {
      * Method responsible to configure the HttpClient and start the receiver by calling the method <b>run</b>
      * Persists the Bot status on the database
      */
-    public synchronized void start() {
+    public void start() {
         requestConfig = RequestConfig.copy(RequestConfig.custom().build())
                 .setSocketTimeout(75 * 1000)
                 .setConnectTimeout(75 * 1000)
                 .setConnectionRequestTimeout(75 * 1000).build();
-        running = true;
         currentThread = new Thread(this);
         currentThread.setDaemon(true);
         currentThread.setName("Telegram-" + config.botUserId());
@@ -99,8 +96,8 @@ public class UpdatesReceiver implements Runnable {
      * When called interrupt the current thread.
      */
     public void interrupt() {
-        if (running) {
-            running = false;
+        if (currentThread.isAlive()) {
+            log.debugv("Stopping ReBotLongPoolingBot - {0}", currentThread.getName());
             currentThread.interrupt();
         }
     }
@@ -141,12 +138,12 @@ public class UpdatesReceiver implements Runnable {
      * The receiver configuration is done by the class {@link GetUpdatesConfProducer}
      * <p>
      * This thread remains in execution until the bot goes down.
-     * The interval between the updates verification is <b>600ms</b>
+     * The interval between the updates' verification is <b>600ms</b>
      */
     @Override
     public synchronized void run() {
         ObjectMapper objectMapper = new ObjectMapper();
-        while (running) {
+        while (!currentThread.isInterrupted()) {
             GetUpdatesConfProducer getUpdates = new GetUpdatesConfProducer().setLimit(100).setTimeout(10 * 1000).setOffset(lastUpdateId + 1);
             log.tracev("receiver config -> {0}", getUpdates.toString());
             try {
@@ -201,7 +198,7 @@ public class UpdatesReceiver implements Runnable {
                                 callback.onUpdateReceived(u);
                             });
                     // wait 600ms before check for updates
-                    this.wait(600);
+                    this.wait(700);
                 }
             } catch (final Exception e) {
                 e.printStackTrace();

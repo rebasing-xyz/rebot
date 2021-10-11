@@ -94,6 +94,11 @@ public class UrbanDictionaryClient implements IUrbanDictionaryClient {
 
             List<CustomTermResponse> c = new ArrayList<>();
             ObjectMapper objectMapper = new ObjectMapper();
+
+            if (null == response.body()) {
+                throw new RuntimeException("Failed to retrieve Urban dictionary response body, response is null");
+            }
+
             Term t = objectMapper.readValue(response.body().string(), Term.class);
             t.getList()
                     .stream().limit(this.numberOfResults)

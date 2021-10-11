@@ -13,6 +13,14 @@ your Bot Token and Username.
 
 For more details about each module, please visit its README file.
 
+## Using SNAPSHOT artifacts
+
+The SNAPSHOT artifacts can be used by configuring the following maven repository:
+
+```
+https://s01.oss.sonatype.org/content/groups/public/
+```
+
 
 ## Code Style
 

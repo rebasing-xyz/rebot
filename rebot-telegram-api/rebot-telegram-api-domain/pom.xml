@@ -24,54 +24,54 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Telegram API Domain</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api/rebot-telegram-api-domain</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Telegram API Domain</name>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api/rebot-telegram-api-domain</url>
 
-    <description>
-        API domain objects to serialization/deserialization of requests/responses to Telegram's API
-    </description>
+  <description>
+    API domain objects to serialization/deserialization of requests/responses to Telegram's API
+  </description>
 
-    <parent>
-        <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-telegram-api-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>xyz.rebasing</groupId>
+    <artifactId>rebot-telegram-api-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>rebot-telegram-api-domain</artifactId>
-    <packaging>jar</packaging>
+  <artifactId>rebot-telegram-api-domain</artifactId>
+  <packaging>jar</packaging>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <id>rebasingxyz</id>
-            <name>Rebasing.xyz</name>
-           <url>https://github.com/rebasing-xyz/rebot</url>
-            <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+      <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
+    </developer>
+  </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot</url>
-      <tag>HEAD</tag>
+  <scm>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
+    <tag>HEAD</tag>
   </scm>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-orm-panache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

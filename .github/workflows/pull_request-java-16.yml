@@ -11,5 +11,5 @@ jobs:
       with:
         java-version: 16
     - name: Test with Maven
-      run: mvn clean test --file pom.xml
+      run: mvn clean test --file pom.xml -Dmaven.javadoc.skip=true
   
