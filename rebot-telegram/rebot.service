@@ -28,10 +28,10 @@ User=rebot
 Restart=always
 Type=simple
 TimeoutStartSec=120
-PIDFile=/opt/rebot/rebasing-xyz/rebot.pid
-EnvironmentFile=-/opt/rebot/rebasing-xyz/rebot.conf
+PIDFile=/opt/rebot/rebasing-xyz/rebasing-xyz-rebot.pid
+EnvironmentFile=-/opt/rebot/rebasing-xyz/rebasing-xyz-rebot.conf
 WorkingDirectory=/opt/rebot
-ExecStart=/opt/rebot/rebasing-xyz/rebot.sh start
+ExecStart=/opt/rebot/rebasing-xyz/rebasing-xyz-rebot.sh start
 ExecStop=/opt/rebot/rebasing-xyz/rebasing-xyz-rebot.sh stop
 ExecReload=/opt/rebot/rebasing-xyz/rebasing-xyz-rebot.sh restart
 

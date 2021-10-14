@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -e
-SOURCES_DIR=/tmp/artifacts
-
-mkdir -p $REBOT_HOME
-cp $SOURCES_DIR/$REBOT_QUARKUS_BINARY $REBOT_HOME

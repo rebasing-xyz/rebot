@@ -33,10 +33,9 @@
 # start|stop|restart                                                               #
 #                                                                                  #
 ####################################################################################
-
 # All the variables will come from the file /opt/bot/rebasing-xyz/rebasing-xyz-rebot.conf
-
-VERSION="1.0-SNAPSHOT"
+# copy the rebasing-xyz-rebot.conf file from this repo to /opt/bot/rebasing-xyz/ and
+# update it with the required values
 
 case $1 in
 "start")
@@ -47,7 +46,7 @@ case $1 in
     -Dxyz.rebasing.rebot.delete.messages=${REBOT_TELEGRAM_DELETE_MESSAGES} \
     -Dxyz.rebasing.rebot.delete.messages.after=${REBOT_TELEGRAM_DELETE_MESSAGES_AFTER} \
     -Dxyz.rebasing.rebot.plugin.openweather.appid=${REBOT_TELEGRAM_OPENWEATHER_APPID} \
-    -Dquarkus.log.category."xyz.rebasing".level=${REBOT_TELEGRAM_LOG_LEVEL} rebot-telegram-bot-${VERSION}-runner.jar &
+    -Dquarkus.log.category."xyz.rebasing".level=${REBOT_TELEGRAM_LOG_LEVEL} quarkus-app/quarkus-run.jar &
   echo $! > /opt/rebot/rebasing-xyz/rebasing-xyz-rebot.pid
   ;;
 "restart")
@@ -58,7 +57,7 @@ case $1 in
     -Dxyz.rebasing.rebot.delete.messages=${REBOT_TELEGRAM_DELETE_MESSAGES} \
     -Dxyz.rebasing.rebot.delete.messages.after=${REBOT_TELEGRAM_DELETE_MESSAGES_AFTER} \
     -Dxyz.rebasing.rebot.plugin.openweather.appid=${REBOT_TELEGRAM_OPENWEATHER_APPID} \
-    -Dquarkus.log.category."xyz.rebasing".level=${REBOT_TELEGRAM_LOG_LEVEL} rebot-telegram-bot-${VERSION}-runner.jar &
+    -Dquarkus.log.category."xyz.rebasing".level=${REBOT_TELEGRAM_LOG_LEVEL} quarkus-app/quarkus-run.jar &
   echo $! >  /opt/rebot/rebasing-xyz/rebasing-xyz-rebot.pid
   ;;
 "stop")
