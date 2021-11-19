@@ -56,6 +56,7 @@ public class OpenWeatherProvider {
      * Search the weather condition for the given city
      *
      * @param parameters Ex: Uberlandia  -cc BR -
+     * @param locale     locale configured by user
      * @return the forecast for the given city
      */
     public String execute(String parameters, String locale) {

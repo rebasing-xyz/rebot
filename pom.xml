@@ -70,13 +70,14 @@
     <version.junit>4.13.1</version.junit>
     <version.org.mockito>2.12.0</version.org.mockito>
     <version.org.kie.kogito>1.11.0.Final</version.org.kie.kogito>
+    <version.org.osgi.annotation.bundle>1.1.1</version.org.osgi.annotation.bundle>
     <!-- maven plugins version -->
     <surefire-plugin.version>2.22.0</surefire-plugin.version>
     <version.surefire.plugin>2.20.1</version.surefire.plugin>
     <version.maven.compiler.plugin>3.8.1</version.maven.compiler.plugin>
     <version.maven.checkstyle.plugin>3.1.1</version.maven.checkstyle.plugin>
     <version.maven.source.plugin>3.0.1</version.maven.source.plugin>
-    <version.maven.javadoc.plugin>3.0.0-M1</version.maven.javadoc.plugin>
+    <version.maven.javadoc.plugin>3.3.1</version.maven.javadoc.plugin>
     <version.maven.release.plugin>2.5.3</version.maven.release.plugin>
     <version.maven.gpg.plugin>1.6</version.maven.gpg.plugin>
     <version.nexus.staging.maven.plugin>1.6.8</version.nexus.staging.maven.plugin>
@@ -84,7 +85,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
     <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.release>11</maven.compiler.release>
     <project.compile.java.version>11</project.compile.java.version>
   </properties>
 
@@ -238,7 +239,12 @@
         <version>${version.org.hamcrest.java.hamcrest}</version>
         <scope>test</scope>
       </dependency>
-
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.bundle</artifactId>
+        <version>${version.org.osgi.annotation.bundle}</version>
+        <scope>provided</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
