@@ -87,6 +87,11 @@
     </dependency>
 
     <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>xyz.rebasing</groupId>
       <artifactId>rebot-telegram-api-spi</artifactId>
     </dependency>

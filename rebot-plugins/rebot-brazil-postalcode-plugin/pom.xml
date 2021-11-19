@@ -66,10 +66,6 @@
   </scm>
 
   <dependencies>
-<!--    <dependency>-->
-<!--      <groupId>io.quarkus</groupId>-->
-<!--      <artifactId>quarkus-arc</artifactId>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-cache</artifactId>
@@ -82,6 +78,11 @@
     <dependency>
       <groupId>xyz.rebasing</groupId>
       <artifactId>rebot-telegram-api-emojis</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
     </dependency>
 
     <!-- tests -->

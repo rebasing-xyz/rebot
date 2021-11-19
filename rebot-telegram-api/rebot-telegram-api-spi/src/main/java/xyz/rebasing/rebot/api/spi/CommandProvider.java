@@ -50,7 +50,7 @@ public interface CommandProvider {
     String name();
 
     /**
-     * @param locale
+     * @param locale locale provided by user
      * @return the command's help
      */
     String help(String locale);
@@ -58,7 +58,7 @@ public interface CommandProvider {
     /**
      * method to be used with the dump command.
      *
-     * @param locale
+     * @param locale locale provided by user
      * @return a brief description about the command
      */
     String description(String locale);

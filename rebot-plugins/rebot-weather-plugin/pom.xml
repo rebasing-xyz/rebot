@@ -84,6 +84,11 @@
       <artifactId>jackson-annotations</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+    </dependency>
+
     <!-- rebot dependencies -->
     <dependency>
       <groupId>xyz.rebasing</groupId>

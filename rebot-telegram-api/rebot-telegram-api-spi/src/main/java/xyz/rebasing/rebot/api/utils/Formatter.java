@@ -28,7 +28,7 @@ public class Formatter {
 
     /**
      * little hack to allow this plugin to process karma to the "less than" character
-     * @param content
+     * @param content content to be normalized
      * @return normalized character
      */
     public static String normalize(String content) {

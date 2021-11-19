@@ -127,7 +127,7 @@ public class WelcomeProcessTest {
         processInstance.start();
 
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.status());
-        SecurityPolicy policy = welcome.securityProviderForUser("spolti");
+        SecurityPolicy policy = SecurityPolicy.of(welcome.securityProviderForUser("spolti"));
         processInstance.workItems(policy);
 
         List<WorkItem> workItems = processInstance.workItems(policy);
@@ -169,8 +169,7 @@ public class WelcomeProcessTest {
         ProcessInstance<?> processInstance = welcomeProcess.createInstance(model);
         processInstance.start();
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.status());
-        SecurityPolicy policy = welcome.securityProviderForUser("spolti-1");
-
+        SecurityPolicy policy = SecurityPolicy.of(welcome.securityProviderForUser("spolti-1"));
         processInstance.workItems(policy);
 
         List<WorkItem> workItems = processInstance.workItems(policy);
@@ -218,7 +217,7 @@ public class WelcomeProcessTest {
         processInstance.start();
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.status());
 
-        SecurityPolicy policy = welcome.securityProviderForUser("spolti-2");
+        SecurityPolicy policy = SecurityPolicy.of(welcome.securityProviderForUser("spolti-1"));
         processInstance.workItems(policy);
 
         List<WorkItem> workItems = processInstance.workItems(policy);
@@ -299,28 +298,29 @@ public class WelcomeProcessTest {
         ProcessInstance<?> processInstanceUser1 = welcomeProcess.createInstance(modelUser1);
         processInstanceUser1.start();
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstanceUser1.status());
-        SecurityPolicy policyUser1 = welcome.securityProviderForUser(user1);
+        SecurityPolicy policyUser1 = SecurityPolicy.of(welcome.securityProviderForUser(user1));
         List<WorkItem> workItemsUser1 = processInstanceUser1.workItems();
         processInstanceUser1.transitionWorkItem(workItemsUser1.get(0).getId(), new HumanTaskTransition(Claim.ID, user1Params, policyUser1));
 
         ProcessInstance<?> processInstanceUser2 = welcomeProcess.createInstance(modelUser2);
         processInstanceUser2.start();
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstanceUser2.status());
-        SecurityPolicy policyUser2 = welcome.securityProviderForUser(user2);
+        SecurityPolicy policyUser2 = SecurityPolicy.of(welcome.securityProviderForUser(user2));
         List<WorkItem> workItemsUser2 = processInstanceUser2.workItems();
         processInstanceUser2.transitionWorkItem(workItemsUser2.get(0).getId(), new HumanTaskTransition(Claim.ID, user2Params, policyUser2));
 
         ProcessInstance<?> processInstanceUser3 = welcomeProcess.createInstance(modelUser3);
         processInstanceUser3.start();
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstanceUser3.status());
-        SecurityPolicy policyUser3 = welcome.securityProviderForUser(user3);
+        SecurityPolicy policyUser3 = SecurityPolicy.of(welcome.securityProviderForUser(user3));
         List<WorkItem> workItemsUser3 = processInstanceUser3.workItems();
         processInstanceUser3.transitionWorkItem(workItemsUser3.get(0).getId(), new HumanTaskTransition(Claim.ID, user3Params, policyUser3));
 
         ProcessInstance<?> processInstanceUser4 = welcomeProcess.createInstance(modelUser4);
         processInstanceUser4.start();
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstanceUser4.status());
-        SecurityPolicy policyUser4 = welcome.securityProviderForUser(user4);
+        // SecurityPolicy policyUser4 = welcome.securityProviderForUser(user4);
+        SecurityPolicy policyUser4 = SecurityPolicy.of(welcome.securityProviderForUser(user4));
         List<WorkItem> workItemsUser4 = processInstanceUser4.workItems();
         processInstanceUser4.transitionWorkItem(workItemsUser4.get(0).getId(), new HumanTaskTransition(Claim.ID, user4Params, policyUser4));
 
@@ -359,7 +359,7 @@ public class WelcomeProcessTest {
         assertEquals(2, challengeUser3ModelResult.toMap().size());
         Map<String, Object> challengeUser3Result = new HashMap<>();
         challengeUser3 = ((WelcomeChallenge) challengeUser3ModelResult.toMap().get("challenge"));
-        challengeUser3.setAnswer(00000000000);
+        challengeUser3.setAnswer(300);
 
         challengeUser3Result.put("challenge", challengeUser3);
         processInstanceUser3.transitionWorkItem(workItemsUser3.get(0).getId(), new HumanTaskTransition(Complete.ID, challengeUser3Result, policyUser3));

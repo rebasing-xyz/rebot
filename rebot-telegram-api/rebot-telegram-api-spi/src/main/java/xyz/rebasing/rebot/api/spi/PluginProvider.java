@@ -30,7 +30,7 @@ public interface PluginProvider {
     /**
      * Process messages received by the plugins
      * @param update message to be processed
-     * @param locale
+     * @param locale locale provided by user
      * @return a string with the result
      */
     String process(MessageUpdate update, String locale);

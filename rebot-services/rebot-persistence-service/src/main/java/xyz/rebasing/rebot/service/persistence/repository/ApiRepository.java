@@ -70,6 +70,8 @@ public class ApiRepository {
     /**
      * @return if the bot is enabled or not
      * In case there is no state saved return true.
+     *
+     * @param chatId chat id to verify if the bos enabled
      */
     public boolean isBotEnabled(long chatId) {
         try {
@@ -81,8 +83,10 @@ public class ApiRepository {
     }
 
     /**
-     * @param groupId
-     * @param commandName
+     * Check if the given command is active in the provided chat group
+     *
+     * @param groupId chat group to be verified
+     * @param commandName command to verify
      * @return if the given command is enabled is enabled or not
      */
     public boolean isCommandEnabled(long groupId, String commandName) {
@@ -95,10 +99,10 @@ public class ApiRepository {
     }
 
     /**
-     * Enable the given command
+     * Enable the given command in the provided chatId
      *
-     * @param chatId
-     * @param commandName
+     * @param chatId chat id or group to be verified
+     * @param commandName command to be enabled
      */
     public void enableCommand(long chatId, String commandName) {
         log.debugv("Enabling bot command {0} for chat {1}", commandName, chatId);
@@ -110,7 +114,7 @@ public class ApiRepository {
     /**
      * Disable the given command
      *
-     * @param commandStatus
+     * @param commandStatus {@link CommandStatus} command to be deleted
      */
     public void disableCommand(CommandStatus commandStatus) {
         log.debugv("Disabling command {0}", commandStatus.toString());

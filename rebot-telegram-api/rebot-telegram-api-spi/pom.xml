@@ -24,50 +24,54 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <name>ReBot - Telegram API SPI</name>
-    <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api/rebot-telegram-api-spi</url>
+  <modelVersion>4.0.0</modelVersion>
+  <name>ReBot - Telegram API SPI</name>
+  <url>https://github.com/rebasing-xyz/rebot/tree/main/rebot-telegram-api/rebot-telegram-api-spi</url>
 
-    <description>
-        Service Provider Interfaces
-    </description>
+  <description>
+    Service Provider Interfaces
+  </description>
 
-    <parent>
-        <groupId>xyz.rebasing</groupId>
-        <artifactId>rebot-telegram-api-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>xyz.rebasing</groupId>
+    <artifactId>rebot-telegram-api-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>rebot-telegram-api-spi</artifactId>
-    <packaging>jar</packaging>
+  <artifactId>rebot-telegram-api-spi</artifactId>
+  <packaging>jar</packaging>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/rebasing-xyz/rebot/tree/main/LICENSE</url>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <id>rebasingxyz</id>
-            <name>Rebasing.xyz</name>
-           <url>https://github.com/rebasing-xyz/rebot</url>
-            <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>rebasingxyz</id>
+      <name>Rebasing.xyz</name>
+      <url>https://github.com/rebasing-xyz/rebot</url>
+      <organizationUrl>https://github.com/rebasing-xyz</organizationUrl>
+    </developer>
+  </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
-        <url>https://github.com/rebasing-xyz/rebot</url>
-      <tag>HEAD</tag>
+  <scm>
+    <connection>scm:git:git@github.com:rebasing-xyz/rebot.git</connection>
+    <url>https://github.com/rebasing-xyz/rebot</url>
+    <tag>HEAD</tag>
   </scm>
 
-    <dependencies>
-        <dependency>
-            <groupId>xyz.rebasing</groupId>
-            <artifactId>rebot-telegram-api-domain</artifactId>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xyz.rebasing</groupId>
+      <artifactId>rebot-telegram-api-domain</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

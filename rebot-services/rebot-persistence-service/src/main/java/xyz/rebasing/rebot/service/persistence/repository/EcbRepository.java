@@ -8,8 +8,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
@@ -19,7 +20,7 @@ import xyz.rebasing.rebot.service.persistence.domain.Cubes;
 @ApplicationScoped
 public class EcbRepository {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     EntityManager em;
@@ -35,14 +36,21 @@ public class EcbRepository {
         }
     }
 
-    public List<Cubes> listCubes(Optional<String> key) {
-        CriteriaQuery<Cubes> criteria = em.getCriteriaBuilder().createQuery(Cubes.class);
+    public List<Cubes> listCubess(Optional<String> key) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Cubes> criteria = builder.createQuery(Cubes.class);
+        Root<Cubes> cubesRoot = criteria.from(Cubes.class);
         criteria.select(criteria.from(Cubes.class));
-        if (!key.isPresent()) {
+
+        if (key.isEmpty()) {
+            criteria.select(criteria.from(Cubes.class));
             return em.createQuery(criteria).getResultList();
         } else {
-            Query q = em.createNativeQuery("SELECT time FROM ECB_CUBES where time='" + key + "'");
-            return (List<Cubes>) q.getResultList();
+            criteria.where(builder.equal(cubesRoot.get("time"), key.get()));
+            // TODO verify for what it is used for
+            // Query q = em.createNativeQuery("SELECT time FROM ECB_CUBES where time='" + key + "'");
+            // return (List<Cubes>) q.getResultList();
+            return em.createQuery(criteria).getResultList();
         }
     }
 

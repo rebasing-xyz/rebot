@@ -42,11 +42,12 @@ import org.jbpm.process.instance.impl.humantask.HumanTaskTransition;
 import org.jbpm.process.instance.impl.humantask.phases.Claim;
 import org.jbpm.process.instance.impl.workitem.Complete;
 import org.kie.kogito.Model;
+import org.kie.kogito.auth.IdentityProvider;
+import org.kie.kogito.auth.IdentityProviders;
 import org.kie.kogito.auth.SecurityPolicy;
 import org.kie.kogito.process.Process;
 import org.kie.kogito.process.ProcessInstance;
 import org.kie.kogito.process.WorkItem;
-import org.kie.kogito.services.identity.StaticIdentityProvider;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.domain.Chat;
 import xyz.rebasing.rebot.api.domain.ChatMember;
@@ -68,7 +69,7 @@ import static xyz.rebasing.rebot.plugin.welcome.filter.WelcomePluginPredicate.se
 @ApplicationScoped
 public class WelcomeMessagePlugin implements PluginProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     BotConfig config;
@@ -86,8 +87,8 @@ public class WelcomeMessagePlugin implements PluginProvider {
     @Inject
     MessageSender reply;
 
-    private Predicate newMember = hasNewMember();
-    private Predicate leftMember = hasMemberLeft().and(senderIsNotBot());
+    private final Predicate newMember = hasNewMember();
+    private final Predicate leftMember = hasMemberLeft().and(senderIsNotBot());
 
     /**
      * Decide if the new member will be kicked from group or not.
@@ -141,7 +142,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
                     processInstance.start();
 
                     if (processInstance.status() == ProcessInstance.STATE_ACTIVE) {
-                        SecurityPolicy policy = securityProviderForUser(username);
+                        SecurityPolicy policy = SecurityPolicy.of(securityProviderForUser(username));
                         processInstance.workItems(policy);
 
                         List<WorkItem> workItems = processInstance.workItems(policy);
@@ -157,9 +158,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
                 // add user+chatId to make sure that if the user joined two chat rooms at the same time the process will
                 // not get confused and handle the process wrongly
                 username = username + "-" + messageUpdate.getMessage().getChat().getId();
-                SecurityPolicy policy = securityProviderForUser(username);
+                SecurityPolicy policy = SecurityPolicy.of(securityProviderForUser(username));
 
-                instances.stream().forEach(instance -> {
+                instances.forEach(instance -> {
                     List<WorkItem> workItems = instance.workItems(policy);
 
                     if (workItems.size() > 0) {
@@ -219,7 +220,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
     }
 
     /**
-     * @param update
+     * @param update Message received from telegram API
      * @return a parsed list of ChatMember Object
      */
     private List<ChatMember> chatMember(MessageUpdate update) {
@@ -245,8 +246,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
      *                 to move forward only by the user who had started it.
      * @return Kogito Process SecurityPolicy
      */
-    public SecurityPolicy securityProviderForUser(String username) {
-        StaticIdentityProvider identity = new StaticIdentityProvider(username, Collections.singletonList("users"));
-        return SecurityPolicy.of(identity);
+    public IdentityProvider securityProviderForUser(String username) {
+        return IdentityProviders.of(username, Collections.singletonList("users"));
     }
 }
