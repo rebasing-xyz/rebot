@@ -42,7 +42,7 @@ import xyz.rebasing.rebot.service.persistence.domain.Karma;
 @ApplicationScoped
 public class KarmaRepository {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     EntityManager em;

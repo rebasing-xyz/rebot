@@ -55,7 +55,7 @@ import xyz.rebasing.rebot.telegram.api.polling.ReBotLongPoolingBot;
 @ApplicationScoped
 public class UpdatesReceiver implements Runnable {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private final String TELEGRAM_UPDATE_ENDPOINT = "https://api.telegram.org/bot%s/getUpdates";
 

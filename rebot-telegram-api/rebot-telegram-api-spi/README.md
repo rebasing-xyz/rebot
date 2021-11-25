@@ -37,7 +37,7 @@ Ping Service Class:
 @ApplicationScoped
 public class Ping implements CommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Override
     public void load() {

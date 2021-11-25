@@ -46,7 +46,7 @@ import xyz.rebasing.rebot.plugin.weather.providers.openweather.request.OpenWeath
 @ApplicationScoped
 public class OpenWeatherProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     @ConfigProperty(name = "xyz.rebasing.rebot.plugin.openweather.appid")

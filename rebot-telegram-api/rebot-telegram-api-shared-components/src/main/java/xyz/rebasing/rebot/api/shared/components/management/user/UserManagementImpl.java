@@ -62,7 +62,7 @@ import static xyz.rebasing.rebot.api.shared.components.filter.RebotSharedFilter.
 @ApplicationScoped
 public class UserManagementImpl implements UserManagement {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private final String TELEGRAM_CHAT_ADMINISTRATORS_ENDPOINT = "https://api.telegram.org/bot%s/getChatAdministrators";
     private final String TELEGRAM_KICKMEMBER_ENDPOINT = "https://api.telegram.org/bot%s/kickChatMember";

@@ -21,7 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.telegram.api.internal.Commands;
+package xyz.rebasing.rebot.telegram.api.internal.commands;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Optional;
@@ -40,7 +40,7 @@ import xyz.rebasing.rebot.api.spi.administrative.AdministrativeCommandProvider;
 @ApplicationScoped
 public class DumpMenuCommand implements AdministrativeCommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     BotConfig config;

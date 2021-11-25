@@ -56,7 +56,7 @@ import xyz.rebasing.rebot.service.persistence.repository.PacktRepository;
 @ApplicationScoped
 public class PacktNotifier {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private static final String FREE_LEARNING_URL = "https://www.packtpub.com/packt/offers/free-learning";
     private static final String PACKT_LOAD_OFFER_ENDPOINT = "https://services.packtpub.com/free-learning-v1/offers?dateFrom=%sT00:00:00.000Z&dateTo=%sT00:00:00.000Z";
@@ -93,30 +93,34 @@ public class PacktNotifier {
                 .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
                 .build();
 
-        Request loadDailyOfferrequest = new Request.Builder()
+        Request loadDailyOfferRequest = new Request.Builder()
                 .url(String.format(PACKT_LOAD_OFFER_ENDPOINT, localDate.format(formatter),
                                    localDate.plus(1, ChronoUnit.DAYS).format(formatter)))
                 .get()
                 .build();
 
-        try (Response response = client.newCall(loadDailyOfferrequest).execute()) {
+        try (Response response = client.newCall(loadDailyOfferRequest).execute()) {
 
             if (response.code() != 200) {
                 log.warnv("Failed to connect in the endpoint {0}, status code is: {1}",
-                          loadDailyOfferrequest.url(),
+                          loadDailyOfferRequest.url(),
                           response.code());
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
             LoadDailyOffer loadDailyOffer = objectMapper.readValue(response.body().string(), LoadDailyOffer.class);
-            log.debug(loadDailyOffer.toString());
+            if (log.isDebugEnabled()) {
+                log.debug(loadDailyOffer.toString());
+            }
 
             Request getDailyOfferRequest = new Request.Builder()
                     .url(String.format(String.format(PACKT_DAILY_OFFER_ENDPOINT, loadDailyOffer.getData().get(0).getProductId())))
                     .get()
                     .build();
 
-            log.tracev("Getting daily pack offer with URI: {0}", getDailyOfferRequest.url());
+            if (log.isTraceEnabled()) {
+                log.tracev("Getting daily pack offer with URI: {0}", getDailyOfferRequest.url());
+            }
 
             Response getDailyOfferResponse = client.newCall(getDailyOfferRequest).execute();
             if (getDailyOfferResponse.code() != 200) {
@@ -125,7 +129,9 @@ public class PacktNotifier {
             }
 
             DailyOffer dailyOffer = objectMapper.readValue(getDailyOfferResponse.body().string(), DailyOffer.class);
-            log.debug(dailyOffer.toString());
+            if (log.isDebugEnabled()) {
+                log.debug(dailyOffer.toString());
+            }
 
             cache.invalidateAll();
             cache.put("book", dailyOffer);
@@ -142,7 +148,7 @@ public class PacktNotifier {
 
     public String registerNotification(MessageUpdate message, String locale) {
         String channel;
-        if (message.getMessage().getChat().getType().equals("group") || message.getMessage().getChat().getType().equals("supergroup")) {
+        if ("group".equals(message.getMessage().getChat().getType()) || message.getMessage().getChat().getType().equals("supergroup")) {
             channel = message.getMessage().getChat().getTitle();
         } else {
             channel = message.getMessage().getFrom().getFirstName();
@@ -154,7 +160,7 @@ public class PacktNotifier {
 
     public String unregisterNotification(MessageUpdate message, String locale) {
         String channel;
-        if (message.getMessage().getChat().getType().equals("group") || message.getMessage().getChat().getType().equals("supergroup")) {
+        if ("group".equals(message.getMessage().getChat().getType()) || message.getMessage().getChat().getType().equals("supergroup")) {
             channel = message.getMessage().getChat().getTitle();
         } else {
             channel = message.getMessage().getFrom().getFirstName();

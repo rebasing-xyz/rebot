@@ -39,7 +39,7 @@ import xyz.rebasing.rebot.plugin.postalcode.utils.BrazilPostalCodeUtils;
 @ApplicationScoped
 public class BrazilPostalCode implements CommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private Long DEFAULT_RESULT_LIMIT = 2L;
     private boolean RETURN_ONLY_UF = false;
 

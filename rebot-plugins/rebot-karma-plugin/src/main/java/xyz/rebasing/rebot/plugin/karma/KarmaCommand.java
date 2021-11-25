@@ -43,7 +43,7 @@ import static xyz.rebasing.rebot.api.utils.Formatter.normalize;
 @ApplicationScoped
 public class KarmaCommand implements CommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     BotConfig config;

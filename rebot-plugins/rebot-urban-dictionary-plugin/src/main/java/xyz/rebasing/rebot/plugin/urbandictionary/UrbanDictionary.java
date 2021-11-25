@@ -39,7 +39,7 @@ import xyz.rebasing.rebot.plugin.urbandictionary.helper.Helper;
 @ApplicationScoped
 public class UrbanDictionary implements CommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     BotConfig config;

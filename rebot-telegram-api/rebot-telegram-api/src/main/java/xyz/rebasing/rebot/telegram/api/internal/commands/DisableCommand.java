@@ -21,15 +21,12 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.telegram.api.internal.Commands;
+package xyz.rebasing.rebot.telegram.api.internal.commands;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
@@ -37,25 +34,23 @@ import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.shared.components.management.user.UserManagement;
-import xyz.rebasing.rebot.api.spi.CommandProvider;
-import xyz.rebasing.rebot.api.spi.PluginProvider;
 import xyz.rebasing.rebot.api.spi.administrative.AdministrativeCommandProvider;
+import xyz.rebasing.rebot.service.persistence.domain.CommandStatus;
 import xyz.rebasing.rebot.service.persistence.repository.ApiRepository;
+import xyz.rebasing.rebot.telegram.api.UpdatesReceiver;
 
 @ApplicationScoped
-public class ListAvailablePluginsOrCommands implements AdministrativeCommandProvider {
+public class DisableCommand implements AdministrativeCommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     BotConfig config;
 
     @Inject
+    private UpdatesReceiver updatesReceiver;
+    @Inject
     private ApiRepository repository;
-    @Inject
-    private Instance<CommandProvider> command;
-    @Inject
-    private Instance<PluginProvider> plugin;
     @Inject
     private UserManagement userManagement;
 
@@ -66,48 +61,56 @@ public class ListAvailablePluginsOrCommands implements AdministrativeCommandProv
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
+        if (key.get().length() < 1) {
+            return I18nHelper.resource("Administrative", locale, "required.parameter");
+        }
+
         boolean isAdministrator = userManagement.isAdministrator(messageUpdate);
-
         if (!isAdministrator) {
-            return I18nHelper.resource("Administrative", locale, "list.command.not.allowed");
-        } else {
-            List<String> avialableResources = new ArrayList<>();
-            command.stream().forEach(c -> {
-                avialableResources.add(c.name().replace("/", ""));
-            });
-            plugin.stream().forEach(p -> {
-                avialableResources.add(p.name());
-            });
+            return I18nHelper.resource("Administrative", locale, "disable.command.not.allowed");
+        }
 
-            if (key.isPresent() && key.get().equals("disabled")) {
-                avialableResources.removeIf(it -> repository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), it));
-                if (avialableResources.size() > 0) {
-                    return avialableResources;
-                } else {
-                    return I18nHelper.resource("Administrative", locale, "list.command.no.items.found");
-                }
+        if (key.get().equals("bot")) {
+            if (!updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) {
+                return String.format(
+                        I18nHelper.resource("Administrative", locale, "disable.command.already.disabled"),
+                        config.botUserId());
             }
 
-            avialableResources.removeIf(it -> !repository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), it));
-            return avialableResources;
+            updatesReceiver.disable(messageUpdate.getMessage());
+            return String.format(
+                    I18nHelper.resource("Administrative", locale, "disable.command.disabled"),
+                    config.botUserId());
+        } else {
+            // if the provided command or plugin is valid make sure it is not already disabled before proceed.
+            if (!repository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), key.get())) {
+                return String.format(
+                        I18nHelper.resource("Administrative", locale, "disable.command.already.disabled"),
+                        key.get());
+            } else {
+                repository.disableCommand(new CommandStatus(messageUpdate.getMessage().getChat().getId(), key.get(), false));
+                return String.format(
+                        I18nHelper.resource("Administrative", locale, "disable.command.disabled"),
+                        key.get());
+            }
         }
     }
 
     @Override
     public String name() {
-        return "/list";
+        return "/disable";
     }
 
     @Override
     public String help(String locale) {
         return String.format(
-                I18nHelper.resource("Administrative", locale, "list.command.help"),
+                I18nHelper.resource("Administrative", locale, "disable.command.help"),
                 this.name());
     }
 
     @Override
     public String description(String locale) {
-        return I18nHelper.resource("Administrative", locale, "list.command.help");
+        return I18nHelper.resource("Administrative", locale, "disable.command.description");
     }
 
     @Override

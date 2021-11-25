@@ -119,7 +119,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
 
                 for (ChatMember member : chatMember(messageUpdate)) {
 
-                    String username = null != member.getUsername() ? member.getUsername() : member.getFirst_name();
+                    String username = null != member.getUsername() ? member.getUsername() : member.getFirstName();
                     // add user+chatId to make sure that if the user joined two chat rooms at the same time the process will
                     // not get confused and handle the process wrongly
                     username = username + "-" + messageUpdate.getMessage().getChat().getId();
@@ -209,12 +209,12 @@ public class WelcomeMessagePlugin implements PluginProvider {
      * If the member removed is a bot, no message is sent.
      *
      * @param update {@link MessageUpdate}
-     * @return true if the message if a member left the chat
+     * @return true if the message is a member left the chat
      */
     private String leftChatMemberMessage(MessageUpdate update, String locale) {
         final Message message = new Message();
         message.setText(String.format(I18nHelper.resource("Welcome", locale, "traitor"),
-                                      chatMember(update).get(0).getFirst_name(),
+                                      chatMember(update).get(0).getFirstName(),
                                       Emoji.ANGRY_FACE));
         return message.getText();
     }

@@ -26,26 +26,34 @@ package xyz.rebasing.rebot.plugin.urbandictionary.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TermDefinition implements Serializable {
 
-    private long defid;
+    @JsonProperty("defid")
+    private long defId;
     private String word;
     private String author;
     private String permalink;
     private String definition;
     private String example;
-    private String written_on;
-    private int thumbs_up;
-    private int thumbs_down;
-    private String current_vote;
-    private List<String> sound_urls;
+    @JsonProperty("written_on")
+    private String writtenOn;
+    @JsonProperty("thumbs_up")
+    private int thumbsUp;
+    @JsonProperty("thumbs_down")
+    private int thumbsDown;
+    @JsonProperty("current_vote")
+    private String currentVote;
+    @JsonProperty("sound_urls")
+    private List<String> soundUrls;
 
-    public long getDefid() {
-        return defid;
+    public long getDefId() {
+        return defId;
     }
 
-    public void setDefid(long defid) {
-        this.defid = defid;
+    public void setDefId(long defId) {
+        this.defId = defId;
     }
 
     public String getWord() {
@@ -88,58 +96,60 @@ public class TermDefinition implements Serializable {
         this.example = example;
     }
 
-    public String getWritten_on() {
-        return written_on;
+    public String getWrittenOn() {
+        return writtenOn;
     }
 
-    public void setWritten_on(String written_on) {
-        this.written_on = written_on;
+    public void setWrittenOn(String writtenOn) {
+        this.writtenOn = writtenOn;
     }
 
-    public int getThumbs_up() {
-        return thumbs_up;
+    public int getThumbsUp() {
+        return thumbsUp;
     }
 
-    public void setThumbs_up(int thumbs_up) {
-        this.thumbs_up = thumbs_up;
+    public void setThumbsUp(int thumbsUp) {
+        this.thumbsUp = thumbsUp;
     }
 
-    public int getThumbs_down() {
-        return thumbs_down;
+    public int getThumbsDown() {
+        return thumbsDown;
     }
 
-    public void setThumbs_down(int thumbs_down) {
-        this.thumbs_down = thumbs_down;
+    public void setThumbsDown(int thumbsDown) {
+        this.thumbsDown = thumbsDown;
     }
 
-    public String getCurrent_vote() {
-        return current_vote;
+    public String getCurrentVote() {
+        return currentVote;
     }
 
-    public void setCurrent_vote(String current_vote) {
-        this.current_vote = current_vote;
+    public void setCurrentVote(String currentVote) {
+        this.currentVote = currentVote;
     }
 
-    public List<String> getSound_urls() {
-        return sound_urls;
+    public List<String> getSoundUrls() {
+        return soundUrls;
     }
 
-    public void setSound_urls(List<String> sound_urls) {
-        this.sound_urls = sound_urls;
+    public void setSoundUrls(List<String> soundUrls) {
+        this.soundUrls = soundUrls;
     }
 
     @Override
     public String toString() {
         return "TermDefinition{" +
-                "defid=" + defid +
+                "defid=" + defId +
                 ", word='" + word + '\'' +
                 ", author='" + author + '\'' +
                 ", permalink='" + permalink + '\'' +
                 ", definition='" + definition + '\'' +
                 ", example='" + example + '\'' +
-                ", thumbsUp=" + thumbs_up +
-                ", thumbsDown=" + thumbs_down +
-                ", currentVote='" + current_vote + '\'' +
+                ", written_on='" + writtenOn + '\'' +
+                ", thumbsUp=" + thumbsUp +
+                ", thumbsDown=" + thumbsDown +
+                ", currentVote='" + currentVote + '\'' +
+                ", soundUrls=" + soundUrls +
                 '}';
     }
 }

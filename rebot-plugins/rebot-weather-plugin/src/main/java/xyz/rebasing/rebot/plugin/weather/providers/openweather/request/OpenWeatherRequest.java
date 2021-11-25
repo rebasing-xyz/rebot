@@ -69,10 +69,7 @@ public class OpenWeatherRequest {
     }
 
     private boolean isNullOrEmpty(String str) {
-        if (null == str || str.isEmpty()) {
-           return true;
-        }
-        return false;
+        return null == str || str.isEmpty();
     }
 
 }

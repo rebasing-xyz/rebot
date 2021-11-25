@@ -20,6 +20,7 @@
  *   IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 package xyz.rebasing.rebot.plugin.sed.processor;
 
 import java.lang.invoke.MethodHandles;
@@ -30,12 +31,12 @@ import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 public class SedResponse {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private final Pattern FULL_MSG_PATTERN = Pattern.compile("^s/.*[/$|/g]");
 
     private boolean processable;
     private boolean fullReplace;
-    private long user_id;
+    private long userId;
     private String oldString;
     private String newString;
     private int middlePosition;
@@ -50,8 +51,8 @@ public class SedResponse {
         return processable;
     }
 
-    public long getUser_id() {
-        return user_id;
+    public long getUserId() {
+        return userId;
     }
 
     public String getOldString() {
@@ -80,7 +81,7 @@ public class SedResponse {
                 "FULL_MSG_PATTERN=" + FULL_MSG_PATTERN +
                 ", processable=" + processable +
                 ", fullReplace=" + fullReplace +
-                ", user_id=" + user_id +
+                ", user_id=" + userId +
                 ", oldString='" + oldString + '\'' +
                 ", newString='" + newString + '\'' +
                 ", middlePosition=" + middlePosition +
@@ -92,7 +93,7 @@ public class SedResponse {
     public SedResponse process(MessageUpdate update) {
         if (null != update.getMessage().getText()) {
             msg = update.getMessage().getText();
-            user_id = update.getMessage().getFrom().getId();
+            userId = update.getMessage().getFrom().getId();
             username = update.getMessage().getFrom().getUsername();
             int count = 0;
             for (int i = 0; i < msg.length(); i++) {
@@ -103,12 +104,12 @@ public class SedResponse {
                     }
                 }
             }
-            boolean preProcess = (null == msg || count != 3 || msg.equals("s///") || msg.equals("s///g"));
-            boolean canProcess = preProcess ? false : FULL_MSG_PATTERN.matcher(msg).find();
+            boolean preProcess = null == msg || count != 3 || msg.equals("s///") || msg.equals("s///g");
+            boolean canProcess = !preProcess && FULL_MSG_PATTERN.matcher(msg).find();
             if (canProcess) {
                 log.debugv("Sed Plugin - {0}", this.toString());
                 fullReplace = msg.endsWith("/g") ? true : false;
-                processable = canProcess;
+                processable = true;
                 username = null != update.getMessage().getFrom().getUsername() ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName();
                 oldString = msg.substring(2, middlePosition).replace("\\", "");
                 newString = msg.substring(middlePosition + 1, fullReplace ? msg.length() - 2 : msg.length() - 1);

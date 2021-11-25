@@ -182,7 +182,7 @@ public class KarmaPlugin implements PluginProvider {
      * @return true if the message matches the karma pattern, otherwise returns false
      */
     private boolean canProcess(String messageContent) {
-        boolean canProcess = null == messageContent ? false : FULL_MSG_PATTERN.matcher(messageContent).find();
+        boolean canProcess = null != messageContent && FULL_MSG_PATTERN.matcher(messageContent).find();
         log.debugv("Karma plugin - can process [{0}] - {1}", messageContent, canProcess);
         return canProcess;
     }

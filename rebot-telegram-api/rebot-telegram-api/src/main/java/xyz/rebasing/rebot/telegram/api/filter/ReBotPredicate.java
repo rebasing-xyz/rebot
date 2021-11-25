@@ -30,7 +30,12 @@ import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
 import static xyz.rebasing.rebot.telegram.api.utils.StringUtils.concat;
 
-public class ReBotPredicate {
+/**
+ * Predicate utility class
+ */
+public final class ReBotPredicate {
+
+    private ReBotPredicate(){}
 
     // same from karma plugin
     private static Pattern KARMA_PATTERN = Pattern.compile("(^\\S+)(\\+\\+|\\-\\-|\\—|\\–)($)");
@@ -52,6 +57,6 @@ public class ReBotPredicate {
     }
 
     public static Predicate<MessageUpdate> help() {
-        return m -> concat(m.getMessage().getText().split(" ")).equals("help");
+        return m -> "help".equals(concat(m.getMessage().getText().split(" ")));
     }
 }

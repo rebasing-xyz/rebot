@@ -25,14 +25,19 @@ package xyz.rebasing.rebot.api.domain;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ChatMember implements Serializable {
 
     private final static long serialVersionUID = 9854684251814252L;
 
     private int id;
-    private boolean is_bot;
-    private String first_name;
-    private String last_name;
+    @JsonProperty("is_bot")
+    private boolean isBot;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
     private String username;
 
     public int getId() {
@@ -43,28 +48,28 @@ public class ChatMember implements Serializable {
         this.id = id;
     }
 
-    public boolean isIs_bot() {
-        return is_bot;
+    public boolean isBot() {
+        return isBot;
     }
 
-    public void setIs_bot(boolean is_bot) {
-        this.is_bot = is_bot;
+    public void setBot(boolean bot) {
+        isBot = bot;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -79,9 +84,9 @@ public class ChatMember implements Serializable {
     public String toString() {
         return "ChatMember{" +
                 "id=" + id +
-                ", is_bot=" + is_bot +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                ", is_bot=" + isBot +
+                ", first_name='" + firstName + '\'' +
+                ", last_name='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 '}';
     }
