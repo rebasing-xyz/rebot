@@ -41,7 +41,7 @@ import xyz.rebasing.rebot.plugin.sed.processor.SedResponse;
 @ApplicationScoped
 public class SedPlugin implements PluginProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     Cache<Long, String> cache = Caffeine.newBuilder()
             .expireAfterWrite(60, TimeUnit.MINUTES)
@@ -61,25 +61,25 @@ public class SedPlugin implements PluginProvider {
             log.debugv("Sed plugin - Ignoring command [{0}]", update.getMessage().getText());
         } else {
             SedResponse sedResponse = new SedResponse().process(update);
-            if (sedResponse.isProcessable() && cache.asMap().containsKey(sedResponse.getUser_id())) {
-                if (cache.getIfPresent(sedResponse.getUser_id()).contains(sedResponse.getOldString())) {
+            if (sedResponse.isProcessable() && cache.asMap().containsKey(sedResponse.getUserId())) {
+                if (cache.getIfPresent(sedResponse.getUserId()).contains(sedResponse.getOldString())) {
                     String newValue;
                     if (sedResponse.isFullReplace()) {
-                        newValue = cache.getIfPresent(sedResponse.getUser_id()).replace(sedResponse.getOldString(), sedResponse.getNewString());
+                        newValue = cache.getIfPresent(sedResponse.getUserId()).replace(sedResponse.getOldString(), sedResponse.getNewString());
                     } else {
-                        newValue = cache.getIfPresent(sedResponse.getUser_id()).replaceFirst(sedResponse.getOldString(), sedResponse.getNewString());
+                        newValue = cache.getIfPresent(sedResponse.getUserId()).replaceFirst(sedResponse.getOldString(), sedResponse.getNewString());
                     }
-                    cache.asMap().replace(sedResponse.getUser_id(), newValue);
+                    cache.asMap().replace(sedResponse.getUserId(), newValue);
                     return String.format(
                             I18nHelper.resource("Sed", locale, "response"),
                             sedResponse.getUsername(),
                             newValue);
                 }
             } else if (!sedResponse.isProcessable() && !update.getMessage().getText().startsWith("s/")) {
-                if (cache.asMap().containsKey(sedResponse.getUser_id())) {
-                    cache.asMap().replace(sedResponse.getUser_id(), update.getMessage().getText());
+                if (cache.asMap().containsKey(sedResponse.getUserId())) {
+                    cache.asMap().replace(sedResponse.getUserId(), update.getMessage().getText());
                 } else {
-                    cache.put(sedResponse.getUser_id(), update.getMessage().getText());
+                    cache.put(sedResponse.getUserId(), update.getMessage().getText());
                 }
             }
         }

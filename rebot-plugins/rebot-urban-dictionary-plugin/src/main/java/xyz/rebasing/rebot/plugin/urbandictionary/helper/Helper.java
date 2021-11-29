@@ -42,7 +42,7 @@ import xyz.rebasing.rebot.plugin.urbandictionary.domain.CustomTermResponse;
 @ApplicationScoped
 public class Helper {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private UrbanDictionaryClient client;
 
@@ -60,7 +60,7 @@ public class Helper {
         // prepare the parameters
         for (int i = 0; i < parameters.length; i++) {
 
-            if (parameters[i].equals("-c")) {
+            if ("-c".equals(parameters[i])) {
                 i += 1;
                 try {
                     numberOfResults = Integer.parseInt(parameters[i]);

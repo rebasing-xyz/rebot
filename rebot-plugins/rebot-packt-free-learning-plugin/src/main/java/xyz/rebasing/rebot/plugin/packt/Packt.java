@@ -57,10 +57,10 @@ public class Packt implements CommandProvider {
 
     @Override
     public Object execute(Optional<String> key, MessageUpdate messageUpdate, String locale) {
-        if (key.isPresent() && key.get().equals("notify")) {
+        if (key.isPresent() && "notify".equals(key.get())) {
             return packtNotifier.registerNotification(messageUpdate, locale);
         }
-        if (key.isPresent() && key.get().equals("off")) {
+        if (key.isPresent() && "off".equals(key.get())) {
             return packtNotifier.unregisterNotification(messageUpdate, locale);
         }
         try {

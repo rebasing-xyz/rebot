@@ -56,6 +56,7 @@ public class CommandStatus {
     }
 
     public CommandStatus() {
+        // Default Constructor
     }
 
     public Long getId() {

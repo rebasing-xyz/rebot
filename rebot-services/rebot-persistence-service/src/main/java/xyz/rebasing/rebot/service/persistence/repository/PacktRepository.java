@@ -41,7 +41,7 @@ import xyz.rebasing.rebot.service.persistence.domain.PacktNotification;
 @ApplicationScoped
 public class PacktRepository {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     EntityManager em;

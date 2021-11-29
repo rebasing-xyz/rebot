@@ -39,10 +39,6 @@ public class UrbanDictionaryClientBuilder {
     public int numberOfResults = 1;
     public boolean showExample;
 
-
-    public UrbanDictionaryClientBuilder() {
-    }
-
     public UrbanDictionaryClientBuilder numberOfResults(int numberOfResults) {
         this.numberOfResults = numberOfResults;
         return this;

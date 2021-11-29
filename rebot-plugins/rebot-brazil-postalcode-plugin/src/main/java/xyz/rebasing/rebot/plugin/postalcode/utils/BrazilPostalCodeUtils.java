@@ -45,7 +45,7 @@ import xyz.rebasing.rebot.plugin.postalcode.domain.PostalCode;
 @ApplicationScoped
 public class BrazilPostalCodeUtils {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private InputStream CSV_FILE = this.getClass().getClassLoader().getResourceAsStream("META-INF/brazil-postal-code-list.csv");
     private String CSV_SEPARATOR = ";";
 

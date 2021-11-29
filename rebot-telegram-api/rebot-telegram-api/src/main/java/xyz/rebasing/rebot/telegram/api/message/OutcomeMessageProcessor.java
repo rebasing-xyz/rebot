@@ -43,6 +43,7 @@ import xyz.rebasing.rebot.api.spi.PluginProvider;
 import xyz.rebasing.rebot.api.spi.administrative.AdministrativeCommandProvider;
 import xyz.rebasing.rebot.service.persistence.repository.ApiRepository;
 import xyz.rebasing.rebot.service.persistence.repository.LocaleRepository;
+import xyz.rebasing.rebot.telegram.api.filter.ReBotPredicate;
 
 import static xyz.rebasing.rebot.telegram.api.filter.ReBotPredicate.isCommand;
 import static xyz.rebasing.rebot.telegram.api.filter.ReBotPredicate.messageIsNotNull;
@@ -51,7 +52,7 @@ import static xyz.rebasing.rebot.telegram.api.utils.StringUtils.concat;
 @ApplicationScoped
 public class OutcomeMessageProcessor implements Processor {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private boolean isAdministrativeCommand = false;
 
     private String locale;
@@ -77,12 +78,15 @@ public class OutcomeMessageProcessor implements Processor {
     @Override
     public void process(MessageUpdate messageUpdate) {
         locale = localeRepository.get(messageUpdate.getMessage().getChat().getId(), messageUpdate.getMessage().getChat().getTitle());
-        log.debugv("current message is being processed with the locale: {0}", locale);
+        if (log.isDebugEnabled()) {
+            log.debugv("current message is being processed with the locale: {0}", locale);
+        }
+
         // before proceed with other commands/plugins execute administrative commands
         administrativeCommand.forEach(c -> {
 
             if (c.canProcessCommand(messageUpdate, config.botUserId())) {
-                if (concat(messageUpdate.getMessage().getText().split(" ")).equals("help")) {
+                if (ReBotPredicate.help().test(messageUpdate)) {
                     reply.processOutgoingMessage(new Message(messageUpdate.getMessage().getMessageId(),
                                                              messageUpdate.getMessage().getChat(),
                                                              c.help(locale)),
@@ -139,7 +143,7 @@ public class OutcomeMessageProcessor implements Processor {
 
         // /help command
         // will delete messages within 10 seconds
-        if (command2process.equals("/help")) {
+        if ("/help".equals(command2process)) {
             command.forEach(c -> response.append(c.name() + " - " + c.description(locale) + "\n"));
             administrativeCommand.forEach(ac -> response.append(ac.name() + " - " + ac.description(locale) + "\n"));
             response.append(I18nHelper.resource("Administrative", locale, "internal.help.response"));
@@ -158,7 +162,7 @@ public class OutcomeMessageProcessor implements Processor {
                 return;
             } else {
                 if (command.canProcessCommand(messageUpdate, config.botUserId())) {
-                    if (concat(args).equals("help")) {
+                    if ("help".equals(concat(args))) {
                         response.append(command.help(locale));
                     } else {
                         response.append(command.execute(Optional.of(concat(args)), messageUpdate, locale));

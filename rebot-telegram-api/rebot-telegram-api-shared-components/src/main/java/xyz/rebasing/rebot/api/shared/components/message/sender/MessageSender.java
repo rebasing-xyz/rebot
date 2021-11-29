@@ -54,7 +54,7 @@ import xyz.rebasing.rebot.api.shared.components.management.message.MessageManage
 @ApplicationScoped
 public class MessageSender implements Sender {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private final String TELEGRAM_API_SENDER_ENDPOINT = "https://api.telegram.org/bot%s/sendMessage";
     private final int TELEGRAM_MESSAGE_CHARACTERS_LIMIT = 4000;

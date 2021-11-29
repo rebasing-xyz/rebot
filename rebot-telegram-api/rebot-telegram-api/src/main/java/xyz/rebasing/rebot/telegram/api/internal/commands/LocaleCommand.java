@@ -21,7 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.telegram.api.internal.Commands;
+package xyz.rebasing.rebot.telegram.api.internal.commands;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
@@ -43,16 +43,16 @@ import xyz.rebasing.rebot.service.persistence.repository.LocaleRepository;
 @ApplicationScoped
 public class LocaleCommand implements AdministrativeCommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     BotConfig config;
 
     @Inject
-    private UserManagement userManagement;
+    UserManagement userManagement;
 
     @Inject
-    private LocaleRepository localeRepository;
+    LocaleRepository localeRepository;
 
     @Override
     public void load() {
@@ -64,7 +64,7 @@ public class LocaleCommand implements AdministrativeCommandProvider {
 
         boolean isAdministrator = userManagement.isAdministrator(messageUpdate);
 
-        if (!key.isPresent() || key.get().equals("")) {
+        if (!key.isPresent() || "".equals(key.get())) {
             return String.format(I18nHelper.resource("Administrative", locale, "locale.current.definition"),
                                  messageUpdate.getMessage().getChat().getTitle(),
                                  localeRepository.get(messageUpdate.getMessage().getChat().getId(),

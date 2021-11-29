@@ -39,7 +39,7 @@ import xyz.rebasing.rebot.plugin.weather.providers.openweather.OpenWeatherProvid
 @ApplicationScoped
 public class Weather implements CommandProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     BotConfig config;

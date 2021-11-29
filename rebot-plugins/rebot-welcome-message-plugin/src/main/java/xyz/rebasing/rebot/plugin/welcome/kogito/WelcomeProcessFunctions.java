@@ -28,11 +28,8 @@ import java.util.Arrays;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.jboss.logging.Logger;
-import org.kie.kogito.Model;
-import org.kie.kogito.process.Process;
 import xyz.rebasing.rebot.api.domain.Chat;
 import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.emojis.Emoji;
@@ -44,11 +41,7 @@ import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
 @ApplicationScoped
 public class WelcomeProcessFunctions {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
-    @Inject
-    @Named("welcome.challenge")
-    Process<? extends Model> welcomeProcess;
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     UserManagement userManagement;
@@ -119,10 +112,10 @@ public class WelcomeProcessFunctions {
     public WelcomeChallenge sendWelcomeMessage(WelcomeChallenge welcomeChallenge) {
         log.debugv("Welcoming user {0} to group id[{1}] -name [{2}]",
                    welcomeChallenge.getUser(), welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle());
-        String response = (String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "welcome"),
-                                         welcomeChallenge.getName(),
-                                         welcomeChallenge.getChatTitle(),
-                                         Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_TIGHTLY_CLOSED_EYES));
+        String response = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "welcome"),
+                                        welcomeChallenge.getName(),
+                                        welcomeChallenge.getChatTitle(),
+                                        Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_TIGHTLY_CLOSED_EYES);
 
         // get the sent message's id to be deleted.
         welcomeChallenge.addMessadeIdToDelete(

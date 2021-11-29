@@ -35,7 +35,7 @@ import xyz.rebasing.rebot.service.persistence.domain.Fact;
 
 public class Utils {
 
-    private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private static final String CHUCK_NORRIS_FACTS_ENDPOINT = "https://api.chucknorris.io/jokes/random";
 
     public static Fact getFact() {

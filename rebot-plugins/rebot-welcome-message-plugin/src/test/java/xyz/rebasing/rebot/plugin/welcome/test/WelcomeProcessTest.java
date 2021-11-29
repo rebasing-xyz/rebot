@@ -327,7 +327,7 @@ public class WelcomeProcessTest {
         Thread.sleep(1000);
         Model challengeUser4ModelResult = (Model) processInstanceUser4.variables();
         assertEquals(2, challengeUser4ModelResult.toMap().size());
-        challengeUser4 = ((WelcomeChallenge) challengeUser4ModelResult.toMap().get("challenge"));
+        challengeUser4 = (WelcomeChallenge) challengeUser4ModelResult.toMap().get("challenge");
         processInstanceUser4.transitionWorkItem(workItemsUser4.get(0).getId(), new HumanTaskTransition(Complete.ID, user4Params, policyUser4));
         assertEquals(true, challengeUser4.isKickUser());
         assertEquals(ProcessInstance.STATE_COMPLETED, processInstanceUser4.status());
@@ -336,7 +336,7 @@ public class WelcomeProcessTest {
         Model challengeUser1ModelResult = (Model) processInstanceUser1.variables();
         assertEquals(2, challengeUser1ModelResult.toMap().size());
         Map<String, Object> challengeUser1Result = new HashMap<>();
-        challengeUser1 = ((WelcomeChallenge) challengeUser1ModelResult.toMap().get("challenge"));
+        challengeUser1 = (WelcomeChallenge) challengeUser1ModelResult.toMap().get("challenge");
         challengeUser1.setAnswer(Common.challengeResult(challengeUser1));
         challengeUser1Result.put("challenge", challengeUser1);
         processInstanceUser1.transitionWorkItem(workItemsUser1.get(0).getId(), new HumanTaskTransition(Complete.ID, challengeUser1Result, policyUser1));
@@ -347,7 +347,7 @@ public class WelcomeProcessTest {
         Model challengeUser2ModelResult = (Model) processInstanceUser2.variables();
         assertEquals(2, challengeUser2ModelResult.toMap().size());
         Map<String, Object> challengeUser2Result = new HashMap<>();
-        challengeUser2 = ((WelcomeChallenge) challengeUser2ModelResult.toMap().get("challenge"));
+        challengeUser2 = (WelcomeChallenge) challengeUser2ModelResult.toMap().get("challenge");
         challengeUser2.setAnswer(Common.challengeResult(challengeUser2));
         challengeUser2Result.put("challenge", challengeUser2);
         processInstanceUser2.transitionWorkItem(workItemsUser2.get(0).getId(), new HumanTaskTransition(Complete.ID, challengeUser2Result, policyUser2));
@@ -358,7 +358,7 @@ public class WelcomeProcessTest {
         Model challengeUser3ModelResult = (Model) processInstanceUser3.variables();
         assertEquals(2, challengeUser3ModelResult.toMap().size());
         Map<String, Object> challengeUser3Result = new HashMap<>();
-        challengeUser3 = ((WelcomeChallenge) challengeUser3ModelResult.toMap().get("challenge"));
+        challengeUser3 = (WelcomeChallenge) challengeUser3ModelResult.toMap().get("challenge");
         challengeUser3.setAnswer(300);
 
         challengeUser3Result.put("challenge", challengeUser3);

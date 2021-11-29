@@ -41,7 +41,7 @@ import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
 @ApplicationScoped
 public class RestMessageSender {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
     private MessageSender sender;

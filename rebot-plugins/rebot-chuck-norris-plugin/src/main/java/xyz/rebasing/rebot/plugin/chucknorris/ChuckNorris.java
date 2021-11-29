@@ -24,6 +24,7 @@
 package xyz.rebasing.rebot.plugin.chucknorris;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,7 +41,7 @@ import xyz.rebasing.rebot.service.persistence.repository.ChuckRepository;
 @ApplicationScoped
 public class ChuckNorris implements PluginProvider {
 
-    private Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private final Pattern FULL_MSG_PATTERN = Pattern.compile("(chuck norris)");
 
     @Inject
@@ -93,7 +94,7 @@ public class ChuckNorris implements PluginProvider {
      * @return true if the message matches the chuck plugin pattern, otherwise returns false
      */
     private boolean canProcess(String messageContent) {
-        boolean canProcess = null == messageContent ? false : FULL_MSG_PATTERN.matcher(messageContent.toLowerCase()).find();
+        boolean canProcess = null == messageContent ? false : FULL_MSG_PATTERN.matcher(messageContent.toLowerCase(Locale.ENGLISH)).find();
         log.debugv("Chuck Norris plugin - can process [" + messageContent + "] - " + canProcess);
         return canProcess;
     }

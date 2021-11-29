@@ -16,7 +16,7 @@ public class WelcomePluginPredicate {
                 .entrySet()
                 .stream()
                 .filter(key -> key.getKey().equals("new_chat_member"))
-                .filter(value -> !mapper.convertValue(value.getValue(), ChatMember.class).isIs_bot())
+                .filter(value -> !mapper.convertValue(value.getValue(), ChatMember.class).isBot())
                 .findFirst()
                 .isPresent();
     }
@@ -27,7 +27,7 @@ public class WelcomePluginPredicate {
                 .entrySet()
                 .stream()
                 .filter(key -> key.getKey().equals("left_chat_participant"))
-                .filter(value -> !mapper.convertValue(value.getValue(), ChatMember.class).isIs_bot())
+                .filter(value -> !mapper.convertValue(value.getValue(), ChatMember.class).isBot())
                 .findFirst()
                 .isPresent();
     }
@@ -37,6 +37,6 @@ public class WelcomePluginPredicate {
     }
 
     public static Predicate<ChatMember> isNewMemberBot() {
-        return m -> m.isIs_bot();
+        return m -> m.isBot();
     }
 }

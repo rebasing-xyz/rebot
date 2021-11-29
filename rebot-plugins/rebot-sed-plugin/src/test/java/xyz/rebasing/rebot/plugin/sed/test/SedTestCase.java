@@ -26,6 +26,7 @@ package xyz.rebasing.rebot.plugin.sed.test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,14 +40,13 @@ public class SedTestCase {
 
     private SedResponse sedResponse = null;
     private Message message = null;
-    private From from = null;
     private MessageUpdate messageUpdate = null;
-    private HashMap<Long, String> cache = new HashMap<>();
+    private Map<Long, String> cache = new HashMap<>();
 
     @Before
     public void setUp() throws Exception {
         sedResponse = new SedResponse();
-        from = new From();
+        From from = new From();
         from.setId(110111);
         message = new Message();
         message.setFrom(from);
