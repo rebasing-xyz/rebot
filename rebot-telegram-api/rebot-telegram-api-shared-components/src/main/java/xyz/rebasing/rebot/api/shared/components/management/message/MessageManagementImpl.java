@@ -49,8 +49,7 @@ import xyz.rebasing.rebot.api.shared.components.httpclient.BotCloseableHttpClien
 public class MessageManagementImpl implements MessageManagement {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
-    private final String TELEGRAM_DELETE_MESSAGE_ENDPOINT = "https://api.telegram.org/bot%s/deleteMessage";
+    private static final String TELEGRAM_DELETE_MESSAGE_ENDPOINT = "https://api.telegram.org/bot%s/deleteMessage";
 
     @Inject
     BotConfig config;

@@ -14,9 +14,11 @@
  */
 package xyz.rebasing.rebot.plugin.weather.providers.openweather.request;
 
+import java.io.StringWriter;
+
 public class OpenWeatherRequest {
 
-    private final String OPENWEATHER_API_ADDRESS = "https://api.openweathermap.org/data/%s/weather";
+    private static final String OPENWEATHER_API_ADDRESS = "https://api.openweathermap.org/data/%s/weather";
     private final String OPENWEATHER_API_VERSION = "2.5";
     private final String QUERY_KEY = "?q";
     /**
@@ -32,7 +34,7 @@ public class OpenWeatherRequest {
     private final String DEFAULT_UNIT = "imperial";
     private final String UNITS_KEY = "&units";
 
-    private StringBuilder uri = new StringBuilder();
+    private StringWriter uri = new StringWriter();
 
     public OpenWeatherRequest(String query, String countryCode, String units, String lang, String apiKey) {
 
@@ -71,5 +73,4 @@ public class OpenWeatherRequest {
     private boolean isNullOrEmpty(String str) {
         return null == str || str.isEmpty();
     }
-
 }

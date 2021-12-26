@@ -40,7 +40,7 @@ import xyz.rebasing.rebot.service.persistence.domain.ChatLocale;
 public class LocaleRepository {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    private final String DEFAULT_LOCALE = "en_US";
+    private static final String DEFAULT_LOCALE = "en_US";
 
     @Inject
     EntityManager em;

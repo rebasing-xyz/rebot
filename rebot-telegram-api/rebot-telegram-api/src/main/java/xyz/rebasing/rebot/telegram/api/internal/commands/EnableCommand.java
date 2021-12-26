@@ -46,7 +46,7 @@ public class EnableCommand implements AdministrativeCommandProvider {
     @Inject
     BotConfig config;
     @Inject
-    private UpdatesReceiver updatesReceiver;
+    UpdatesReceiver updatesReceiver;
     @Inject
     private ApiRepository repository;
     @Inject
@@ -68,7 +68,7 @@ public class EnableCommand implements AdministrativeCommandProvider {
             return I18nHelper.resource("Administrative", locale, "enable.command.not.allowed");
         }
 
-        if (key.get().equals("bot")) {
+        if ("bot".equals(key.get())) {
             if (updatesReceiver.isEnabled(messageUpdate.getMessage().getChat().getId())) {
                 return String.format(
                         I18nHelper.resource("Administrative", locale, "enable.command.already.enabled"),

@@ -64,10 +64,10 @@ public class UserManagementImpl implements UserManagement {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    private final String TELEGRAM_CHAT_ADMINISTRATORS_ENDPOINT = "https://api.telegram.org/bot%s/getChatAdministrators";
-    private final String TELEGRAM_KICKMEMBER_ENDPOINT = "https://api.telegram.org/bot%s/kickChatMember";
-    private final String TELEGRAM_UNBANMEMBER_ENDPOINT = "https://api.telegram.org/bot%s/unbanChatMember";
-    private final String TELEGRAM_GET_ME_ENDPOINT = "https://api.telegram.org/bot%s/getMe";
+    private static final String TELEGRAM_CHAT_ADMINISTRATORS_ENDPOINT = "https://api.telegram.org/bot%s/getChatAdministrators";
+    private static final String TELEGRAM_KICKMEMBER_ENDPOINT = "https://api.telegram.org/bot%s/kickChatMember";
+    private static final String TELEGRAM_UNBANMEMBER_ENDPOINT = "https://api.telegram.org/bot%s/unbanChatMember";
+    private static final String TELEGRAM_GET_ME_ENDPOINT = "https://api.telegram.org/bot%s/getMe";
 
     @Inject
     BotConfig config;
@@ -260,7 +260,9 @@ public class UserManagementImpl implements UserManagement {
                         readValue(responseContent, new TypeReference<>() {
                         });
 
-                log.debug(chatAdministrators.toString());
+                if (log.isDebugEnabled()) {
+                    log.debug(chatAdministrators.toString());
+                }
                 return chatAdministrators.getResult();
             }
         } catch (final Exception e) {

@@ -25,6 +25,7 @@
 package xyz.rebasing.rebot.api.shared.components.message.sender;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
@@ -56,8 +57,8 @@ public class MessageSender implements Sender {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    private final String TELEGRAM_API_SENDER_ENDPOINT = "https://api.telegram.org/bot%s/sendMessage";
-    private final int TELEGRAM_MESSAGE_CHARACTERS_LIMIT = 4000;
+    private static final String TELEGRAM_API_SENDER_ENDPOINT = "https://api.telegram.org/bot%s/sendMessage";
+    private static  final int TELEGRAM_MESSAGE_CHARACTERS_LIMIT = 4000;
 
     @Inject
     BotConfig config;
@@ -75,7 +76,7 @@ public class MessageSender implements Sender {
         StringBuilder temporaryMessage = new StringBuilder();
         OptionalLong sentMessageID = OptionalLong.empty();
         try {
-            if (message.getText().length() > 1 && !message.getText().equals(null)) {
+            if (message.getText().length() > 1 && null != message.getText()) {
                 if (message.getText().length() > TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
                     reader.lines().forEach(line -> {
                         if (temporaryMessage.toString().length() < TELEGRAM_MESSAGE_CHARACTERS_LIMIT) {
@@ -101,6 +102,12 @@ public class MessageSender implements Sender {
         } catch (final Exception e) {
             log.warnv("Failed to send message: {0}", e.getMessage());
             return OptionalLong.of(0);
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         if (deleteMessage) {

@@ -84,7 +84,9 @@ public class PacktNotifier {
     @Scheduled(cron = "0 30 05 * * ?")
     public void populate() {
 
-        log.debug("Retrieving information about the daily free ebook.");
+        if (log.isDebugEnabled()) {
+            log.debug("Retrieving information about the daily free ebook.");
+        }
         Date today = new Date();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -148,7 +150,7 @@ public class PacktNotifier {
 
     public String registerNotification(MessageUpdate message, String locale) {
         String channel;
-        if ("group".equals(message.getMessage().getChat().getType()) || message.getMessage().getChat().getType().equals("supergroup")) {
+        if ("group".equals(message.getMessage().getChat().getType()) || "supergroup".equals(message.getMessage().getChat().getType())) {
             channel = message.getMessage().getChat().getTitle();
         } else {
             channel = message.getMessage().getFrom().getFirstName();
@@ -160,7 +162,7 @@ public class PacktNotifier {
 
     public String unregisterNotification(MessageUpdate message, String locale) {
         String channel;
-        if ("group".equals(message.getMessage().getChat().getType()) || message.getMessage().getChat().getType().equals("supergroup")) {
+        if ("group".equals(message.getMessage().getChat().getType()) || "supergroup".equals(message.getMessage().getChat().getType())) {
             channel = message.getMessage().getChat().getTitle();
         } else {
             channel = message.getMessage().getFrom().getFirstName();

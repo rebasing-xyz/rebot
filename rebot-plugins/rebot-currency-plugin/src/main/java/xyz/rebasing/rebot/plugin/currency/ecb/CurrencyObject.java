@@ -23,7 +23,13 @@
 
 package xyz.rebasing.rebot.plugin.currency.ecb;
 
+import java.lang.invoke.MethodHandles;
+
+import org.jboss.logging.Logger;
+
 public class CurrencyObject {
+
+    private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private String query;
     private String firstParameter;
@@ -42,7 +48,7 @@ public class CurrencyObject {
 
     public String[] symbols() {
         String[] symbols = query.replaceAll("\\s*,\\s*",",").split(" ");
-        int pos = firstParameter.equalsIgnoreCase("base") ? 2 : 0;
+        int pos = "base".equalsIgnoreCase(firstParameter) ? 2 : 0;
         try {
             symbols = symbols[pos].split(",");
         } catch (final Exception e) {
@@ -70,7 +76,9 @@ public class CurrencyObject {
             try {
                 exchangeValue = Integer.parseInt(value);
             } catch (Exception ignore) {
-                // do nothing
+                if (log.isTraceEnabled()) {
+                    log.tracev("Failed to parse currency value {0}.", value);
+                }
             }
         }
         return exchangeValue;

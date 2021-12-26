@@ -21,7 +21,7 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package xyz.rebasing.rebot.plugin.chucknorris.utils;
+package xyz.rebasing.rebot.plugin.chucknorris.helper;
 
 import java.lang.invoke.MethodHandles;
 
@@ -33,7 +33,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.domain.Fact;
 
-public class Utils {
+public class ChuckHelper {
 
     private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private static final String CHUCK_NORRIS_FACTS_ENDPOINT = "https://api.chucknorris.io/jokes/random";
