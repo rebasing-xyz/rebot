@@ -84,9 +84,9 @@ public class ChatMember implements Serializable {
     public String toString() {
         return "ChatMember{" +
                 "id=" + id +
-                ", is_bot=" + isBot +
-                ", first_name='" + firstName + '\'' +
-                ", last_name='" + lastName + '\'' +
+                ", isBot=" + isBot +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 '}';
     }

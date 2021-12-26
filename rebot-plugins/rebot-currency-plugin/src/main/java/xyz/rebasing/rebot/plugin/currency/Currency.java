@@ -170,7 +170,7 @@ public class Currency implements CommandProvider {
 
     private Object getCurrencyValue(String baseCurrencyId, String currencyID, double targetExrate, String locale) {
         try {
-            if (currencyID.equalsIgnoreCase("EUR")) {
+            if ("EUR".equalsIgnoreCase(currencyID)) {
                 return ECBHelper.calculateRateConversion((Cube) ecbClient.cache().getIfPresent(baseCurrencyId),
                                                          Optional.empty(),
                                                          targetExrate);

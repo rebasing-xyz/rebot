@@ -65,18 +65,21 @@ public class WelcomeProcessFunctions {
                                                          new Chat(welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle()),
                                                          response), false, 0).getAsLong()
         );
-
         // lazy kicker, wait 20 seconds before kick user out so he can read the message
-        log.debugv("Kicking user {0} ----- From Chat {1} ---- With Challenge {2}",
-                   welcomeChallenge.getUser(),
-                   welcomeChallenge.getChatTitle(),
-                   welcomeChallenge.toString());
-        userManagement.kickUser(welcomeChallenge.getUserId(), welcomeChallenge.getChatId(), 20L);
+        if (log.isDebugEnabled()) {
+            log.debugv("Kicking user {0} ----- From Chat {1} ---- With Challenge {2}",
+                       welcomeChallenge.getUser(),
+                       welcomeChallenge.getChatTitle(),
+                       welcomeChallenge.toString());
+            userManagement.kickUser(welcomeChallenge.getUserId(), welcomeChallenge.getChatId(), 20L);
+        }
         return welcomeChallenge;
     }
 
     public WelcomeChallenge kickUserTimeout(WelcomeChallenge welcomeChallenge) {
-        log.debugv("kicking user with Challenge: {0}", welcomeChallenge.toString());
+        if (log.isDebugEnabled()) {
+            log.debugv("kicking user with Challenge: {0}", welcomeChallenge.toString());
+        }
         // send kicked message
         String response = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.timeout"),
                                         welcomeChallenge.getName(),
@@ -94,7 +97,9 @@ public class WelcomeProcessFunctions {
     }
 
     public WelcomeChallenge sendChallengeMessage(WelcomeChallenge welcomeChallenge) {
-        log.debugv("Starting Challenge {0}", welcomeChallenge.toString());
+        if (log.isDebugEnabled()) {
+            log.debugv("Starting Challenge {0}", welcomeChallenge.toString());
+        }
         String response = (String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.start"),
                                          welcomeChallenge.getName(),
                                          welcomeChallenge.getChatTitle(),
@@ -110,8 +115,10 @@ public class WelcomeProcessFunctions {
     }
 
     public WelcomeChallenge sendWelcomeMessage(WelcomeChallenge welcomeChallenge) {
-        log.debugv("Welcoming user {0} to group id[{1}] -name [{2}]",
-                   welcomeChallenge.getUser(), welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle());
+        if (log.isDebugEnabled()) {
+            log.debugv("Welcoming user {0} to group id[{1}] -name [{2}]",
+                       welcomeChallenge.getUser(), welcomeChallenge.getChatId(), welcomeChallenge.getChatTitle());
+        }
         String response = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "welcome"),
                                         welcomeChallenge.getName(),
                                         welcomeChallenge.getChatTitle(),

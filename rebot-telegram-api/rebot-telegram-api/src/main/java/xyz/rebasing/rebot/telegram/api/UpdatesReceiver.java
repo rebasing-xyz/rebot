@@ -57,16 +57,16 @@ public class UpdatesReceiver implements Runnable {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    private final String TELEGRAM_UPDATE_ENDPOINT = "https://api.telegram.org/bot%s/getUpdates";
+    private static final String TELEGRAM_UPDATE_ENDPOINT = "https://api.telegram.org/bot%s/getUpdates";
 
     @Inject
     BotConfig config;
 
     @Inject
-    private BotCloseableHttpClient httpClient;
+    BotCloseableHttpClient httpClient;
 
     @Inject
-    private ApiRepository apiRepository;
+    ApiRepository apiRepository;
 
     private Long lastUpdateId = 0L;
 
@@ -176,7 +176,7 @@ public class UpdatesReceiver implements Runnable {
 
                     updates.getResult().removeIf(n -> n.getUpdateId() < lastUpdateId);
                     lastUpdateId = updates.getResult().parallelStream().map(MessageUpdate::getUpdateId).max(Long::compareTo).orElse(0L);
-                    updates.getResult().stream()
+                    updates.getResult()
                             .forEach(u -> {
                                 // make sure that even edited messages will be intercepted by the rebot.
                                 if (null != u.getEditedMessage()) {

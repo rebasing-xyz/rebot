@@ -45,7 +45,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 @Entity
 @Table(name = "CHUCK")
-public class Fact {
+public class
+Fact {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -58,7 +59,7 @@ public class Fact {
 
     @Column(name = "ICONURL", nullable = false)
     @JsonProperty("icon_url")
-    private String icon_url;
+    private String iconUrl;
 
     @Column(name = "URL", nullable = false)
     @JsonProperty("url")
@@ -94,12 +95,12 @@ public class Fact {
 
     @JsonProperty("icon_url")
     public String getIcon_url() {
-        return icon_url;
+        return iconUrl;
     }
 
     @JsonProperty("icon_url")
-    public void setIcon_url(String icon_url) {
-        this.icon_url = icon_url;
+    public void setIcon_url(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
     @JsonProperty("url")
@@ -136,7 +137,7 @@ public class Fact {
     public String toString() {
         return "Fact{" +
                 "id=" + id +
-                ", iconUrl='" + icon_url + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
                 ", jokeId='" + id + '\'' +
                 ", url='" + url + '\'' +
                 ", value='" + value + '\'' +

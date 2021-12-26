@@ -34,7 +34,7 @@ import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.spi.PluginProvider;
-import xyz.rebasing.rebot.plugin.chucknorris.utils.Utils;
+import xyz.rebasing.rebot.plugin.chucknorris.helper.ChuckHelper;
 import xyz.rebasing.rebot.service.persistence.domain.Fact;
 import xyz.rebasing.rebot.service.persistence.repository.ChuckRepository;
 
@@ -67,7 +67,7 @@ public class ChuckNorris implements PluginProvider {
         if (canProcess(update.getMessage().getText())) {
             StringBuilder response = new StringBuilder();
 
-            fact = Utils.getFact();
+            fact = ChuckHelper.getFact();
             response.append(fact.getValue());
 
             // Persist chuck fact Asynchronously

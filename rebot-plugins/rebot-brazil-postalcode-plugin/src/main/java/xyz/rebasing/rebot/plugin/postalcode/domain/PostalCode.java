@@ -25,32 +25,32 @@ package xyz.rebasing.rebot.plugin.postalcode.domain;
 
 public class PostalCode {
 
-    private String CodIBGE;
-    private String UF;
+    private String codIBGE;
+    private String uf;
     private String county;
     private String nationalCode;
 
-    public PostalCode(String codIBGE, String UF, String county, String nationalCode) {
-        CodIBGE = codIBGE;
-        this.UF = UF;
+    public PostalCode(String codIBGE, String uf, String county, String nationalCode) {
+        this.codIBGE = codIBGE;
+        this.uf = uf;
         this.county = county;
         this.nationalCode = nationalCode;
     }
 
     public String getCodIBGE() {
-        return CodIBGE;
+        return codIBGE;
     }
 
     public void setCodIBGE(String codIBGE) {
-        CodIBGE = codIBGE;
+        this.codIBGE = codIBGE;
     }
 
     public String getUF() {
-        return UF;
+        return uf;
     }
 
     public void setUF(String UF) {
-        this.UF = UF;
+        this.uf = uf;
     }
 
     public String getCounty() {
@@ -72,7 +72,7 @@ public class PostalCode {
     @Override
     public String toString() {
         return "PostalCode found: {" +
-                "UF='" + UF + '\'' +
+                "uf='" + uf + '\'' +
                 ", county='" + county + '\'' +
                 ", nationalCode='" + nationalCode + '\'' +
                 '}';

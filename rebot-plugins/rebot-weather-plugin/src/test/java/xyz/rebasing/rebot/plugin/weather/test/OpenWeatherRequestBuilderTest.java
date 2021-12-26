@@ -30,7 +30,7 @@ import xyz.rebasing.rebot.plugin.weather.providers.openweather.request.OpenWeath
 
 public class OpenWeatherRequestBuilderTest {
 
-    private final String OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather?q=%s&units=%s&appid=%s";
+    private static final String OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather?q=%s&units=%s&appid=%s";
     private final String API_KEY = "my-key";
 
     @Test(expected = IllegalArgumentException.class)
