@@ -36,7 +36,7 @@ import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.shared.components.management.message.MessageManagement;
 import xyz.rebasing.rebot.api.shared.components.management.user.UserManagement;
-import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
+import xyz.rebasing.rebot.api.shared.components.message.sender.OutcomeMessageProcessor;
 
 @ApplicationScoped
 public class WelcomeProcessFunctions {
@@ -50,7 +50,7 @@ public class WelcomeProcessFunctions {
     MessageManagement messageManagement;
 
     @Inject
-    MessageSender reply;
+    OutcomeMessageProcessor reply;
 
     public WelcomeChallenge kickUser(WelcomeChallenge welcomeChallenge) {
         String response = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.wrong.answer"),

@@ -47,7 +47,7 @@ import xyz.rebasing.rebot.api.domain.Chat;
 import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
-import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
+import xyz.rebasing.rebot.api.shared.components.message.sender.OutcomeMessageProcessor;
 import xyz.rebasing.rebot.plugin.packt.domain.DailyOffer;
 import xyz.rebasing.rebot.plugin.packt.domain.LoadDailyOffer;
 import xyz.rebasing.rebot.service.persistence.domain.PacktNotification;
@@ -65,7 +65,7 @@ public class PacktNotifier {
     Cache<String, Object> cache = Caffeine.newBuilder().build();
 
     @Inject
-    private MessageSender messageSender;
+    private OutcomeMessageProcessor messageSender;
 
     @Inject
     private PacktRepository repository;

@@ -57,7 +57,7 @@ import xyz.rebasing.rebot.api.emojis.Emoji;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.shared.components.management.message.MessageManagement;
 import xyz.rebasing.rebot.api.shared.components.management.user.UserManagement;
-import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
+import xyz.rebasing.rebot.api.shared.components.message.sender.OutcomeMessageProcessor;
 import xyz.rebasing.rebot.api.spi.PluginProvider;
 import xyz.rebasing.rebot.plugin.welcome.kogito.WelcomeChallenge;
 
@@ -85,7 +85,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
     MessageManagement messageManagement;
 
     @Inject
-    MessageSender reply;
+    OutcomeMessageProcessor reply;
 
     private final Predicate newMember = hasNewMember();
     private final Predicate leftMember = hasMemberLeft().and(senderIsNotBot());
