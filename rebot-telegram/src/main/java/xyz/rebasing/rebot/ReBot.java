@@ -27,14 +27,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
-import xyz.rebasing.rebot.telegram.api.message.OutcomeMessageProcessor;
+import xyz.rebasing.rebot.telegram.api.message.IncomeMessageProcessor;
 import xyz.rebasing.rebot.telegram.api.polling.ReBotLongPoolingBot;
 
 @ApplicationScoped
 public class ReBot implements ReBotLongPoolingBot {
 
     @Inject
-    OutcomeMessageProcessor msg;
+    IncomeMessageProcessor msg;
 
     @Override
     public void onUpdateReceived(MessageUpdate update) {

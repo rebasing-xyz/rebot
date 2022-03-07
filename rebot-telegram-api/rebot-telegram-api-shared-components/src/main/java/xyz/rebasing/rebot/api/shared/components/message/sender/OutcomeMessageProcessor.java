@@ -53,7 +53,7 @@ import xyz.rebasing.rebot.api.shared.components.httpclient.BotCloseableHttpClien
 import xyz.rebasing.rebot.api.shared.components.management.message.MessageManagement;
 
 @ApplicationScoped
-public class MessageSender implements Sender {
+public class OutcomeMessageProcessor implements Sender {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 

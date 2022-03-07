@@ -35,7 +35,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.domain.Chat;
 import xyz.rebasing.rebot.api.domain.Message;
-import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
+import xyz.rebasing.rebot.api.shared.components.message.sender.OutcomeMessageProcessor;
 
 @Path("/message")
 @ApplicationScoped
@@ -44,7 +44,7 @@ public class RestMessageSender {
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Inject
-    private MessageSender sender;
+    private OutcomeMessageProcessor sender;
 
     @GET
     @Path("send/{chatId}/{message}")

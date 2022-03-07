@@ -37,7 +37,7 @@ import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.i18n.I18nHelper;
 import xyz.rebasing.rebot.api.shared.components.management.message.MessageManagement;
-import xyz.rebasing.rebot.api.shared.components.message.sender.MessageSender;
+import xyz.rebasing.rebot.api.shared.components.message.sender.OutcomeMessageProcessor;
 import xyz.rebasing.rebot.api.spi.CommandProvider;
 import xyz.rebasing.rebot.api.spi.PluginProvider;
 import xyz.rebasing.rebot.api.spi.administrative.AdministrativeCommandProvider;
@@ -50,7 +50,7 @@ import static xyz.rebasing.rebot.telegram.api.filter.ReBotPredicate.messageIsNot
 import static xyz.rebasing.rebot.telegram.api.utils.StringUtils.concat;
 
 @ApplicationScoped
-public class OutcomeMessageProcessor implements Processor {
+public class IncomeMessageProcessor implements Processor {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private boolean isAdministrativeCommand = false;
@@ -67,7 +67,7 @@ public class OutcomeMessageProcessor implements Processor {
     @Inject
     private Instance<PluginProvider> plugin;
     @Inject
-    private MessageSender reply;
+    private OutcomeMessageProcessor reply;
     @Inject
     private ApiRepository apiRepository;
     @Inject
