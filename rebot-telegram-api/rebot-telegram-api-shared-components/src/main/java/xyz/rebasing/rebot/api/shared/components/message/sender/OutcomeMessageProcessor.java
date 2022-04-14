@@ -64,10 +64,10 @@ public class OutcomeMessageProcessor implements Sender {
     BotConfig config;
 
     @Inject
-    private BotCloseableHttpClient httpClient;
+    BotCloseableHttpClient httpClient;
 
     @Inject
-    private MessageManagement messageManagement;
+    MessageManagement messageManagement;
 
     // TODO do not return nothing here, messages will be delete in this method.
     @Override

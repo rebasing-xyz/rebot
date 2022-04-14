@@ -55,7 +55,7 @@ public class MessageManagementImpl implements MessageManagement {
     BotConfig config;
 
     @Inject
-    private BotCloseableHttpClient httpClient;
+    BotCloseableHttpClient httpClient;
 
     @Override
     public void deleteMessage(long chatId, long messageId, long timeout) {
