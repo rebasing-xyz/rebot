@@ -63,13 +63,13 @@
     <version.xyz.rebasing.rebot.plugins>1.0-SNAPSHOT</version.xyz.rebasing.rebot.plugins>
     <version.xyz.rebasing.rebot.services>1.0-SNAPSHOT</version.xyz.rebasing.rebot.services>
     <version.xyz.rebasing.rebot.api>1.0-SNAPSHOT</version.xyz.rebasing.rebot.api>
-    <io.quarkus.version>2.1.2.Final</io.quarkus.version>
+    <io.quarkus.version>2.8.0.Final</io.quarkus.version>
+    <version.org.kie.kogito>1.20.0.Final</version.org.kie.kogito>
     <version.httpclient>4.5.13</version.httpclient>
     <version.com.squareup.okhttp3>4.9.3</version.com.squareup.okhttp3>
     <version.org.hamcrest.java.hamcrest>2.0.0.0</version.org.hamcrest.java.hamcrest>
     <version.junit>4.13.1</version.junit>
     <version.org.mockito>2.12.0</version.org.mockito>
-    <version.org.kie.kogito>1.11.0.Final</version.org.kie.kogito>
     <version.org.osgi.annotation.bundle>1.1.1</version.org.osgi.annotation.bundle>
     <!-- maven plugins version -->
     <surefire-plugin.version>2.22.0</surefire-plugin.version>
