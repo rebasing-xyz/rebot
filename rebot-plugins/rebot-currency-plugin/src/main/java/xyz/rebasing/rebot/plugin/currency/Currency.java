@@ -93,7 +93,7 @@ public class Currency implements CommandProvider {
                                         currency.exchangeValue(),
                                         currency.baseCurrency(),
                                         getCurrencyValue(currency.baseCurrency(), symbol, currency.exchangeValue(), locale),
-                                        symbol.toUpperCase()));
+                                        symbol.toUpperCase(new Locale(locale))));
                             }
                         }
                     } catch (final Exception e) {
@@ -195,11 +195,7 @@ public class Currency implements CommandProvider {
         try {
             log.debug("Verifying if the cache is functional");
             Cube cube = (Cube) ecbClient.cache().getIfPresent("USD");
-            if (null != cube.getCurrency()) {
-                return true;
-            } else {
-                return false;
-            }
+            return null != cube.getCurrency();
         } catch (final Exception e) {
             e.printStackTrace();
             log.debugv("Currency Plugin is not functional at this moment [{0}]", e.getMessage());

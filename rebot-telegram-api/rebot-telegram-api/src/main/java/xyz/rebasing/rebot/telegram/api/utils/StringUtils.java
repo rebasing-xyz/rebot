@@ -26,7 +26,7 @@ package xyz.rebasing.rebot.telegram.api.utils;
 
 import java.util.Locale;
 
-public class StringUtils {
+public abstract class StringUtils {
 
     /**
      * Parse the parameters received into a single String and make it lower case

@@ -191,9 +191,8 @@ public class IncomeMessageProcessor implements Processor {
     @Override
     public void nonCommandProcessor(MessageUpdate messageUpdate) {
         log.debugv("NON_COMMAND_PROCESSOR - Processing message: {0}", messageUpdate.getMessage().toString());
-        Message message = new Message();
-        message.setChat(messageUpdate.getMessage().getChat());
-        message.setMessageId(messageUpdate.getMessage().getMessageId());
+        Message message = new Message(messageUpdate.getMessage().getMessageId(),
+                                      messageUpdate.getMessage().getChat());
 
         plugin.forEach(plugin -> {
             if (!apiRepository.isCommandEnabled(messageUpdate.getMessage().getChat().getId(), plugin.name())) {

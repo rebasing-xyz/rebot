@@ -49,7 +49,7 @@ public final class ReBotPredicate {
     }
 
     public static Predicate<MessageUpdate> botCommand(String botUserId) {
-        return m -> (m.getMessage().getText().contains("@" + botUserId) || !m.getMessage().getText().contains("@"));
+        return m -> m.getMessage().getText().contains("@" + botUserId) || !m.getMessage().getText().contains("@");
     }
 
     public static Predicate<MessageUpdate> isBot() {

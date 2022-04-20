@@ -90,7 +90,7 @@ public class Helper {
             e.printStackTrace();
         }
 
-        if (ubResponse.size() == 0) {
+        if (ubResponse.isEmpty()) {
             response.append("Term not found");
         } else {
             ubResponse.stream().forEach(item -> {

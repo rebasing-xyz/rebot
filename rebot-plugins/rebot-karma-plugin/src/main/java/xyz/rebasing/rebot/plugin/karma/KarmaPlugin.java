@@ -27,6 +27,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -99,9 +100,12 @@ public class KarmaPlugin implements PluginProvider {
             if (canProcess(update.getMessage().getText()) && !update.isEdited()) {
                 List<String> itens = Arrays.asList(update.getMessage().getText().replaceAll("\\r|\\n", " ").split(" "));
                 HashMap<String, String> finalTargets = new HashMap<>();
-                String username = update.getMessage().getFrom().getUsername() != null ? update.getMessage().getFrom().getUsername() : update.getMessage().getFrom().getFirstName().toLowerCase();
+                String username = update.getMessage().getFrom().getUsername() != null ?
+                        update.getMessage().getFrom().getUsername() :
+                        update.getMessage().getFrom().getFirstName().toLowerCase(new Locale(locale));
+
                 itens.stream().distinct().forEach(item -> {
-                    if ((KARMA_PATTERN.matcher(item).find())) {
+                    if (KARMA_PATTERN.matcher(item).find()) {
                         String keyOperator;
                         String key;
                         if (item.charAt(item.length() - 1) == 8212 || item.charAt(item.length() - 1) == 8211) {

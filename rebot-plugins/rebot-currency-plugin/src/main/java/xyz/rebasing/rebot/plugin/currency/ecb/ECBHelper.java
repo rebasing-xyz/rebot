@@ -28,7 +28,7 @@ import java.util.Optional;
 
 import xyz.rebasing.rebot.service.persistence.domain.Cube;
 
-public class ECBHelper {
+public abstract class ECBHelper {
 
     public static final String DEFAULT_BASE_CURRENCY = "USD";
     public static final String DEFAULT_SYMBOLS = "BRL,USD,GBP,EUR";
@@ -45,8 +45,7 @@ public class ECBHelper {
             return formatNumber(baseRate);
         } else {
             Double base = formatNumber(baseRate);
-            Double finalConversion = formatNumber(targetCurrency.get().getRate() * base);
-            return finalConversion;
+            return formatNumber(targetCurrency.get().getRate() * base);
         }
     }
 

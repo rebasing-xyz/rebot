@@ -6,9 +6,9 @@ import java.util.ResourceBundle;
 
 import org.jboss.logging.Logger;
 
-public class I18nHelper {
+public abstract class I18nHelper {
 
-    private static Logger log = org.jboss.logging.Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private static Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     public static String resource(String baseName, String locale, String messageKey) {
         Locale preparedlocale = prepareLocale(locale);
@@ -29,7 +29,7 @@ public class I18nHelper {
     private static Locale prepareLocale(String value) {
         try {
             if (value.contains("_")) {
-                return new Locale(value.split("_")[0], value.split("_")[1].toUpperCase());
+                return new Locale(value.split("_")[0], value.split("_")[1]);
             }
             return new Locale(value);
         } catch (final Exception e) {

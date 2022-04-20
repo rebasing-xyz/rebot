@@ -44,7 +44,11 @@ public class Karma {
         this.points = points;
     }
 
-    public Karma(){}
+    /**
+     * Default constructor is needed to satisfy hibernate enhanced proxy generation
+     */
+    public Karma() {
+    }
 
     public String getUsername() {
         return username;

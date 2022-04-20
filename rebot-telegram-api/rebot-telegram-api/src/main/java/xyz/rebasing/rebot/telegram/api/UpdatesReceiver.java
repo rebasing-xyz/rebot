@@ -178,16 +178,15 @@ public class UpdatesReceiver implements Runnable {
                     lastUpdateId = updates.getResult().parallelStream().map(MessageUpdate::getUpdateId).max(Long::compareTo).orElse(0L);
                     updates.getResult()
                             .forEach(u -> {
-                                // make sure that even edited messages will be intercepted by the rebot.
+                                // make sure that even edited messages will be intercepted.
                                 if (null != u.getEditedMessage()) {
                                     log.trace("is updated message? true");
-                                    Message msg = new Message();
-                                    msg.setChat(u.getEditedMessage().getChat());
+                                    Message msg = new Message(u.getEditedMessage().getMessageId(),
+                                                              u.getEditedMessage().getChat(),
+                                                              u.getEditedMessage().getText());
                                     msg.setDate(u.getEditedMessage().getDate());
                                     msg.setEntities(u.getEditedMessage().getEntities());
                                     msg.setFrom(u.getEditedMessage().getFrom());
-                                    msg.setMessageId(u.getEditedMessage().getMessageId());
-                                    msg.setText(u.getEditedMessage().getText());
                                     u.setEdited(true);
                                     u.setMessage(msg);
                                 } else {

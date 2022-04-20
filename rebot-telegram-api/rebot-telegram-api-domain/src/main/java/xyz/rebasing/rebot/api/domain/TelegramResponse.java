@@ -37,11 +37,11 @@ public class TelegramResponse<T> implements Serializable {
 
     private final static long serialVersionUID = 939578928398485021L;
 
-    private static final String OK_FIELD = "ok";
-    private static final String ERROR_CODE_FIELD = "error_code";
-    private static final String DESCRIPTION_CODE_FIELD = "description";
-    private static final String PARAMETERS_FIELD = "parameters";
-    private static final String RESULT_FIELD = "result";
+    static final String OK_FIELD = "ok";
+    static final String ERROR_CODE_FIELD = "error_code";
+    static final String DESCRIPTION_CODE_FIELD = "description";
+    static final String PARAMETERS_FIELD = "parameters";
+    static final String RESULT_FIELD = "result";
     @JsonProperty("ok")
     private Boolean ok;
     @JsonProperty("error_code")
@@ -68,14 +68,11 @@ public class TelegramResponse<T> implements Serializable {
     }
 
     public String toString() {
-        return this.ok.booleanValue() ? "ApiResponse{ok=" + this.ok + ", result=" + this.result + '}' : "ApiResponse{ok=" + this.ok + ", errorCode=" + this.errorCode + ", errorDescription='" + this.errorDescription + '\'' + '}';
+        return this.ok.booleanValue() ? "ApiResponse{ok=" + this.ok + ", result=" + this.result + '}' :
+                "ApiResponse{ok=" + this.ok + ", errorCode=" + this.errorCode + ", errorDescription='" + this.errorDescription + '\'' + '}';
     }
 
     public boolean hasError() {
-        if (null != this.errorDescription) {
-            return true;
-        } else {
-            return false;
-        }
+        return null != this.errorDescription;
     }
 }

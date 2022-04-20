@@ -44,9 +44,6 @@ public class WelcomeChallenge {
     private boolean kickUser;
     private boolean isNewComerBot;
 
-    public WelcomeChallenge() {
-    }
-
     /**
      * randomize two numbers and a math operator to start the challenge
      * @param user that will answer the challenge

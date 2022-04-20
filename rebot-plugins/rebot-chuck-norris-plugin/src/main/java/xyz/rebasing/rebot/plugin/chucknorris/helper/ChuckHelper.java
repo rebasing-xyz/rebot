@@ -33,7 +33,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.domain.Fact;
 
-public class ChuckHelper {
+public abstract class ChuckHelper {
 
     private static final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private static final String CHUCK_NORRIS_FACTS_ENDPOINT = "https://api.chucknorris.io/jokes/random";

@@ -42,13 +42,16 @@ public class PacktNotification {
     @Column(name = "locale", nullable = true)
     private String locale;
 
-    public PacktNotification() {
-    }
-
     public PacktNotification(Long chatId, String channel, String locale) {
         this.chatId = chatId;
         this.channel = channel;
         this.locale = locale;
+    }
+
+    /**
+     * Default constructor is needed to satisfy hibernate enhanced proxy generation
+     */
+    public PacktNotification() {
     }
 
     public Long getChatId() {

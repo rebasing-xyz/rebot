@@ -173,10 +173,8 @@ public class PacktNotifier {
     }
 
     private void notify(Long chatId, String locale) {
-        Chat chat = new Chat(chatId);
-        Message message = new Message();
-        message.setChat(chat);
-        message.setText(this.get(locale));
-        messageSender.processOutgoingMessage(message, false, 0);
+        messageSender.processOutgoingMessage(new Message(0, new Chat(chatId), this.get(locale)),
+                                             false,
+                                             0);
     }
 }

@@ -32,6 +32,9 @@ public class ChatLocale {
         this.chatLocale = chatLocale;
     }
 
+    /**
+     * Default constructor is needed to satisfy hibernate enhanced proxy generation
+     */
     public ChatLocale() {
     }
 

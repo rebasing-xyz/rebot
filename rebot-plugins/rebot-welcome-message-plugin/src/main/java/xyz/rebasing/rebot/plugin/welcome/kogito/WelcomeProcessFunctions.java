@@ -100,10 +100,10 @@ public class WelcomeProcessFunctions {
         if (log.isDebugEnabled()) {
             log.debugv("Starting Challenge {0}", welcomeChallenge.toString());
         }
-        String response = (String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.start"),
+        String response = String.format(I18nHelper.resource("Welcome", welcomeChallenge.getLocale(), "challenge.start"),
                                          welcomeChallenge.getName(),
                                          welcomeChallenge.getChatTitle(),
-                                         welcomeChallenge.showMathOperation()));
+                                         welcomeChallenge.showMathOperation());
 
         // get the sent message's id to be deleted.
         welcomeChallenge.addMessadeIdToDelete(

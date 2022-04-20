@@ -24,7 +24,7 @@
 
 package xyz.rebasing.rebot.api.utils;
 
-public class Formatter {
+public abstract class Formatter {
 
     /**
      * little hack to allow this plugin to process karma to the "less than" character
