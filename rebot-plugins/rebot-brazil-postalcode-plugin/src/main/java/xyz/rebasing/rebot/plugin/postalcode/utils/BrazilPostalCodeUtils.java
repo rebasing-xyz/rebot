@@ -31,6 +31,7 @@ import java.lang.invoke.MethodHandles;
 import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -70,7 +71,11 @@ public class BrazilPostalCodeUtils {
     public String query(String key, long limitResult, boolean returnUF, String locale) {
         StringBuilder stbuilder = new StringBuilder();
 
-        log.debugv("Search key ---- {0} with parameters --limit-result={1} and --uf={2}", removeAccent(key).toUpperCase(), limitResult, returnUF);
+        log.debugv("Search key ---- {0} with parameters --limit-result={1} and --uf={2}",
+                   removeAccent(key).toUpperCase(new Locale(locale)),
+                   limitResult,
+                   returnUF);
+
         // processCSVFile() is cached by Quarkus Cache
         List<PostalCode> foundValues = processCSVFile().entrySet().stream()
                 .filter(item -> item.getValue() instanceof PostalCode)
@@ -80,7 +85,7 @@ public class BrazilPostalCodeUtils {
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
 
-        if (foundValues.size() <= 0) {
+        if (foundValues.isEmpty()) {
             stbuilder.append(String.format(I18nHelper.resource("PostalCodeMessages", locale, "county.not.found"),
                                            key,
                                            Emoji.TRIANGULAR_FLAG_ON_POST));

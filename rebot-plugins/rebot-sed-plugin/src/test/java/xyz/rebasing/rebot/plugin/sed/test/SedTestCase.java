@@ -31,6 +31,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import xyz.rebasing.rebot.api.domain.Chat;
 import xyz.rebasing.rebot.api.domain.From;
 import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
@@ -44,11 +45,11 @@ public class SedTestCase {
     private Map<Long, String> cache = new HashMap<>();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         sedResponse = new SedResponse();
         From from = new From();
         from.setId(110111);
-        message = new Message();
+        message = new Message(0, new Chat(0L), null);
         message.setFrom(from);
         messageUpdate = new MessageUpdate();
         messageUpdate.setMessage(message);

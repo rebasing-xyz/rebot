@@ -94,7 +94,7 @@ public class ChuckNorris implements PluginProvider {
      * @return true if the message matches the chuck plugin pattern, otherwise returns false
      */
     private boolean canProcess(String messageContent) {
-        boolean canProcess = null == messageContent ? false : FULL_MSG_PATTERN.matcher(messageContent.toLowerCase(Locale.ENGLISH)).find();
+        boolean canProcess = null == messageContent || FULL_MSG_PATTERN.matcher(messageContent.toLowerCase(Locale.ENGLISH)).find();
         log.debugv("Chuck Norris plugin - can process [" + messageContent + "] - " + canProcess);
         return canProcess;
     }

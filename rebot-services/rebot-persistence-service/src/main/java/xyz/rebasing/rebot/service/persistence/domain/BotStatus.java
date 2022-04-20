@@ -59,6 +59,9 @@ public class BotStatus {
         this.timestamp = Instant.now().toString();
     }
 
+    /**
+     * Default constructor is needed to satisfy hibernate enhanced proxy generation
+     */
     public BotStatus() {
     }
 

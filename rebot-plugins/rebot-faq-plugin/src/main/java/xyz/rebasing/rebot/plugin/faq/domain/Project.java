@@ -33,9 +33,6 @@ public class Project {
     public String link;
     public String description;
 
-    public Project() {
-    }
-
     /*
      * Returns the project name with the project's link in the markdown pattern
      */

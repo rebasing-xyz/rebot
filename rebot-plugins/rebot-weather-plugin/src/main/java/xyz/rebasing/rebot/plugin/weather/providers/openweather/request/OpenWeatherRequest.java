@@ -51,7 +51,12 @@ public class OpenWeatherRequest {
         }
 
         // apply default unit to F
-        uri.append(UNITS_KEY).append("=").append(DEFAULT_UNIT);
+        uri.append(UNITS_KEY).append("=");
+        if (!isNullOrEmpty(units)) {
+            uri.append(units);
+        } else {
+            uri.append(DEFAULT_UNIT);
+        }
 
         // TODO add all supported langs inside an Enum
         if (!isNullOrEmpty(lang)) {

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import xyz.rebasing.rebot.api.domain.ChatMember;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
-public class WelcomePluginPredicate {
+public abstract class WelcomePluginPredicate {
 
     static ObjectMapper mapper = new ObjectMapper();
 

@@ -58,11 +58,7 @@ public class RestMessageSender {
         }
     }
 
-    private Message buildMessage(Long target, String txt) {
-        Chat chat = new Chat(target);
-        Message message = new Message();
-        message.setChat(chat);
-        message.setText(txt);
-        return message;
+    private Message buildMessage(Long targetChat, String txt) {
+        return new Message(0, new Chat(targetChat), txt);
     }
 }

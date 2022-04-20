@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 import xyz.rebasing.rebot.api.domain.ChatAdministrator;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 
-public class RebotSharedFilter {
+public abstract class RebotSharedFilter {
 
     public static Predicate<MessageUpdate> isPrivateChat() {
         return m -> m.getMessage().getChat().getType().equals("private");

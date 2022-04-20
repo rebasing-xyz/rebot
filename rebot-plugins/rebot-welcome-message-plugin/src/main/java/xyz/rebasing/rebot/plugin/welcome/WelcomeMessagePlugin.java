@@ -152,7 +152,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
                 // msgs will be handled internally if there is more than 1 new member at the same time.
                 // so return null.
                 return null;
-            } else if (instances.size() > 0) {
+            } else if (instances.isEmpty()) {
                 String username = null != messageUpdate.getMessage().getFrom().getUsername()
                         ? messageUpdate.getMessage().getFrom().getUsername() : messageUpdate.getMessage().getFrom().getFirstName();
                 // add user+chatId to make sure that if the user joined two chat rooms at the same time the process will
@@ -168,7 +168,7 @@ public class WelcomeMessagePlugin implements PluginProvider {
 
                         Map<String, Object> results = new HashMap<>();
                         Model result = instance.variables();
-                        WelcomeChallenge challenge = ((WelcomeChallenge) result.toMap().get("challenge"));
+                        WelcomeChallenge challenge = (WelcomeChallenge) result.toMap().get("challenge");
                         challenge.setAnswer(Integer.parseInt(userAnswer));
                         challenge.setMessageId(messageUpdate.getMessage().getMessageId());
                         challenge.addMessadeIdToDelete(messageUpdate.getMessage().getMessageId());
@@ -212,11 +212,9 @@ public class WelcomeMessagePlugin implements PluginProvider {
      * @return true if the message is a member left the chat
      */
     private String leftChatMemberMessage(MessageUpdate update, String locale) {
-        final Message message = new Message();
-        message.setText(String.format(I18nHelper.resource("Welcome", locale, "traitor"),
-                                      chatMember(update).get(0).getFirstName(),
-                                      Emoji.ANGRY_FACE));
-        return message.getText();
+        return String.format(I18nHelper.resource("Welcome", locale, "traitor"),
+                             chatMember(update).get(0).getFirstName(),
+                             Emoji.ANGRY_FACE);
     }
 
     /**

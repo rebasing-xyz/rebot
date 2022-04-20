@@ -56,12 +56,15 @@ public class Chat implements Serializable {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Chat() {
-    }
-
     public Chat(long id, String title) {
         this.id = id;
         this.title = title;
+    }
+
+    /**
+     * Default Constructor
+     */
+    public Chat() {
     }
 
     public Chat(long id) {

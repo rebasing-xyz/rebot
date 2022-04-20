@@ -69,13 +69,21 @@ public class Message implements Serializable {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Message() {
-    }
-
     public Message(long messageId, Chat chat, String text) {
         this.messageId = messageId;
         this.chat = chat;
         this.text = text;
+    }
+
+    public Message(long messageId, Chat chat) {
+        this.messageId = messageId;
+        this.chat = chat;
+    }
+
+    /**
+     * Default Constructor
+     */
+    public Message() {
     }
 
     @JsonProperty("message_id")

@@ -27,6 +27,7 @@ import java.lang.invoke.MethodHandles;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -89,7 +90,8 @@ public class FaqHelper {
                 .filter(item -> item instanceof Project)
                 .collect(Collectors.toList());
 
-        for (Project project : cacheEntries.stream().filter(item -> item.getId().toUpperCase().contains(key.toUpperCase())).collect(Collectors.toList())) {
+        for (Project project : cacheEntries.stream().filter(item -> item.getId().toUpperCase(new Locale(locale))
+                .contains(key.toUpperCase())).collect(Collectors.toList())) {
             stbuilder.append(project.toString());
             stbuilder.append(" - ");
             stbuilder.append(project.getDescription() + "\n");
