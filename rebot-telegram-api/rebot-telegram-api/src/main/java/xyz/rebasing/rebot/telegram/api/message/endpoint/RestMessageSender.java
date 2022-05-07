@@ -54,7 +54,7 @@ public class RestMessageSender {
             sender.processOutgoingMessage(buildMessage(chatId, message), false, 0L);
             return Response.ok("Message Sent").build();
         } catch (final Exception e) {
-            return Response.serverError().entity(e.getMessage()).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
 
