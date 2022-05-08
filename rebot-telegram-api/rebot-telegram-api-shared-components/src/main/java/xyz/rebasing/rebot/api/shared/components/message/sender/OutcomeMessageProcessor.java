@@ -21,7 +21,6 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 package xyz.rebasing.rebot.api.shared.components.message.sender;
 
 import java.io.BufferedReader;
@@ -36,35 +35,33 @@ import java.util.OptionalLong;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.TelegramResponse;
-import xyz.rebasing.rebot.api.shared.components.httpclient.BotCloseableHttpClient;
+import xyz.rebasing.rebot.api.shared.components.httpclient.IRebotOkHttpClient;
 import xyz.rebasing.rebot.api.shared.components.management.message.MessageManagement;
 
 @ApplicationScoped
 public class OutcomeMessageProcessor implements Sender {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-
-    private static final String TELEGRAM_API_SENDER_ENDPOINT = "https://api.telegram.org/bot%s/sendMessage";
-    private static  final int TELEGRAM_MESSAGE_CHARACTERS_LIMIT = 4000;
+    private static final int TELEGRAM_MESSAGE_CHARACTERS_LIMIT = 4000;
 
     @Inject
     BotConfig config;
 
     @Inject
-    BotCloseableHttpClient httpClient;
+    ObjectMapper objectMapper;
+
+    @Inject
+    IRebotOkHttpClient okclient;
 
     @Inject
     MessageManagement messageManagement;
@@ -128,40 +125,37 @@ public class OutcomeMessageProcessor implements Sender {
      * @param message Message to be sent
      */
     private OptionalLong send(Message message) {
-        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> body = new HashMap<>();
+        body.put("chat_id", message.getChat().getId() + "");
+        body.put("parse_mode", "HTML");
+        body.put("reply_to_message_id", message.getMessageId() + "");
+        body.put("text", message.getText());
+        body.put("disable_web_page_preview", "true");
+
+        Request request = null;
         try {
-            String url = String.format(TELEGRAM_API_SENDER_ENDPOINT, config.botTokenId());
-            HttpPost httpPost = new HttpPost(url);
-            httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
-            httpPost.addHeader("content-type", "application/json");
-            Map<String, String> body = new HashMap<>();
-            body.put("chat_id", message.getChat().getId() + "");
-            body.put("parse_mode", "HTML");
-            body.put("reply_to_message_id", message.getMessageId() + "");
-            body.put("text", message.getText());
-            body.put("disable_web_page_preview", "true");
-            httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(body), ContentType.APPLICATION_JSON));
-            try (CloseableHttpResponse response = httpClient.get().execute(httpPost)) {
-                HttpEntity responseEntity = response.getEntity();
-                BufferedHttpEntity buf = new BufferedHttpEntity(responseEntity);
-                String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
-                log.debugv("Telegram API response: [{0}]", responseContent);
+            request = new Request.Builder()
+                    .url(String.format("https://api.telegram.org/bot%s/sendMessage", config.botTokenId()))
+                    .addHeader("charset", StandardCharsets.UTF_8.name())
+                    .addHeader("content-type", "application/json")
+                    .post(RequestBody.create(objectMapper.writeValueAsString(body), okclient.mediaTypeJson()))
+                    .build();
+        } catch (JsonProcessingException e) {
+            log.errorv("failed to write json as string: {0}", e);
+        }
 
-                TelegramResponse<Message> telegramResponse = objectMapper.
-                        readValue(responseContent, new TypeReference<>() {
-                        });
+        try (Response response = okclient.get().newCall(request).execute()) {
 
-                if (telegramResponse.hasError() && telegramResponse.getErrorCode() == 404) {
-                    log.warnv("Failed to send message: {0}", telegramResponse.getErrorDescription());
-                    return OptionalLong.of(0);
-                }
+            TelegramResponse<Message> telegramResponse = objectMapper.
+                    readValue(response.body().string(), new TypeReference<>() {
+                    });
 
-                return OptionalLong.of(telegramResponse.getResult().getMessageId());
-            } catch (final Exception e) {
-                e.printStackTrace();
-                log.warnv("Something goes wrong {0}", e.getMessage());
+            if (telegramResponse.hasError() && telegramResponse.getErrorCode() == 404) {
+                log.warnv("Failed to send message: {0}", telegramResponse.getErrorDescription());
                 return OptionalLong.of(0);
             }
+            log.debugv("Telegram API response: [{0}]", telegramResponse.toString());
+            return OptionalLong.of(telegramResponse.getResult().getMessageId());
         } catch (final Exception e) {
             e.printStackTrace();
             log.warnv("Something goes wrong {0}", e.getMessage());

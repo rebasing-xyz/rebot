@@ -29,7 +29,7 @@ import xyz.rebasing.rebot.api.domain.MessageUpdate;
 public interface ReBotLongPoolingBot {
 
     /**
-     * On each update received, all class that implements this interface will be notified
+     * On each update received, all classes that implements this interface will be notified
      * @param update Telegram Update
      */
     void onUpdateReceived(MessageUpdate update);

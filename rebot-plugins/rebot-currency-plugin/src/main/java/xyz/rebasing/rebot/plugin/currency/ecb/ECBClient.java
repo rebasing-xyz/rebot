@@ -27,7 +27,7 @@ import java.lang.invoke.MethodHandles;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.xml.parsers.SAXParser;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -65,17 +65,22 @@ public class ECBClient {
     public void getAndPersistDailyCurrencies() {
         try {
             log.debugv("Parsing currencies from {0}", ECB_XML_ADDRESS);
-            SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
+
+            SAXParserFactory saxParser = SAXParserFactory.newInstance();
+            saxParser.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            saxParser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
             HttpGet httpReq = new HttpGet(ECB_XML_ADDRESS);
             HttpResponse response = client().execute(httpReq);
-            saxParser.parse(response.getEntity().getContent(), handler);
+
+            saxParser.newSAXParser().parse(response.getEntity().getContent(), handler);
+
             repository.persist(handler.cubes());
             c.cleanUp();
             handler.cubes().getCubes().forEach(cube -> {
                 c.put(cube.getCurrency(), cube);
                 c.put("time", handler.cubes().getTime());
             });
-
         } catch (final Exception e) {
             log.errorv("Error to retrieve currency rates from {0} - message: {1}", ECB_XML_ADDRESS, e.getMessage());
         } finally {

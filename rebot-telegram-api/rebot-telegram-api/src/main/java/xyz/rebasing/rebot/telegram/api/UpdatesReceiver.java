@@ -21,33 +21,31 @@
  *   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 package xyz.rebasing.rebot.telegram.api;
 
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.api.conf.BotConfig;
 import xyz.rebasing.rebot.api.domain.GetUpdatesConfProducer;
 import xyz.rebasing.rebot.api.domain.Message;
 import xyz.rebasing.rebot.api.domain.MessageUpdate;
 import xyz.rebasing.rebot.api.domain.TelegramResponse;
-import xyz.rebasing.rebot.api.shared.components.httpclient.BotCloseableHttpClient;
+import xyz.rebasing.rebot.api.shared.components.httpclient.IRebotOkHttpClient;
 import xyz.rebasing.rebot.service.persistence.domain.BotStatus;
 import xyz.rebasing.rebot.service.persistence.repository.ApiRepository;
 import xyz.rebasing.rebot.telegram.api.polling.ReBotLongPoolingBot;
@@ -57,49 +55,38 @@ public class UpdatesReceiver implements Runnable {
 
     private final Logger log = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-    private static final String TELEGRAM_UPDATE_ENDPOINT = "https://api.telegram.org/bot%s/getUpdates";
-
     @Inject
     BotConfig config;
 
     @Inject
-    BotCloseableHttpClient httpClient;
-
-    @Inject
     ApiRepository apiRepository;
 
-    private Long lastUpdateId = 0L;
+    @Inject
+    IRebotOkHttpClient okclient;
 
-    private RequestConfig requestConfig;
-
-    private Thread currentThread;
+    @Inject
+    ObjectMapper objectMapper;
 
     @Inject
     ReBotLongPoolingBot callback;
+
+    private Long lastUpdateId = 0L;
+    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     /**
      * Method responsible to configure the HttpClient and start the receiver by calling the method <b>run</b>
      * Persists the Bot status on the database
      */
+    @SuppressWarnings("FutureReturnValueIgnored")
     public void start() {
-        requestConfig = RequestConfig.copy(RequestConfig.custom().build())
-                .setSocketTimeout(75 * 1000)
-                .setConnectTimeout(75 * 1000)
-                .setConnectionRequestTimeout(75 * 1000).build();
-        currentThread = new Thread(this);
-        currentThread.setDaemon(true);
-        currentThread.setName("Telegram-" + config.botUserId());
-        currentThread.start();
+        executorService.scheduleAtFixedRate(this, 0, 800, TimeUnit.MILLISECONDS);
     }
 
     /**
      * When called interrupt the current thread.
      */
     public void interrupt() {
-        if (currentThread.isAlive()) {
-            log.debugv("Stopping ReBotLongPoolingBot - {0}", currentThread.getName());
-            currentThread.interrupt();
-        }
+        executorService.shutdown();
     }
 
     /**
@@ -138,71 +125,61 @@ public class UpdatesReceiver implements Runnable {
      * The receiver configuration is done by the class {@link GetUpdatesConfProducer}
      * <p>
      * This thread remains in execution until the bot goes down.
-     * The interval between the updates' verification is <b>600ms</b>
+     * The interval between the updates' verification is <b>800ms</b>
      */
     @Override
     public synchronized void run() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        while (!currentThread.isInterrupted()) {
-            GetUpdatesConfProducer getUpdates = new GetUpdatesConfProducer().setLimit(100).setTimeout(10 * 1000).setOffset(lastUpdateId + 1);
-            log.tracev("receiver config -> {0}", getUpdates.toString());
-            try {
-                String url = String.format(TELEGRAM_UPDATE_ENDPOINT, config.botTokenId());
 
-                HttpPost httpPost = new HttpPost(url);
-                httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
-                httpPost.setConfig(requestConfig);
-                httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(getUpdates), ContentType.APPLICATION_JSON));
+        GetUpdatesConfProducer getUpdates = new GetUpdatesConfProducer().setLimit(100).setTimeout(10 * 1000).setOffset(lastUpdateId + 1);
+        log.tracev("receiver config -> {0}", getUpdates.toString());
 
-                try (CloseableHttpResponse response = httpClient.get().execute(httpPost)) {
-                    HttpEntity responseEntity = response.getEntity();
-                    BufferedHttpEntity buf = new BufferedHttpEntity(responseEntity);
-                    String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
+        Request request = null;
+        try {
+            request = new Request.Builder()
+                    .url(String.format("https://api.telegram.org/bot%s/getUpdates", config.botTokenId()))
+                    .addHeader("charset", StandardCharsets.UTF_8.name())
+                    .post(RequestBody.create(objectMapper.writeValueAsString(getUpdates),
+                                             okclient.mediaTypeJson()))
+                    .build();
+        } catch (JsonProcessingException e) {
+            log.errorv("failed to write json as string: {0}", e);
+        }
 
-                    if (response.getStatusLine().getStatusCode() != 200) {
-                        log.warnv("Error received from Telegram API, status code is {0}", response.getStatusLine().getStatusCode());
-                        synchronized (this) {
-                            this.wait(600);
-                        }
-                    }
-
-                    TelegramResponse<ArrayList<MessageUpdate>> updates = objectMapper.
-                            readValue(responseContent, new TypeReference<>() {
-                            });
-
-                    if (null == updates.getResult()) {
-                        this.wait(1000);
-                    }
-
-                    updates.getResult().removeIf(n -> n.getUpdateId() < lastUpdateId);
-                    lastUpdateId = updates.getResult().parallelStream().map(MessageUpdate::getUpdateId).max(Long::compareTo).orElse(0L);
-                    updates.getResult()
-                            .forEach(u -> {
-                                // make sure that even edited messages will be intercepted.
-                                if (null != u.getEditedMessage()) {
-                                    log.trace("is updated message? true");
-                                    Message msg = new Message(u.getEditedMessage().getMessageId(),
-                                                              u.getEditedMessage().getChat(),
-                                                              u.getEditedMessage().getText());
-                                    msg.setDate(u.getEditedMessage().getDate());
-                                    msg.setEntities(u.getEditedMessage().getEntities());
-                                    msg.setFrom(u.getEditedMessage().getFrom());
-                                    u.setEdited(true);
-                                    u.setMessage(msg);
-                                } else {
-                                    u.setEdited(false);
-                                }
-                                // notify the implementations of ReBotLongPoolingBot about the received messages.
-                                log.tracev("Message is [{0}]", u.toString());
-                                callback.onUpdateReceived(u);
-                            });
-                    // wait 600ms before check for updates
-                    this.wait(700);
-                }
-            } catch (final Exception e) {
-                e.printStackTrace();
-                log.warnv("Error {0}", e.getMessage());
+        try (Response response = okclient.get().newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                log.warnv("Error received from Telegram API, status code is {0}", response.code());
             }
+            TelegramResponse<ArrayList<MessageUpdate>> updates = objectMapper.
+                    readValue(response.body().string(), new TypeReference<>() {
+                    });
+
+            updates.getResult().removeIf(n -> n.getUpdateId() < lastUpdateId);
+            lastUpdateId = updates.getResult().parallelStream().map(MessageUpdate::getUpdateId).max(Long::compareTo).orElse(0L);
+            updates.getResult()
+                    .forEach(u -> {
+                        // make sure that even edited messages will be intercepted.
+                        if (null != u.getEditedMessage()) {
+                            log.trace("is updated message? true");
+                            Message msg = new Message(u.getEditedMessage().getMessageId(),
+                                                      u.getEditedMessage().getChat(),
+                                                      u.getEditedMessage().getText());
+                            msg.setDate(u.getEditedMessage().getDate());
+                            msg.setEntities(u.getEditedMessage().getEntities());
+                            msg.setFrom(u.getEditedMessage().getFrom());
+                            u.setEdited(true);
+                            u.setMessage(msg);
+                        } else {
+                            u.setEdited(false);
+                        }
+                        log.tracev("Message is [{0}]", u.toString());
+                        // notify the implementations of ReBotLongPoolingBot about the received messages.
+                        callback.onUpdateReceived(u);
+                    });
+        } catch (final Exception e) {
+            if (log.isDebugEnabled()) {
+                e.printStackTrace();
+            }
+            log.warnv("Error {0}", e.getMessage());
         }
     }
 }
