@@ -3,7 +3,7 @@ name: ReBot - Java 16
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
