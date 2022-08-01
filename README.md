@@ -27,5 +27,11 @@ https://s01.oss.sonatype.org/content/groups/public/
 This project uses a similar Java code style than https://github.com/kiegroup/droolsjbpm-build-bootstrap/tree/main/ide-configuration
 
 
+### Known issues
+
+- Native compilation when using embedded H2 database:
+  - _General error: "java.lang.UnsupportedOperationException: H2 database compiled into a native-image is only functional as a client: can't create an Embedded Database Session" [50000-197]_
+  - https://github.com/quarkusio/quarkus/issues/27021
+
 ### Did you find a bug or do you have a suggestion?
 Feel free to raise a [issue](https://github.com/rebasing-xyz/rebot/issues/new).
