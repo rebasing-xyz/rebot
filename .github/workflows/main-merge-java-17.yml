@@ -15,4 +15,4 @@ jobs:
         with:
           java-version: 17
       - name: Test with Maven
-        run: mvn clean package --file pom.xml
+        run: mvn clean package --no-transfer-progress --file pom.xml

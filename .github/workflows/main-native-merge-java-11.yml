@@ -17,4 +17,4 @@ jobs:
         with:
           java-version: 11
       - name: package
-        run: mvn clean package --file pom.xml -Pnative -Dquarkus.native.container-build=true -DskipTests
+        run: mvn clean package --no-transfer-progress --file pom.xml -Pnative -Dquarkus.native.container-build=true -DskipTests
