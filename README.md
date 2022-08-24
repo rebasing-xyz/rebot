@@ -28,7 +28,7 @@ https://s01.oss.sonatype.org/content/groups/public/
 
 ## Quarkus Hot Reload feature
 
-You can rely on the hot reload feature, you just need to start it in the `dev` mode from the project's root directory:
+You can rely on the hot reload feature, you just need to start it in the `dev` mode from the `rebot-telegram` directory:
 
 ```bash
 mvn clean compile quarkus:dev \
