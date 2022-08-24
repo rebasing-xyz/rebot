@@ -1,6 +1,11 @@
 ### ReBot - A Java API for Telegram
 
 ![ReBot - Java 11](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2011/badge.svg)
+![ReBot - Java 16](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2016/badge.svg)
+![ReBot - Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2017/badge.svg)
+![ReBot - Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Native%20Java%2011/badge.svg)
+![Code Analysis](https://lift.sonatype.com/api/badge/github.com/rebasing-xyz/rebot)
+
 
 This API is composed by 3 Key Sub Projects, which are:
 
@@ -19,6 +24,16 @@ The SNAPSHOT artifacts can be used by configuring the following maven repository
 
 ```
 https://s01.oss.sonatype.org/content/groups/public/
+```
+
+## Quarkus Hot Reload feature
+
+You can rely on the hot reload feature, you just need to start it in the `dev` mode from the project's root directory:
+
+```bash
+mvn clean compile quarkus:dev \
+  -Dxyz.rebasing.rebot.telegram.token=<BOT_TOKEN> \
+  -Dxyz.rebasing.rebot.telegram.userId=<BOT_ID>
 ```
 
 
