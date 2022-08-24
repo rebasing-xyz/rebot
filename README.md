@@ -1,5 +1,5 @@
 ### ReBot - A Java API for Telegram
-
+ignore
 ![ReBot - Java 11](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2011/badge.svg)
 
 This API is composed by 3 Key Sub Projects, which are:
