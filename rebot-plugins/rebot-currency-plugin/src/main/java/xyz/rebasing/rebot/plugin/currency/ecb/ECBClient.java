@@ -23,6 +23,7 @@
 
 package xyz.rebasing.rebot.plugin.currency.ecb;
 
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -33,12 +34,9 @@ import javax.xml.parsers.SAXParserFactory;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.quarkus.scheduler.Scheduled;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.jboss.logging.Logger;
 import xyz.rebasing.rebot.service.persistence.repository.EcbRepository;
 
@@ -63,17 +61,27 @@ public class ECBClient {
 
     @Scheduled(every = "12h", delay = 60)
     public void getAndPersistDailyCurrencies() {
-        try {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+        Request request = new Request.Builder()
+                .url(ECB_XML_ADDRESS)
+                .get()
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
             log.debugv("Parsing currencies from {0}", ECB_XML_ADDRESS);
 
             SAXParserFactory saxParser = SAXParserFactory.newInstance();
             saxParser.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             saxParser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 
-            HttpGet httpReq = new HttpGet(ECB_XML_ADDRESS);
-            HttpResponse response = client().execute(httpReq);
-
-            saxParser.newSAXParser().parse(response.getEntity().getContent(), handler);
+            try (InputStream input = response.body().byteStream()) {
+                if (input != null) {
+                    saxParser.newSAXParser().parse(response.body().byteStream(), handler);
+                } else {
+                    throw new NullPointerException("Response is null");
+                }
+            }
 
             repository.persist(handler.cubes());
             c.cleanUp();
@@ -81,17 +89,11 @@ public class ECBClient {
                 c.put(cube.getCurrency(), cube);
                 c.put("time", handler.cubes().getTime());
             });
+
         } catch (final Exception e) {
             log.errorv("Error to retrieve currency rates from {0} - message: {1}", ECB_XML_ADDRESS, e.getMessage());
         } finally {
             handler.clean();
         }
-    }
-
-    private CloseableHttpClient client() {
-        RequestConfig config = RequestConfig.custom()
-                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
-                .build();
-        return HttpClients.custom().setDefaultRequestConfig(config).build();
     }
 }
