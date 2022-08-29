@@ -25,10 +25,14 @@ public class BundleUTF8Control extends ResourceBundle.Control {
         if (reload) {
             URL url = loader.getResource(resourceName);
             if (url != null) {
-                URLConnection connection = url.openConnection();
-                if (connection != null) {
-                    connection.setUseCaches(false);
-                    stream = connection.getInputStream();
+                try {
+                    URLConnection connection = url.openConnection();
+                    if (connection != null) {
+                        connection.setUseCaches(false);
+                        stream = connection.getInputStream();
+                    }
+                } finally {
+                    stream.close();
                 }
             }
         } else {
