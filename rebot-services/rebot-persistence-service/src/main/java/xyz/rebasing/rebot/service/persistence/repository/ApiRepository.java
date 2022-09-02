@@ -62,16 +62,15 @@ public class ApiRepository {
      */
     public void remove(long chatId) {
         log.debugv("Enabling bot for chat {0}", chatId);
-        Query q = em.createNativeQuery("DELETE FROM BOT_STATUS where ID=" + chatId + ";");
+        Query q = em.createNativeQuery("DELETE FROM BOT_STATUS where ID= :chatId").setParameter("chatId", chatId);
         q.executeUpdate();
         em.flush();
     }
 
     /**
+     * @param chatId chat id to verify if the bos enabled
      * @return if the bot is enabled or not
      * In case there is no state saved return true.
-     *
-     * @param chatId chat id to verify if the bos enabled
      */
     public boolean isBotEnabled(long chatId) {
         try {
@@ -85,9 +84,9 @@ public class ApiRepository {
     /**
      * Check if the given command is active in the provided chat group
      *
-     * @param groupId chat group to be verified
+     * @param groupId     chat group to be verified
      * @param commandName command to verify
-     * @return if the given command is enabled is enabled or not
+     * @return if the given command is enabled or not
      */
     public boolean isCommandEnabled(long groupId, String commandName) {
         try {
@@ -101,7 +100,7 @@ public class ApiRepository {
     /**
      * Enable the given command in the provided chatId
      *
-     * @param chatId chat id or group to be verified
+     * @param chatId      chat id or group to be verified
      * @param commandName command to be enabled
      */
     public void enableCommand(long chatId, String commandName) {
