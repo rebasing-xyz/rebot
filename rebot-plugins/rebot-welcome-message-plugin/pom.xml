@@ -126,6 +126,9 @@
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${io.quarkus.version}</version>
+        <configuration>
+          <noDeps>true</noDeps>
+        </configuration>
         <executions>
           <execution>
             <goals>

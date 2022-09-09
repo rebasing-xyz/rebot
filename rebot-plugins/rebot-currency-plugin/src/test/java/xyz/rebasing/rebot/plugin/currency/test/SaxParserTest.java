@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -29,12 +29,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -47,15 +44,19 @@ import xyz.rebasing.rebot.plugin.currency.ecb.EcbSaxHandler;
 public class SaxParserTest {
 
     public static final String ECB_XML_ADDRESS = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
-
     private EcbSaxHandler handler = new EcbSaxHandler();
 
     @Before
     public void populateCubes() throws ParserConfigurationException, SAXException, IOException {
         SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
-        HttpGet httpReq = new HttpGet(ECB_XML_ADDRESS);
-        HttpResponse response = client().execute(httpReq);
-        saxParser.parse(response.getEntity().getContent(), handler);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+        Request request = new Request.Builder()
+                .url(ECB_XML_ADDRESS)
+                .get()
+                .build();
+        Response response = client.newCall(request).execute();
+        saxParser.parse(response.body().string(), handler);
     }
 
     @Test
@@ -82,12 +83,5 @@ public class SaxParserTest {
         handler.cubes().getCubes().forEach(cube -> {
             AvailableCurrencies.valueOf(cube.getCurrency());
         });
-    }
-
-    private CloseableHttpClient client() {
-        RequestConfig config = RequestConfig.custom()
-                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
-                .build();
-        return HttpClients.custom().setDefaultRequestConfig(config).build();
     }
 }
