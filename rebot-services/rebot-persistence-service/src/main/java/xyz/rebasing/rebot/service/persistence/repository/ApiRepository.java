@@ -68,9 +68,9 @@ public class ApiRepository {
     }
 
     /**
+     * Verify if the bot is enabled
      * @param chatId chat id to verify if the bos enabled
-     * @return if the bot is enabled or not
-     * In case there is no state saved return true.
+     * @return true or false. In case there is no state saved return true.
      */
     public boolean isBotEnabled(long chatId) {
         try {
