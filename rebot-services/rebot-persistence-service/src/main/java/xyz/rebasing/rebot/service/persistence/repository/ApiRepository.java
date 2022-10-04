@@ -74,7 +74,8 @@ public class ApiRepository {
      */
     public boolean isBotEnabled(long chatId) {
         try {
-            Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where ID=" + chatId + ";");
+            Query q = em.createNativeQuery("SELECT isEnabled from BOT_STATUS where ID= :chatId")
+                    .setParameter("chatId", chatId);
             return (boolean) q.getSingleResult();
         } catch (final Exception e) {
             return true;
