@@ -1,7 +1,7 @@
 /*
  *   The MIT License (MIT)
  *
- *   Copyright (c) 2017 Rebasing.xyz ReBot 
+ *   Copyright (c) 2017 Rebasing.xyz ReBot
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy of
  *   this software and associated documentation files (the "Software"), to deal in
@@ -23,9 +23,9 @@
 
 package xyz.rebasing.rebot.plugin.welcome.kogito;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class WelcomeChallenge {
 
@@ -46,6 +46,7 @@ public class WelcomeChallenge {
 
     /**
      * randomize two numbers and a math operator to start the challenge
+     *
      * @param user that will answer the challenge
      */
     public WelcomeChallenge(String user) {
@@ -196,7 +197,7 @@ public class WelcomeChallenge {
      * @return random integer number
      */
     private int randomNumber(int max) {
-        return new Random().nextInt(max);
+        return new SecureRandom().nextInt(max);
     }
 
     @Override

@@ -3,6 +3,7 @@ package xyz.rebasing.rebot.api.i18n;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
@@ -22,13 +23,24 @@ public class BundleUTF8Control extends ResourceBundle.Control {
         String resourceName = toResourceName(bundleName, "properties");
         ResourceBundle bundle = null;
         InputStream stream = null;
+        URLConnection connection = null;
         if (reload) {
             URL url = loader.getResource(resourceName);
             if (url != null) {
-                URLConnection connection = url.openConnection();
-                if (connection != null) {
-                    connection.setUseCaches(false);
-                    stream = connection.getInputStream();
+                try {
+                    connection =  url.openConnection();
+                    if (connection != null) {
+                        connection.setUseCaches(false);
+                        stream = connection.getInputStream();
+                    }
+                } finally {
+                    if (stream != null) {
+                        connection.getInputStream().close();
+                        connection.getOutputStream().close();
+                        HttpURLConnection c = (HttpURLConnection) connection;
+                        c.disconnect();
+                        stream.close();
+                    }
                 }
             }
         } else {
