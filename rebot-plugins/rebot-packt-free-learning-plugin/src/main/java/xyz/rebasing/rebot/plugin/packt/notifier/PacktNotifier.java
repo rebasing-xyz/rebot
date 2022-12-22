@@ -105,9 +105,9 @@ public class PacktNotifier {
             }
 
             BufferedReader reader = new BufferedReader(new StringReader(response.body().string()));
-            // navigate directly to the end of the html to get the product ID and get the 'const metaProductId' value
+            // navigate directly more or lest to where the product ID is and get the 'const metaProductId' value
             // it is at the end of the html page.
-            Optional<String> metaProductId = reader.lines().skip(1616)
+            Optional<String> metaProductId = reader.lines().skip(1000)
                     .filter(s -> s.contains("const metaProductId"))
                     .map(s -> s.split("=")[1].replace("\'", "").replace(";", "").trim())
                     .findFirst();
@@ -141,7 +141,6 @@ public class PacktNotifier {
                 );
             }
         } catch (final Exception e) {
-            e.printStackTrace();
             log.warnv("Failed to obtain the ebook information: {0}", e.getMessage());
         }
     }
