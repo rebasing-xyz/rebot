@@ -1,0 +1,24 @@
+[
+  {
+    "name": "com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.github.javaparser.ast.expr.ThisExpr",
+    "methods": [
+      { "name": "findAncestor", "parameterTypes": ["java.lang.Class"] }
+    ]
+  },
+  {
+    "name": "com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade",
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.github.javaparser.ast.body.ConstructorDeclaration",
+    "methods": [
+      { "name": "findAncestor", "parameterTypes": ["java.lang.Class"] }
+    ]
+  }
+]
