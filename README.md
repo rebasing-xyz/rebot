@@ -1,9 +1,8 @@
 ### ReBot - A Java API for Telegram
 
-![ReBot - Java 11](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2011/badge.svg)
-![ReBot - Java 16](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2016/badge.svg)
 ![ReBot - Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2017/badge.svg)
-![ReBot - Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Native%20Java%2011/badge.svg)
+![ReBot - Java 21](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2021/badge.svg)
+![ReBot - Native Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Native%20Java%2011/badge.svg)
 ![Code Analysis](https://lift.sonatype.com/api/badge/github.com/rebasing-xyz/rebot)
 
 
