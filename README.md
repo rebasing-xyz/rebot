@@ -2,9 +2,8 @@
 
 ![ReBot - Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2017/badge.svg)
 ![ReBot - Java 21](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Java%2021/badge.svg)
-![ReBot - Native Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Native%20Java%2011/badge.svg)
-![Code Analysis](https://lift.sonatype.com/api/badge/github.com/rebasing-xyz/rebot)
-
+![ReBot - Native Java 17](https://github.com/rebasing-xyz/rebot/workflows/ReBot%20-%20Native%20Java%2017/badge.svg)
+[![CodeQL](https://github.com/rebasing-xyz/rebot/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/rebasing-xyz/rebot/actions/workflows/codeql-analysis.yml)
 
 This API is composed by 3 Key Sub Projects, which are:
 
