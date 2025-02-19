@@ -129,6 +129,8 @@ public class IncomeMessageProcessor implements Processor {
             } else {
                 nonCommandProcessor(messageUpdate);
             }
+        } else {
+            log.debugv("Bot is disabled for chat: {0}", messageUpdate.getMessage().getChat().getTitle());
         }
     }
 
