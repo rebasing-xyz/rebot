@@ -6,7 +6,6 @@
 name="rebot"
 rcvar="${name}_enable"
 pidfile="/home/rebot/rebasing-xyz-rebot.pid"
-log_file="/home/rebot/rebasing-xyz-rebot.log"
 
 # Load configuration variables
 load_rc_config "$name"
@@ -27,7 +26,7 @@ cmd="${JAVA_CMD} -jar \
     -Dxyz.rebasing.rebot.delete.messages.after=${REBOT_TELEGRAM_DELETE_MESSAGES_AFTER} \
     -Dxyz.rebasing.rebot.plugin.openweather.appid=${REBOT_TELEGRAM_OPENWEATHER_APPID} \
     -Dquarkus.log.category.\"xyz.rebasing\".level=${REBOT_TELEGRAM_LOG_LEVEL} \
-    /home/rebot/quarkus-app/quarkus-run.jar > ${log_file}"
+    /home/rebot/quarkus-app/quarkus-run.jar"
 # Load environment variables from config file
 start_precmd="rebot_prestart"
 rebot_prestart() {
@@ -58,11 +57,8 @@ rebot_start() {
     fi
 
     echo "Starting rebot."
-
     echo "Start Command: ${cmd}"
-
-    exec su - ${rebot_user} ${cmd} &
-    pgrep -f /home/rebot/quarkus-app/quarkus-run.jar > ${pidfile}
+    su -m "${rebot_user}" -c "sh -c '${cmd}  & echo \$! > \"${pidfile}\"'"
 }
 
 # Stop command
@@ -78,5 +74,4 @@ rebot_stop() {
 # Run the script
 rc_debug="YES"
 run_rc_command "$@"
-
 
